@@ -1,0 +1,79 @@
+<!--user-dashboard.html-->
+{{ template "header.html" .}}
+{{ template "menu.html" . }}
+    <div class="w3-container w3-center" style="width:75%; margin:auto; padding-top: 100px;">
+        <div class="w3-medium">
+            {{ if eq .Count 0 }}
+            <header class="w3-container w3-blue">
+                <h3 class="w3-center"> {{ .Username }} has no simulations yet</h3>
+            </header>
+            {{ else }}
+            <header class="w3-container w3-blue">
+                <h3 class="w3-center"> Simulations for player {{ .Username }} </h3>
+            </header>
+            <table class="w3-small" style="width:80%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Periods</th>
+                        <th>Switch</th>
+                        <th>Delete</th>
+                        <th>Restart</th>
+                        <th>Download</th>
+                        <th>Next Pending Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ range .Simulations}}
+                    <tr>
+                        <td> {{ .Name }}</td>
+                        <td> {{ .PeriodsPerYear }}</td>
+                        <td>
+
+                            <!-- {% if simulation == simulation.user.currentsimulation %} -->
+                            <!-- <button class="w3-button w3-round-large w3-grey">Switch</button> -->
+                            <a href="/user/switch/{{ .Id }}" class="w3-button w3-round-large w3-green ">Switch</a>
+
+                        </td>
+
+                        <td>
+                            <!-- {% if simulation == simulation.user.currentsimulation %} -->
+                            <!-- <button class="w3-button w3-round-large w3-grey ">Delete</button> -->
+                            <a href="/user/delete/{{ .Id }}" class="w3-button w3-round-large w3-red ">Delete</a>
+                        </td>
+
+                        <td>
+                            <a href="/user/restart/{{ .Id }}" class="w3-button w3-round-large w3-red ">Restart</a>
+                        <td> <button class="w3-button w3-grey w3-round-large ">Download</button></td>
+                        <td> {{ .State }}</td>
+                    </tr>
+                    {{ end }}
+                </tbody>
+            </table>
+            {{ end }}
+            <table id="simulation-templates" class="display compact w3-small" style="width:80%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Periods</th>
+                        <th>Clone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ range .Templates}}
+                    <tr>
+                        <td> {{ .Name }}</td>
+                        <td> {{ .PeriodsPerYear }}</td>
+                        <td>
+                            <a href="/user/create/{{ .Id }}" class="w3-button w3-round-large w3-green ">Clone this
+                                template</a>
+                        </td>
+
+                    </tr>
+                    {{ end }}
+                </tbody>
+            </table>
+        </div>
+        <h4 class="w3-red">{{ .Message }}</h4>
+    </div>
+{{ template "footer.html" .}}

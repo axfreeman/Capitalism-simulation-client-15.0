@@ -1,0 +1,26 @@
+<!--simulations.html-->
+<body>
+  {{ template "header.html" .}}
+  <div class="w3-section w3-card-4" style="width:fit-content; margin:auto">
+    <header class="w3-container w3-blue">
+      <h3 class="w3-center"> Users </h3>
+    </header>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!--Loop over the simulations -->
+        {{range .Users }}
+        <tr>
+          <td>{{ .UserName }}</td>
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+  </div>
+  
+  {{ template "footer.html" .}}
+  </body>

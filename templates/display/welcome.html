@@ -1,0 +1,20 @@
+{{ template "header.html" .}}
+
+<body>
+    <div class="w3-section w3-serif" style="width:fit-content; margin:auto; padding-top: 3em;">
+        <div class="w3-section w3-card-4 w3-center"
+            style="width:fit-content; margin-left:auto; margin-right:auto; padding-bottom: 10px">
+            <header class=" w3-container w3-blue" style="margin-bottom: 10px">
+                <h3 class="w3-center">Welcome {{ .Username }}</h3>
+            </header>
+            <div class="w3-bar-block">
+                <a class=" w3-button  w3-bar-item" href="/api/test">API tests</a>
+                <a class=" w3-button  w3-bar-item" href="/user/dashboard">User Dashboard</a>
+                <a class=" w3-button  w3-bar-item" href="/user/data">Data</a>
+                <a class=" w3-button  w3-bar-item" href="/index">Economy</a>
+            </div>
+        </div>
+        <h4 class="w3-red">{{ .Message }}</h4>
+    </div>
+</body>
+{{ template "footer.html" .}}

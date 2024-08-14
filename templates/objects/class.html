@@ -1,0 +1,74 @@
+{{ template "header.html" .}}
+{{ template "menu.html" .}}
+<div class="w3-section w3-card-3 w3-serif" style="width:fit-content; padding-top:80px; margin:auto">
+  <header class="w3-container w3-blue">
+    <h3 class="w3-center"> {{ .Class.Name }}</h3>
+  </header>
+  <table class="w3-table-all w3-small">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td> Population </td>
+        <td>{{ .Class.Population }}</td>
+      </tr>
+      <tr>
+        <td> Consumption Ratio </td>
+        <td>{{ .Class.ConsumptionRatio }}</td>
+      </tr>
+      <tr>
+        <td> Revenue </td>
+        <td>{{ .Class.Revenue }}</td>
+      </tr>
+      <tr>
+        <td> Assets </td>
+        <td>{{ .Class.Assets }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <header class="w3-container w3-blue">
+    <h3 class="w3-center">Consumer Goods</h3>
+  </header>
+  <table class="w3-table-all w3-small"> 
+    <thead>
+      <tr>
+        <th>
+          Variable
+        </th>
+        {{ range .Class.ConsumerGoods}}
+        <th>
+          {{ .Commodity.Name}}
+        </th>
+        {{ end }}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          Requirement
+        </td>
+          {{ range .Class.ConsumerGoods}}
+        <td style="text-align:center">
+          {{ .Requirement}}
+        </td>
+        {{ end }}
+      </tr>
+      <tr>
+        <td>
+          Demand
+        </td>
+          {{ range .Class.ConsumerGoods}}
+        <td style="text-align:center">
+          {{ .Demand}}
+        </td>
+        {{ end }}
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+{{ template "footer.html" .}}

@@ -1,0 +1,45 @@
+<!--commodity.html-->
+
+<!-- NOT IN USE.Purpose is to try out buttons to change text colour depending on whether display is of values, prices or quantities. -->
+
+{{ template "header.html" .}}
+<button class="w3-center w3-button w3-white w3-border w3-border-blue w3-round" onclick="myFunction()">Display Quantities</button>    
+<div class="w3-section w3-card-3 capsim-size" style="width:fit-content; margin:auto">
+    <header class="w3-container w3-blue">
+    <h3 class="w3-center"> Commodity {{ .commodity.Name }}</h3>
+  </header>
+  <table id="commodity" class="w3-table-all w3-small">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th style="text-align:center">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td> Size </td>
+        <td style="text-align:center">{{ .commodity.Size }}</td>
+      <tr>
+      <tr>
+        <td> Total Value </td>
+        <td style="text-align:center">{{ .commodity.TotalValue }}</td>
+      <tr>
+      <tr>
+        <td> Total Price </td>
+        <td style="text-align:center">{{ .commodity.TotalPrice }}</td>
+      <tr>
+    </tbody>
+  </table>
+</div>
+{{ template "footer.html" .}}
+
+<script>
+  function myFunction() {
+    const x = document.getElementsByClassName("capsim-size");
+    if (x[0].style.display === "none") {
+      x[0].style.display = "block";
+    } else {
+      x[0].style.display = "none";
+    }
+  }
+  </script>

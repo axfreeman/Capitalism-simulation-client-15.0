@@ -1,0 +1,49 @@
+<!--industries.html-->
+{{ template "header.html" .}}
+{{ template "menu.html" .}}
+<div class="w3-section w3-card-3 w3-serif" style="width:fit-content; margin:auto; padding-top:80px">
+  <header class="w3-container w3-blue">
+    <h3 class="w3center"> {{ .Industry.Name }}</h3>
+  </header>
+  <table class="w3-table-all">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th style="text-align:center">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td> Output scale </td>
+        <td style="text-align:center">{{ .Industry.OutputScale }}</td>
+      <tr>
+      <tr>
+        <td> Growth rate </td>
+        <td style="text-align:center">{{ .Industry.OutputGrowthRate }}</td>
+      <tr>
+      <tr>
+        <td> Work in progress </td>
+        <td style="text-align:center">{{ .Industry.WorkInProgress }}</td>
+      <tr>
+      <tr>
+        <td> Initial capital </td>
+        <td style="text-align:center">{{ .Industry.InitialCapital }}</td>
+      <tr>
+      <tr>
+        <td> Current capital </td>
+        <td style="text-align:center">{{ .Industry.CurrentCapital }}</td>
+      <tr>
+      <tr>
+        <td> Profit </td>
+        <td style="text-align:center">{{ .Industry.Profit }}</td>
+      <tr>
+      <tr>
+        <td> Profit rate </td>
+        <td style="text-align:center">{{ .Industry.ProfitRate }}</td>
+      <tr>
+    </tbody>
+  </table>
+  <h4 class="w3-red">{{ .Message }}</h4>
+</div>
+{{ template "footer.html" .}}

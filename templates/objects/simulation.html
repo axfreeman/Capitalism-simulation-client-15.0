@@ -1,0 +1,62 @@
+<!--industries.html-->
+
+{{ template "header.html" .}}
+
+<div class="w3-section w3-card-4" style="width:fit-content; margin:auto">
+  <header class="w3-container w3-blue">
+    <h3 class="w3-center"> {{ .simulation.Name }} with id {{ .simulation.Id }}</h3>
+  </header>
+  <table id="simulation" class="w3-table-all w3-small">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Value</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td> Time Stamp </td>
+        <td style="text-align:right">{{ .simulation.TimeStamp }}</td>
+      <tr>
+      <tr>
+        <td> Periods per year </td>
+        <td style="text-align:right">{{ .simulation.PeriodsPerYear }}</td>
+      <tr>
+      <tr>
+        <td> State </td>
+        <td>{{ .simulation.State }}</td>
+      <tr>
+      <tr>
+        <td> Time Stamp </td>
+        <td style="text-align:right">{{ .simulation.TimeStamp }}</td>
+      <tr>
+      <tr>
+        <td> Population Growth Rate </td>
+        <td style="text-align:right">{{ .simulation.PopulationGrowthRate }}</td>
+      <tr>
+      <tr>
+        <td> Investment Ratio </td>
+        <td style="text-align:right">{{ .simulation.InvestmentRatio }}</td>
+      <tr>
+      <tr>
+        <td> Labour Supply/Demand </td>
+        <td>{{ .simulation.LabourSupplyDemand }}</td>
+      <tr>
+      <tr>
+        <td> Price Response Type </td>
+        <td>{{ .simulation.PriceResponseType }}</td>
+      <tr>
+      <tr>
+        <td> Melt Response Type </td>
+        <td>{{ .simulation.MeltResponseType }}</td>
+      <tr>
+      <tr>
+        <td> Melt </td>
+        <td style="text-align:right">{{ .simulation.Melt }}</td>
+      <tr>
+
+    </tbody>
+  </table>
+</div>
+{{ template "footer.html" .}}

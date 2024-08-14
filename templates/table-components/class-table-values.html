@@ -1,0 +1,29 @@
+<div class="w3-section w3-card-4 w3-serif" style="width:fit-content; margin:auto">
+    <header class="w3-container w3-blue">
+    <div class="w3-center">Values</div>
+  </header>
+
+  <table class="table table-striped w-auto" id="class-values">
+    <thead>
+      <tr>
+        <th style="width:30%">Class</th>
+        <th style="text-align:center; width:15%"><i style="font-weight: bolder; color:green" class="fa fa-cutlery"></th>
+        <th style="text-align:center; width:15%"><i class="fa fa-dollar" style="font-weight: 900; color:goldenrod"></th>
+        <th style="text-align:center; width:15%">Sales</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--Loop over the classes -->
+      {{range .ClassViews }}
+
+      <tr>
+        <td style="text-align:left"><a href="/class/{{.Id}}">{{ .Name }}</a></td>
+        {{ .ConsumptionStockValue.FormatRounded }}
+        {{ .MoneyStockValue.FormatRounded }}
+        {{ .SalesStockValue.FormatRounded }}
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+</div>
+

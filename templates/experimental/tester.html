@@ -1,0 +1,104 @@
+<!-- As of 6 Feb 23 this contains a test of a draggable div. it can be considered a test version of the index page -->
+
+{{ template "header.html" .}}
+<style>
+  #mydivheader {
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: #2196F3;
+    color: #fff;
+  }
+</style>
+
+<!-- Draggable DIV -->
+<div id="mydiv" style="position:absolute">
+  <div id="mydivheader">Click here to move</div>
+  <p>Draggable Element</p>
+</div>
+
+<script>
+  //Make the DIV element draggagle:
+  dragElement(document.getElementById("mydiv"));
+
+  function dragElement(elmnt) {
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    if (document.getElementById(elmnt.id + "header")) {
+      /* if present, the header is where you move the DIV from:*/
+      document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+    } else {
+      /* otherwise, move the DIV from anywhere inside the DIV:*/
+      elmnt.onmousedown = dragMouseDown;
+    }
+
+    function dragMouseDown(e) {
+      e = e || window.event;
+      e.preventDefault();
+      // get the mouse cursor position at startup:
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      document.onmouseup = closeDragElement;
+      // call a function whenever the cursor moves:
+      document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+      e = e || window.event;
+      e.preventDefault();
+      // calculate the new cursor position:
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      // set the element's new position:
+      elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+      elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+      /* stop moving when mouse button is released:*/
+      document.onmouseup = null;
+      document.onmousemove = null;
+    }
+  }
+</script>
+
+
+
+<div class="w3-section w3-card-4" style="width:fit-content; margin:auto">
+  <div class="w3-bar w3-blue">
+    <a class="w3-bar-item w3-button" href="/display/values">V</a>
+    <a class="w3-bar-item w3-button" href="/display/prices">P</a>
+    <a class="w3-bar-item w3-button" href="/display/quantities">Q</a>
+  </div>
+  </header>
+  <table class="table table-striped w-auto">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th style="text-align:center">C</th>
+        <th style="text-align:center">V</th>
+        <th style="text-align:center">M</th>
+        <th style="text-align:center">C'</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--Loop over the industries -->
+      {{range .industries }}
+
+      <tr>
+        <td>{{ .Id }}</td>
+        <td><a href="/industry/{{.Id}}">{{ .Name }}</a></td>
+        <td style="text-align:right">{{ .ConstantCapital.Size}}</td>
+        <td style="text-align:right">{{ .VariableCapital.Size}}</td>
+        <td style="text-align:right">{{ .MoneyStock.Size}}</td>
+        <td style="text-align:right">{{ .SalesStock.Size}}</td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+</div>
+
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}

@@ -1,0 +1,27 @@
+{{ template "header.html" .}}
+<body>
+  <div class="w3-section w3-serif" style="width:fit-content; margin:auto; padding-top: 3em;">
+    <div class="w3-section w3-card-4 w3-center"
+      style="width:fit-content; margin-left:auto; margin-right:auto; padding-bottom: 10px">
+      <header class=" w3-container w3-blue" style="margin-bottom: 10px">
+        <h3 class="w3-center"> Please log in </h3>
+      </header>
+      <form autocomplete="off" class="w3-container" action="/auth/loginauth" method="post">
+        <p>
+          <label>Name</label>
+          <input autocomplete="off" class="w3-input" type="text" name="username">
+        </p>
+        <p>
+          <label>Password</label>
+          <input class="w3-input" type="text" name="password">
+        </p>
+        <input style="padding-bottom: 10px;" class="w3-center w3-button w3-white w3-border w3-border-blue w3-round"
+          type="submit" value="Login">
+
+        <h4>New User? Register <a href="/auth/register">here</a></h4>
+      </form>
+      <p>{{ . }} </p>
+    </div>
+  </div>
+</body>
+{{ template "footer.html" .}}

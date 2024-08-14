@@ -1,0 +1,63 @@
+<div class="w3-section w3-card-4 w3-serif" style="width:fit-content; margin:auto">
+  <header class="w3-container w3-blue">
+    <div class="w3-center">Commodities</div>
+  </header>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Commodity</th>
+        <th style="text-align:center">Origin </th>
+        <th style="text-align:center">Usage </th>
+        <th>Size </th>
+        <th style="text-align:center">Total<br>Value </th>
+        <th style="text-align:center">Total<br>Price </th>
+        <th style="text-align:center">Unit<br>Value </th>
+        <th style="text-align:center">Unit<br>Price </th>
+        <th style="text-align:center">Turnover<br>Time </th>
+        <th>Demand </th>
+        <th>Supply </th>
+        <th style="text-align:center">Allocation<br>Ratio </th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--Loop over the commodities  -->
+      {{range .CommodityViews }}
+  
+      <tr>
+        <td style="text-align:left"><a href="/commodity/{{.Id}}">{{ .Name }}</a></td>
+        <td style="text-align:center">
+          {{ if eq .Origin "INDUSTRIAL" }}<i style="font-weight: bolder; color:blue" class="fa fa-industry"></i>
+          {{ else if eq .Origin "SOCIAL"}}
+          {{ if eq .Usage "Useless"}}
+
+          <i style="font-weight: bolder; color:rgba(128, 0, 128, 0.696)" class="fas fa-user-tie"></i>
+          {{ else }}
+          <i style="font-weight: bolder; color:red" class="fa fa-user-friends"></i>
+          {{ end }}
+
+
+          {{ else if eq .Origin "MONEY"}}<i class="fa fa-dollar" style="font-weight: 900; color:goldenrod"></i>
+          {{ end }}
+        </td>
+        <td style="text-align:center">
+          {{ if eq .Usage "PRODUCTIVE" }}<i style="font-weight: bolder; color:blue" class="fas fa-hammer"></i>
+          {{ else if eq .Usage "CONSUMPTION"}}<i style="font-weight: bolder; color:green" class="fa fa-cutlery"></i>
+          {{ else if eq .Usage "MONEY"}}<i class="fa fa-dollar" style="font-weight: 900; color:goldenrod"></i>
+          {{ else if eq .Usage "Useless"}}<i class="fas fa-skull-crossbones" style="font-weight: bolder; color:black"></i>
+          {{ end }}
+        </td>
+        {{ .Size.FormatRounded }}
+        {{ .TotalValue.FormatRounded }}
+        {{ .TotalPrice.FormatRounded }}
+        {{ .UnitValue.Format }}
+        {{ .UnitPrice.Format }}
+        {{ .TurnoverTime.Format }}
+        {{ .Demand.FormatRounded }}
+        {{ .Supply.FormatRounded }}
+        {{ .AllocationRatio.Format }}
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+</div>

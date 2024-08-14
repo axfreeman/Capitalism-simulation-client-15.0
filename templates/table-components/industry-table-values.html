@@ -1,0 +1,31 @@
+<div class="w3-section w3-card-4 w3-serif" style="width:fit-content; margin:auto">
+  <header class="w3-container w3-blue">
+    <div class="w3-center">Values</div>
+  </header>
+
+  <table >
+    <thead>
+      <tr>
+        <th style="width:40%">Industry</th>
+        <th style="text-align:center; width:15%">C</th>
+        <th style="text-align:center;width:15%">V</th>
+        <th style="text-align:center;width:15%">M</th>
+        <th style="text-align:center;width:15%">C'(Sales)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--Loop over the industries -->
+      {{range .IndustryViews }}
+
+      <tr>
+        <td style="text-align: left"><a href="/industry/{{.Id}}">{{ .Name }}</a></td>
+        {{ .ConstantCapitalValue.FormatRounded }}
+        {{ .VariableCapitalValue.FormatRounded}}
+        {{ .MoneyStockValue.FormatRounded}}
+        {{ .SalesStockValue.FormatRounded}}
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+</div>
+

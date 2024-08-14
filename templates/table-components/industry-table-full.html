@@ -1,0 +1,40 @@
+<div class="w3-section w3-card-4 w3-serif" style="width:fit-content; margin:auto">
+  <header class="w3-container w3-blue">
+    <h3 class="w3-center"> Industries </h3>
+  </header>
+
+  <table id="industries" class="table table-striped w-auto">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Output</th>
+        <th style="text-align:center">Output<br>Scale</th>
+        <th style="text-align:center">Growth<br>Rate</th>
+        <th style="text-align:center">Initial<br>Capital</th>
+        <th style="text-align:center">Work In<br>Progress</th>
+        <th style="text-align:center">Current<br>Capital </th>
+        <th style="text-align:center">Profit</th>
+        <th style="text-align:center">Profit<br>Rate </th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--Loop over the industries -->
+      {{range .IndustryViews }}
+
+      <tr>
+        <td><a href="/industry/{{.Id}}">{{ .Name }}</a></td>
+        <td><a href="/commodity/{{ .OutputCommodityId}}">{{ .Output }}</a>  </td>
+        {{ .OutputScale.FormatRounded }}
+        {{ .OutputGrowthRate.Format }}
+        {{ .InitialCapital.FormatRounded }} 
+        {{ .WorkInProgress.FormatRounded }} 
+        {{ .CurrentCapital.FormatRounded }} 
+        {{ .Profit.FormatRounded }}
+        {{ .ProfitRate.Format }}
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+</div>
+  
+  

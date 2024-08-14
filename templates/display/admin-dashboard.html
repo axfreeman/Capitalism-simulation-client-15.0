@@ -1,0 +1,26 @@
+{{ template "header.html" .}}
+<div class="container">
+    <div class="w3-bar w3-light-grey" style="width:75%; margin:auto">
+      <a class="w3-bar-item w3-button w3-light-blue w3-round-large" href="/action/reset">RESET</a>
+      <a class="w3-bar-item w3-button w3-light-blue w3-round-large" href="/data">Data</a>
+    </div>
+</div>
+  <table id="users" class="w3-table-all w3-small">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Simulation</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ range .users}}
+      <tr>
+        <td>{{ .UserName }}</td>
+        <td>{{ .CurrentSimulationId }}</td>
+      </tr>
+      {{ end}}
+    </tbody>
+  </table>
+</div>
+
+{{ template "footer.html" .}}

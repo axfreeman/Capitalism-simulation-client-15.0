@@ -1,0 +1,8 @@
+<!--classes.html-->
+{{ template "header.html" .}}
+{{ template "menu.html" .}}
+<div style="margin-top: 60px;">
+  {{ template "class-table-full.html" .}}
+  <h4 class="w3-red">{{ .Message }}</h4>
+</div>
+{{ template "footer.html" .}}

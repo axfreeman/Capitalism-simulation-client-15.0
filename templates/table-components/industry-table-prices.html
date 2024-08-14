@@ -1,0 +1,39 @@
+<div class="w3-section w3-card-4 w3-serif" style="width:fit-content; margin:auto">
+  <header class="w3-container w3-blue">
+    <div class="w3-center">Prices</div>
+  </header>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:20%">Industry</th>
+        <th style="text-align:center; width:10%">C</th>
+        <th style="text-align:center;width:10%">V</th>
+        <th style="text-align:center;width:10%">M</th>
+        <th style="text-align:center;width:10%">C'</th>
+        <th style="text-align:center;width:10%">Initial Capital</th>
+        <th style="text-align:center;width:10%">Current Capital</th>
+        <th style="text-align:center;width:10%">Profit</th>
+        <th style="text-align:center;width:10%">Profit Rate</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--Loop over the industries -->
+      {{range .IndustryViews }}
+
+      <tr>
+        <td style="text-align: left"><a href="/industry/{{.Id}}">{{ .Name }}</a></td>
+        {{ .ConstantCapitalPrice.FormatRounded }}
+        {{ .VariableCapitalPrice.FormatRounded}}
+        {{ .MoneyStockPrice.FormatRounded}}
+        {{ .SalesStockPrice.FormatRounded}}
+        {{ .InitialCapital.FormatRounded}}
+        {{ .CurrentCapital.FormatRounded}}
+        {{ .Profit.FormatRounded}}
+        {{ .ProfitRate.Format}}
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+</div>
+

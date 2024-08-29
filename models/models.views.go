@@ -1,6 +1,16 @@
 package models
 
+type Recorder interface {
+	Commodity | Industry | Class
+}
+
+type RecordBase[T Recorder] struct {
+	Viewed   *T
+	Compared *T
+}
+
 type CommodityView struct {
+	RecordBase[Commodity]
 	Id                        int
 	Name                      string
 	Origin                    string
@@ -19,6 +29,7 @@ type CommodityView struct {
 }
 
 type IndustryView struct {
+	RecordBase[Commodity]
 	Id                   int
 	Name                 string
 	OutputCommodityId    int
@@ -45,6 +56,7 @@ type IndustryView struct {
 }
 
 type ClassView struct {
+	RecordBase[Commodity]
 	Id                    int
 	Name                  string
 	SimulationId          int32

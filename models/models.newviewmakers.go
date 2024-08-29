@@ -85,7 +85,7 @@ func VeryNewCommodityView(v *Commodity, c *Commodity) *CommodityView {
 	return &view
 }
 
-// Create a slice of CommodityView objects for display in a template
+// Create a slice of CommodityView  for display in a template
 // taking data from two Commodity objects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'
 func VeryNewCommodityViews(v *[]Commodity, c *[]Commodity) *[]CommodityView {

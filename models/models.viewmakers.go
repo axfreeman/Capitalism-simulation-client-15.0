@@ -20,39 +20,6 @@ func (u User) SimulationsList() *[]Simulation {
 	return list
 }
 
-// Create a CommodityView for display in a template
-// taking data from two Commodity objects; one being viewed now,
-// the other showing the state of the simulation at some time in the 'past'
-func NewCommodityView(v *Commodity, c *Commodity) *CommodityView {
-	newCommodityView := CommodityView{
-		Id:                        v.Id,
-		Name:                      v.Name,
-		Origin:                    v.Origin,
-		Usage:                     v.Usage,
-		Size:                      Pair{Viewed: v.Size, Compared: c.Size},
-		TotalValue:                Pair{Viewed: (v.TotalValue), Compared: (c.TotalValue)},
-		TotalPrice:                Pair{Viewed: (v.TotalPrice), Compared: (c.TotalPrice)},
-		UnitValue:                 Pair{Viewed: (v.UnitValue), Compared: (c.UnitValue)},
-		UnitPrice:                 Pair{Viewed: (v.UnitPrice), Compared: (c.UnitPrice)},
-		TurnoverTime:              Pair{Viewed: v.TurnoverTime, Compared: c.TurnoverTime},
-		Demand:                    Pair{Viewed: v.Demand, Compared: c.Demand},
-		Supply:                    Pair{Viewed: v.Supply, Compared: c.Supply},
-		AllocationRatio:           Pair{Viewed: v.AllocationRatio, Compared: c.AllocationRatio},
-		MonetarilyEffectiveDemand: v.MonetarilyEffectiveDemand,
-		InvestmentProportion:      v.InvestmentProportion,
-	}
-	return &newCommodityView
-}
-
-func NewCommodityViews(v *[]Commodity, c *[]Commodity) *[]CommodityView {
-	var newViews = make([]CommodityView, len(*v))
-	for i := range *v {
-		newView := NewCommodityView(&(*v)[i], &(*c)[i])
-		newViews[i] = *newView
-	}
-	return &newViews
-}
-
 // Create an IndustryView for display in a template
 // taking data from two Industry objects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'.

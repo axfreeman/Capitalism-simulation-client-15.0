@@ -41,7 +41,7 @@ func (u User) CommodityViews() *[]CommodityView {
 	utils.TraceLogf(utils.BrightRed, "Entered CommodityViews with time stamp %d and comparator %d", *u.GetViewedTimeStamp(), *u.GetComparatorTimeStamp())
 	v := (*u.TableSets[*u.GetViewedTimeStamp()])["commodities"].Table.(*[]Commodity)
 	c := (*u.TableSets[*u.GetComparatorTimeStamp()])["commodities"].Table.(*[]Commodity)
-	return NewCommodityViews(v, c)
+	return VeryNewCommodityViews(v, c)
 }
 
 func (u User) Industries() *[]Industry {

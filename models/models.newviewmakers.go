@@ -85,10 +85,13 @@ func VeryNewCommodityView(v *Commodity, c *Commodity) *CommodityView {
 	return &view
 }
 
+// Create a slice of CommodityView objects for display in a template
+// taking data from two Commodity objects; one being viewed now,
+// the other showing the state of the simulation at some time in the 'past'
 func VeryNewCommodityViews(v *[]Commodity, c *[]Commodity) *[]CommodityView {
 	var newViews = make([]CommodityView, len(*v))
 	for i := range *v {
-		newView := NewCommodityView(&(*v)[i], &(*c)[i])
+		newView := VeryNewCommodityView(&(*v)[i], &(*c)[i])
 		newViews[i] = *newView
 	}
 	return &newViews

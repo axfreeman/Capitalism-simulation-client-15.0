@@ -5,6 +5,7 @@ import (
 	"gorilla-client/config"
 	"gorilla-client/controllers"
 	"gorilla-client/db"
+	"gorilla-client/models"
 	"gorilla-client/routes"
 	"gorilla-client/utils"
 	"html/template"
@@ -16,6 +17,8 @@ func main() {
 	utils.LogInit()
 
 	config.Init()
+
+	models.InitViews()
 
 	utils.TraceInfo(utils.Yellow, "The Rosy Dawn of Capitalism has begun")
 

@@ -5,11 +5,6 @@ import (
 	"gorilla-client/utils"
 )
 
-type Pair struct {
-	Viewed   float32
-	Compared float32
-}
-
 // List of the user's Simulations.
 //
 //	u: the user

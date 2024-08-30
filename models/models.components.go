@@ -176,10 +176,8 @@ func (industry Industry) ConstantCapital() IndustryStock {
 // }
 
 // returns the sales stock of the given class
-func (class Class) MoneyStock(timeStamp int) ClassStock {
-	username := class.UserName
-	stockList := *LoggedInUsers[username].ClassStocks(timeStamp)
-
+func (class Class) MoneyStock() ClassStock {
+	stockList := *class.Stocks
 	for i := 0; i < len(stockList); i++ {
 		s := &stockList[i]
 		if (s.ClassId == class.Id) && (s.UsageType == `Money`) {
@@ -190,9 +188,8 @@ func (class Class) MoneyStock(timeStamp int) ClassStock {
 }
 
 // returns the sales stock of the given class
-func (class Class) SalesStock(timeStamp int) ClassStock {
-	username := class.UserName
-	stockList := *LoggedInUsers[username].ClassStocks(timeStamp)
+func (class Class) SalesStock() ClassStock {
+	stockList := *class.Stocks
 	for i := 0; i < len(stockList); i++ {
 		s := &stockList[i]
 		if (s.ClassId == class.Id) && (s.UsageType == `Sales`) {
@@ -204,10 +201,8 @@ func (class Class) SalesStock(timeStamp int) ClassStock {
 
 // returns the consumption stock of the given class
 // under development - at present assumes there is only one
-func (class Class) ConsumerGood(timeStamp int) ClassStock {
-	username := class.UserName
-	stockList := *LoggedInUsers[username].ClassStocks(timeStamp)
-
+func (class Class) ConsumerGood() ClassStock {
+	stockList := *class.Stocks
 	for i := 0; i < len(stockList); i++ {
 		s := &stockList[i]
 		if (s.ClassId == class.Id) && (s.UsageType == `Consumption`) {

@@ -88,6 +88,7 @@ type Class struct {
 	ConsumptionRatio   float32 `json:"consumption_ratio"`
 	Revenue            float32 `json:"revenue"`
 	Assets             float32 `json:"assets"`
+	Stocks             *[]ClassStock
 }
 
 type IndustryStock struct {

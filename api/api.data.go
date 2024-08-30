@@ -72,9 +72,17 @@ func FetchTables(user *models.User) error {
 	// set the stocklist of every industry
 	// TODO filter so the stocklist only contains relevant stocks
 	industries := *(newTableSet[`industries`].Table.(*[]models.Industry))
-	stocks := newTableSet[`industry stocks`].Table.(*[]models.IndustryStock)
+	industryStocks := newTableSet[`industry stocks`].Table.(*[]models.IndustryStock)
 	for ind := range industries {
-		industries[ind].Stocks = stocks
+		industries[ind].Stocks = industryStocks
+	}
+
+	// set the stocklist of every industry
+	// TODO filter so the stocklist only contains relevant stocks
+	classes := *(newTableSet[`classes`].Table.(*[]models.Class))
+	classStocks := newTableSet[`class stocks`].Table.(*[]models.ClassStock)
+	for ind := range classes {
+		classes[ind].Stocks = classStocks
 	}
 
 	user.TableSets = append(user.TableSets, &newTableSet)

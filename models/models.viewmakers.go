@@ -2,7 +2,6 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
 	"gorilla-client/utils"
 	"reflect"
 )
@@ -180,7 +179,6 @@ func PopulateView[T Record](View *T) {
 			} else {
 				vmbn := viewedRecord.MethodByName(name)
 				if vmbn.IsValid() {
-					fmt.Printf(utils.Green+"The Field called %s is a function\n", name)
 					cmbn := viewedRecord.MethodByName(name) // if vmbn is valid, we can safely assume cmbn is too
 					in := make([]reflect.Value, 0)
 					vval := vmbn.Call(in)

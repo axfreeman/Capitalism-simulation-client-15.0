@@ -34,7 +34,7 @@ func (u User) SimulationsList() *[]Simulation {
 //		cTimeStamp the comparator TimeStamp
 //
 //	 Returns: a new IndustryView
-func NewIndustryView(vTimeStamp int, cTimeStamp int, v *Industry, c *Industry) *IndustryView {
+func NewIndustryView(v *Industry, c *Industry) *IndustryView {
 	newView := IndustryView{
 		Id:                   v.Id,
 		Name:                 v.Name,
@@ -77,16 +77,16 @@ func NewIndustryView(vTimeStamp int, cTimeStamp int, v *Industry, c *Industry) *
 //	v: a snapshot industry array (Department I, Department II, etc) at state vTimeStamp.
 //	v: a snapshot industry array (Department I, Department II, etc) at state cTimeStamp.
 //	returns: a slice of IndustryViews.
-func NewIndustryViews(vTimeStamp int, cTimeStamp int, v *[]Industry, c *[]Industry) *[]IndustryView {
+func NewIndustryViews(v *[]Industry, c *[]Industry) *[]IndustryView {
 	var newViews = make([]IndustryView, len(*v))
 	for i := range *v {
-		newView := NewIndustryView(vTimeStamp, cTimeStamp, &(*v)[i], &(*c)[i])
+		newView := NewIndustryView(&(*v)[i], &(*c)[i])
 		newViews[i] = *newView
 	}
 	return &newViews
 }
 
-func NewClassView(vTimeStamp int, cTimeStamp int, v *Class, c *Class) *ClassView {
+func NewClassView(v *Class, c *Class) *ClassView {
 	newView := ClassView{
 		Id:                    v.Id,
 		Name:                  v.Name,
@@ -121,10 +121,10 @@ func NewClassView(vTimeStamp int, cTimeStamp int, v *Class, c *Class) *ClassView
 //	v: a snapshot Class array (Department I, Department II, etc) at state vTimeStamp.
 //	v: a snapshot Class array (Department I, Department II, etc) at state cTimeStamp.
 //	returns: a slice of ClassViews.
-func NewClassViews(vTimeStamp int, cTimeStamp int, v *[]Class, c *[]Class) *[]ClassView {
+func NewClassViews(v *[]Class, c *[]Class) *[]ClassView {
 	var newViews = make([]ClassView, len(*v))
 	for i := range *v {
-		newView := NewClassView(vTimeStamp, cTimeStamp, &(*v)[i], &(*c)[i])
+		newView := NewClassView(&(*v)[i], &(*c)[i])
 		newViews[i] = *newView
 	}
 	return &newViews

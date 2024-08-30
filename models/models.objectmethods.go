@@ -52,14 +52,14 @@ func (u User) IndustryViews() *[]IndustryView {
 	v := (*u.TableSets[*u.GetViewedTimeStamp()])["industries"].Table.(*[]Industry)
 	c := (*u.TableSets[*u.GetComparatorTimeStamp()])["industries"].Table.(*[]Industry)
 
-	return NewIndustryViews(*u.GetViewedTimeStamp(), *u.GetComparatorTimeStamp(), v, c)
+	return NewIndustryViews(v, c)
 }
 
 func (u User) ClassViews() *[]ClassView {
 	v := (*u.TableSets[*u.GetViewedTimeStamp()])["classes"].Table.(*[]Class)
 	c := (*u.TableSets[*u.GetComparatorTimeStamp()])["classes"].Table.(*[]Class)
 
-	return NewClassViews(*u.GetViewedTimeStamp(), *u.GetComparatorTimeStamp(), v, c)
+	return NewClassViews(v, c)
 }
 
 func (u User) Classes() *[]Class {

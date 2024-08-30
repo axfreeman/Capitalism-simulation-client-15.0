@@ -56,7 +56,7 @@ type IndustryView struct {
 }
 
 type ClassView struct {
-	RecordBase[Commodity]
+	RecordBase[Class]
 	Id                    int
 	Name                  string
 	SimulationId          int32

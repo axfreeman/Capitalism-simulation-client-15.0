@@ -341,3 +341,49 @@ func (i Industry) SalesStockValue() float32 {
 func (i Industry) SalesStockPrice() float32 {
 	return i.SalesStock().Price
 }
+
+// Named as convenience for the PopulateView function to use
+func (i Class) MoneyStockSize() float32 {
+	return i.MoneyStock().Size
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Class) MoneyStockValue() float32 {
+	return i.MoneyStock().Value
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Class) MoneyStockPrice() float32 {
+	return i.MoneyStock().Price
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Class) SalesStockSize() float32 {
+	return i.SalesStock().Size
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Class) SalesStockValue() float32 {
+	return i.SalesStock().Value
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Class) SalesStockPrice() float32 {
+	return i.SalesStock().Price
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Class) ConsumerGoodSize() float32 {
+
+	return i.ConsumerGood().Size
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Class) ConsumerGoodValue() float32 {
+	return i.ConsumerGood().Value
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Class) ConsumerGoodPrice() float32 {
+	return i.ConsumerGood().Price
+}

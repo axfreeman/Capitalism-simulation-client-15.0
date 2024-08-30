@@ -51,19 +51,17 @@ func (u User) Industries() *[]Industry {
 func (u User) IndustryViews() *[]IndustryView {
 	v := (*u.TableSets[*u.GetViewedTimeStamp()])["industries"].Table.(*[]Industry)
 	c := (*u.TableSets[*u.GetComparatorTimeStamp()])["industries"].Table.(*[]Industry)
+	return VeryNewIndustryViews(v, c)
+}
 
-	return NewIndustryViews(v, c)
+func (u User) Classes() *[]Class {
+	return (*u.TableSets[*u.GetViewedTimeStamp()])["classes"].Table.(*[]Class)
 }
 
 func (u User) ClassViews() *[]ClassView {
 	v := (*u.TableSets[*u.GetViewedTimeStamp()])["classes"].Table.(*[]Class)
 	c := (*u.TableSets[*u.GetComparatorTimeStamp()])["classes"].Table.(*[]Class)
-
-	return NewClassViews(v, c)
-}
-
-func (u User) Classes() *[]Class {
-	return (*u.TableSets[*u.GetViewedTimeStamp()])["classes"].Table.(*[]Class)
+	return VeryNewClassViews(v, c)
 }
 
 // Wrapper for the IndustryStockList

@@ -80,7 +80,7 @@ func NewIndustryView(v *Industry, c *Industry) *IndustryView {
 func NewIndustryViews(v *[]Industry, c *[]Industry) *[]IndustryView {
 	var newViews = make([]IndustryView, len(*v))
 	for i := range *v {
-		newView := NewIndustryView(&(*v)[i], &(*c)[i])
+		newView := VeryNewIndustryView(&(*v)[i], &(*c)[i])
 		newViews[i] = *newView
 	}
 	return &newViews

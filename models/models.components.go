@@ -278,3 +278,66 @@ func (s IndustryStock) Industry() *Industry {
 func (s ClassStock) Class() *Class {
 	return LoggedInUsers[s.UserName].Class(s.ClassId)
 }
+
+// Convenience named functions for PopulateView
+// TODO rationalise - still in development
+
+// Named as convenience for the PopulateView function to use
+func (i Industry) ConstantCapitalSize() float32 {
+	return i.ConstantCapital().Size
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Industry) ConstantCapitalValue() float32 {
+	return i.ConstantCapital().Value
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Industry) ConstantCapitalPrice() float32 {
+	return i.ConstantCapital().Price
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Industry) VariableCapitalSize() float32 {
+	return i.VariableCapital().Size
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Industry) VariableCapitalValue() float32 {
+	return i.VariableCapital().Value
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Industry) VariableCapitalPrice() float32 {
+	return i.VariableCapital().Price
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Industry) MoneyStockSize() float32 {
+	return i.MoneyStock().Size
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Industry) MoneyStockValue() float32 {
+	return i.MoneyStock().Value
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Industry) MoneyStockPrice() float32 {
+	return i.MoneyStock().Price
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Industry) SalesStockSize() float32 {
+	return i.SalesStock().Size
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Industry) SalesStockValue() float32 {
+	return i.SalesStock().Value
+}
+
+// Named as convenience for the PopulateView function to use
+func (i Industry) SalesStockPrice() float32 {
+	return i.SalesStock().Price
+}

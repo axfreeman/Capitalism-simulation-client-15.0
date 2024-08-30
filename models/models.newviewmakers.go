@@ -1,6 +1,10 @@
 package models
 
-import "reflect"
+import (
+	"fmt"
+	"gorilla-client/utils"
+	"reflect"
+)
 
 // Contains the generic view constructor which uses reflect
 type Record interface{}
@@ -12,8 +16,8 @@ var StringType reflect.Type
 // Allows a template to distinguish magnitudes that have changed
 // (eg by displaying them in a different colour)
 //
-//	 Viewed: the current field in the simulation
-//	 Compared: the same field earlier in the simulation
+//	Viewed: the current field in the simulation
+//	Compared: the same field earlier in the simulation
 type Pair struct {
 	Viewed   float32
 	Compared float32
@@ -34,10 +38,10 @@ func InitViews() {
 //
 // NOTE: fields in RecordBase must have the same names as in View
 //
-//	view: the view to be populated
-//	T: a struct whose type is specified by the Record interface
-//     This will be one of the main objects of the simulation, viz:
-//     Commodity | Simulation | Class
+//		view: the view to be populated
+//		T: a struct whose type is specified by the Record interface
+//	    This will be one of the main objects of the simulation, viz:
+//	    Commodity | Simulation | Class
 func PopulateView[T Record](View *T) {
 	recordBase := reflect.ValueOf(*View).FieldByName("RecordBase")
 	viewedRecord := reflect.Indirect(recordBase.FieldByName("Viewed"))
@@ -64,9 +68,21 @@ func PopulateView[T Record](View *T) {
 			f1 := f.Field(1)
 			vm := viewedRecord.FieldByName(name)
 			cm := comparedRecord.FieldByName(name)
-
-			f0.Set(vm)
-			f1.Set(cm)
+			if vm.IsValid() {
+				f0.Set(vm)
+				f1.Set(cm)
+			} else {
+				vmbn := viewedRecord.MethodByName(name)
+				if vmbn.IsValid() {
+					fmt.Printf(utils.Green+"The Field called %s is a function\n", name)
+					cmbn := viewedRecord.MethodByName(name) // if vmbn is valid, we can safely assume cmbn is too
+					in := make([]reflect.Value, 0)
+					vval := vmbn.Call(in)
+					cval := cmbn.Call(in)
+					f0.Set(vval[0])
+					f1.Set(cval[0])
+				}
+			}
 		default:
 		}
 	}

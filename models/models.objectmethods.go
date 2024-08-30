@@ -37,31 +37,31 @@ func (u User) Commodities() *[]Commodity {
 	return (*u.TableSets[*u.GetViewedTimeStamp()])["commodities"].Table.(*[]Commodity)
 }
 
-func (u User) CommodityViews() *[]CommodityView {
+func (u User) CommodityViews() *[]CommodityViewer {
 	utils.TraceLogf(utils.BrightRed, "Entered CommodityViews with time stamp %d and comparator %d", *u.GetViewedTimeStamp(), *u.GetComparatorTimeStamp())
 	v := (*u.TableSets[*u.GetViewedTimeStamp()])["commodities"].Table.(*[]Commodity)
 	c := (*u.TableSets[*u.GetComparatorTimeStamp()])["commodities"].Table.(*[]Commodity)
-	return VeryNewCommodityViews(v, c)
+	return CommodityViews(v, c)
 }
 
 func (u User) Industries() *[]Industry {
 	return (*u.TableSets[*u.GetViewedTimeStamp()])["industries"].Table.(*[]Industry)
 }
 
-func (u User) IndustryViews() *[]IndustryView {
+func (u User) IndustryViews() *[]IndustryViewer {
 	v := (*u.TableSets[*u.GetViewedTimeStamp()])["industries"].Table.(*[]Industry)
 	c := (*u.TableSets[*u.GetComparatorTimeStamp()])["industries"].Table.(*[]Industry)
-	return VeryNewIndustryViews(v, c)
+	return IndustryViews(v, c)
 }
 
 func (u User) Classes() *[]Class {
 	return (*u.TableSets[*u.GetViewedTimeStamp()])["classes"].Table.(*[]Class)
 }
 
-func (u User) ClassViews() *[]ClassView {
+func (u User) ClassViews() *[]ClassViewer {
 	v := (*u.TableSets[*u.GetViewedTimeStamp()])["classes"].Table.(*[]Class)
 	c := (*u.TableSets[*u.GetComparatorTimeStamp()])["classes"].Table.(*[]Class)
-	return VeryNewClassViews(v, c)
+	return ClassViews(v, c)
 }
 
 // Wrapper for the IndustryStockList

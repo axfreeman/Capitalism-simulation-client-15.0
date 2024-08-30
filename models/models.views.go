@@ -9,7 +9,7 @@ type RecordBase[T Recorder] struct {
 	Compared *T
 }
 
-type CommodityView struct {
+type CommodityViewer struct {
 	RecordBase[Commodity]
 	Id                        int
 	Name                      string
@@ -28,7 +28,7 @@ type CommodityView struct {
 	InvestmentProportion      float32
 }
 
-type IndustryView struct {
+type IndustryViewer struct {
 	RecordBase[Industry]
 	Id                   int
 	Name                 string
@@ -55,7 +55,7 @@ type IndustryView struct {
 	ProfitRate           Pair
 }
 
-type ClassView struct {
+type ClassViewer struct {
 	RecordBase[Class]
 	Id                    int
 	Name                  string

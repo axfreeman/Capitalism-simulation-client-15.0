@@ -5,9 +5,9 @@ type OutputData struct {
 	Title          string
 	Simulations    *[]Simulation
 	Templates      *[]Simulation
-	CommodityViews *[]CommodityView
-	IndustryViews  *[]IndustryView
-	ClassViews     *[]ClassView
+	CommodityViews *[]CommodityViewer
+	IndustryViews  *[]IndustryViewer
+	ClassViews     *[]ClassViewer
 	IndustryStocks *[]IndustryStock
 	ClassStocks    *[]ClassStock
 	Trace          *[]Trace

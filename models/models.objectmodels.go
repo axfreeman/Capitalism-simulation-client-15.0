@@ -11,13 +11,15 @@ package models
 //
 // For a detailed description of the data model, consult the api.
 //
-// In the api, a simulation is database table which plays a key role.
+// In the api, a simulation is a database table which plays a key role.
 // All data objects (commodity, etc) link to a record in the simulation table
 //
 // In this frontend, this relational structure is not used.
-// Instead, the objects and the simulation are indexed by the user's simulationID
+// Instead, the objects are stored in local memory for speed.
+// Each step in the simulation generates a new Tableset, which represents
+// this step in a form that can be passed into the Templates.
 //
-// UserName is a convenience field added by this frontend
+// NOTE UserName is a convenience field added by this frontend
 // after retrieving the data from the server. It is probably redundant now.
 type Simulation struct {
 	Id                   int    `json:"id"`

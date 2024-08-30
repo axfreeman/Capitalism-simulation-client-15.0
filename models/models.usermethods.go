@@ -3,6 +3,7 @@
 package models
 
 import (
+	"encoding/json"
 	"gorilla-client/utils"
 )
 
@@ -31,6 +32,27 @@ func (u User) SetCurrentState(new_state string) {
 		return
 	}
 	s.State = new_state
+}
+
+// List of the user's Simulations.
+//
+//	u: the user
+//	returns:
+//	 Slice of SimulationsList
+//	 If the user has no simulations, an empty slice
+func (u User) SimulationsList() *[]Simulation {
+	list := u.Simulations.Table.(*[]Simulation)
+	if len(*list) == 0 {
+		var fakeList []Simulation = *new([]Simulation)
+		return &fakeList
+	}
+	return list
+}
+
+func (u *User) UserDisplayData() string {
+	output := u.TemplateDisplayData("This user's display data")
+	outputAsString, _ := json.MarshalIndent(output, " ", " ")
+	return string(outputAsString)
 }
 
 func (u User) Commodities() *[]Commodity {

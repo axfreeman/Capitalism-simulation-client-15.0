@@ -80,5 +80,5 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	// Each time we move forward, a new TableSet will be created.
 	// This allows the user to view and compare with previous stages of the simulation.
 	*user.GetViewedTimeStamp() = 0
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.TemplateData(""))
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.TemplateDisplayData(""))
 }

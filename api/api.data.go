@@ -69,6 +69,14 @@ func FetchTables(user *models.User) error {
 		}
 	}
 
+	// set the stocklist of every industry
+	// TODO filter so the stocklist only contains relevant stocks
+	industries := *(newTableSet[`industries`].Table.(*[]models.Industry))
+	stocks := newTableSet[`industry stocks`].Table.(*[]models.IndustryStock)
+	for ind := range industries {
+		industries[ind].Stocks = stocks
+	}
+
 	user.TableSets = append(user.TableSets, &newTableSet)
 	return nil
 }

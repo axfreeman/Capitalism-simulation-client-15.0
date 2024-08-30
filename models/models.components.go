@@ -113,8 +113,8 @@ func (p Pair) FormatRounded() template.HTML {
 
 // returns the money stock of the given industry
 func (industry Industry) MoneyStock(timeStamp int) IndustryStock {
-	username := industry.UserName
-	stockList := *LoggedInUsers[username].IndustryStocks(timeStamp)
+	stockList := *industry.Stocks
+	// stockList := *LoggedInUsers[username].IndustryStocks(timeStamp)
 	for i := 0; i < len(stockList); i++ {
 		s := stockList[i]
 		if (s.IndustryId == industry.Id) && (s.UsageType == `Money`) {

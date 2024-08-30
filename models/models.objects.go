@@ -75,6 +75,7 @@ type Industry struct {
 	CurrentCapital   float32 `json:"current_capital"`
 	Profit           float32 `json:"profit"`
 	ProfitRate       float32 `json:"profit_rate"`
+	Stocks           *[]IndustryStock
 }
 
 type Class struct {

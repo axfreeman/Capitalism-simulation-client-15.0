@@ -112,9 +112,8 @@ func (p Pair) FormatRounded() template.HTML {
 }
 
 // returns the money stock of the given industry
-func (industry Industry) MoneyStock(timeStamp int) IndustryStock {
+func (industry Industry) MoneyStock() IndustryStock {
 	stockList := *industry.Stocks
-	// stockList := *LoggedInUsers[username].IndustryStocks(timeStamp)
 	for i := 0; i < len(stockList); i++ {
 		s := stockList[i]
 		if (s.IndustryId == industry.Id) && (s.UsageType == `Money`) {
@@ -125,9 +124,9 @@ func (industry Industry) MoneyStock(timeStamp int) IndustryStock {
 }
 
 // returns the sales stock of the given industry
-func (industry Industry) SalesStock(timeStamp int) IndustryStock {
-	username := industry.UserName
-	stockList := *LoggedInUsers[username].IndustryStocks(timeStamp)
+func (industry Industry) SalesStock() IndustryStock {
+	// stockList := *LoggedInUsers[username].IndustryStocks(timeStamp)
+	stockList := *industry.Stocks
 	for i := 0; i < len(stockList); i++ {
 		s := &stockList[i]
 		if (s.IndustryId == industry.Id) && (s.UsageType == `Sales`) {
@@ -139,9 +138,9 @@ func (industry Industry) SalesStock(timeStamp int) IndustryStock {
 
 // returns the Labour Power stock of the given industry
 // bit of a botch to use the name of the commodity as a search term
-func (industry Industry) VariableCapital(timeStamp int) IndustryStock {
-	username := industry.UserName
-	stockList := *LoggedInUsers[username].IndustryStocks(timeStamp)
+func (industry Industry) VariableCapital() IndustryStock {
+	stockList := *industry.Stocks
+	// stockList := *LoggedInUsers[username].IndustryStocks(timeStamp)
 	for i := 0; i < len(stockList); i++ {
 		s := &stockList[i]
 		if (s.IndustryId == industry.Id) && (s.UsageType == `Production`) && (s.CommodityName() == "Labour Power") {
@@ -152,15 +151,15 @@ func (industry Industry) VariableCapital(timeStamp int) IndustryStock {
 }
 
 // returns the commodity that an industry produces
-func (industry Industry) OutputCommodity(timeStamp int) *Commodity {
-	return industry.SalesStock(timeStamp).Commodity()
+func (industry Industry) OutputCommodity() *Commodity {
+	return industry.SalesStock().Commodity()
 }
 
 // return the productive capital stock of the given industry
 // under development - at present assumes there is only one
-func (industry Industry) ConstantCapital(timeStamp int) IndustryStock {
-	username := industry.UserName
-	stockList := *LoggedInUsers[username].IndustryStocks(timeStamp)
+func (industry Industry) ConstantCapital() IndustryStock {
+	stockList := *industry.Stocks
+	// stockList := *LoggedInUsers[username].IndustryStocks(timeStamp)
 	for i := 0; i < len(stockList); i++ {
 		s := &stockList[i]
 		if (s.IndustryId == industry.Id) && (s.UsageType == `Production`) && (s.CommodityName() == "Means of Production") {

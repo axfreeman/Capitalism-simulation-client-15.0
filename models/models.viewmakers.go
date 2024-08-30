@@ -91,7 +91,6 @@ func NewClassView(vTimeStamp int, cTimeStamp int, v *Class, c *Class) *ClassView
 		Id:                    v.Id,
 		Name:                  v.Name,
 		SimulationId:          v.SimulationId,
-		TimeStamp:             v.TimeStamp,
 		UserName:              v.UserName,
 		Population:            Pair{Viewed: (v.Population), Compared: (c.Population)},
 		ParticipationRatio:    v.ParticipationRatio,

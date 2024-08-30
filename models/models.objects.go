@@ -40,10 +40,9 @@ type Simulation struct {
 }
 
 type Commodity struct {
-	Id                        int    `json:"id"`
-	Name                      string `json:"name"`
-	SimulationId              int32  `json:"simulation_id"`
-	TimeStamp                 int32
+	Id                        int     `json:"id"`
+	Name                      string  `json:"name"`
+	SimulationId              int32   `json:"simulation_id"`
 	UserName                  string  `json:"username"`
 	Origin                    string  `json:"origin"`
 	Usage                     string  `json:"usage"`
@@ -64,10 +63,9 @@ type Commodity struct {
 }
 
 type Industry struct {
-	Id               int    `json:"id"`
-	Name             string `json:"name"`
-	SimulationId     int32  `json:"simulation_id"`
-	TimeStamp        int
+	Id               int     `json:"id"`
+	Name             string  `json:"name"`
+	SimulationId     int32   `json:"simulation_id"`
 	UserName         string  `json:"username"`
 	Output           string  `json:"output"`
 	OutputScale      float32 `json:"output_scale"`
@@ -80,10 +78,9 @@ type Industry struct {
 }
 
 type Class struct {
-	Id                 int    `json:"id"`
-	Name               string `json:"name"`
-	SimulationId       int32  `json:"simulation_id"`
-	TimeStamp          int
+	Id                 int     `json:"id"`
+	Name               string  `json:"name"`
+	SimulationId       int32   `json:"simulation_id"`
 	UserName           string  `json:"username"`
 	Population         float32 `json:"population"`
 	ParticipationRatio float32 `json:"participation_ratio"`

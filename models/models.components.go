@@ -52,7 +52,6 @@ var NotFoundCommodity = Commodity{
 	Id:                        0,
 	Name:                      "NOT FOUND",
 	SimulationId:              0,
-	TimeStamp:                 0,
 	Origin:                    "UNDEFINED",
 	Usage:                     "UNDEFINED",
 	Size:                      0,
@@ -77,7 +76,6 @@ var NotFoundClass = Class{
 	Id:                 0,
 	Name:               "NOT FOUND",
 	SimulationId:       0,
-	TimeStamp:          0,
 	UserName:           "UNDEFINED",
 	Population:         0,
 	ParticipationRatio: 0,
@@ -90,7 +88,6 @@ var NotFoundIndustry = Industry{
 	Id:           0,
 	Name:         "NOT FOUND",
 	SimulationId: 0,
-	TimeStamp:    0,
 	UserName:     "UNDEFINED",
 }
 

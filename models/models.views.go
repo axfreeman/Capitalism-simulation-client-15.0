@@ -29,7 +29,7 @@ type CommodityView struct {
 }
 
 type IndustryView struct {
-	RecordBase[Commodity]
+	RecordBase[Industry]
 	Id                   int
 	Name                 string
 	OutputCommodityId    int

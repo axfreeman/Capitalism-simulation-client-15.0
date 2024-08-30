@@ -85,13 +85,38 @@ func VeryNewCommodityView(v *Commodity, c *Commodity) *CommodityView {
 	return &view
 }
 
-// Create a slice of CommodityView  for display in a template
+// Create a slice of CommodityView for display in a template
 // taking data from two Commodity objects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'
 func VeryNewCommodityViews(v *[]Commodity, c *[]Commodity) *[]CommodityView {
 	var newViews = make([]CommodityView, len(*v))
 	for i := range *v {
 		newView := VeryNewCommodityView(&(*v)[i], &(*c)[i])
+		newViews[i] = *newView
+	}
+	return &newViews
+}
+
+// Create an IndustryView for display in a template
+// taking data from two Industry objects; one being viewed now,
+// the other showing the state of the simulation at some time in the 'past'
+func VeryNewIndustryView(v *Industry, c *Industry) *IndustryView {
+	recordBase := RecordBase[Industry]{
+		Viewed:   v,
+		Compared: c,
+	}
+	view := IndustryView{RecordBase: recordBase}
+	PopulateView(&view)
+	return &view
+}
+
+// Create a slice of IndustryView for display in a template
+// taking data from two Commodity objects; one being viewed now,
+// the other showing the state of the simulation at some time in the 'past'
+func VeryNewIndustryViews(v *[]Industry, c *[]Industry) *[]IndustryView {
+	var newViews = make([]IndustryView, len(*v))
+	for i := range *v {
+		newView := VeryNewIndustryView(&(*v)[i], &(*c)[i])
 		newViews[i] = *newView
 	}
 	return &newViews

@@ -1,11 +1,12 @@
 {{ template "header.html" .}}
 {{ template "menu.html" .}}
 <div style="margin-top: 60px;">
-  <div class="w3-section w3-card-4" style="width:fit-content; margin:auto">
+  <div class="w3-section w3-card-4 w3-serif" style="width:fit-content; margin:auto">
     <header class="w3-container w3-blue">
-      <h3 class="w3-center"> {{ .Title }} </h3>
+      <h3 class="w3-center"> Class Stocks </h3>
     </header>
-    <table class="table table-striped w-auto">
+    </header>
+    <table>
       <thead>
         <tr>
           <th>Usage Type</th>
@@ -18,22 +19,22 @@
         </tr>
       </thead>
       <tbody>
-        <!--Loop over the classes -->
-        {{range .ClassStocks }}
+        {{ range .ClassStocks }}
         <tr>
-          <td><a href="/stock/{{.Id}}">{{ .UsageType }}</a></td>
-          <td><a href="/class/{{.ClassId}}">{{ .Class.Name }}</a> </td>
-          <td><a href="/commodity/{{ .CommodityId}}">{{ .Commodity.Name }}</a></td>
-          <td style="text-align:right">{{ .Size }}</td>
-          <td style="text-align:right">{{ .Value }}</td>
-          <td style="text-align:right">{{ .Price }}</td>
-          <td style="text-align:right">{{ .Demand }}</td>
+          <td>{{ .UsageType }}</td>
+          <td><a href="/class/{{ .ClassId}}">{{ .Viewed.Class.Name }}</a> </td>
+          <td><a href="/commodity/{{ .CommodityId}}">{{ .Viewed.Commodity.Name }}</a></td>
+          {{ .Size.FormatRounded }}
+          {{ .Value.FormatRounded }}</td>
+          {{ .Price.FormatRounded }}</td>
+          {{ .Demand.FormatRounded }}</td>
+
+
         </tr>
-        {{end}}
+
+        {{ end }}
       </tbody>
-    </table>
   </div>
-  <h4 class="w3-red">{{ .Message }}</h4>
 </div>
 
 {{ template "footer.html" .}}

@@ -187,3 +187,28 @@ func IndustryStockViews(v *[]IndustryStock, c *[]IndustryStock) *[]IndustryStock
 	}
 	return &newViews
 }
+
+// Create an ClassStockView for display in a template
+// taking data from two ClassStock objects; one being viewed now,
+// the other showing the state of the simulation at some time in the 'past'
+func ClassStockView(v *ClassStock, c *ClassStock) *ClassStockViewer {
+	recordBase := RecordBase[ClassStock]{
+		Viewed:   v,
+		Compared: c,
+	}
+	view := ClassStockViewer{RecordBase: recordBase}
+	PopulateView(&view)
+	return &view
+}
+
+// Create a slice of ClassStockView for display in a template
+// taking data from two ClassStockobjects; one being viewed now,
+// the other showing the state of the simulation at some time in the 'past'
+func ClassStockViews(v *[]ClassStock, c *[]ClassStock) *[]ClassStockViewer {
+	var newViews = make([]ClassStockViewer, len(*v))
+	for i := range *v {
+		newView := ClassStockView(&(*v)[i], &(*c)[i])
+		newViews[i] = *newView
+	}
+	return &newViews
+}

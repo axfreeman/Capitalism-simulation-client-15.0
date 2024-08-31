@@ -13,7 +13,7 @@ type DisplayData struct {
 	IndustryViews  *[]IndustryViewer
 	ClassViews     *[]ClassViewer
 	IndustryStocks *[]IndustryStockViewer
-	ClassStocks    *[]ClassStock
+	ClassStocks    *[]ClassStockViewer
 	Trace          *[]Trace
 	Count          int
 	Username       string
@@ -63,6 +63,8 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 	clc := (*u.TableSets[*u.GetComparatorTimeStamp()])["classes"].Table.(*[]Class)
 	isv := (*u.TableSets[*u.GetViewedTimeStamp()])["industry stocks"].Table.(*[]IndustryStock)
 	isc := (*u.TableSets[*u.GetComparatorTimeStamp()])["industry stocks"].Table.(*[]IndustryStock)
+	csv := (*u.TableSets[*u.GetViewedTimeStamp()])["class stocks"].Table.(*[]ClassStock)
+	csc := (*u.TableSets[*u.GetComparatorTimeStamp()])["class stocks"].Table.(*[]ClassStock)
 
 	// ivjsonb, _ := json.MarshalIndent(IndustryStockViews(isv, isc), " ", " ")
 	// fmt.Println(utils.BrightRed+"Displaying Industry Stock View:", string(ivjsonb))
@@ -79,7 +81,7 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 		IndustryViews:  IndustryViews(iv, ic),
 		ClassViews:     ClassViews(clv, clc),
 		IndustryStocks: IndustryStockViews(isv, isc),
-		ClassStocks:    u.ClassStocks(*u.GetViewedTimeStamp()),
+		ClassStocks:    ClassStockViews(csv, csc),
 		Trace:          u.Traces(*u.GetViewedTimeStamp()),
 		Message:        message,
 	}

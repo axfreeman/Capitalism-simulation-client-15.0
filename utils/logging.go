@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -92,13 +91,4 @@ func TraceErrorf(message string, details ...any) error {
 //	details: the variable to be printed
 func TraceInfof(startColour string, message string, details ...any) string {
 	return TraceInfo(startColour, fmt.Sprintf(message, details...))
-}
-
-// convenience function to pretty print structs, maps, etc
-//
-//	m: a description of the object which must contain one formatting symbol
-//	o: the object
-func TracePretty(m string, o any) string {
-	b, _ := json.MarshalIndent(o, " ", " ")
-	return TraceInfof(BrightWhite, m, string(b))
 }

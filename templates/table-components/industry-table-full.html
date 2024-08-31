@@ -22,7 +22,7 @@
       {{range .IndustryViews }}
 
       <tr>
-        <td><a href="/industry/{{.Id}}">{{ .Name }}</a></td>
+        <td><a href="/industry/{{ .Viewed.Id}}">{{ .Name }}</a></td>
         <td><a href="/commodity/{{ .OutputCommodityId}}">{{ .Output }}</a>  </td>
         {{ .OutputScale.FormatRounded }}
         {{ .OutputGrowthRate.Format }}

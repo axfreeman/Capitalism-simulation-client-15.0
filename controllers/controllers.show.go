@@ -16,7 +16,7 @@ func ShowCommodities(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPager{Url: "commodities.html", Id: 0}
 
 	utils.TraceInfof(utils.BrightYellow, "Fetching commodities for user %s", user.UserName)
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.TemplateDisplayData(""))
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateDisplayData(""))
 }
 
 // display all industries in the current simulation
@@ -25,7 +25,7 @@ func ShowIndustries(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPager{Url: "industries.html", Id: 0}
 
 	utils.TraceInfof(utils.BrightYellow, "Fetching industries for user %s", user.UserName)
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.TemplateDisplayData(""))
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateDisplayData(""))
 }
 
 // display all classes in the current simulation
@@ -34,7 +34,7 @@ func ShowClasses(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPager{Url: "classes.html", Id: 0}
 
 	utils.TraceInfo(utils.BrightYellow, fmt.Sprintf("Fetching classes for user %s", user.UserName))
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.TemplateDisplayData(""))
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateDisplayData(""))
 }
 
 // display all industry stocks in the current simulation
@@ -43,7 +43,7 @@ func ShowIndustryStocks(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPager{Url: "industry_stocks.html", Id: 0}
 
 	utils.TraceInfof(utils.BrightYellow, "Fetching industry stocks for user %s", user.UserName)
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.TemplateDisplayData(""))
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateDisplayData(""))
 }
 
 // display all the class stocks in the current simulation
@@ -52,7 +52,7 @@ func ShowClassStocks(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPager{Url: "class_stocks.html", Id: 0}
 
 	utils.TraceInfof(utils.BrightYellow, "Fetching class stocks for user %s", user.UserName)
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.TemplateDisplayData(""))
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateDisplayData(""))
 }
 
 // display all Trace records in the current simulation
@@ -61,7 +61,7 @@ func ShowTrace(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPager{Url: "trace.html", Id: 0}
 
 	utils.TraceInfof(utils.BrightYellow, "Fetching classes for user %s", user.UserName)
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.TemplateDisplayData(""))
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateDisplayData(""))
 }
 
 // Display one specific commodity
@@ -112,14 +112,14 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPager{Url: "index.html", Id: 0}
 
 	utils.TraceInfo(utils.BrightYellow, fmt.Sprintf("Showing Index Page for user %s", user.UserName))
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.TemplateDisplayData(""))
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateDisplayData(""))
 }
 
 func UserDashboard(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
 	user.CurrentPage = models.CurrentPager{Url: "user-dashboard.html", Id: 0}
 
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.TemplateDisplayData(""))
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateDisplayData(""))
 }
 
 func NotFound(w http.ResponseWriter, r *http.Request) {
@@ -130,7 +130,7 @@ func NotFound(w http.ResponseWriter, r *http.Request) {
 func WelcomeHandler(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfo(utils.BrightGreen, "Enter WelcomeHandler")
 	user := CurrentUser(r)
-	Tpl.ExecuteTemplate(w, "welcome.html", user.TemplateDisplayData(""))
+	Tpl.ExecuteTemplate(w, "welcome.html", user.CreateDisplayData(""))
 }
 
 func AboutHandler(w http.ResponseWriter, r *http.Request) {

@@ -1,7 +1,6 @@
 package models
 
 import (
-	"encoding/json"
 	"gorilla-client/utils"
 )
 
@@ -47,8 +46,8 @@ type IndustryData struct {
 //	Name: convenience field for diagnostics
 type Tabler struct {
 	ApiUrl string      //Url to use when requesting data from the server
-	Table  interface{} //All the data for one Table (eg Commodity, Industry, etc)
 	Name   string      //The name of the table (for convenience, may be redundant)
+	Table  interface{} //All the data for one Table (eg Commodity, Industry, etc)
 }
 
 // Contains all the tables in one stage of one simulation
@@ -101,14 +100,14 @@ func NewTableSet() TableSet {
 //		returns:
 //	     if the user has no simulations, just the template list
 //	     otherwise, the output data the users current simulation
-func (u *User) TemplateDisplayData(message string) DisplayData {
+func (u *User) CreateDisplayData(message string) DisplayData {
 	slist := u.SimulationsList()
 	state := u.GetCurrentState()
 	utils.TraceInfof(utils.BrightYellow, "Entering TemplateData for user %s with simulationID %d", u.UserName, u.CurrentSimulationID)
 	if u.CurrentSimulationID == 0 {
 		utils.TraceInfo(utils.BrightYellow, "User has no simulations")
 		return DisplayData{
-			Title:          "Hello",
+			Title:          "No simulations",
 			Simulations:    nil,
 			Templates:      &TemplateList,
 			Count:          0,
@@ -124,9 +123,14 @@ func (u *User) TemplateDisplayData(message string) DisplayData {
 		}
 	}
 	utils.TraceInfof(utils.BrightYellow, "TemplateData is retrieving data for user %s with simulationID %d", u.UserName, u.CurrentSimulationID)
-	commodityView := u.CommodityViews()
-	commodityViewAsString, _ := json.MarshalIndent(commodityView, " ", " ")
-	utils.TraceLogf(utils.BrightYellow, "CommodityViews returned %s", string(commodityViewAsString))
+	utils.TraceLogf(utils.BrightRed, "Entered CommodityViews with time stamp %d and comparator %d", *u.GetViewedTimeStamp(), *u.GetComparatorTimeStamp())
+	cv := (*u.TableSets[*u.GetViewedTimeStamp()])["commodities"].Table.(*[]Commodity)
+	cc := (*u.TableSets[*u.GetComparatorTimeStamp()])["commodities"].Table.(*[]Commodity)
+	iv := (*u.TableSets[*u.GetViewedTimeStamp()])["industries"].Table.(*[]Industry)
+	ic := (*u.TableSets[*u.GetComparatorTimeStamp()])["industries"].Table.(*[]Industry)
+	clv := (*u.TableSets[*u.GetViewedTimeStamp()])["classes"].Table.(*[]Class)
+	clc := (*u.TableSets[*u.GetComparatorTimeStamp()])["classes"].Table.(*[]Class)
+
 	return DisplayData{
 		Title:          "Hello",
 		Simulations:    slist,
@@ -134,9 +138,9 @@ func (u *User) TemplateDisplayData(message string) DisplayData {
 		Count:          len(*slist),
 		Username:       u.UserName,
 		State:          state,
-		CommodityViews: u.CommodityViews(),
-		IndustryViews:  u.IndustryViews(),
-		ClassViews:     u.ClassViews(),
+		CommodityViews: CommodityViews(cv, cc),
+		IndustryViews:  IndustryViews(iv, ic),
+		ClassViews:     ClassViews(clv, clc),
 		IndustryStocks: u.IndustryStocks(*u.GetViewedTimeStamp()),
 		ClassStocks:    u.ClassStocks(*u.GetViewedTimeStamp()),
 		Trace:          u.Traces(*u.GetViewedTimeStamp()),
@@ -145,7 +149,7 @@ func (u *User) TemplateDisplayData(message string) DisplayData {
 }
 func (u User) CommodityDisplayData(message string, id int) CommodityData {
 	return CommodityData{
-		u.TemplateDisplayData(message),
+		u.CreateDisplayData(message),
 		*u.Commodity(id),
 	}
 }
@@ -159,7 +163,7 @@ func (u User) CommodityDisplayData(message string, id int) CommodityData {
 //	returns: classData which references this class, and embeds an OutputData
 func (u User) ClassDisplayData(message string, id int) ClassData {
 	return ClassData{
-		u.TemplateDisplayData(message),
+		u.CreateDisplayData(message),
 		*u.Class(id),
 	}
 }
@@ -173,7 +177,7 @@ func (u User) ClassDisplayData(message string, id int) ClassData {
 //	returns: industryData which references this industry, and embeds an OutputData
 func (u User) IndustryDisplayData(message string, id int) IndustryData {
 	return IndustryData{
-		u.TemplateDisplayData(message),
+		u.CreateDisplayData(message),
 		*u.Industry(id),
 	}
 }

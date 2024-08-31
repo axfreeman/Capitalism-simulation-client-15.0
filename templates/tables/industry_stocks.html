@@ -1,37 +1,35 @@
 {{ template "header.html" .}}
 {{ template "menu.html" .}}
 <div style="margin-top: 60px;">
-  <div class="w3-section w3-card-4" style="width:fit-content; margin:auto">
+  <div class="w3-section w3-card-4 w3-serif" style="width:fit-content; margin:auto">
     <header class="w3-container w3-blue">
-      <h3 class="w3-center"> {{ .Title }} </h3>
+      <h3 class="w3-center"> Industry Stocks </h3>
     </header>
-    <table class="table table-striped w-auto" id="stocks">
+    <table>
       <thead>
         <tr>
           <th>Usage Type</th>
           <th>Industry</th>
           <th>Commodity</th>
-          <th>Size</th>
-          <th>Value</th>
-          <th>Price</th>
-          <th>Coefficient</th>
-          <th>Demand</th>
+          <th style="text-align:center">Size</th>
+          <th style="text-align:center">Value</th>
+          <th style="text-align:center">Price</th>
+          <th style="text-align:center">Coefficient</th>
+          <th style="text-align:center">Demand</th>
         </tr>
       </thead>
       <tbody>
         <!--Loop over the industry stocks -->
         {{range .IndustryStocks }}
-
         <tr>
           <td><a href="/stock/{{.Id}}">{{ .UsageType }}</a></td>
-          <td><a href="/industry/{{.IndustryId}}">{{ .Industry.Name }}</a> </td>
-          <td><a href="/commodity/{{ .CommodityId}}">{{ .Commodity.Name }}</a></td>
-          <td style="text-align:right">{{ .Size }}</td>
-          <td style="text-align:right">{{ .Value }}</td>
-          <td style="text-align:right">{{ .Price }}</td>
-          <td style="text-align:right">{{ .Requirement }}</td>
-          <td style="text-align:right">{{ .Demand }}</td>
-
+          <td style=><a href="/industry/{{.Viewed.IndustryId}}">{{ .Viewed.Industry.Name}}</a></td>
+          <td style=><a href="/commodity/{{.Viewed.CommodityId}}">{{ .Viewed.Commodity.Name}}</a></td>
+          {{ .Size.FormatRounded }}
+          {{ .Value.FormatRounded }}
+          {{ .Price.FormatRounded }}
+          {{ .Requirement.Format }}
+          {{ .Demand.FormatRounded }}
         </tr>
         {{end}}
       </tbody>

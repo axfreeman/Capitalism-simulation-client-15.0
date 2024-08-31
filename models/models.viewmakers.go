@@ -1,7 +1,6 @@
 package models
 
 import (
-	"gorilla-client/utils"
 	"reflect"
 )
 
@@ -71,10 +70,12 @@ func PopulateView[T Record](View *T) {
 				f0.Set(vm)
 				f1.Set(cm)
 			} else {
-				utils.TraceInfof(utils.Red, "Producing view item for field called %s", name)
+				// If it is a pair but without data, then it is a call to a method
+				// Todo this crude method obliges us to create a myriad tiny methods
 				vmbn := viewedRecord.MethodByName(name)
+				cmbn := comparedRecord.MethodByName(name)
+				// Test whether the function call worked
 				if vmbn.IsValid() {
-					cmbn := comparedRecord.MethodByName(name) // if vmbn is valid, we can safely assume cmbn is too
 					in := make([]reflect.Value, 0)
 					vval := vmbn.Call(in)
 					cval := cmbn.Call(in)
@@ -129,7 +130,6 @@ func IndustryView(v *Industry, c *Industry) *IndustryViewer {
 // taking data from two Commodity objects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'
 func IndustryViews(v *[]Industry, c *[]Industry) *[]IndustryViewer {
-	utils.TraceInfof(utils.BrightRed, "Creating an industry view of length %d", len(*v))
 	var newViews = make([]IndustryViewer, len(*v))
 	for i := range *v {
 		newView := IndustryView(&(*v)[i], &(*c)[i])
@@ -138,7 +138,7 @@ func IndustryViews(v *[]Industry, c *[]Industry) *[]IndustryViewer {
 	return &newViews
 }
 
-// Create an ClassView for display in a template
+// Create a ClassView for display in a template
 // taking data from two Class objects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'
 func ClassView(v *Class, c *Class) *ClassViewer {
@@ -152,12 +152,37 @@ func ClassView(v *Class, c *Class) *ClassViewer {
 }
 
 // Create a slice of ClassView for display in a template
-// taking data from two Commodity objects; one being viewed now,
+// taking data from two Class objects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'
 func ClassViews(v *[]Class, c *[]Class) *[]ClassViewer {
 	var newViews = make([]ClassViewer, len(*v))
 	for i := range *v {
 		newView := ClassView(&(*v)[i], &(*c)[i])
+		newViews[i] = *newView
+	}
+	return &newViews
+}
+
+// Create an IndustryStockView for display in a template
+// taking data from two IndustryStock objects; one being viewed now,
+// the other showing the state of the simulation at some time in the 'past'
+func IndustryStockView(v *IndustryStock, c *IndustryStock) *IndustryStockViewer {
+	recordBase := RecordBase[IndustryStock]{
+		Viewed:   v,
+		Compared: c,
+	}
+	view := IndustryStockViewer{RecordBase: recordBase}
+	PopulateView(&view)
+	return &view
+}
+
+// Create a slice of IndustryStockView for display in a template
+// taking data from two IndustryStockobjects; one being viewed now,
+// the other showing the state of the simulation at some time in the 'past'
+func IndustryStockViews(v *[]IndustryStock, c *[]IndustryStock) *[]IndustryStockViewer {
+	var newViews = make([]IndustryStockViewer, len(*v))
+	for i := range *v {
+		newView := IndustryStockView(&(*v)[i], &(*c)[i])
 		newViews[i] = *newView
 	}
 	return &newViews

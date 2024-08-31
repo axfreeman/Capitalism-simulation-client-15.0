@@ -1,7 +1,7 @@
 package models
 
 type Recorder interface {
-	Commodity | Industry | Class
+	Commodity | Industry | Class | IndustryStock | ClassStock
 }
 
 type RecordBase[T Recorder] struct {
@@ -76,4 +76,36 @@ type ClassViewer struct {
 	SalesStockSize        Pair
 	SalesStockValue       Pair
 	SalesStockPrice       Pair
+}
+
+type IndustryStockViewer struct {
+	RecordBase[IndustryStock]
+	Id           int
+	SimulationId int
+	IndustryId   int
+	CommodityId  int
+	UserName     string
+	Name         string
+	UsageType    string
+	Size         Pair
+	Value        Pair
+	Price        Pair
+	Requirement  Pair
+	Demand       Pair
+}
+
+type ClassStockViewer struct {
+	RecordBase[ClassStock]
+	Id           int
+	SimulationId int
+	ClassId      int
+	CommodityId  int
+	UserName     string
+	Name         string
+	UsageType    string
+	Size         Pair
+	Value        Pair
+	Price        Pair
+	Requirement  Pair
+	Demand       Pair
 }

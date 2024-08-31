@@ -36,10 +36,8 @@
   <table class="w3-table-all w3-small"> 
     <thead>
       <tr>
-        <th>
-          Variable
-        </th>
-        {{ range .Class.ConsumerGoods}}
+        {{ range .Class.ConsumerGoods }}
+        <th>Parameter</th>
         <th>
           {{ .Commodity.Name}}
         </th>
@@ -49,11 +47,11 @@
     <tbody>
       <tr>
         <td>
-          Requirement
+          Coefficient
         </td>
           {{ range .Class.ConsumerGoods}}
         <td style="text-align:center">
-          {{ .Requirement}}
+          {{ .Requirement }}
         </td>
         {{ end }}
       </tr>
@@ -63,7 +61,7 @@
         </td>
           {{ range .Class.ConsumerGoods}}
         <td style="text-align:center">
-          {{ .Demand}}
+          {{ .Demand }}
         </td>
         {{ end }}
       </tr>

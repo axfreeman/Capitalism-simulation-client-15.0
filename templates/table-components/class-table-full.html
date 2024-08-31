@@ -23,7 +23,7 @@
       {{range .ClassViews }}
 
       <tr>
-        <td><a href="/class/{{.Id}}">{{ .Name }}</a></td>
+        <td><a href="/class/{{ .Viewed.Id}}">{{ .Name }}</a></td>
         {{ .ConsumptionStockSize.FormatRounded }}
         {{ .ConsumptionStockValue.FormatRounded }}
         {{ .ConsumptionStockPrice.FormatRounded }}

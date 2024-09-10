@@ -42,7 +42,6 @@ type Simulation struct {
 }
 
 type Commodity struct {
-	Comparator                *Commodity
 	Id                        int     `json:"id"`
 	Name                      string  `json:"name"`
 	SimulationId              int32   `json:"simulation_id"`

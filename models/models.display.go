@@ -6,19 +6,20 @@ import (
 
 // Commonly-used Views to pass into templates
 type DisplayData struct {
-	Title          string
-	Simulations    *[]Simulation
-	Templates      *[]Simulation
-	CommodityViews *[]CommodityViewer
-	IndustryViews  *[]IndustryViewer
-	ClassViews     *[]ClassViewer
-	IndustryStocks *[]IndustryStockViewer
-	ClassStocks    *[]ClassStockViewer
-	Trace          *[]Trace
-	Count          int
-	Username       string
-	State          string
-	Message        string
+	Title             string
+	Simulations       *[]Simulation
+	Templates         *[]Simulation
+	CommodityViews    *[]CommodityViewer
+	NewCommodityViews *[]View
+	IndustryViews     *[]IndustryViewer
+	ClassViews        *[]ClassViewer
+	IndustryStocks    *[]IndustryStockViewer
+	ClassStocks       *[]ClassStockViewer
+	Trace             *[]Trace
+	Count             int
+	Username          string
+	State             string
+	Message           string
 }
 
 // Supplies data to pass into Templates for display
@@ -71,19 +72,20 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 
 	// Create the DisplayData object
 	return DisplayData{
-		Title:          "Hello",
-		Simulations:    slist,
-		Templates:      &TemplateList,
-		Count:          len(*slist),
-		Username:       u.UserName,
-		State:          state,
-		CommodityViews: CommodityViews(cv, cc),
-		IndustryViews:  IndustryViews(iv, ic),
-		ClassViews:     ClassViews(clv, clc),
-		IndustryStocks: IndustryStockViews(isv, isc),
-		ClassStocks:    ClassStockViews(csv, csc),
-		Trace:          u.Traces(*u.GetViewedTimeStamp()),
-		Message:        message,
+		Title:             "Hello",
+		Simulations:       slist,
+		Templates:         &TemplateList,
+		Count:             len(*slist),
+		Username:          u.UserName,
+		State:             state,
+		CommodityViews:    CommodityViews(cv, cc),
+		NewCommodityViews: NewCommodityViews(cv, cc),
+		IndustryViews:     IndustryViews(iv, ic),
+		ClassViews:        ClassViews(clv, clc),
+		IndustryStocks:    IndustryStockViews(isv, isc),
+		ClassStocks:       ClassStockViews(csv, csc),
+		Trace:             u.Traces(*u.GetViewedTimeStamp()),
+		Message:           message,
 	}
 }
 

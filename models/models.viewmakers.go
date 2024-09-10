@@ -109,6 +109,7 @@ func CommodityViews(v *[]Commodity, c *[]Commodity) *[]CommodityViewer {
 	for i := range *v {
 		newView := CommodityView(&(*v)[i], &(*c)[i])
 		newViews[i] = *newView
+		// fmt.Println("Placeholder for a new Commodity View", (*newView).ShowPlaceHolder())
 	}
 	return &newViews
 }

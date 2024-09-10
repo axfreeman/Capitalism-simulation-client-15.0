@@ -76,14 +76,12 @@ func NewCommodityViews(v *[]Commodity, c *[]Commodity) *[]View {
 	var newViews = make([]View, len(*v))
 	var vc *Commodity
 	var cc *Commodity
-	fmt.Println("Entered New CommodityViews")
 	for i := range *v {
 		vc = &(*v)[i]
 		cc = &(*c)[i]
 		newView := CreateCommodityView(vc, cc)
 		newViews[i] = newView
 		fmt.Println(newView.Show("Size"))
-		fmt.Println(newView.ShowPlaceHolder())
 	}
 	return &newViews
 }

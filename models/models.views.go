@@ -49,7 +49,7 @@ type NewCommodityView struct {
 //	 returns: the float32 value of the field
 //	TODO return an int for an int field
 func (c *NewCommodityView) ViewedField(f string) string {
-	return reflect.Indirect(reflect.ValueOf(c.viewedRecord)).FieldByName(f).String()
+	return fmt.Sprint(reflect.Indirect(reflect.ValueOf(c.viewedRecord)).FieldByName(f))
 }
 
 // Provides the value of the field f in the comparedRecord of a CommodityView
@@ -59,7 +59,7 @@ func (c *NewCommodityView) ViewedField(f string) string {
 //	 returns: the float32 value of the field
 //	TODO return an int for an int field
 func (c *NewCommodityView) ComparedField(f string) string {
-	return reflect.Indirect(reflect.ValueOf(c.comparedRecord)).FieldByName(f).String()
+	return fmt.Sprint(reflect.Indirect(reflect.ValueOf(c.comparedRecord)).FieldByName(f))
 }
 
 func CreateCommodityView(v *Commodity, c *Commodity) View {
@@ -98,9 +98,9 @@ func (v *View) Show(f string) string {
 	vv := v.Viewer.ViewedField(f)
 	vc := v.Viewer.ComparedField(f)
 	if vv == vc {
-		return "same"
+		return vv
 	}
-	return "different"
+	return vv + "(different)"
 }
 
 type NewIndustryView struct {
@@ -108,12 +108,13 @@ type NewIndustryView struct {
 	comparedRecord *Industry
 }
 
-func (i *NewIndustryView) ViewedField(f string) float32 {
-	return float32(reflect.Indirect(reflect.ValueOf(i.viewedRecord)).FieldByName(f).Float())
+func (i *NewIndustryView) ViewedField(f string) string {
+	s := reflect.Indirect(reflect.ValueOf(i.viewedRecord)).FieldByName(f)
+	return fmt.Sprint(s)
 }
 
-func (i *NewIndustryView) ComparedField(f string) float32 {
-	return float32(reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f).Float())
+func (i *NewIndustryView) ComparedField(f string) string {
+	return reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f).String()
 }
 
 type CommodityViewer struct {

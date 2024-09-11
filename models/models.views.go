@@ -150,7 +150,7 @@ func CreateCommodityView(v *Commodity, c *Commodity) View {
 // Create a slice of CommodityView for display in a template
 // taking data from two Commodity objects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'
-func NewCommodityViews(v *[]Commodity, c *[]Commodity) *[]View {
+func CommodityViews(v *[]Commodity, c *[]Commodity) *[]View {
 	var newViews = make([]View, len(*v))
 	var vc *Commodity
 	var cc *Commodity
@@ -159,7 +159,6 @@ func NewCommodityViews(v *[]Commodity, c *[]Commodity) *[]View {
 		cc = &(*c)[i]
 		newView := CreateCommodityView(vc, cc)
 		newViews[i] = newView
-		fmt.Println(newView.Show("Size"))
 	}
 	return &newViews
 }

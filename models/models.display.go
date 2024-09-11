@@ -9,7 +9,6 @@ type DisplayData struct {
 	Title             string
 	Simulations       *[]Simulation
 	Templates         *[]Simulation
-	CommodityViews    *[]CommodityViewer
 	NewCommodityViews *[]View
 	IndustryViews     *[]IndustryViewer
 	ClassViews        *[]ClassViewer
@@ -36,19 +35,19 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 	if u.CurrentSimulationID == 0 {
 		utils.TraceInfo(utils.BrightYellow, "User has no simulations")
 		return DisplayData{
-			Title:          "No simulations",
-			Simulations:    nil,
-			Templates:      &TemplateList,
-			Count:          0,
-			Username:       u.UserName,
-			State:          state,
-			CommodityViews: nil,
-			IndustryViews:  nil,
-			ClassViews:     nil,
-			IndustryStocks: nil,
-			ClassStocks:    nil,
-			Trace:          nil,
-			Message:        message,
+			Title:             "No simulations",
+			Simulations:       nil,
+			Templates:         &TemplateList,
+			Count:             0,
+			Username:          u.UserName,
+			State:             state,
+			NewCommodityViews: nil,
+			IndustryViews:     nil,
+			ClassViews:        nil,
+			IndustryStocks:    nil,
+			ClassStocks:       nil,
+			Trace:             nil,
+			Message:           message,
 		}
 	}
 	utils.TraceInfof(utils.BrightYellow, "TemplateData is retrieving data for user %s with simulationID %d", u.UserName, u.CurrentSimulationID)
@@ -78,8 +77,7 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 		Count:             len(*slist),
 		Username:          u.UserName,
 		State:             state,
-		CommodityViews:    CommodityViews(cv, cc),
-		NewCommodityViews: NewCommodityViews(cv, cc),
+		NewCommodityViews: CommodityViews(cv, cc),
 		IndustryViews:     IndustryViews(iv, ic),
 		ClassViews:        ClassViews(clv, clc),
 		IndustryStocks:    IndustryStockViews(isv, isc),

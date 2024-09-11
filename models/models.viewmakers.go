@@ -88,32 +88,6 @@ func PopulateView[T Record](View *T) {
 	}
 }
 
-// Create a CommodityView for display in a template
-// taking data from two Commodity objects; one being viewed now,
-// the other showing the state of the simulation at some time in the 'past'
-func CommodityView(v *Commodity, c *Commodity) *CommodityViewer {
-	recordBase := RecordBase[Commodity]{
-		Viewed:   v,
-		Compared: c,
-	}
-	view := CommodityViewer{RecordBase: recordBase}
-	PopulateView(&view)
-	return &view
-}
-
-// Create a slice of CommodityView for display in a template
-// taking data from two Commodity objects; one being viewed now,
-// the other showing the state of the simulation at some time in the 'past'
-func CommodityViews(v *[]Commodity, c *[]Commodity) *[]CommodityViewer {
-	var newViews = make([]CommodityViewer, len(*v))
-	for i := range *v {
-		newView := CommodityView(&(*v)[i], &(*c)[i])
-		newViews[i] = *newView
-		// fmt.Println("Placeholder for a new Commodity View", (*newView).ShowPlaceHolder())
-	}
-	return &newViews
-}
-
 // Create an IndustryView for display in a template
 // taking data from two Industry objects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'

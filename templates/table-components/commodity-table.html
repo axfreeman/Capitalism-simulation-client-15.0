@@ -2,13 +2,6 @@
   <header class="w3-container w3-blue">
     <div class="w3-center">Commodities</div>
   </header>
-<p> New Commodities</p>
-{{ .NewCommodityViews }}
-{{ range .NewCommodityViews}}
-<p> 
-  {{ .Show "Size" }}
-</p>
-{{ end }}
   <table>
     <thead>
       <tr>
@@ -28,40 +21,19 @@
     </thead>
     <tbody>
       <!--Loop over the commodities  -->
-      {{range .CommodityViews }}
-  
+      {{range .NewCommodityViews }}
       <tr>
-        <td style="text-align:left"><a href="/commodity/{{.Id}}">{{ .Name }}</a></td>
-        <td style="text-align:center">
-          {{ if eq .Origin "INDUSTRIAL" }}<i style="font-weight: bolder; color:blue" class="fa fa-industry"></i>
-          {{ else if eq .Origin "SOCIAL"}}
-          {{ if eq .Usage "Useless"}}
-
-          <i style="font-weight: bolder; color:rgba(128, 0, 128, 0.696)" class="fas fa-user-tie"></i>
-          {{ else }}
-          <i style="font-weight: bolder; color:red" class="fa fa-user-friends"></i>
-          {{ end }}
-
-
-          {{ else if eq .Origin "MONEY"}}<i class="fa fa-dollar" style="font-weight: 900; color:goldenrod"></i>
-          {{ end }}
-        </td>
-        <td style="text-align:center">
-          {{ if eq .Usage "PRODUCTIVE" }}<i style="font-weight: bolder; color:blue" class="fas fa-hammer"></i>
-          {{ else if eq .Usage "CONSUMPTION"}}<i style="font-weight: bolder; color:green" class="fa fa-cutlery"></i>
-          {{ else if eq .Usage "MONEY"}}<i class="fa fa-dollar" style="font-weight: 900; color:goldenrod"></i>
-          {{ else if eq .Usage "Useless"}}<i class="fas fa-skull-crossbones" style="font-weight: bolder; color:black"></i>
-          {{ end }}
-        </td>
-        {{ .Size.FormatRounded }}
-        {{ .TotalValue.FormatRounded }}
-        {{ .TotalPrice.FormatRounded }}
-        {{ .UnitValue.Format }}
-        {{ .UnitPrice.Format }}
-        {{ .TurnoverTime.Format }}
-        {{ .Demand.FormatRounded }}
-        {{ .Supply.FormatRounded }}
-        {{ .AllocationRatio.Format }}
+        <td style="text-align:left">{{.Link}}</td>
+        <td style="text-align:center">{{ .OriginGraphic }}</td>
+        <td style="text-align:center">{{ .UsageGraphic }}</td>
+        {{ .Show "Size" }}
+        {{ .Show "TotalValue" }}
+        {{ .Show "UnitValue" }}
+        {{ .Show "UnitPrice" }}
+        {{ .Show "TurnoverTime" }}
+        {{ .Show "Demand" }}
+        {{ .Show "Supply" }}
+        {{ .Show "AllocationRatio" }}
       </tr>
       {{end}}
     </tbody>

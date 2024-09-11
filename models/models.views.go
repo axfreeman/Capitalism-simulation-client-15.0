@@ -2,7 +2,9 @@ package models
 
 import (
 	"fmt"
+	"html/template"
 	"reflect"
+	"strconv"
 )
 
 type Recorder interface {
@@ -33,8 +35,84 @@ type View struct {
 }
 
 func (v View) ShowPlaceHolder() string {
-	fmt.Println("Enter Show PlaceHolder")
 	return "Placeholder"
+}
+
+// Returns a safe HTML string with a link to the ViewedField object
+// Assumes the implementation supplies Name and ID fields
+//
+// v: an implementation of the Viewer interface
+// template.HTML: safe string using ID and Name fields supplied by the implementation
+func (v View) Link() template.HTML {
+	return template.HTML(fmt.Sprintf("<a href=\"/commodity/%s\">%s</a>", v.ViewedField(`Id`), v.ViewedField(`Name`)))
+}
+
+// Returns a safe HTML string with a graphic illustrating the origin
+//
+//	v: a CommodityView
+//	template.HTML: safe string with a graphic representing the origin
+//
+// TODO figure out how to make this a method of the implementation, not the interface
+func (v View) OriginGraphic() template.HTML {
+	var htmlString template.HTML
+	switch v.ViewedField(`Origin`) {
+	case `INDUSTRIAL`:
+		htmlString = "<i style=\"font-weight: bolder; color:blue\" class=\"fa fa-industry\"></i>"
+	case `SOCIAL`:
+		if v.ViewedField(`SOCIAL`) == `Useless` {
+			htmlString = "<i style=\"font-weight: bolder; color:rgba(128, 0, 128, 0.696)\" class=\"fas fa-user-tie\"></i>"
+		} else {
+			htmlString = "<i style=\"font-weight: bolder; color:red\" class=\"fa fa-user-friends\"></i>"
+		}
+	case `MONEY`:
+		htmlString = "<i style=\"font-weight: 900; color:goldenrod\" class=\"fa fa-dollar\"></i>"
+	default:
+		htmlString = "Unknown Origin"
+	}
+	return template.HTML(htmlString)
+}
+
+// Returns a safe HTML string with a graphic illustrating the usage
+//
+//	v: a CommodityView
+//	template.HTML: safe string with a graphic representing the usage
+//
+// TODO figure out how to make this a method of the implementation, not the interface
+func (v View) UsageGraphic() template.HTML {
+	var htmlString template.HTML
+	switch v.ViewedField(`Usage`) {
+	case `PRODUCTIVE`:
+		htmlString = `<i style="font-weight: bolder; color:blue" class="fas fa-hammer"></i>`
+	case `CONSUMPTION`:
+		htmlString = `<i style="font-weight: bolder; color:green" class="fa fa-cutlery"></i>`
+	case `MONEY`:
+		htmlString = `<i class="fa fa-dollar" style="font-weight: 900; color:goldenrod"></i>`
+	case `Useless`:
+		htmlString = `<i class="fas fa-skull-crossbones" style="font-weight: bolder; color:black"></i>`
+	default:
+		htmlString = `Unknown Usage`
+	}
+	return template.HTML(htmlString)
+}
+
+// Provide a string, suitable for display in a template, that formats
+// a viewed value and highlights values that have changed.
+//
+//	v: a View object
+//	f: the name of the field to display
+//	Returns: safe HTML string coloured red if the value has changed
+//
+// TODO need another method to display decimals
+func (v *View) Show(f string) template.HTML {
+	vv, _ := strconv.Atoi(v.Viewer.ViewedField(f))
+	vc, _ := strconv.Atoi(v.Viewer.ComparedField(f))
+	var htmlString string
+	if vv == vc {
+		htmlString = fmt.Sprintf("<td style=\"text-align:center\">%d</td>", vv)
+	} else {
+		htmlString = fmt.Sprintf("<td style=\"text-align:center; color:red\">%d</td>", vv)
+	}
+	return template.HTML(htmlString)
 }
 
 type NewCommodityView struct {
@@ -84,21 +162,6 @@ func NewCommodityViews(v *[]Commodity, c *[]Commodity) *[]View {
 		fmt.Println(newView.Show("Size"))
 	}
 	return &newViews
-}
-
-// Provide a string, suitable for display in a template, that formats
-// a viewed value and highlights values that have changed.
-//
-//	v: a View object
-//	f: the name of the field to display
-//	Returns: a safe HTML formatted string
-func (v *View) Show(f string) string {
-	vv := v.Viewer.ViewedField(f)
-	vc := v.Viewer.ComparedField(f)
-	if vv == vc {
-		return vv
-	}
-	return vv + "(different)"
 }
 
 type NewIndustryView struct {

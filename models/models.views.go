@@ -50,6 +50,16 @@ func (v View) Link() template.HTML {
 	return template.HTML(fmt.Sprintf("<a href=\"/commodity/%s\">%s</a>", v.ViewedField(`Id`), v.ViewedField(`Name`)))
 }
 
+// Returns a safe HTML string with a link to the Commodity of an industry
+// Should be a method of  IndustryView but haven't yet figured out how
+//
+// v: an implementation of the Viewer interface
+// template.HTML: safe string using ID and Name fields supplied by the implementation
+func (v View) CommodityLink() template.HTML {
+	//        <td><a href="/commodity/{{ .OutputCommodityId}}">{{ .Output }}</a> </td>
+	return template.HTML(fmt.Sprintf(`<a href="/commodity/%s">%s</a>`, v.ViewedField(`OutputCommodityID`), v.ViewedField("Output")))
+}
+
 // Returns a safe HTML string with a graphic illustrating the origin
 //
 //	v: a CommodityView

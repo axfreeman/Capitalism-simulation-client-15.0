@@ -21,7 +21,7 @@
       {{range .NewIndustryViews }}
 
       <tr>
-        <td>{{ .Link }}</td>
+        <td>{{ .Link "industry"}}</td>
         <td>{{ .CommodityLink }} </td>
         {{ .Show "OutputScale"}}
         {{ .Show "OutputGrowthRate"}}

@@ -1,0 +1,10 @@
+       To go in industry-table-prices
+       <!-- Need functions for most of the below -->
+        <!-- {{ .ConstantCapitalPrice.FormatRounded }}
+        {{ .VariableCapitalPrice.FormatRounded}}
+        {{ .MoneyStockPrice.FormatRounded}}
+        {{ .SalesStockPrice.FormatRounded}}
+        {{ .InitialCapital.FormatRounded}}
+        {{ .CurrentCapital.FormatRounded}} -->
+        <!-- {{ .Show "Profit" }} -->
+        <!-- {{ .Show "ProfitRate" }} -->

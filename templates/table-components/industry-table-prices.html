@@ -19,18 +19,10 @@
     </thead>
     <tbody>
       <!--Loop over the industries -->
-      {{range .IndustryViews }}
-
+      {{range .NewIndustryViews }}
       <tr>
-        <td style="text-align: left"><a href="/industry/{{.Id}}">{{ .Name }}</a></td>
-        {{ .ConstantCapitalPrice.FormatRounded }}
-        {{ .VariableCapitalPrice.FormatRounded}}
-        {{ .MoneyStockPrice.FormatRounded}}
-        {{ .SalesStockPrice.FormatRounded}}
-        {{ .InitialCapital.FormatRounded}}
-        {{ .CurrentCapital.FormatRounded}}
-        {{ .Profit.FormatRounded}}
-        {{ .ProfitRate.Format}}
+        <td style="text-align: left">{{ .Link "industry"}}</td>
+ 
       </tr>
       {{end}}
     </tbody>

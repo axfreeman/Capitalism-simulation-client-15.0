@@ -23,7 +23,7 @@
       <!--Loop over the commodities  -->
       {{range .CommodityViews }}
       <tr>
-        <td style="text-align:left">{{.Link}}</td>
+        <td style="text-align:left">{{.Link "commodity"}}</td>
         <td style="text-align:center">{{ .OriginGraphic }}</td>
         <td style="text-align:center">{{ .UsageGraphic }}</td>
         {{ .Show "Size" }}

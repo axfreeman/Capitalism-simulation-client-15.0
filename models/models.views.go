@@ -45,9 +45,10 @@ func (v View) ShowPlaceHolder() string {
 // Assumes the implementation supplies Name and ID fields
 //
 // v: an implementation of the Viewer interface
+// urlBase: the root of the link url (eg `commodity`)
 // template.HTML: safe string using ID and Name fields supplied by the implementation
-func (v View) Link() template.HTML {
-	return template.HTML(fmt.Sprintf("<a href=\"/commodity/%s\">%s</a>", v.ViewedField(`Id`), v.ViewedField(`Name`)))
+func (v View) Link(urlBase string) template.HTML {
+	return template.HTML(fmt.Sprintf("<a href=\"/%s/%s\">%s</a>", urlBase, v.ViewedField(`Id`), v.ViewedField(`Name`)))
 }
 
 // Returns a safe HTML string with a link to the Commodity of an industry

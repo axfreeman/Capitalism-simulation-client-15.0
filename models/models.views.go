@@ -135,6 +135,11 @@ func (c *CommodityView) ComparedField(f string) string {
 	return fmt.Sprint(reflect.Indirect(reflect.ValueOf(c.comparedRecord)).FieldByName(f))
 }
 
+// Create a single CommodityView for display in a template
+//
+//	v: the currently viewed commodity
+//	c: the same commodity at an earlier point in the simulation
+//	returns: a View object to supply to templates
 func CreateCommodityView(v *Commodity, c *Commodity) View {
 	return View{&CommodityView{
 		viewedRecord:   v,
@@ -143,8 +148,10 @@ func CreateCommodityView(v *Commodity, c *Commodity) View {
 }
 
 // Create a slice of CommodityView for display in a template
-// taking data from two Commodity objects; one being viewed now,
-// the other showing the state of the simulation at some time in the 'past'
+//
+//	v: a slice of all commodities in the simulation at the current stage
+//	c: a slice of the same commodities at an earlier point in the simulation
+//	returns: a pointer to a slice of View objects to supply to templates
 func CommodityViews(v *[]Commodity, c *[]Commodity) *[]View {
 	var newViews = make([]View, len(*v))
 	var vc *Commodity
@@ -170,6 +177,36 @@ func (i *NewIndustryView) ViewedField(f string) string {
 
 func (i *NewIndustryView) ComparedField(f string) string {
 	return reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f).String()
+}
+
+// Create a single IndustryView for display in a template
+//
+//	v: the currently viewed industry
+//	c: the same industry at an earlier point in the simulation
+//	returns: a View object to supply to templates
+func CreateIndustryView(v *Industry, c *Industry) View {
+	return View{&NewIndustryView{
+		viewedRecord:   v,
+		comparedRecord: c,
+	}}
+}
+
+// Create a slice of IndustryView for display in a template
+//
+//	v: a slice of all industries in the simulation at the current stage
+//	c: a slice of the same industries at an earlier point in the simulation
+//	returns: a pointer to a slice of View objects to supply to templates
+func NewIndustryViews(v *[]Industry, c *[]Industry) *[]View {
+	var newViews = make([]View, len(*v))
+	var vc *Industry
+	var cc *Industry
+	for i := range *v {
+		vc = &(*v)[i]
+		cc = &(*c)[i]
+		newView := CreateIndustryView(vc, cc)
+		newViews[i] = newView
+	}
+	return &newViews
 }
 
 type IndustryViewer struct {

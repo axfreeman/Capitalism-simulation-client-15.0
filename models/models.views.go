@@ -7,6 +7,9 @@ import (
 	"strconv"
 )
 
+// TODO Show should display decimals when required
+// TODO figure out how to make Graphics a method of the implementation, not the interface
+
 type Recorder interface {
 	Commodity | Industry | Class | IndustryStock | ClassStock
 }
@@ -51,8 +54,6 @@ func (v View) Link() template.HTML {
 //
 //	v: a CommodityView
 //	template.HTML: safe string with a graphic representing the origin
-//
-// TODO figure out how to make this a method of the implementation, not the interface
 func (v View) OriginGraphic() template.HTML {
 	var htmlString template.HTML
 	switch v.ViewedField(`Origin`) {
@@ -76,8 +77,6 @@ func (v View) OriginGraphic() template.HTML {
 //
 //	v: a CommodityView
 //	template.HTML: safe string with a graphic representing the usage
-//
-// TODO figure out how to make this a method of the implementation, not the interface
 func (v View) UsageGraphic() template.HTML {
 	var htmlString template.HTML
 	switch v.ViewedField(`Usage`) {
@@ -101,8 +100,6 @@ func (v View) UsageGraphic() template.HTML {
 //	v: a View object
 //	f: the name of the field to display
 //	Returns: safe HTML string coloured red if the value has changed
-//
-// TODO need another method to display decimals
 func (v *View) Show(f string) template.HTML {
 	vv, _ := strconv.Atoi(v.Viewer.ViewedField(f))
 	vc, _ := strconv.Atoi(v.Viewer.ComparedField(f))
@@ -122,10 +119,9 @@ type CommodityView struct {
 
 // Provides the value of the field f in the viewedRecord of a CommodityView
 //
-//	 f: the name of a field
-//	 c: a CommodityView
-//	 returns: the float32 value of the field
-//	TODO return an int for an int field
+//	f: the name of a field
+//	c: a CommodityView
+//	returns: the stringified value of the field (easiest generic solution)
 func (c *CommodityView) ViewedField(f string) string {
 	return fmt.Sprint(reflect.Indirect(reflect.ValueOf(c.viewedRecord)).FieldByName(f))
 }
@@ -174,25 +170,6 @@ func (i *NewIndustryView) ViewedField(f string) string {
 
 func (i *NewIndustryView) ComparedField(f string) string {
 	return reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f).String()
-}
-
-type CommodityViewer struct {
-	RecordBase[Commodity]
-	Id                        int
-	Name                      string
-	Origin                    string
-	Usage                     string
-	Size                      Pair
-	TotalValue                Pair
-	TotalPrice                Pair
-	UnitValue                 Pair
-	UnitPrice                 Pair
-	TurnoverTime              Pair
-	Demand                    Pair
-	Supply                    Pair
-	AllocationRatio           Pair
-	MonetarilyEffectiveDemand float32
-	InvestmentProportion      float32
 }
 
 type IndustryViewer struct {

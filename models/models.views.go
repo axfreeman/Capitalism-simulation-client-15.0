@@ -37,10 +37,6 @@ type View struct {
 	Viewer
 }
 
-func (v View) ShowPlaceHolder() string {
-	return "Placeholder"
-}
-
 // Returns a safe HTML string with a link to the ViewedField object
 // Assumes the implementation supplies Name and ID fields
 //
@@ -176,16 +172,19 @@ func CommodityViews(v *[]Commodity, c *[]Commodity) *[]View {
 	return &newViews
 }
 
+// Type for implementation of Viewer interface
 type NewIndustryView struct {
 	viewedRecord   *Industry
 	comparedRecord *Industry
 }
 
+// Implements Viewer interface ViewedField method
 func (i *NewIndustryView) ViewedField(f string) string {
 	s := reflect.Indirect(reflect.ValueOf(i.viewedRecord)).FieldByName(f)
 	return fmt.Sprint(s)
 }
 
+// Implements Viewer interface ComparedField method
 func (i *NewIndustryView) ComparedField(f string) string {
 	return reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f).String()
 }
@@ -220,6 +219,148 @@ func NewIndustryViews(v *[]Industry, c *[]Industry) *[]View {
 	return &newViews
 }
 
+// Type for implementation of Viewer interface
+type NewIndustryStockView struct {
+	viewedRecord   *IndustryStock
+	comparedRecord *IndustryStock
+}
+
+// Implements Viewer interface ViewedField method
+func (i *NewIndustryStockView) ViewedField(f string) string {
+	s := reflect.Indirect(reflect.ValueOf(i.viewedRecord)).FieldByName(f)
+	return fmt.Sprint(s)
+}
+
+// Implements Viewer interface ViewedField method
+func (i *NewIndustryStockView) ComparedField(f string) string {
+	return reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f).String()
+}
+
+// Create a single IndustryStockView for display in a template
+//
+//	v: the currently viewed IndustryStock
+//	c: the same IndustryStock at an earlier point in the simulation
+//	returns: a View object to supply to templates
+func CreateIndustryStockView(v *IndustryStock, c *IndustryStock) View {
+	return View{&NewIndustryStockView{
+		viewedRecord:   v,
+		comparedRecord: c,
+	}}
+}
+
+// Create a slice of IndustryView for display in a template
+//
+//	v: a slice of all industries in the simulation at the current stage
+//	c: a slice of the same industries at an earlier point in the simulation
+//	returns: a pointer to a slice of View objects to supply to templates
+func NewIndustryStockViews(v *[]IndustryStock, c *[]IndustryStock) *[]View {
+	var newViews = make([]View, len(*v))
+	var vc *IndustryStock
+	var cc *IndustryStock
+	for i := range *v {
+		vc = &(*v)[i]
+		cc = &(*c)[i]
+		newView := CreateIndustryStockView(vc, cc)
+		newViews[i] = newView
+	}
+	return &newViews
+}
+
+// Type for implementation of Viewer interface
+type NewClassView struct {
+	viewedRecord   *Class
+	comparedRecord *Class
+}
+
+// Implements Viewer interface ViewedField method
+func (i *NewClassView) ViewedField(f string) string {
+	s := reflect.Indirect(reflect.ValueOf(i.viewedRecord)).FieldByName(f)
+	return fmt.Sprint(s)
+}
+
+// Implements Viewer interface ComparedField method
+func (i *NewClassView) ComparedField(f string) string {
+	return reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f).String()
+}
+
+// Create a single ClassView for display in a template
+//
+//	v: the currently viewed Class
+//	c: the same Class at an earlier point in the simulation
+//	returns: a View object to supply to templates
+func CreateClassView(v *Class, c *Class) View {
+	return View{&NewClassView{
+		viewedRecord:   v,
+		comparedRecord: c,
+	}}
+}
+
+// Create a slice of ClassView for display in a template
+//
+//	v: a slice of all industries in the simulation at the current stage
+//	c: a slice of the same industries at an earlier point in the simulation
+//	returns: a pointer to a slice of View objects to supply to templates
+func NewClassViews(v *[]Class, c *[]Class) *[]View {
+	var newViews = make([]View, len(*v))
+	var vc *Class
+	var cc *Class
+	for i := range *v {
+		vc = &(*v)[i]
+		cc = &(*c)[i]
+		newView := CreateClassView(vc, cc)
+		newViews[i] = newView
+	}
+	return &newViews
+}
+
+// Type for implementation of Viewer interface
+type NewClassStockView struct {
+	viewedRecord   *ClassStock
+	comparedRecord *ClassStock
+}
+
+// Implements Viewer interface ViewedField method
+func (i *NewClassStockView) ViewedField(f string) string {
+	s := reflect.Indirect(reflect.ValueOf(i.viewedRecord)).FieldByName(f)
+	return fmt.Sprint(s)
+}
+
+// Implements Viewer interface ComparedField method
+func (i *NewClassStockView) ComparedField(f string) string {
+	return reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f).String()
+}
+
+// Create a single ClassStockView for display in a template
+//
+//	v: the currently viewed ClassStock
+//	c: the same ClassStock at an earlier point in the simulation
+//	returns: a View object to supply to templates
+func CreateClassStockView(v *ClassStock, c *ClassStock) View {
+	return View{&NewClassStockView{
+		viewedRecord:   v,
+		comparedRecord: c,
+	}}
+}
+
+// Create a slice of ClassStockView for display in a template
+//
+//	v: a slice of all industries in the simulation at the current stage
+//	c: a slice of the same industries at an earlier point in the simulation
+//	returns: a pointer to a slice of View objects to supply to templates
+func NewClassStockViews(v *[]ClassStock, c *[]ClassStock) *[]View {
+	var newViews = make([]View, len(*v))
+	var vc *ClassStock
+	var cc *ClassStock
+	for i := range *v {
+		vc = &(*v)[i]
+		cc = &(*c)[i]
+		newView := CreateClassStockView(vc, cc)
+		newViews[i] = newView
+	}
+	return &newViews
+}
+
+// Depracated phase out
 type IndustryViewer struct {
 	RecordBase[Industry]
 	Id                   int
@@ -247,6 +388,7 @@ type IndustryViewer struct {
 	ProfitRate           Pair
 }
 
+// Depracated phase out
 type ClassViewer struct {
 	RecordBase[Class]
 	Id                    int
@@ -270,6 +412,7 @@ type ClassViewer struct {
 	SalesStockPrice       Pair
 }
 
+// Depracated phase out
 type IndustryStockViewer struct {
 	RecordBase[IndustryStock]
 	Id           int
@@ -286,6 +429,7 @@ type IndustryStockViewer struct {
 	Demand       Pair
 }
 
+// Depracated phase out
 type ClassStockViewer struct {
 	RecordBase[ClassStock]
 	Id           int

@@ -6,20 +6,23 @@ import (
 
 // Commonly-used Views to pass into templates
 type DisplayData struct {
-	Title            string
-	Simulations      *[]Simulation
-	Templates        *[]Simulation
-	CommodityViews   *[]View
-	IndustryViews    *[]IndustryViewer
-	NewIndustryViews *[]View
-	ClassViews       *[]ClassViewer
-	IndustryStocks   *[]IndustryStockViewer
-	ClassStocks      *[]ClassStockViewer
-	Trace            *[]Trace
-	Count            int
-	Username         string
-	State            string
-	Message          string
+	Title                 string
+	Simulations           *[]Simulation
+	Templates             *[]Simulation
+	CommodityViews        *[]View
+	NewIndustryViews      *[]View
+	NewClassViews         *[]View
+	NewIndustryStockViews *[]View
+	NewClassStockViews    *[]View
+	IndustryViews         *[]IndustryViewer      //Depracated Phase out
+	ClassViews            *[]ClassViewer         //Depracated Phase out
+	IndustryStocks        *[]IndustryStockViewer //Depracated Phase out
+	ClassStocks           *[]ClassStockViewer    //Depracated Phase out
+	Trace                 *[]Trace
+	Count                 int
+	Username              string
+	State                 string
+	Message               string
 }
 
 // Supplies data to pass into Templates for display
@@ -36,27 +39,28 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 	if u.CurrentSimulationID == 0 {
 		utils.TraceInfo(utils.BrightYellow, "User has no simulations")
 		return DisplayData{
-			Title:            "No simulations",
-			Simulations:      nil,
-			Templates:        &TemplateList,
-			Count:            0,
-			Username:         u.UserName,
-			State:            state,
-			CommodityViews:   nil,
-			IndustryViews:    nil,
-			NewIndustryViews: nil,
-			ClassViews:       nil,
-			IndustryStocks:   nil,
-			ClassStocks:      nil,
-			Trace:            nil,
-			Message:          message,
+			Title:                 "No simulations",
+			Simulations:           nil,
+			Templates:             &TemplateList,
+			Count:                 0,
+			Username:              u.UserName,
+			State:                 state,
+			CommodityViews:        nil,
+			IndustryViews:         nil,
+			NewIndustryViews:      nil,
+			ClassViews:            nil,
+			IndustryStocks:        nil,
+			NewIndustryStockViews: nil,
+			ClassStocks:           nil,
+			NewClassStockViews:    nil,
+			Trace:                 nil,
+			Message:               message,
 		}
 	}
 	utils.TraceInfof(utils.BrightYellow, "TemplateData is retrieving data for user %s with simulationID %d", u.UserName, u.CurrentSimulationID)
-	utils.TraceLogf(utils.BrightRed, "Entered CommodityViews with time stamp %d and comparator %d", *u.GetViewedTimeStamp(), *u.GetComparatorTimeStamp())
 
-	// retrieve comparator and viewed records for Commodities, Industries and classes
-	// to prepare them for entry into the Views of the DisplayData object
+	// retrieve comparator and viewed records for all data objects
+	// to prepare for entry into Views in the DisplayData object
 	cv := (*u.TableSets[*u.GetViewedTimeStamp()])["commodities"].Table.(*[]Commodity)
 	cc := (*u.TableSets[*u.GetComparatorTimeStamp()])["commodities"].Table.(*[]Commodity)
 	iv := (*u.TableSets[*u.GetViewedTimeStamp()])["industries"].Table.(*[]Industry)
@@ -68,25 +72,25 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 	csv := (*u.TableSets[*u.GetViewedTimeStamp()])["class stocks"].Table.(*[]ClassStock)
 	csc := (*u.TableSets[*u.GetComparatorTimeStamp()])["class stocks"].Table.(*[]ClassStock)
 
-	// ivjsonb, _ := json.MarshalIndent(IndustryStockViews(isv, isc), " ", " ")
-	// fmt.Println(utils.BrightRed+"Displaying Industry Stock View:", string(ivjsonb))
-
 	// Create the DisplayData object
 	return DisplayData{
-		Title:            "Hello",
-		Simulations:      slist,
-		Templates:        &TemplateList,
-		Count:            len(*slist),
-		Username:         u.UserName,
-		State:            state,
-		CommodityViews:   CommodityViews(cv, cc),
-		IndustryViews:    IndustryViews(iv, ic),
-		NewIndustryViews: NewIndustryViews(iv, ic),
-		ClassViews:       ClassViews(clv, clc),
-		IndustryStocks:   IndustryStockViews(isv, isc),
-		ClassStocks:      ClassStockViews(csv, csc),
-		Trace:            u.Traces(*u.GetViewedTimeStamp()),
-		Message:          message,
+		Title:                 "Hello",
+		Simulations:           slist,
+		Templates:             &TemplateList,
+		Count:                 len(*slist),
+		Username:              u.UserName,
+		State:                 state,
+		CommodityViews:        CommodityViews(cv, cc),
+		NewIndustryViews:      NewIndustryViews(iv, ic),
+		NewClassViews:         NewClassViews(clv, clc),
+		NewIndustryStockViews: NewIndustryStockViews(isv, isc),
+		NewClassStockViews:    NewClassStockViews(csv, csc),
+		IndustryViews:         IndustryViews(iv, ic),        // Depracated phase out
+		ClassViews:            ClassViews(clv, clc),         // Depracated phase out
+		IndustryStocks:        IndustryStockViews(isv, isc), // Depracated phase out
+		ClassStocks:           ClassStockViews(csv, csc),    // Depracated phase out
+		Trace:                 u.Traces(*u.GetViewedTimeStamp()),
+		Message:               message,
 	}
 }
 

@@ -6,19 +6,19 @@ import (
 
 // Commonly-used Views to pass into templates
 type DisplayData struct {
-	Title             string
-	Simulations       *[]Simulation
-	Templates         *[]Simulation
-	NewCommodityViews *[]View
-	IndustryViews     *[]IndustryViewer
-	ClassViews        *[]ClassViewer
-	IndustryStocks    *[]IndustryStockViewer
-	ClassStocks       *[]ClassStockViewer
-	Trace             *[]Trace
-	Count             int
-	Username          string
-	State             string
-	Message           string
+	Title          string
+	Simulations    *[]Simulation
+	Templates      *[]Simulation
+	CommodityViews *[]View
+	IndustryViews  *[]IndustryViewer
+	ClassViews     *[]ClassViewer
+	IndustryStocks *[]IndustryStockViewer
+	ClassStocks    *[]ClassStockViewer
+	Trace          *[]Trace
+	Count          int
+	Username       string
+	State          string
+	Message        string
 }
 
 // Supplies data to pass into Templates for display
@@ -35,19 +35,19 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 	if u.CurrentSimulationID == 0 {
 		utils.TraceInfo(utils.BrightYellow, "User has no simulations")
 		return DisplayData{
-			Title:             "No simulations",
-			Simulations:       nil,
-			Templates:         &TemplateList,
-			Count:             0,
-			Username:          u.UserName,
-			State:             state,
-			NewCommodityViews: nil,
-			IndustryViews:     nil,
-			ClassViews:        nil,
-			IndustryStocks:    nil,
-			ClassStocks:       nil,
-			Trace:             nil,
-			Message:           message,
+			Title:          "No simulations",
+			Simulations:    nil,
+			Templates:      &TemplateList,
+			Count:          0,
+			Username:       u.UserName,
+			State:          state,
+			CommodityViews: nil,
+			IndustryViews:  nil,
+			ClassViews:     nil,
+			IndustryStocks: nil,
+			ClassStocks:    nil,
+			Trace:          nil,
+			Message:        message,
 		}
 	}
 	utils.TraceInfof(utils.BrightYellow, "TemplateData is retrieving data for user %s with simulationID %d", u.UserName, u.CurrentSimulationID)
@@ -71,19 +71,19 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 
 	// Create the DisplayData object
 	return DisplayData{
-		Title:             "Hello",
-		Simulations:       slist,
-		Templates:         &TemplateList,
-		Count:             len(*slist),
-		Username:          u.UserName,
-		State:             state,
-		NewCommodityViews: CommodityViews(cv, cc),
-		IndustryViews:     IndustryViews(iv, ic),
-		ClassViews:        ClassViews(clv, clc),
-		IndustryStocks:    IndustryStockViews(isv, isc),
-		ClassStocks:       ClassStockViews(csv, csc),
-		Trace:             u.Traces(*u.GetViewedTimeStamp()),
-		Message:           message,
+		Title:          "Hello",
+		Simulations:    slist,
+		Templates:      &TemplateList,
+		Count:          len(*slist),
+		Username:       u.UserName,
+		State:          state,
+		CommodityViews: CommodityViews(cv, cc),
+		IndustryViews:  IndustryViews(iv, ic),
+		ClassViews:     ClassViews(clv, clc),
+		IndustryStocks: IndustryStockViews(isv, isc),
+		ClassStocks:    ClassStockViews(csv, csc),
+		Trace:          u.Traces(*u.GetViewedTimeStamp()),
+		Message:        message,
 	}
 }
 

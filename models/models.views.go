@@ -115,7 +115,7 @@ func (v *View) Show(f string) template.HTML {
 	return template.HTML(htmlString)
 }
 
-type NewCommodityView struct {
+type CommodityView struct {
 	viewedRecord   *Commodity
 	comparedRecord *Commodity
 }
@@ -126,22 +126,21 @@ type NewCommodityView struct {
 //	 c: a CommodityView
 //	 returns: the float32 value of the field
 //	TODO return an int for an int field
-func (c *NewCommodityView) ViewedField(f string) string {
+func (c *CommodityView) ViewedField(f string) string {
 	return fmt.Sprint(reflect.Indirect(reflect.ValueOf(c.viewedRecord)).FieldByName(f))
 }
 
 // Provides the value of the field f in the comparedRecord of a CommodityView
 //
-//	 f: the name of a field
-//	 c: a CommodityView
-//	 returns: the float32 value of the field
-//	TODO return an int for an int field
-func (c *NewCommodityView) ComparedField(f string) string {
+//	f: the name of a field
+//	c: a CommodityView
+//	returns: the stringified value of the field (easiest generic solution)
+func (c *CommodityView) ComparedField(f string) string {
 	return fmt.Sprint(reflect.Indirect(reflect.ValueOf(c.comparedRecord)).FieldByName(f))
 }
 
 func CreateCommodityView(v *Commodity, c *Commodity) View {
-	return View{&NewCommodityView{
+	return View{&CommodityView{
 		viewedRecord:   v,
 		comparedRecord: c,
 	}}

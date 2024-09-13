@@ -14,10 +14,10 @@ type DisplayData struct {
 	NewClassViews         *[]View
 	NewIndustryStockViews *[]View
 	NewClassStockViews    *[]View
-	IndustryViews         *[]IndustryViewer      //Depracated Phase out
-	ClassViews            *[]ClassViewer         //Depracated Phase out
-	IndustryStocks        *[]IndustryStockViewer //Depracated Phase out
-	ClassStocks           *[]ClassStockViewer    //Depracated Phase out
+	IndustryViews         *[]OldIndustryViewer      //Depracated Phase out
+	ClassViews            *[]OldClassViewer         //Depracated Phase out
+	IndustryStocks        *[]OldIndustryStockViewer //Depracated Phase out
+	ClassStocks           *[]OldClassStockViewer    //Depracated Phase out
 	Trace                 *[]Trace
 	Count                 int
 	Username              string
@@ -81,14 +81,14 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 		Username:              u.UserName,
 		State:                 state,
 		CommodityViews:        CommodityViews(cv, cc),
-		NewIndustryViews:      NewIndustryViews(iv, ic),
+		NewIndustryViews:      IndustryViews(iv, ic),
 		NewClassViews:         NewClassViews(clv, clc),
-		NewIndustryStockViews: NewIndustryStockViews(isv, isc),
+		NewIndustryStockViews: IndustryStockViews(isv, isc),
 		NewClassStockViews:    NewClassStockViews(csv, csc),
-		IndustryViews:         IndustryViews(iv, ic),        // Depracated phase out
-		ClassViews:            ClassViews(clv, clc),         // Depracated phase out
-		IndustryStocks:        IndustryStockViews(isv, isc), // Depracated phase out
-		ClassStocks:           ClassStockViews(csv, csc),    // Depracated phase out
+		IndustryViews:         OldIndustryViews(iv, ic),        // Depracated phase out
+		ClassViews:            OldClassViews(clv, clc),         // Depracated phase out
+		IndustryStocks:        OldIndustryStockViews(isv, isc), // Depracated phase out
+		ClassStocks:           OldClassStockViews(csv, csc),    // Depracated phase out
 		Trace:                 u.Traces(*u.GetViewedTimeStamp()),
 		Message:               message,
 	}

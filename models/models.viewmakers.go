@@ -88,15 +88,15 @@ func PopulateView[T Record](View *T) {
 	}
 }
 
-// Create an IndustryView for display in a template
+// Create an OldIndustryView for display in a template
 // taking data from two Industry objects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'
-func IndustryView(v *Industry, c *Industry) *IndustryViewer {
+func OldIndustryView(v *Industry, c *Industry) *OldIndustryViewer {
 	recordBase := RecordBase[Industry]{
 		Viewed:   v,
 		Compared: c,
 	}
-	view := IndustryViewer{RecordBase: recordBase}
+	view := OldIndustryViewer{RecordBase: recordBase}
 	PopulateView(&view)
 	return &view
 }
@@ -104,24 +104,24 @@ func IndustryView(v *Industry, c *Industry) *IndustryViewer {
 // Create a slice of IndustryView for display in a template
 // taking data from two Commodity objects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'
-func IndustryViews(v *[]Industry, c *[]Industry) *[]IndustryViewer {
-	var newViews = make([]IndustryViewer, len(*v))
+func OldIndustryViews(v *[]Industry, c *[]Industry) *[]OldIndustryViewer {
+	var newViews = make([]OldIndustryViewer, len(*v))
 	for i := range *v {
-		newView := IndustryView(&(*v)[i], &(*c)[i])
+		newView := OldIndustryView(&(*v)[i], &(*c)[i])
 		newViews[i] = *newView
 	}
 	return &newViews
 }
 
-// Create a ClassView for display in a template
+// Create a OldClassView for display in a template
 // taking data from two Class objects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'
-func ClassView(v *Class, c *Class) *ClassViewer {
+func OldClassView(v *Class, c *Class) *OldClassViewer {
 	recordBase := RecordBase[Class]{
 		Viewed:   v,
 		Compared: c,
 	}
-	view := ClassViewer{RecordBase: recordBase}
+	view := OldClassViewer{RecordBase: recordBase}
 	PopulateView(&view)
 	return &view
 }
@@ -129,24 +129,24 @@ func ClassView(v *Class, c *Class) *ClassViewer {
 // Create a slice of ClassView for display in a template
 // taking data from two Class objects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'
-func ClassViews(v *[]Class, c *[]Class) *[]ClassViewer {
-	var newViews = make([]ClassViewer, len(*v))
+func OldClassViews(v *[]Class, c *[]Class) *[]OldClassViewer {
+	var newViews = make([]OldClassViewer, len(*v))
 	for i := range *v {
-		newView := ClassView(&(*v)[i], &(*c)[i])
+		newView := OldClassView(&(*v)[i], &(*c)[i])
 		newViews[i] = *newView
 	}
 	return &newViews
 }
 
-// Create an IndustryStockView for display in a template
+// Create an OldIndustryStockView for display in a template
 // taking data from two IndustryStock objects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'
-func IndustryStockView(v *IndustryStock, c *IndustryStock) *IndustryStockViewer {
+func OldIndustryStockView(v *IndustryStock, c *IndustryStock) *OldIndustryStockViewer {
 	recordBase := RecordBase[IndustryStock]{
 		Viewed:   v,
 		Compared: c,
 	}
-	view := IndustryStockViewer{RecordBase: recordBase}
+	view := OldIndustryStockViewer{RecordBase: recordBase}
 	PopulateView(&view)
 	return &view
 }
@@ -154,24 +154,24 @@ func IndustryStockView(v *IndustryStock, c *IndustryStock) *IndustryStockViewer 
 // Create a slice of IndustryStockView for display in a template
 // taking data from two IndustryStockobjects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'
-func IndustryStockViews(v *[]IndustryStock, c *[]IndustryStock) *[]IndustryStockViewer {
-	var newViews = make([]IndustryStockViewer, len(*v))
+func OldIndustryStockViews(v *[]IndustryStock, c *[]IndustryStock) *[]OldIndustryStockViewer {
+	var newViews = make([]OldIndustryStockViewer, len(*v))
 	for i := range *v {
-		newView := IndustryStockView(&(*v)[i], &(*c)[i])
+		newView := OldIndustryStockView(&(*v)[i], &(*c)[i])
 		newViews[i] = *newView
 	}
 	return &newViews
 }
 
-// Create an ClassStockView for display in a template
+// Create an OldClassStockView for display in a template
 // taking data from two ClassStock objects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'
-func ClassStockView(v *ClassStock, c *ClassStock) *ClassStockViewer {
+func OldClassStockView(v *ClassStock, c *ClassStock) *OldClassStockViewer {
 	recordBase := RecordBase[ClassStock]{
 		Viewed:   v,
 		Compared: c,
 	}
-	view := ClassStockViewer{RecordBase: recordBase}
+	view := OldClassStockViewer{RecordBase: recordBase}
 	PopulateView(&view)
 	return &view
 }
@@ -179,10 +179,10 @@ func ClassStockView(v *ClassStock, c *ClassStock) *ClassStockViewer {
 // Create a slice of ClassStockView for display in a template
 // taking data from two ClassStockobjects; one being viewed now,
 // the other showing the state of the simulation at some time in the 'past'
-func ClassStockViews(v *[]ClassStock, c *[]ClassStock) *[]ClassStockViewer {
-	var newViews = make([]ClassStockViewer, len(*v))
+func OldClassStockViews(v *[]ClassStock, c *[]ClassStock) *[]OldClassStockViewer {
+	var newViews = make([]OldClassStockViewer, len(*v))
 	for i := range *v {
-		newView := ClassStockView(&(*v)[i], &(*c)[i])
+		newView := OldClassStockView(&(*v)[i], &(*c)[i])
 		newViews[i] = *newView
 	}
 	return &newViews

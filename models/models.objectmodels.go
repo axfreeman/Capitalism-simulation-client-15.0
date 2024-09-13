@@ -77,7 +77,10 @@ type Industry struct {
 	CurrentCapital   float32 `json:"current_capital"`
 	Profit           float32 `json:"profit"`
 	ProfitRate       float32 `json:"profit_rate"`
-	Stocks           *[]IndustryStock
+	Constant         []*IndustryStock
+	Variable         *IndustryStock // For now, only one social stock, being Labour Power
+	Money            *IndustryStock
+	Sales            *IndustryStock
 }
 
 type Class struct {
@@ -101,6 +104,7 @@ type IndustryStock struct {
 	UserName     string  `json:"username"`
 	Name         string  `json:"name" `
 	UsageType    string  `json:"usage_type" `
+	Origin       string  `json:"origin"`
 	Size         float32 `json:"size" `
 	Value        float32 `json:"value" `
 	Price        float32 `json:"price" `

@@ -69,16 +69,35 @@ func FetchTables(user *models.User) error {
 		}
 	}
 
-	// set the stocklist of every industry
-	// TODO filter so the stocklist only contains relevant stocks
+	// set the stocklist, Sales Stock, Money stock and Social stock (=Labour Power) of every industry
 	industries := *(newTableSet[`industries`].Table.(*[]models.Industry))
-	industryStocks := newTableSet[`industry stocks`].Table.(*[]models.IndustryStock)
-	for ind := range industries {
-		industries[ind].Stocks = industryStocks
+	stocks := newTableSet[`industry stocks`].Table.(*[]models.IndustryStock)
+	for i := range industries {
+		industries[i].Constant = make([]*models.IndustryStock, 0)
+		for _, stock := range *stocks {
+			utils.TraceInfof(utils.Gray, "Processing the stock called %v for industry %v", stock.Name, industries[i].Name)
+			if stock.IndustryId == industries[i].Id {
+				switch stock.UsageType {
+				case `Money`:
+					industries[i].Money = &stock
+				case `Production`:
+					utils.TraceInfof(utils.Gray, "Processing a production stock whose origin is %s", stock.Origin)
+					if stock.Origin == `SOCIAL` {
+						industries[i].Variable = &stock
+					} else {
+						industries[i].Constant = append(industries[i].Constant, &stock)
+					}
+				case `Sales`:
+					industries[i].Sales = &stock
+				default:
+					utils.TraceErrorf("Industry stock of unknown type %s and id %d detected", stock.UsageType, stock.Id)
+				}
+			}
+		}
 	}
 
-	// set the stocklist of every industry
-	// TODO filter so the stocklist only contains relevant stocks
+	// set the stocklist of every class
+	// TODO Complete this in the same way as Industry
 	classes := *(newTableSet[`classes`].Table.(*[]models.Class))
 	classStocks := newTableSet[`class stocks`].Table.(*[]models.ClassStock)
 	for ind := range classes {

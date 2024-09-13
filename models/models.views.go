@@ -67,7 +67,7 @@ func (v View) OriginGraphic() template.HTML {
 	case `INDUSTRIAL`:
 		htmlString = "<i style=\"font-weight: bolder; color:blue\" class=\"fa fa-industry\"></i>"
 	case `SOCIAL`:
-		if v.ViewedField(`SOCIAL`) == `Useless` {
+		if v.ViewedField(`Usage`) == `Useless` {
 			htmlString = "<i style=\"font-weight: bolder; color:rgba(128, 0, 128, 0.696)\" class=\"fas fa-user-tie\"></i>"
 		} else {
 			htmlString = "<i style=\"font-weight: bolder; color:red\" class=\"fa fa-user-friends\"></i>"
@@ -119,6 +119,7 @@ func (v *View) Show(f string) template.HTML {
 	return template.HTML(htmlString)
 }
 
+// implements View for the Commodity Object
 type CommodityView struct {
 	viewedRecord   *Commodity
 	comparedRecord *Commodity
@@ -173,19 +174,19 @@ func CommodityViews(v *[]Commodity, c *[]Commodity) *[]View {
 }
 
 // Type for implementation of Viewer interface
-type NewIndustryView struct {
+type IndustryView struct {
 	viewedRecord   *Industry
 	comparedRecord *Industry
 }
 
 // Implements Viewer interface ViewedField method
-func (i *NewIndustryView) ViewedField(f string) string {
+func (i *IndustryView) ViewedField(f string) string {
 	s := reflect.Indirect(reflect.ValueOf(i.viewedRecord)).FieldByName(f)
 	return fmt.Sprint(s)
 }
 
 // Implements Viewer interface ComparedField method
-func (i *NewIndustryView) ComparedField(f string) string {
+func (i *IndustryView) ComparedField(f string) string {
 	return reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f).String()
 }
 
@@ -195,7 +196,7 @@ func (i *NewIndustryView) ComparedField(f string) string {
 //	c: the same industry at an earlier point in the simulation
 //	returns: a View object to supply to templates
 func CreateIndustryView(v *Industry, c *Industry) View {
-	return View{&NewIndustryView{
+	return View{&IndustryView{
 		viewedRecord:   v,
 		comparedRecord: c,
 	}}
@@ -206,7 +207,7 @@ func CreateIndustryView(v *Industry, c *Industry) View {
 //	v: a slice of all industries in the simulation at the current stage
 //	c: a slice of the same industries at an earlier point in the simulation
 //	returns: a pointer to a slice of View objects to supply to templates
-func NewIndustryViews(v *[]Industry, c *[]Industry) *[]View {
+func IndustryViews(v *[]Industry, c *[]Industry) *[]View {
 	var newViews = make([]View, len(*v))
 	var vc *Industry
 	var cc *Industry
@@ -220,19 +221,19 @@ func NewIndustryViews(v *[]Industry, c *[]Industry) *[]View {
 }
 
 // Type for implementation of Viewer interface
-type NewIndustryStockView struct {
+type IndustryStockView struct {
 	viewedRecord   *IndustryStock
 	comparedRecord *IndustryStock
 }
 
 // Implements Viewer interface ViewedField method
-func (i *NewIndustryStockView) ViewedField(f string) string {
+func (i *IndustryStockView) ViewedField(f string) string {
 	s := reflect.Indirect(reflect.ValueOf(i.viewedRecord)).FieldByName(f)
 	return fmt.Sprint(s)
 }
 
 // Implements Viewer interface ViewedField method
-func (i *NewIndustryStockView) ComparedField(f string) string {
+func (i *IndustryStockView) ComparedField(f string) string {
 	return reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f).String()
 }
 
@@ -242,18 +243,18 @@ func (i *NewIndustryStockView) ComparedField(f string) string {
 //	c: the same IndustryStock at an earlier point in the simulation
 //	returns: a View object to supply to templates
 func CreateIndustryStockView(v *IndustryStock, c *IndustryStock) View {
-	return View{&NewIndustryStockView{
+	return View{&IndustryStockView{
 		viewedRecord:   v,
 		comparedRecord: c,
 	}}
 }
 
-// Create a slice of IndustryView for display in a template
+// Create a slice of IndustryStockViews for display in a template
 //
 //	v: a slice of all industries in the simulation at the current stage
 //	c: a slice of the same industries at an earlier point in the simulation
 //	returns: a pointer to a slice of View objects to supply to templates
-func NewIndustryStockViews(v *[]IndustryStock, c *[]IndustryStock) *[]View {
+func IndustryStockViews(v *[]IndustryStock, c *[]IndustryStock) *[]View {
 	var newViews = make([]View, len(*v))
 	var vc *IndustryStock
 	var cc *IndustryStock
@@ -361,7 +362,7 @@ func NewClassStockViews(v *[]ClassStock, c *[]ClassStock) *[]View {
 }
 
 // Depracated phase out
-type IndustryViewer struct {
+type OldIndustryViewer struct {
 	RecordBase[Industry]
 	Id                   int
 	Name                 string
@@ -389,7 +390,7 @@ type IndustryViewer struct {
 }
 
 // Depracated phase out
-type ClassViewer struct {
+type OldClassViewer struct {
 	RecordBase[Class]
 	Id                    int
 	Name                  string
@@ -413,7 +414,7 @@ type ClassViewer struct {
 }
 
 // Depracated phase out
-type IndustryStockViewer struct {
+type OldIndustryStockViewer struct {
 	RecordBase[IndustryStock]
 	Id           int
 	SimulationId int
@@ -430,7 +431,7 @@ type IndustryStockViewer struct {
 }
 
 // Depracated phase out
-type ClassStockViewer struct {
+type OldClassStockViewer struct {
 	RecordBase[ClassStock]
 	Id           int
 	SimulationId int

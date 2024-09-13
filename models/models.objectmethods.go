@@ -111,69 +111,16 @@ func (p Pair) FormatRounded() template.HTML {
 	return template.HTML(htmlString)
 }
 
-// returns the money stock of the given industry
-func (industry Industry) MoneyStock() IndustryStock {
-	stockList := *industry.Stocks
-	for i := 0; i < len(stockList); i++ {
-		s := stockList[i]
-		if (s.IndustryId == industry.Id) && (s.UsageType == `Money`) {
-			return s
-		}
-	}
-	return NotFoundIndustryStock
-}
-
-// returns the sales stock of the given industry
-func (industry Industry) SalesStock() IndustryStock {
-	// stockList := *LoggedInUsers[username].IndustryStocks(timeStamp)
-	stockList := *industry.Stocks
-	for i := 0; i < len(stockList); i++ {
-		s := &stockList[i]
-		if (s.IndustryId == industry.Id) && (s.UsageType == `Sales`) {
-			return *s
-		}
-	}
-	return NotFoundIndustryStock
-}
-
 // returns the Labour Power stock of the given industry
-// bit of a botch to use the name of the commodity as a search term
 func (industry Industry) VariableCapital() IndustryStock {
-	stockList := *industry.Stocks
-	// stockList := *LoggedInUsers[username].IndustryStocks(timeStamp)
-	for i := 0; i < len(stockList); i++ {
-		s := &stockList[i]
-		if (s.IndustryId == industry.Id) && (s.UsageType == `Production`) && (s.CommodityName() == "Labour Power") {
-			return *s
-		}
-	}
-	return NotFoundIndustryStock
+	s := industry.Variable
+	return *s
 }
 
 // returns the commodity that an industry produces
 func (industry Industry) OutputCommodity() *Commodity {
-	return industry.SalesStock().Commodity()
+	return industry.Sales.Commodity()
 }
-
-// return the productive capital stock of the given industry
-// under development - at present assumes there is only one
-func (industry Industry) ConstantCapital() IndustryStock {
-	stockList := *industry.Stocks
-	// stockList := *LoggedInUsers[username].IndustryStocks(timeStamp)
-	for i := 0; i < len(stockList); i++ {
-		s := &stockList[i]
-		if (s.IndustryId == industry.Id) && (s.UsageType == `Production`) && (s.CommodityName() == "Means of Production") {
-			return *s
-		}
-	}
-	return NotFoundIndustryStock
-}
-
-// returns all the constant capitals of a given industry.
-// Under development.
-// func (industry Industry) ConstantCapitals() []Stock {
-// 	return &stocks [Programming error here]
-// }
 
 // returns the sales stock of the given class
 func (class Class) MoneyStock() ClassStock {
@@ -281,65 +228,51 @@ func (s ClassStock) Class() *Class {
 
 // Convenience named functions for PopulateView
 // TODO rationalise - still in development
+// Deprecated - get rid ASAP
 
 // Named as convenience for the PopulateView function to use
 func (i Industry) ConstantCapitalSize() float32 {
-	return i.ConstantCapital().Size
+	return i.Constant[0].Size
 }
 
 // Named as convenience for the PopulateView function to use
 func (i Industry) ConstantCapitalValue() float32 {
-	return i.ConstantCapital().Value
+	return i.Constant[0].Value
 }
 
 // Named as convenience for the PopulateView function to use
 func (i Industry) ConstantCapitalPrice() float32 {
-	return i.ConstantCapital().Price
+	return i.Constant[0].Price
 }
 
 // Named as convenience for the PopulateView function to use
 func (i Industry) VariableCapitalSize() float32 {
-	return i.VariableCapital().Size
+	return i.Variable.Size
 }
 
 // Named as convenience for the PopulateView function to use
 func (i Industry) VariableCapitalValue() float32 {
-	return i.VariableCapital().Value
+	return i.Variable.Value
 }
 
 // Named as convenience for the PopulateView function to use
 func (i Industry) VariableCapitalPrice() float32 {
-	return i.VariableCapital().Price
-}
-
-// Named as convenience for the PopulateView function to use
-func (i Industry) MoneyStockSize() float32 {
-	return i.MoneyStock().Size
-}
-
-// Named as convenience for the PopulateView function to use
-func (i Industry) MoneyStockValue() float32 {
-	return i.MoneyStock().Value
-}
-
-// Named as convenience for the PopulateView function to use
-func (i Industry) MoneyStockPrice() float32 {
-	return i.MoneyStock().Price
+	return i.Variable.Price
 }
 
 // Named as convenience for the PopulateView function to use
 func (i Industry) SalesStockSize() float32 {
-	return i.SalesStock().Size
+	return i.Sales.Size
 }
 
 // Named as convenience for the PopulateView function to use
 func (i Industry) SalesStockValue() float32 {
-	return i.SalesStock().Value
+	return i.Sales.Value
 }
 
 // Named as convenience for the PopulateView function to use
 func (i Industry) SalesStockPrice() float32 {
-	return i.SalesStock().Price
+	return i.Sales.Price
 }
 
 // Named as convenience for the PopulateView function to use

@@ -14,6 +14,7 @@ import (
 )
 
 func main() {
+
 	utils.LogInit()
 
 	config.Init()
@@ -26,11 +27,25 @@ func main() {
 
 	api.LoadRegisteredUsers()
 
-	controllers.Tpl, _ = template.ParseGlob("./templates/*/*")
+	var err error
+
+	// controllers.Tpl, err = template.ParseGlob("./templates/*/*")
+
+	funcMap := template.FuncMap{
+		"Show":          models.Show,
+		"Link":          models.Link,
+		"OriginGraphic": models.OriginGraphic,
+		"UsageGraphic":  models.UsageGraphic,
+	}
+
+	controllers.Tpl, err = template.New("").Funcs(funcMap).ParseGlob("./templates/*/*")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	routes.AuthRoutes()
 
-	err := http.ListenAndServe("localhost:8080", routes.Router)
+	err = http.ListenAndServe("localhost:8080", routes.Router)
 	if err != nil {
 		log.Fatal(err)
 	}

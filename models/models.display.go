@@ -9,7 +9,7 @@ type DisplayData struct {
 	Title                 string
 	Simulations           *[]Simulation
 	Templates             *[]Simulation
-	CommodityViews        *[]View
+	CommodityViews        *[]Viewer
 	IndustryViews         *[]View
 	NewClassViews         *[]View
 	NewIndustryStockViews *[]View

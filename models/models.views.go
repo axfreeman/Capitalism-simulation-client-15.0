@@ -34,8 +34,8 @@ type View struct {
 // v: an implementation of the Viewer interface
 // urlBase: the root of the link url (eg `commodity`)
 // template.HTML: safe string using ID and Name fields supplied by the implementation
-func (v View) Link(urlBase string) template.HTML {
-	return template.HTML(fmt.Sprintf("<a href=\"/%s/%s\">%s</a>", urlBase, v.ViewedField(`Id`), v.ViewedField(`Name`)))
+func Link(v Viewer, urlBase string) template.HTML {
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, urlBase, v.ViewedField(`Id`), v.ViewedField(`Name`)))
 }
 
 // Returns a safe HTML string with a link to the Commodity of an industry
@@ -52,21 +52,21 @@ func (v View) CommodityLink() template.HTML {
 //
 //	v: a CommodityView
 //	template.HTML: safe string with a graphic representing the origin
-func (v View) OriginGraphic() template.HTML {
+func OriginGraphic(v Viewer) template.HTML {
 	var htmlString template.HTML
 	switch v.ViewedField(`Origin`) {
 	case `INDUSTRIAL`:
-		htmlString = "<i style=\"font-weight: bolder; color:blue\" class=\"fa fa-industry\"></i>"
+		htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:blue" class="fa fa-industry"></i></td>`
 	case `SOCIAL`:
 		if v.ViewedField(`Usage`) == `Useless` {
-			htmlString = "<i style=\"font-weight: bolder; color:rgba(128, 0, 128, 0.696)\" class=\"fas fa-user-tie\"></i>"
+			htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:rgba(128, 0, 128, 0.696)" class="fas fa-user-tie"></i></td>`
 		} else {
-			htmlString = "<i style=\"font-weight: bolder; color:red\" class=\"fa fa-user-friends\"></i>"
+			htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:red" class="fa fa-user-friends"></i></td>`
 		}
 	case `MONEY`:
-		htmlString = "<i style=\"font-weight: 900; color:goldenrod\" class=\"fa fa-dollar\"></i>"
+		htmlString = `<td style="text-align:center"><i style="font-weight: 900; color:goldenrod" class="fa fa-dollar"></i></td>`
 	default:
-		htmlString = "Unknown Origin"
+		htmlString = `<td style="text-align:center">Unknown Origin</td>`
 	}
 	return template.HTML(htmlString)
 }
@@ -75,19 +75,19 @@ func (v View) OriginGraphic() template.HTML {
 //
 //	v: a CommodityView
 //	template.HTML: safe string with a graphic representing the usage
-func (v View) UsageGraphic() template.HTML {
+func UsageGraphic(v Viewer) template.HTML {
 	var htmlString template.HTML
 	switch v.ViewedField(`Usage`) {
 	case `PRODUCTIVE`:
-		htmlString = `<i style="font-weight: bolder; color:blue" class="fas fa-hammer"></i>`
+		htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:blue" class="fas fa-hammer"></i></td>`
 	case `CONSUMPTION`:
-		htmlString = `<i style="font-weight: bolder; color:green" class="fa fa-cutlery"></i>`
+		htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:green" class="fa fa-cutlery"></i></td>`
 	case `MONEY`:
-		htmlString = `<i class="fa fa-dollar" style="font-weight: 900; color:goldenrod"></i>`
+		htmlString = `<td style="text-align:center"><i class="fa fa-dollar" style="font-weight: 900; color:goldenrod"></i></td>`
 	case `Useless`:
-		htmlString = `<i class="fas fa-skull-crossbones" style="font-weight: bolder; color:black"></i>`
+		htmlString = `<td style="text-align:center"><i class="fas fa-skull-crossbones" style="font-weight: bolder; color:black"></i></td>`
 	default:
-		htmlString = `Unknown Usage`
+		htmlString = `<td style="text-align:center">Unknown Usage</td>`
 	}
 	return template.HTML(htmlString)
 }
@@ -98,9 +98,10 @@ func (v View) UsageGraphic() template.HTML {
 //	v: a View object
 //	f: the name of the field to display
 //	Returns: safe HTML string coloured red if the value has changed
-func (v *View) Show(f string) template.HTML {
-	vv, _ := strconv.Atoi(v.Viewer.ViewedField(f))
-	vc, _ := strconv.Atoi(v.Viewer.ComparedField(f))
+func Show(v Viewer, f string) template.HTML {
+	fmt.Printf("   Entered Show with field %s\n", f)
+	vv, _ := strconv.Atoi(v.ViewedField(f))
+	vc, _ := strconv.Atoi(v.ComparedField(f))
 	var htmlString string
 	if vv == vc {
 		htmlString = fmt.Sprintf("<td style=\"text-align:center\">%d</td>", vv)
@@ -151,8 +152,8 @@ func CreateCommodityView(v *Commodity, c *Commodity) View {
 //	v: a slice of all commodities in the simulation at the current stage
 //	c: a slice of the same commodities at an earlier point in the simulation
 //	returns: a pointer to a slice of View objects to supply to templates
-func CommodityViews(v *[]Commodity, c *[]Commodity) *[]View {
-	var newViews = make([]View, len(*v))
+func CommodityViews(v *[]Commodity, c *[]Commodity) *[]Viewer {
+	var newViews = make([]Viewer, len(*v))
 	var vc *Commodity
 	var cc *Commodity
 	for i := range *v {

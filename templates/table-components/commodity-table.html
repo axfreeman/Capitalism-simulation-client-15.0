@@ -23,17 +23,20 @@
       <!--Loop over the commodities  -->
       {{range .CommodityViews }}
       <tr>
-        <td style="text-align:left">{{.Link "commodity"}}</td>
-        <td style="text-align:center">{{ .OriginGraphic }}</td>
-        <td style="text-align:center">{{ .UsageGraphic }}</td>
-        {{ .Show "Size" }}
-        {{ .Show "TotalValue" }}
-        {{ .Show "UnitValue" }}
-        {{ .Show "UnitPrice" }}
-        {{ .Show "TurnoverTime" }}
-        {{ .Show "Demand" }}
-        {{ .Show "Supply" }}
-        {{ .Show "AllocationRatio" }}
+        {{ Link . `commodity` }}
+        {{ OriginGraphic . }}
+        {{ UsageGraphic .}}
+        {{ Show . "Size" }}
+        {{ Show . "TotalValue" }}
+        {{ Show . "TotalPrice" }}
+        {{ Show . "UnitValue" }}
+        {{ Show . "UnitPrice" }}
+        {{ Show . "TurnoverTime" }}
+        {{ Show . "Demand" }}
+        {{ Show . "Supply" }}
+        {{ Show . "AllocationRatio" }}
+
+
       </tr>
       {{end}}
     </tbody>

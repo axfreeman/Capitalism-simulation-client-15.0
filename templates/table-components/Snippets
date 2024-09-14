@@ -8,3 +8,12 @@
         {{ .CurrentCapital.FormatRounded}} -->
         <!-- {{ .Show "Profit" }} -->
         <!-- {{ .Show "ProfitRate" }} -->
+
+
+        From industry table sizes
+        <!-- Need functions for the below -->
+        <!-- {{ .Show "ConstantCapitalSize" }} -->
+        <!-- {{ .GetVariable.ViewedField "Size" }} -->
+        <!-- {{ .Show "MoneyStockSize"}} -->
+        <!-- {{ .Show "SalesStockSize"}} -->
+        <!-- {{ .Show "OutputScale"}} -->

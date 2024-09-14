@@ -4,6 +4,103 @@ import (
 	"reflect"
 )
 
+// holding station for the stuff we are getting rid of in due course
+
+type Recorder interface {
+	Commodity | Industry | Class | IndustryStock | ClassStock
+}
+
+type RecordBase[T Recorder] struct {
+	Viewed   *T
+	Compared *T
+}
+
+// Depracated phase out
+type OldIndustryViewer struct {
+	RecordBase[Industry]
+	Id                   int
+	Name                 string
+	OutputCommodityId    int
+	Output               string
+	OutputScale          Pair
+	OutputGrowthRate     Pair
+	InitialCapital       Pair
+	WorkInProgress       Pair
+	CurrentCapital       Pair
+	ConstantCapitalSize  Pair
+	ConstantCapitalValue Pair
+	ConstantCapitalPrice Pair
+	VariableCapitalSize  Pair
+	VariableCapitalValue Pair
+	VariableCapitalPrice Pair
+	MoneyStockSize       Pair
+	MoneyStockValue      Pair
+	MoneyStockPrice      Pair
+	SalesStockSize       Pair
+	SalesStockValue      Pair
+	SalesStockPrice      Pair
+	Profit               Pair
+	ProfitRate           Pair
+}
+
+// Depracated phase out
+type OldClassViewer struct {
+	RecordBase[Class]
+	Id                    int
+	Name                  string
+	SimulationId          int32
+	TimeStamp             int
+	UserName              string
+	Population            Pair
+	ParticipationRatio    float32
+	ConsumptionRatio      float32
+	Revenue               Pair
+	Assets                Pair
+	ConsumptionStockSize  Pair
+	ConsumptionStockValue Pair
+	ConsumptionStockPrice Pair
+	MoneyStockSize        Pair
+	MoneyStockValue       Pair
+	MoneyStockPrice       Pair
+	SalesStockSize        Pair
+	SalesStockValue       Pair
+	SalesStockPrice       Pair
+}
+
+// Depracated phase out
+type OldIndustryStockViewer struct {
+	RecordBase[IndustryStock]
+	Id           int
+	SimulationId int
+	IndustryId   int
+	CommodityId  int
+	UserName     string
+	Name         string
+	UsageType    string
+	Size         Pair
+	Value        Pair
+	Price        Pair
+	Requirement  Pair
+	Demand       Pair
+}
+
+// Depracated phase out
+type OldClassStockViewer struct {
+	RecordBase[ClassStock]
+	Id           int
+	SimulationId int
+	ClassId      int
+	CommodityId  int
+	UserName     string
+	Name         string
+	UsageType    string
+	Size         Pair
+	Value        Pair
+	Price        Pair
+	Requirement  Pair
+	Demand       Pair
+}
+
 // Contains the generic view constructor which uses reflect
 type Record interface{}
 

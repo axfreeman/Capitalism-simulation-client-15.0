@@ -10,14 +10,12 @@ type DisplayData struct {
 	Simulations           *[]Simulation
 	Templates             *[]Simulation
 	CommodityViews        *[]View
-	NewIndustryViews      *[]View
+	IndustryViews         *[]View
 	NewClassViews         *[]View
 	NewIndustryStockViews *[]View
 	NewClassStockViews    *[]View
-	IndustryViews         *[]OldIndustryViewer      //Depracated Phase out
-	ClassViews            *[]OldClassViewer         //Depracated Phase out
-	IndustryStocks        *[]OldIndustryStockViewer //Depracated Phase out
-	ClassStocks           *[]OldClassStockViewer    //Depracated Phase out
+	ClassViews            *[]OldClassViewer      //Depracated Phase out
+	ClassStocks           *[]OldClassStockViewer //Depracated Phase out
 	Trace                 *[]Trace
 	Count                 int
 	Username              string
@@ -47,9 +45,7 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 			State:                 state,
 			CommodityViews:        nil,
 			IndustryViews:         nil,
-			NewIndustryViews:      nil,
 			ClassViews:            nil,
-			IndustryStocks:        nil,
 			NewIndustryStockViews: nil,
 			ClassStocks:           nil,
 			NewClassStockViews:    nil,
@@ -81,14 +77,12 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 		Username:              u.UserName,
 		State:                 state,
 		CommodityViews:        CommodityViews(cv, cc),
-		NewIndustryViews:      IndustryViews(iv, ic),
+		IndustryViews:         IndustryViews(iv, ic),
 		NewClassViews:         NewClassViews(clv, clc),
 		NewIndustryStockViews: IndustryStockViews(isv, isc),
 		NewClassStockViews:    NewClassStockViews(csv, csc),
-		IndustryViews:         OldIndustryViews(iv, ic),        // Depracated phase out
-		ClassViews:            OldClassViews(clv, clc),         // Depracated phase out
-		IndustryStocks:        OldIndustryStockViews(isv, isc), // Depracated phase out
-		ClassStocks:           OldClassStockViews(csv, csc),    // Depracated phase out
+		ClassViews:            OldClassViews(clv, clc),      // Depracated phase out
+		ClassStocks:           OldClassStockViews(csv, csc), // Depracated phase out
 		Trace:                 u.Traces(*u.GetViewedTimeStamp()),
 		Message:               message,
 	}

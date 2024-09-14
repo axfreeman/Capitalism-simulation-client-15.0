@@ -10,15 +10,6 @@ import (
 // TODO Show should display decimals when required
 // TODO figure out how to make Graphics a method of the implementation, not the interface
 
-type Recorder interface {
-	Commodity | Industry | Class | IndustryStock | ClassStock
-}
-
-type RecordBase[T Recorder] struct {
-	Viewed   *T
-	Compared *T
-}
-
 // Interface for all view types. Wrapped by the view struct to
 // provide the 'Show' method, which compares a viewed field at
 // the current stage of the simulation, with a compared field
@@ -220,6 +211,14 @@ func IndustryViews(v *[]Industry, c *[]Industry) *[]View {
 	return &newViews
 }
 
+// Experimental test to get at the stocks of an industry
+func (ind IndustryView) GetVariable() View {
+	fmt.Println("Entered GetVariable")
+	viewedStock := ind.viewedRecord.Variable
+	comparedStock := ind.comparedRecord.Variable
+	return CreateIndustryStockView(viewedStock, comparedStock)
+}
+
 // Type for implementation of Viewer interface
 type IndustryStockView struct {
 	viewedRecord   *IndustryStock
@@ -359,90 +358,4 @@ func NewClassStockViews(v *[]ClassStock, c *[]ClassStock) *[]View {
 		newViews[i] = newView
 	}
 	return &newViews
-}
-
-// Depracated phase out
-type OldIndustryViewer struct {
-	RecordBase[Industry]
-	Id                   int
-	Name                 string
-	OutputCommodityId    int
-	Output               string
-	OutputScale          Pair
-	OutputGrowthRate     Pair
-	InitialCapital       Pair
-	WorkInProgress       Pair
-	CurrentCapital       Pair
-	ConstantCapitalSize  Pair
-	ConstantCapitalValue Pair
-	ConstantCapitalPrice Pair
-	VariableCapitalSize  Pair
-	VariableCapitalValue Pair
-	VariableCapitalPrice Pair
-	MoneyStockSize       Pair
-	MoneyStockValue      Pair
-	MoneyStockPrice      Pair
-	SalesStockSize       Pair
-	SalesStockValue      Pair
-	SalesStockPrice      Pair
-	Profit               Pair
-	ProfitRate           Pair
-}
-
-// Depracated phase out
-type OldClassViewer struct {
-	RecordBase[Class]
-	Id                    int
-	Name                  string
-	SimulationId          int32
-	TimeStamp             int
-	UserName              string
-	Population            Pair
-	ParticipationRatio    float32
-	ConsumptionRatio      float32
-	Revenue               Pair
-	Assets                Pair
-	ConsumptionStockSize  Pair
-	ConsumptionStockValue Pair
-	ConsumptionStockPrice Pair
-	MoneyStockSize        Pair
-	MoneyStockValue       Pair
-	MoneyStockPrice       Pair
-	SalesStockSize        Pair
-	SalesStockValue       Pair
-	SalesStockPrice       Pair
-}
-
-// Depracated phase out
-type OldIndustryStockViewer struct {
-	RecordBase[IndustryStock]
-	Id           int
-	SimulationId int
-	IndustryId   int
-	CommodityId  int
-	UserName     string
-	Name         string
-	UsageType    string
-	Size         Pair
-	Value        Pair
-	Price        Pair
-	Requirement  Pair
-	Demand       Pair
-}
-
-// Depracated phase out
-type OldClassStockViewer struct {
-	RecordBase[ClassStock]
-	Id           int
-	SimulationId int
-	ClassId      int
-	CommodityId  int
-	UserName     string
-	Name         string
-	UsageType    string
-	Size         Pair
-	Value        Pair
-	Price        Pair
-	Requirement  Pair
-	Demand       Pair
 }

@@ -19,9 +19,8 @@
       {{range .IndustryViews }}
 
       <tr>
-        <td style="text-align: left">{{ .Link "industry"}}</td>
-        {{ .GetVariable }}
-
+        {{ Link . "industry"}}
+        {{ Show .MoneyView "Size" }}
       </tr>
       {{end}}
     </tbody>

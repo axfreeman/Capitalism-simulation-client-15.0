@@ -18,6 +18,14 @@
         <!-- {{ .Show "SalesStockSize"}} -->
         <!-- {{ .Show "OutputScale"}} -->
 
+        {{ .Show "OutputGrowthRate"}}
+        {{ .Show "InitialCapital"}}
+        {{ .Show "WorkInProgress"}}
+        {{ .Show "CurrentCapital"}}
+        {{ .Show "Profit"}}
+        {{ .Show "ProfitRate"}}
+
+
 From Commodity table
         <td style="text-align:left">{{.Link "commodity"}}</td>
         <td style="text-align:center">{{ .OriginGraphic }}</td>

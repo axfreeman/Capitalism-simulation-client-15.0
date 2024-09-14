@@ -36,6 +36,7 @@ func main() {
 		"Link":          models.Link,
 		"OriginGraphic": models.OriginGraphic,
 		"UsageGraphic":  models.UsageGraphic,
+		"CommodityLink": models.CommodityLink,
 	}
 
 	controllers.Tpl, err = template.New("").Funcs(funcMap).ParseGlob("./templates/*/*")

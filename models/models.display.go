@@ -10,12 +10,12 @@ type DisplayData struct {
 	Simulations           *[]Simulation
 	Templates             *[]Simulation
 	CommodityViews        *[]Viewer
-	IndustryViews         *[]View
+	IndustryViews         *[]Viewer
 	NewClassViews         *[]View
 	NewIndustryStockViews *[]View
 	NewClassStockViews    *[]View
-	ClassViews            *[]OldClassViewer      //Depracated Phase out
-	ClassStocks           *[]OldClassStockViewer //Depracated Phase out
+	ClassViews            *[]OldClassViewer      //Deprecated Phase out
+	ClassStocks           *[]OldClassStockViewer //Deprecated Phase out
 	Trace                 *[]Trace
 	Count                 int
 	Username              string

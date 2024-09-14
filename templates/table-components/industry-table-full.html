@@ -21,15 +21,9 @@
       {{range .IndustryViews }}
 
       <tr>
-        <td>{{ .Link "industry"}}</td>
-        <td>{{ .CommodityLink }} </td>
-        {{ .Show "OutputScale"}}
-        {{ .Show "OutputGrowthRate"}}
-        {{ .Show "InitialCapital"}}
-        {{ .Show "WorkInProgress"}}
-        {{ .Show "CurrentCapital"}}
-        {{ .Show "Profit"}}
-        {{ .Show "ProfitRate"}}
+        {{ Link . `industry`}}
+        {{ CommodityLink . }}
+        {{ Show . "OutputScale"}}
       </tr>
       {{end}}
     </tbody>

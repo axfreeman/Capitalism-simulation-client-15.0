@@ -28,6 +28,25 @@ type View struct {
 	Viewer
 }
 
+// Provide a string, suitable for display in a template, that formats
+// a viewed value and highlights values that have changed.
+//
+//	v: a View object
+//	f: the name of the field to display
+//	Returns: safe HTML string coloured red if the value has changed
+func Show(v Viewer, f string) template.HTML {
+	fmt.Printf("   Entered Show with field %s\n", f)
+	vv, _ := strconv.Atoi(v.ViewedField(f))
+	vc, _ := strconv.Atoi(v.ComparedField(f))
+	var htmlString string
+	if vv == vc {
+		htmlString = fmt.Sprintf("<td style=\"text-align:center\">%d</td>", vv)
+	} else {
+		htmlString = fmt.Sprintf("<td style=\"text-align:center; color:red\">%d</td>", vv)
+	}
+	return template.HTML(htmlString)
+}
+
 // Returns a safe HTML string with a link to the ViewedField object
 // Assumes the implementation supplies Name and ID fields
 //
@@ -43,8 +62,7 @@ func Link(v Viewer, urlBase string) template.HTML {
 //
 // v: an implementation of the Viewer interface
 // template.HTML: safe string using ID and Name fields supplied by the implementation
-func (v View) CommodityLink() template.HTML {
-	//        <td><a href="/commodity/{{ .OutputCommodityId}}">{{ .Output }}</a> </td>
+func CommodityLink(v Viewer) template.HTML {
 	return template.HTML(fmt.Sprintf(`<a href="/commodity/%s">%s</a>`, v.ViewedField(`OutputCommodityID`), v.ViewedField("Output")))
 }
 
@@ -88,25 +106,6 @@ func UsageGraphic(v Viewer) template.HTML {
 		htmlString = `<td style="text-align:center"><i class="fas fa-skull-crossbones" style="font-weight: bolder; color:black"></i></td>`
 	default:
 		htmlString = `<td style="text-align:center">Unknown Usage</td>`
-	}
-	return template.HTML(htmlString)
-}
-
-// Provide a string, suitable for display in a template, that formats
-// a viewed value and highlights values that have changed.
-//
-//	v: a View object
-//	f: the name of the field to display
-//	Returns: safe HTML string coloured red if the value has changed
-func Show(v Viewer, f string) template.HTML {
-	fmt.Printf("   Entered Show with field %s\n", f)
-	vv, _ := strconv.Atoi(v.ViewedField(f))
-	vc, _ := strconv.Atoi(v.ComparedField(f))
-	var htmlString string
-	if vv == vc {
-		htmlString = fmt.Sprintf("<td style=\"text-align:center\">%d</td>", vv)
-	} else {
-		htmlString = fmt.Sprintf("<td style=\"text-align:center; color:red\">%d</td>", vv)
 	}
 	return template.HTML(htmlString)
 }
@@ -159,7 +158,10 @@ func CommodityViews(v *[]Commodity, c *[]Commodity) *[]Viewer {
 	for i := range *v {
 		vc = &(*v)[i]
 		cc = &(*c)[i]
-		newView := CreateCommodityView(vc, cc)
+		newView := View{&CommodityView{
+			viewedRecord:   vc,
+			comparedRecord: cc,
+		}}
 		newViews[i] = newView
 	}
 	return &newViews
@@ -199,14 +201,19 @@ func CreateIndustryView(v *Industry, c *Industry) View {
 //	v: a slice of all industries in the simulation at the current stage
 //	c: a slice of the same industries at an earlier point in the simulation
 //	returns: a pointer to a slice of View objects to supply to templates
-func IndustryViews(v *[]Industry, c *[]Industry) *[]View {
-	var newViews = make([]View, len(*v))
-	var vc *Industry
-	var cc *Industry
+func IndustryViews(v *[]Industry, c *[]Industry) *[]Viewer {
+	fmt.Println("Entered IndustryViews")
+	var newViews = make([]Viewer, len(*v))
+	var vi *Industry
+	var ci *Industry
 	for i := range *v {
-		vc = &(*v)[i]
-		cc = &(*c)[i]
-		newView := CreateIndustryView(vc, cc)
+		vi = &(*v)[i]
+		ci = &(*c)[i]
+		fmt.Println("Adding a new Industry View")
+		newView := View{&IndustryView{
+			viewedRecord:   vi,
+			comparedRecord: ci,
+		}}
 		newViews[i] = newView
 	}
 	return &newViews

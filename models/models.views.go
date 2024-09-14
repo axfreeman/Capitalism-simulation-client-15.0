@@ -174,6 +174,7 @@ type IndustryView struct {
 	MoneyView      *IndustryStockView
 	VariableView   *IndustryStockView
 	ConstantView   *IndustryStockView
+	SalesView      *IndustryStockView
 }
 
 // Implements Viewer interface ViewedField method
@@ -192,12 +193,16 @@ func (i *IndustryView) ComparedField(f string) string {
 //	v: the currently viewed industry
 //	c: the same industry at an earlier point in the simulation
 //	returns: a View object to supply to templates
-func CreateIndustryView(v *Industry, c *Industry, m *IndustryStockView) Viewer {
-	return View{&IndustryView{
-		viewedRecord:   v,
-		comparedRecord: c,
-		MoneyView:      m,
-	}}
+func CreateIndustryView(vi *Industry, ci *Industry) Viewer {
+	moneyView := IndustryStockView{vi.Money, ci.Money}
+	salesView := IndustryStockView{vi.Sales, ci.Sales}
+
+	return Viewer(&IndustryView{
+		viewedRecord:   vi,
+		comparedRecord: ci,
+		MoneyView:      &moneyView,
+		SalesView:      &salesView,
+	})
 }
 
 // Create a slice of IndustryView for display in a template
@@ -213,27 +218,32 @@ func IndustryViews(v *[]Industry, c *[]Industry) *[]Viewer {
 	for i := range *v {
 		vi = &(*v)[i]
 		ci = &(*c)[i]
-		moneyView := IndustryStockView{vi.Money, ci.Money}
 
-		fmt.Println("Adding a new Industry View")
-		fmt.Printf("MoneyView is %v and its size is %s\n", moneyView, Show(&moneyView, "Size"))
-
-		industryView := IndustryView{
-			viewedRecord:   vi,
-			comparedRecord: ci,
-			MoneyView:      &moneyView,
-		}
-
-		view := Viewer(&industryView)
+		view := Viewer(CreateIndustryView(vi, ci))
 		views[i] = view
-
-		fmt.Printf("Money size is %s", Show(industryView.MoneyView, "Size"))
 	}
 	return &views
 }
 
+// Returns a Viewer for the Money stock of i
 func (i *IndustryView) Money() IndustryStockView {
 	return IndustryStockView{viewedRecord: i.viewedRecord.Money, comparedRecord: i.comparedRecord.Money}
+}
+
+// Returns a Viewer for the Variable stock of i
+func (i *IndustryView) Variable() IndustryStockView {
+	return IndustryStockView{viewedRecord: i.viewedRecord.Variable, comparedRecord: i.comparedRecord.Variable}
+}
+
+// Returns a Viewer for the Sales stock of i
+func (i *IndustryView) Sales() IndustryStockView {
+	return IndustryStockView{viewedRecord: i.viewedRecord.Sales, comparedRecord: i.comparedRecord.Sales}
+}
+
+// Returns a Viewer for the Constant stock of i
+// TODO extend to a slice of Constant
+func (i *IndustryView) Constant() IndustryStockView {
+	return IndustryStockView{viewedRecord: i.viewedRecord.Constant[0], comparedRecord: i.comparedRecord.Constant[0]}
 }
 
 // Type for implementation of Viewer interface

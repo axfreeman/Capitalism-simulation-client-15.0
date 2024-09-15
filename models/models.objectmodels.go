@@ -147,3 +147,75 @@ type Trace struct {
 // In future there should be some procedure for adding new templates
 // or editing existing ones.
 var TemplateList []Simulation
+
+// A default Industry_stock returned if any condition is not met (that is, if the predicated stock does not exist)
+// Used to signal to the user that there has been a programme error
+var NotFoundIndustryStock = IndustryStock{
+	Id:           0,
+	SimulationId: 0,
+	CommodityId:  0,
+	Name:         "NOT FOUND",
+	UsageType:    "PROGRAMME ERROR",
+	Size:         -1,
+	Value:        -1,
+	Price:        -1,
+	Requirement:  -1,
+	Demand:       -1,
+}
+
+// A default Industry_stock returned if any condition is not met (that is, if the predicated stock does not exist)
+// Used to signal to the user that there has been a programme error
+var NotFoundClassStock = ClassStock{
+	Id:           0,
+	SimulationId: 0,
+	CommodityId:  0,
+	Name:         "NOT FOUND",
+	UsageType:    "PROGRAMME ERROR",
+	Size:         -1,
+	Value:        -1,
+	Price:        -1,
+	Demand:       -1,
+}
+
+var NotFoundCommodity = Commodity{
+	Id:                        0,
+	Name:                      "NOT FOUND",
+	SimulationId:              0,
+	Origin:                    "UNDEFINED",
+	Usage:                     "UNDEFINED",
+	Size:                      0,
+	TotalValue:                0,
+	TotalPrice:                0,
+	UnitValue:                 0,
+	UnitPrice:                 0,
+	TurnoverTime:              0,
+	Demand:                    0,
+	Supply:                    0,
+	AllocationRatio:           0,
+	DisplayOrder:              0,
+	ImageName:                 "UNDEFINED",
+	Tooltip:                   "UNDEFINED",
+	MonetarilyEffectiveDemand: 0,
+	InvestmentProportion:      0,
+}
+
+// A default Class returned if any condition is not met (that is, if the class does not exist)
+// Used to signal to the user that there has been a programme error
+var NotFoundClass = Class{
+	Id:                 0,
+	Name:               "NOT FOUND",
+	SimulationId:       0,
+	UserName:           "UNDEFINED",
+	Population:         0,
+	ParticipationRatio: 0,
+	ConsumptionRatio:   0,
+	Revenue:            0,
+	Assets:             0,
+}
+
+var NotFoundIndustry = Industry{
+	Id:           0,
+	Name:         "NOT FOUND",
+	SimulationId: 0,
+	UserName:     "UNDEFINED",
+}

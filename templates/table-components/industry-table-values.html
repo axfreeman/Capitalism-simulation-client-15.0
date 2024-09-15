@@ -15,16 +15,14 @@
     </thead>
     <tbody>
       <!--Loop over the industries -->
-      {{range .NewIndustryViews }}
-
+      {{range .IndustryViews }}
       <tr>
-        <td style="text-align: left">{{ .Link "industry"}}</td>
-        <!-- Need functions for the below -->
-        <!-- {{ .Show "ConstantCapitalValue" }}
-        {{ .Show "VariableCapitalValue"}}
-        {{ .Show "MoneyStockValue"}}
-        {{ .Show "SalesStockValue"}} -->
-      </tr>
+          {{ Link . "industry"}}
+          {{ Show .ConstantView "Value" }}
+          {{ Show .VariableView "Value" }}
+          {{ Show .MoneyView "Value" }}
+          {{ Show .SalesView "Value"}}
+        </tr>
       {{end}}
     </tbody>
   </table>

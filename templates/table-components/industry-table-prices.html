@@ -19,10 +19,17 @@
     </thead>
     <tbody>
       <!--Loop over the industries -->
-      {{range .NewIndustryViews }}
+      {{range .IndustryViews }}
       <tr>
-        <td style="text-align: left">{{ .Link "industry"}}</td>
- 
+        {{ Link . "industry"}}
+        {{ Show .ConstantView "Price" }}
+        {{ Show .VariableView "Price" }}
+        {{ Show .MoneyView "Price" }}
+        {{ Show .SalesView "Price"}}
+        {{ Show . "InitialCapital" }}
+        {{ Show . "CurrentCapital" }}
+        {{ Show . "Profit" }}
+        {{ Show . "ProfitRate" }}
       </tr>
       {{end}}
     </tbody>

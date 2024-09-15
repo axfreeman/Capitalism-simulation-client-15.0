@@ -15,11 +15,11 @@
       </tr>
     </thead>
     <tbody>
-      <!--Loop over the industries -->
       {{range .IndustryViews }}
-
       <tr>
         {{ Link . "industry"}}
+        {{ Show .ConstantView "Size" }}
+        {{ Show .VariableView "Size" }}
         {{ Show .MoneyView "Size" }}
         {{ Show .SalesView "Size"}}
       </tr>

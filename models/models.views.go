@@ -139,7 +139,7 @@ func (c *CommodityView) ComparedField(f string) string {
 //	v: the currently viewed commodity
 //	c: the same commodity at an earlier point in the simulation
 //	returns: a View object to supply to templates
-func CreateCommodityView(v *Commodity, c *Commodity) View {
+func CreateCommodityView(v *Commodity, c *Commodity) Viewer {
 	return View{&CommodityView{
 		viewedRecord:   v,
 		comparedRecord: c,
@@ -196,12 +196,16 @@ func (i *IndustryView) ComparedField(f string) string {
 func CreateIndustryView(vi *Industry, ci *Industry) Viewer {
 	moneyView := IndustryStockView{vi.Money, ci.Money}
 	salesView := IndustryStockView{vi.Sales, ci.Sales}
+	variableView := IndustryStockView{vi.Variable, ci.Variable}
+	constantView := IndustryStockView{vi.Constant[0], ci.Constant[0]}
 
 	return Viewer(&IndustryView{
 		viewedRecord:   vi,
 		comparedRecord: ci,
 		MoneyView:      &moneyView,
 		SalesView:      &salesView,
+		VariableView:   &variableView,
+		ConstantView:   &constantView,
 	})
 }
 

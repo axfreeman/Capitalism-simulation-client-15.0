@@ -71,28 +71,40 @@ func FetchTables(user *models.User) error {
 
 	// set the stocklist, Sales Stock, Money stock and Social stock (=Labour Power) of every industry
 	industries := *(newTableSet[`industries`].Table.(*[]models.Industry))
-	stocks := newTableSet[`industry stocks`].Table.(*[]models.IndustryStock)
-	for i := range industries {
-		industries[i].Constant = make([]*models.IndustryStock, 0)
-		for _, stock := range *stocks {
-			utils.TraceInfof(utils.Gray, "Processing the stock called %v for industry %v", stock.Name, industries[i].Name)
-			if stock.IndustryId == industries[i].Id {
-				switch stock.UsageType {
+	stocks := *newTableSet[`industry stocks`].Table.(*[]models.IndustryStock)
+	utils.TraceInfof(utils.Gray, "")
+	for ind := range industries {
+		industries[ind].Constant = make([]*models.IndustryStock, 0)
+		for i := range stocks {
+			utils.TraceInfof(utils.Gray, "Industry %v is inspecting item %d which is a stock %v with address %p",
+				industries[ind].Name,
+				i,
+				stocks[i].Name,
+				&(stocks[i]))
+			if stocks[i].IndustryId == industries[ind].Id {
+				switch stocks[i].UsageType {
 				case `Money`:
-					industries[i].Money = &stock
+					utils.TraceInfo(utils.Gray, " Adding money stock")
+					industries[ind].Money = &(stocks[i])
 				case `Production`:
-					utils.TraceInfof(utils.Gray, "Processing a production stock whose origin is %s", stock.Origin)
-					if stock.Origin == `SOCIAL` {
-						industries[i].Variable = &stock
+					utils.TraceInfof(utils.Gray, " Examining production stock with origin %s", stocks[i].Origin)
+					if stocks[i].Origin == `SOCIAL` {
+						utils.TraceInfo(utils.Gray, "  Adding social stock")
+						industries[ind].Variable = &(stocks[i])
 					} else {
-						industries[i].Constant = append(industries[i].Constant, &stock)
+						utils.TraceInfo(utils.Gray, "  Adding industrial stock")
+						industries[ind].Constant = append(industries[ind].Constant, &(stocks[i]))
 					}
 				case `Sales`:
-					industries[i].Sales = &stock
+					utils.TraceInfo(utils.Gray, " This is a sales stock")
+					industries[ind].Sales = &(stocks[i])
 				default:
-					utils.TraceErrorf("Industry stock of unknown type %s and id %d detected", stock.UsageType, stock.Id)
+					utils.TraceErrorf("Industry stock of unknown type %s and id %d detected", stocks[i].UsageType, stocks[i].Id)
 				}
+			} else {
+				utils.TraceInfof(utils.White, "This does not belong to industry %s", industries[ind].Name)
 			}
+			fmt.Printf("Industry %d is now %v\n", i, industries[ind])
 		}
 	}
 
@@ -100,9 +112,12 @@ func FetchTables(user *models.User) error {
 	// TODO Complete this in the same way as Industry
 	classes := *(newTableSet[`classes`].Table.(*[]models.Class))
 	classStocks := newTableSet[`class stocks`].Table.(*[]models.ClassStock)
-	for ind := range classes {
-		classes[ind].Stocks = classStocks
+	for class := range classes {
+		classes[class].Stocks = classStocks
 	}
+	set, _ := json.MarshalIndent(newTableSet, " ", " ")
+	utils.TraceInfo(utils.Gray, "Printout of the adjusted tableset\n")
+	fmt.Sprintln(string(set))
 
 	user.TableSets = append(user.TableSets, &newTableSet)
 	return nil

@@ -14,8 +14,6 @@ type DisplayData struct {
 	ClassViews         *[]Viewer
 	IndustryStockViews *[]Viewer
 	ClassStockViews    *[]Viewer
-	OldClassViews      *[]OldClassViewer      //Deprecated Phase out
-	OldClassStocks     *[]OldClassStockViewer //Deprecated Phase out
 	Trace              *[]Trace
 	Count              int
 	Username           string
@@ -45,9 +43,7 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 			State:              state,
 			CommodityViews:     nil,
 			IndustryViews:      nil,
-			OldClassViews:      nil,
 			IndustryStockViews: nil,
-			OldClassStocks:     nil,
 			ClassStockViews:    nil,
 			Trace:              nil,
 			Message:            message,

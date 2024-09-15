@@ -19,8 +19,6 @@ func main() {
 
 	config.Init()
 
-	models.InitViews()
-
 	utils.TraceInfo(utils.Yellow, "The Rosy Dawn of Capitalism has begun")
 
 	db.DataBase = db.NewSQLDB()

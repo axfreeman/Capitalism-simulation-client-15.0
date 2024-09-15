@@ -1,8 +1,6 @@
 package models
 
 import (
-	"fmt"
-	"html/template"
 	"strconv"
 )
 
@@ -89,26 +87,6 @@ var NotFoundIndustry = Industry{
 	Name:         "NOT FOUND",
 	SimulationId: 0,
 	UserName:     "UNDEFINED",
-}
-
-func (p Pair) Format() template.HTML {
-	var htmlString string
-	if p.Viewed == p.Compared {
-		htmlString = fmt.Sprintf("<td style=\"text-align:right\">%0.2f</td>", p.Viewed)
-	} else {
-		htmlString = fmt.Sprintf("<td style=\"text-align:right; color:red\">%0.2f</td>", p.Viewed)
-	}
-	return template.HTML(htmlString)
-}
-
-func (p Pair) FormatRounded() template.HTML {
-	var htmlString string
-	if p.Viewed == p.Compared {
-		htmlString = fmt.Sprintf("<td style=\"text-align:center\">%.0f</td>", p.Viewed)
-	} else {
-		htmlString = fmt.Sprintf("<td style=\"text-align:center; color:red\">%.0f</td>", p.Viewed)
-	}
-	return template.HTML(htmlString)
 }
 
 // returns the Labour Power stock of the given industry

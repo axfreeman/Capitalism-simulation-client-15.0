@@ -84,16 +84,19 @@ type Industry struct {
 }
 
 type Class struct {
-	Id                 int     `json:"id"`
-	Name               string  `json:"name"`
-	SimulationId       int32   `json:"simulation_id"`
-	UserName           string  `json:"username"`
-	Population         float32 `json:"population"`
-	ParticipationRatio float32 `json:"participation_ratio"`
-	ConsumptionRatio   float32 `json:"consumption_ratio"`
-	Revenue            float32 `json:"revenue"`
-	Assets             float32 `json:"assets"`
-	Stocks             *[]ClassStock
+	Id                 int           `json:"id"`
+	Name               string        `json:"name"`
+	SimulationId       int32         `json:"simulation_id"`
+	UserName           string        `json:"username"`
+	Population         float32       `json:"population"`
+	ParticipationRatio float32       `json:"participation_ratio"`
+	ConsumptionRatio   float32       `json:"consumption_ratio"`
+	Revenue            float32       `json:"revenue"`
+	Assets             float32       `json:"assets"`
+	Stocks             *[]ClassStock // TODO deprecated remove it
+	Consumption        []*ClassStock
+	Money              *ClassStock
+	Sales              *ClassStock
 }
 
 type IndustryStock struct {

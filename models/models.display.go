@@ -81,8 +81,6 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 		ClassViews:         ClassViews(clv, clc),
 		IndustryStockViews: IndustryStockViews(isv, isc),
 		ClassStockViews:    ClassStockViews(csv, csc),
-		OldClassViews:      OldClassViews(clv, clc),      // Depracated phase out
-		OldClassStocks:     OldClassStockViews(csv, csc), // Depracated phase out
 		Trace:              u.Traces(*u.GetViewedTimeStamp()),
 		Message:            message,
 	}

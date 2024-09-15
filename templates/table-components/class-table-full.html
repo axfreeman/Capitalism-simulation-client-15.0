@@ -23,17 +23,17 @@
       {{range .ClassViews }}
 
       <tr>
-        <td><a href="/class/{{ .Viewed.Id}}">{{ .Name }}</a></td>
-        {{ .ConsumptionStockSize.FormatRounded }}
-        {{ .ConsumptionStockValue.FormatRounded }}
-        {{ .ConsumptionStockPrice.FormatRounded }}
-        {{ .SalesStockPrice.FormatRounded }}
-        {{ .SalesStockValue.FormatRounded }}
-        {{ .SalesStockPrice.FormatRounded }}
-        <td style="text-align:right">{{ .Population.FormatRounded }}</td>
-        <td style="text-align:right">{{ .ConsumptionRatio }}</td>
-        {{ .Revenue.FormatRounded }}
-        {{ .Assets.FormatRounded }}
+        {{ Link . `class`}}
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        {{ Show . "Population"}}
+        {{ Show . "ConsumptionRatio"}}
+        {{ Show . "Revenue"}}
+        {{ Show . "Assets"}}
       </tr>
       {{end}}
     </tbody>

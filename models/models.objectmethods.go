@@ -194,19 +194,6 @@ func (s ClassStock) Commodity() *Commodity {
 	return LoggedInUsers[s.UserName].Commodity(s.CommodityId)
 }
 
-// under development
-// will eventually be parameterised to yield value, price or quantity depending on a 'display' parameter
-func (stock IndustryStock) DisplaySize(mode string) float32 {
-	switch mode {
-	case `prices`:
-		return stock.Size
-	case `quantities`:
-		return stock.Size // switch in price once this is in the model
-	default:
-		panic(`unknown display mode requested`)
-	}
-}
-
 // (Experimental) Creates a url to link to this simulation, to be used in templates such as dashboard
 // In this way all the URL naming is done in native Golang, not in the template
 // We may also use such methods in the Trace function to improve usability

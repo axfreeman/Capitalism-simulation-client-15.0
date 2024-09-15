@@ -69,51 +69,55 @@ func FetchTables(user *models.User) error {
 		}
 	}
 
-	// set the stocklist, Sales Stock, Money stock and Social stock (=Labour Power) of every industry
+	// set the Sales Stock, Money stock Industrial stocks (=Constant capital) and Social stock (=Variable Capital) of every industry
 	industries := *(newTableSet[`industries`].Table.(*[]models.Industry))
 	stocks := *newTableSet[`industry stocks`].Table.(*[]models.IndustryStock)
-	utils.TraceInfof(utils.Gray, "")
 	for ind := range industries {
 		industries[ind].Constant = make([]*models.IndustryStock, 0)
 		for i := range stocks {
-			// utils.TraceInfof(utils.Gray, "Industry %v is inspecting item %d which is a stock %v with address %p",
-			// 	industries[ind].Name,
-			// 	i,
-			// 	stocks[i].Name,
-			// 	&(stocks[i]))
 			if stocks[i].IndustryId == industries[ind].Id {
 				switch stocks[i].UsageType {
 				case `Money`:
-					// utils.TraceInfo(utils.Gray, " Adding money stock")
 					industries[ind].Money = &(stocks[i])
 				case `Production`:
-					// utils.TraceInfof(utils.Gray, " Examining production stock with origin %s", stocks[i].Origin)
 					if stocks[i].Origin == `SOCIAL` {
-						// utils.TraceInfo(utils.Gray, "  Adding social stock")
 						industries[ind].Variable = &(stocks[i])
 					} else {
-						// utils.TraceInfo(utils.Gray, "  Adding industrial stock")
 						industries[ind].Constant = append(industries[ind].Constant, &(stocks[i]))
 					}
 				case `Sales`:
-					// utils.TraceInfo(utils.Gray, " This is a sales stock")
 					industries[ind].Sales = &(stocks[i])
 				default:
-					// utils.TraceErrorf("Industry stock of unknown type %s and id %d detected", stocks[i].UsageType, stocks[i].Id)
 				}
-			} else {
-				// utils.TraceInfof(utils.White, "This does not belong to industry %s", industries[ind].Name)
 			}
 		}
 	}
 
-	// set the stocklist of every class
-	// TODO Complete this in the same way as Industry
+	// set the Sales Stock, Money stock and Consumption stocks of every class
 	classes := *(newTableSet[`classes`].Table.(*[]models.Class))
-	classStocks := newTableSet[`class stocks`].Table.(*[]models.ClassStock)
-	for class := range classes {
-		classes[class].Stocks = classStocks
+	classStocks := *newTableSet[`class stocks`].Table.(*[]models.ClassStock)
+	for c := range classes {
+		utils.TraceInfof(utils.Gray, "Processing class number %d with name %s", c, classes[c].Name)
+		for s := range classStocks {
+			utils.TraceInfof(utils.Gray, "Processing stock number %d with name %s", s, classStocks[s].Name)
+			if classStocks[s].ClassId == classes[c].Id {
+				switch classStocks[s].UsageType {
+				case `Money`:
+					utils.TraceInfo(utils.Gray, " Adding money stock")
+					classes[c].Money = &(classStocks[s])
+				case `Consumption`:
+					utils.TraceInfo(utils.Gray, " Adding Consumption stock")
+					classes[c].Consumption = append(classes[c].Consumption, &(classStocks[s]))
+				case `Sales`:
+					utils.TraceInfo(utils.Gray, " This is a sales stock")
+					classes[c].Sales = &(classStocks[s])
+				default:
+					utils.TraceErrorf("Industry stock of unknown type %s and id %d detected", stocks[s].UsageType, stocks[s].Id)
+				}
+			}
+		}
 	}
+
 	user.TableSets = append(user.TableSets, &newTableSet)
 	return nil
 }

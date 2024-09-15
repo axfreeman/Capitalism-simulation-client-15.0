@@ -215,7 +215,6 @@ func CreateIndustryView(vi *Industry, ci *Industry) Viewer {
 //	c: a slice of the same industries at an earlier point in the simulation
 //	returns: a pointer to a slice of View objects to supply to templates
 func IndustryViews(v *[]Industry, c *[]Industry) *[]Viewer {
-	fmt.Println("Entered IndustryViews")
 	var views = make([]Viewer, len(*v))
 	var vi *Industry
 	var ci *Industry

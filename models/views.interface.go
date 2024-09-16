@@ -110,6 +110,7 @@ func Link(v Viewer, urlBase string) template.HTML {
 
 // Implementation-specific methods
 // TODO figure out how to convert these into methods of the implementation, not the interface
+// TODO: then use the viewedRecord directly instead of 'ViewedField'
 
 // Returns a safe HTML string with a link to the Commodity of an industry
 // Should be a method of IndustryView but haven't yet figured out how to fix this
@@ -117,7 +118,8 @@ func Link(v Viewer, urlBase string) template.HTML {
 // v: an implementation of the Viewer interface
 // template.HTML: safe string using fields supplied by the Commodity implementation
 func IndustryCommodityLink(v Viewer) template.HTML {
-	return template.HTML(fmt.Sprintf(`<td><a href="/commodity/%s">%s</a></td>`, v.ViewedField(`OutputCommodityID`), v.ViewedField("Output")))
+	o := v.(*IndustryView).viewedRecord
+	return template.HTML(fmt.Sprintf(`<td><a href="/commodity/%s">%s</a></td>`, v.ViewedField(`OutputCommodityID`), o.Output))
 }
 
 // Returns a safe HTML string with a link to this stock's commodity

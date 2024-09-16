@@ -46,11 +46,14 @@ func CreateClassView(v *Class, c *Class) Viewer {
 //	c: a slice of the same industries at an earlier point in the simulation
 //	returns: a pointer to a slice of View objects to supply to templates
 func ClassViews(v *[]Class, c *[]Class) *[]Viewer {
-	var newViews = make([]Viewer, len(*v))
+	var views = make([]Viewer, len(*v))
 	for i := range *v {
-		newViews[i] = CreateClassView(&(*v)[i], &(*c)[i])
+		view := CreateClassView(&(*v)[i], &(*c)[i])
+		// vs, _ := json.MarshalIndent(view.(*ClassView).SalesView, " ", " ")
+		// fmt.Printf("Sales View of class %s is\n %v\n", (*v)[i].Name, string(vs))
+		views[i] = view
 	}
-	return &newViews
+	return &views
 }
 
 // Type for implementation of Viewer interface

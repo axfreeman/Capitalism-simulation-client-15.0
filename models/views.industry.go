@@ -33,14 +33,14 @@ func (i *IndustryView) ComparedField(f string) string {
 //	v: the currently viewed industry
 //	c: the same industry at an earlier point in the simulation
 //	returns: a View object to supply to templates
-func CreateIndustryView(vi *Industry, ci *Industry) Viewer {
+func CreateIndustryView(v *Industry, c *Industry) Viewer {
 	return Viewer(&IndustryView{
-		viewedRecord:   vi,
-		comparedRecord: ci,
-		MoneyView:      &IndustryStockView{vi.Money, ci.Money},
-		SalesView:      &IndustryStockView{vi.Sales, ci.Sales},
-		VariableView:   &IndustryStockView{vi.Variable, ci.Variable},
-		ConstantView:   &IndustryStockView{vi.Constant[0], ci.Constant[0]},
+		viewedRecord:   v,
+		comparedRecord: c,
+		MoneyView:      &IndustryStockView{v.Money, c.Money},
+		SalesView:      &IndustryStockView{v.Sales, c.Sales},
+		VariableView:   &IndustryStockView{v.Variable, c.Variable},
+		ConstantView:   &IndustryStockView{v.Constant[0], c.Constant[0]},
 	})
 }
 
@@ -52,7 +52,10 @@ func CreateIndustryView(vi *Industry, ci *Industry) Viewer {
 func IndustryViews(v *[]Industry, c *[]Industry) *[]Viewer {
 	var views = make([]Viewer, len(*v))
 	for i := range *v {
-		views[i] = Viewer(CreateIndustryView(&(*v)[i], &(*c)[i]))
+		view := CreateIndustryView(&(*v)[i], &(*c)[i])
+		// vs, _ := json.MarshalIndent(view.(*IndustryView).SalesView, " ", " ")
+		// fmt.Printf("Sales View of industry %s is\n %v\n", (*v)[i].Name, string(vs))
+		views[i] = view
 	}
 	return &views
 }

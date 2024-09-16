@@ -33,6 +33,7 @@ type View struct {
 //	f: the name of the field to display
 //	Returns: safe HTML string coloured red if the value has changed
 func Show(v Viewer, f string) template.HTML {
+	fmt.Println("Entered show with request for field ", f)
 	vv, _ := strconv.Atoi(v.ViewedField(f))
 	vc, _ := strconv.Atoi(v.ComparedField(f))
 	var htmlString string

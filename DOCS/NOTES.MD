@@ -16,3 +16,6 @@
 
 ## Efficiency
 * objects should be indirected much more instead of passing copies
+
+## Custom jsonMarshal
+* https://deepsource.com/blog/custom-marshalers-in-go

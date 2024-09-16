@@ -23,7 +23,6 @@
         {{range .IndustryStockViews }}
         <tr>
           {{ ShowString . "UsageType" }}
-          {{ Show . "IndustryId" }}
           {{ StockIndustryLink . }}
           {{ StockCommodityLink .}}
           {{ Show . "Size" }}

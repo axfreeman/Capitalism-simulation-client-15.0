@@ -38,7 +38,13 @@ func CurrentUser(r *http.Request) *models.User {
 func AllData(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
 	utils.TraceInfof(utils.Green, "Get Data for user %s", user.UserName)
-	data, _ := json.MarshalIndent(user, " ", " ")
+	data, err := json.MarshalIndent(user, " ", " ")
+
+	if err != nil {
+		utils.TraceErrorf("Error %v retrieving base data", err)
+	}
+
+	utils.TraceInfof(utils.Blue, "User %s asked to view base data", user.UserName)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(data)
 }

@@ -125,8 +125,14 @@ func IndustryCommodityLink(v Viewer) template.HTML {
 // v: an implementation of the Viewer interface
 // urlBase: the root of the link url (eg `commodity`)
 // template.HTML: safe string using ID and Name fields supplied by the implementation
+// TODO this whole thing is a complete botch because setting up a pointer destroys json.MarshalIndent. Therefore we have to write a custom marshalindent...
 func StockIndustryLink(v Viewer) template.HTML {
-	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, `industry`, v.ViewedField(`IndustryId`), v.ViewedField(`IndustryId`)))
+	userName := v.ViewedField(`UserName`)
+	user := LoggedInUsers[userName]
+	industryId, _ := strconv.Atoi(v.ViewedField(`IndustryId`))
+	ind := user.Industry(industryId)
+	industryName := ind.Name
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, `industry`, v.ViewedField(`IndustryId`), industryName))
 }
 
 // Returns a safe HTML string with a link to this stock's commodity
@@ -134,6 +140,12 @@ func StockIndustryLink(v Viewer) template.HTML {
 // v: an implementation of the Viewer interface
 // urlBase: the root of the link url (eg `commodity`)
 // template.HTML: safe string using ID and Name fields supplied by the implementation
+// TODO this whole thing is a complete botch because setting up a pointer destroys json.MarshalIndent. Therefore we have to write a custom marshalindent...
 func StockCommodityLink(v Viewer) template.HTML {
-	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, `commodity`, v.ViewedField(`CommodityId`), v.ViewedField(`CommodityId`)))
+	userName := v.ViewedField(`UserName`)
+	user := LoggedInUsers[userName]
+	commodityId, _ := strconv.Atoi(v.ViewedField(`CommodityId`))
+	c := user.Commodity(commodityId)
+	commodityName := c.Name
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, `commodity`, v.ViewedField(`CommodityId`), commodityName))
 }

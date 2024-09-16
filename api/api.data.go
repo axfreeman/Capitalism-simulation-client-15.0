@@ -69,24 +69,43 @@ func FetchTables(user *models.User) error {
 		}
 	}
 
-	// set the Sales Stock, Money stock Industrial stocks (=Constant capital) and Social stock (=Variable Capital) of every industry
 	industries := *(newTableSet[`industries`].Table.(*[]models.Industry))
-	stocks := *newTableSet[`industry stocks`].Table.(*[]models.IndustryStock)
+	industryStocks := *newTableSet[`industry stocks`].Table.(*[]models.IndustryStock)
+	classes := *(newTableSet[`classes`].Table.(*[]models.Class))
+	classStocks := *newTableSet[`class stocks`].Table.(*[]models.ClassStock)
+	commodities := *newTableSet[`commodities`].Table.(*[]models.Commodity)
+
+	// create direct pointers to commodities the stock objects
+	for com := range commodities {
+		commodityId := commodities[com].Id
+		for is := range industryStocks {
+			if industryStocks[is].CommodityId == commodityId {
+				industryStocks[is].Commodity = &commodities[com]
+			}
+		}
+		for cs := range classStocks {
+			if classStocks[cs].CommodityId == commodityId {
+				classStocks[cs].Commodity = &commodities[com]
+			}
+		}
+	}
+
+	// set the Commodity, Sales Stock, Money stock, Industrial stocks (=Constant capital) and Social stock (=Variable Capital) of every industry
 	for ind := range industries {
 		industries[ind].Constant = make([]*models.IndustryStock, 0)
-		for i := range stocks {
-			if stocks[i].IndustryId == industries[ind].Id {
-				switch stocks[i].UsageType {
+		for i := range industryStocks {
+			if industryStocks[i].IndustryId == industries[ind].Id {
+				switch industryStocks[i].UsageType {
 				case `Money`:
-					industries[ind].Money = &(stocks[i])
+					industries[ind].Money = &(industryStocks[i])
 				case `Production`:
-					if stocks[i].Origin == `SOCIAL` {
-						industries[ind].Variable = &(stocks[i])
+					if industryStocks[i].Origin == `SOCIAL` {
+						industries[ind].Variable = &(industryStocks[i])
 					} else {
-						industries[ind].Constant = append(industries[ind].Constant, &(stocks[i]))
+						industries[ind].Constant = append(industries[ind].Constant, &(industryStocks[i]))
 					}
 				case `Sales`:
-					industries[ind].Sales = &(stocks[i])
+					industries[ind].Sales = &(industryStocks[i])
 				default:
 				}
 			}
@@ -94,8 +113,6 @@ func FetchTables(user *models.User) error {
 	}
 
 	// set the Sales Stock, Money stock and Consumption stocks of every class
-	classes := *(newTableSet[`classes`].Table.(*[]models.Class))
-	classStocks := *newTableSet[`class stocks`].Table.(*[]models.ClassStock)
 	for c := range classes {
 		utils.TraceInfof(utils.Gray, "Processing class number %d with name %s", c, classes[c].Name)
 		for s := range classStocks {
@@ -112,7 +129,7 @@ func FetchTables(user *models.User) error {
 					utils.TraceInfo(utils.Gray, " This is a sales stock")
 					classes[c].Sales = &(classStocks[s])
 				default:
-					utils.TraceErrorf("Industry stock of unknown type %s and id %d detected", stocks[s].UsageType, stocks[s].Id)
+					utils.TraceErrorf("Industry stock of unknown type %s and id %d detected", industryStocks[s].UsageType, industryStocks[s].Id)
 				}
 			}
 		}

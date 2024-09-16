@@ -12,8 +12,8 @@
         <th style="text-align:center">Supply<br>Size</th>
         <th style="text-align:center">Supply<br>Value</th>
         <th style="text-align:center">Supply<br>Price</th>
-        <th>Population</th>
-        <th  style="text-align:center">Consumption<br>Ratio</th>
+        <th style="text-align:center">Population</th>
+        <th style="text-align:center">Consumption<br>Ratio</th>
         <th>Revenue</th>
         <th>Assets</th>
       </tr>
@@ -27,9 +27,9 @@
         <td>-</td>
         <td>-</td>
         <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
+        {{ Show .SalesView "Size" }}
+        {{ Show .SalesView "Value" }}
+        {{ Show .SalesView "Price" }}
         {{ Show . "Population"}}
         {{ Show . "ConsumptionRatio"}}
         {{ Show . "Revenue"}}

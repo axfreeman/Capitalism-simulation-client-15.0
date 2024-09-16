@@ -81,11 +81,13 @@ func FetchTables(user *models.User) error {
 		for is := range industryStocks {
 			if industryStocks[is].CommodityId == commodityId {
 				industryStocks[is].Commodity = &commodities[com]
+				industryStocks[is].CommodityName = commodities[com].Name
 			}
 		}
 		for cs := range classStocks {
 			if classStocks[cs].CommodityId == commodityId {
 				classStocks[cs].Commodity = &commodities[com]
+				classStocks[cs].CommodityName = commodities[com].Name
 			}
 		}
 	}
@@ -95,6 +97,8 @@ func FetchTables(user *models.User) error {
 		industries[ind].Constant = make([]*models.IndustryStock, 0)
 		for i := range industryStocks {
 			if industryStocks[i].IndustryId == industries[ind].Id {
+				industryStocks[i].IndustryAddress = &industries[ind]
+				industryStocks[i].IndustryName = industries[ind].Name
 				switch industryStocks[i].UsageType {
 				case `Money`:
 					industries[ind].Money = &(industryStocks[i])
@@ -118,6 +122,8 @@ func FetchTables(user *models.User) error {
 		for s := range classStocks {
 			utils.TraceInfof(utils.Gray, "Processing stock number %d with name %s", s, classStocks[s].Name)
 			if classStocks[s].ClassId == classes[c].Id {
+				classStocks[s].ClassAddress = &classes[c]
+				classStocks[s].ClassName = classes[c].Name
 				switch classStocks[s].UsageType {
 				case `Money`:
 					utils.TraceInfo(utils.Gray, " Adding money stock")

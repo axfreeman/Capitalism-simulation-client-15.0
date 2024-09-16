@@ -120,32 +120,32 @@ func IndustryCommodityLink(v Viewer) template.HTML {
 	return template.HTML(fmt.Sprintf(`<td><a href="/commodity/%s">%s</a></td>`, v.ViewedField(`OutputCommodityID`), v.ViewedField("Output")))
 }
 
-// Returns a safe HTML string with a link to this stock's industry
-//
-// v: an implementation of the Viewer interface
-// urlBase: the root of the link url (eg `commodity`)
-// template.HTML: safe string using ID and Name fields supplied by the implementation
-// TODO this whole thing is a complete botch because setting up a pointer destroys json.MarshalIndent. Therefore we have to write a custom marshalindent...
-func StockIndustryLink(v Viewer) template.HTML {
-	userName := v.ViewedField(`UserName`)
-	user := LoggedInUsers[userName]
-	industryId, _ := strconv.Atoi(v.ViewedField(`IndustryId`))
-	ind := user.Industry(industryId)
-	industryName := ind.Name
-	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, `industry`, v.ViewedField(`IndustryId`), industryName))
-}
-
 // Returns a safe HTML string with a link to this stock's commodity
 //
 // v: an implementation of the Viewer interface
 // urlBase: the root of the link url (eg `commodity`)
 // template.HTML: safe string using ID and Name fields supplied by the implementation
-// TODO this whole thing is a complete botch because setting up a pointer destroys json.MarshalIndent. Therefore we have to write a custom marshalindent...
 func StockCommodityLink(v Viewer) template.HTML {
-	userName := v.ViewedField(`UserName`)
-	user := LoggedInUsers[userName]
-	commodityId, _ := strconv.Atoi(v.ViewedField(`CommodityId`))
-	c := user.Commodity(commodityId)
-	commodityName := c.Name
+	commodityName := v.ViewedField(`CommodityName`)
 	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, `commodity`, v.ViewedField(`CommodityId`), commodityName))
+}
+
+// Returns a safe HTML string with a link to this stock's industry
+//
+// v: an implementation of the Viewer interface
+// urlBase: the root of the link url (eg `commodity`)
+// template.HTML: safe string using ID and Name fields supplied by the implementation
+func StockIndustryLink(v Viewer) template.HTML {
+	industryName := v.ViewedField(`IndustryName`)
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, `industry`, v.ViewedField(`IndustryId`), industryName))
+}
+
+// Returns a safe HTML string with a link to this stock's class
+//
+// v: an implementation of the Viewer interface
+// urlBase: the root of the link url (eg `commodity`)
+// template.HTML: safe string using ID and Name fields supplied by the implementation
+func StockClassLink(v Viewer) template.HTML {
+	className := v.ViewedField(`ClassName`)
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, `industry`, v.ViewedField(`IndustryId`), className))
 }

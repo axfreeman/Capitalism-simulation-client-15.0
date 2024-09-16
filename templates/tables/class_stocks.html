@@ -19,17 +19,15 @@
         </tr>
       </thead>
       <tbody>
-        {{ range .ClassStocks }}
+        {{ range .ClassStockViews }}
         <tr>
-          <td>{{ .UsageType }}</td>
-          <td><a href="/class/{{ .ClassId}}">{{ .Viewed.Class.Name }}</a> </td>
-          <td><a href="/commodity/{{ .CommodityId}}">{{ .Viewed.Commodity.Name }}</a></td>
-          {{ .Size.FormatRounded }}
-          {{ .Value.FormatRounded }}</td>
-          {{ .Price.FormatRounded }}</td>
-          {{ .Demand.FormatRounded }}</td>
-
-
+          {{ ShowString . `UsageType` }}
+          {{ StockClassLink . }}
+          {{ StockCommodityLink .}}
+          {{ Show . `Size` }}
+          {{ Show . `Value` }}
+          {{ Show . `Price` }}
+          {{ Show . `Demand` }}
         </tr>
 
         {{ end }}

@@ -38,6 +38,7 @@ func main() {
 		"IndustryCommodityLink": models.IndustryCommodityLink,
 		"StockIndustryLink":     models.StockIndustryLink,
 		"StockCommodityLink":    models.StockCommodityLink,
+		"StockClassLink":        models.StockClassLink,
 	}
 
 	controllers.Tpl, err = template.New("").Funcs(funcMap).ParseGlob("./templates/*/*")

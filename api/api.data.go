@@ -118,21 +118,16 @@ func FetchTables(user *models.User) error {
 
 	// set the Sales Stock, Money stock and Consumption stocks of every class
 	for c := range classes {
-		utils.TraceInfof(utils.Gray, "Processing class number %d with name %s", c, classes[c].Name)
 		for s := range classStocks {
-			utils.TraceInfof(utils.Gray, "Processing stock number %d with name %s", s, classStocks[s].Name)
 			if classStocks[s].ClassId == classes[c].Id {
 				classStocks[s].ClassAddress = &classes[c]
 				classStocks[s].ClassName = classes[c].Name
 				switch classStocks[s].UsageType {
 				case `Money`:
-					utils.TraceInfo(utils.Gray, " Adding money stock")
 					classes[c].Money = &(classStocks[s])
 				case `Consumption`:
-					utils.TraceInfo(utils.Gray, " Adding Consumption stock")
 					classes[c].Consumption = append(classes[c].Consumption, &(classStocks[s]))
 				case `Sales`:
-					utils.TraceInfo(utils.Gray, " This is a sales stock")
 					classes[c].Sales = &(classStocks[s])
 				default:
 					utils.TraceErrorf("Industry stock of unknown type %s and id %d detected", industryStocks[s].UsageType, industryStocks[s].Id)

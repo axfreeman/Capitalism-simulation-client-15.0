@@ -17,9 +17,9 @@
       <tr>
         {{ Link . `class`}}
         {{ Show . "Population "}}
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
+        {{ Show .ConsumptionView "Value" }}
+        {{ Show .MoneyView "Value" }}
+        {{ Show .SalesView "Value" }}
       </tr>
       {{end}}
     </tbody>

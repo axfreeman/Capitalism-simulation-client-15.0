@@ -31,13 +31,13 @@ func (i *ClassView) ComparedField(f string) string {
 //	c: the same Class at an earlier point in the simulation
 //	returns: a View object to supply to templates
 func CreateClassView(v *Class, c *Class) Viewer {
-	return View{&ClassView{
+	return Viewer(&ClassView{
 		viewedRecord:    v,
 		comparedRecord:  c,
 		MoneyView:       &ClassStockView{v.Money, c.Money},
 		SalesView:       &ClassStockView{v.Sales, c.Sales},
 		ConsumptionView: &ClassStockView{v.Consumption[0], c.Consumption[0]}, // TODO expand to slice
-	}}
+	})
 }
 
 // Create a slice of ClassView for display in a template

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"gorilla-client/utils"
 )
 
@@ -65,7 +66,7 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 	csc := (*u.TableSets[*u.GetComparatorTimeStamp()])["class stocks"].Table.(*[]ClassStock)
 
 	// Create the DisplayData object
-	return DisplayData{
+	displayData := DisplayData{
 		Title:              "Hello",
 		Simulations:        slist,
 		Templates:          &TemplateList,
@@ -80,6 +81,14 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 		Trace:              u.Traces(*u.GetViewedTimeStamp()),
 		Message:            message,
 	}
+
+	classTest := (*displayData.ClassViews)[0]
+	industryTest := (*displayData.IndustryViews)[0]
+
+	fmt.Println("class test is ", classTest)
+	fmt.Println("industry test is ", industryTest)
+
+	return displayData
 }
 
 // Get a CommodityData to display a single commodity in the commodity.html template

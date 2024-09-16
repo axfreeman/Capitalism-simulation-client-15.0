@@ -24,12 +24,12 @@
 
       <tr>
         {{ Link . `class`}}
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
+        {{ Show .ConsumptionView "Size" }}
+        {{ Show .ConsumptionView "Value" }}
+        {{ Show .ConsumptionView "Price" }}
+        {{ Show .SalesView "Size" }}
+        {{ Show .SalesView "Value" }}
+        {{ Show .SalesView "Price" }}
         {{ Show . "Population"}}
         {{ Show . "ConsumptionRatio"}}
         {{ Show . "Revenue"}}

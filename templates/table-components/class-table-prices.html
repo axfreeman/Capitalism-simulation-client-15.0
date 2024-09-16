@@ -16,10 +16,9 @@
       {{range .ClassViews }}
       <tr>
         {{ Link . `class`}}
-        {{ Show . "Population "}}
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
+        {{ Show .ConsumptionView "Price" }}
+        {{ Show .MoneyView "Price" }}
+        {{ Show .SalesView "Price" }}
       </tr>
       {{end}}
     </tbody>

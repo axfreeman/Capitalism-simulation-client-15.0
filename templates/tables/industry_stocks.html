@@ -20,16 +20,17 @@
       </thead>
       <tbody>
         <!--Loop over the industry stocks -->
-        {{range .IndustryStocks }}
+        {{range .IndustryStockViews }}
         <tr>
-          <td><a href="/stock/{{.Id}}">{{ .UsageType }}</a></td>
-          <td style=><a href="/industry/{{.Viewed.IndustryId}}">{{ .Viewed.Industry.Name}}</a></td>
-          <td style=><a href="/commodity/{{.Viewed.CommodityId}}">{{ .Viewed.Commodity.Name}}</a></td>
-          {{ .Size.FormatRounded }}
-          {{ .Value.FormatRounded }}
-          {{ .Price.FormatRounded }}
-          {{ .Requirement.Format }}
-          {{ .Demand.FormatRounded }}
+          {{ ShowString . "UsageType" }}
+          {{ Show . "IndustryId" }}
+          {{ StockIndustryLink . }}
+          {{ StockCommodityLink .}}
+          {{ Show . "Size" }}
+          {{ Show . "Value" }}
+          {{ Show . "Price" }}
+          {{ Show . "Requirement" }}
+          {{ Show . "Demand" }}
         </tr>
         {{end}}
       </tbody>

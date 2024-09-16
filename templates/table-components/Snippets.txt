@@ -1,34 +1,16 @@
-       To go in industry-table-prices
-       <!-- Need functions for most of the below -->
-        <!-- {{ .ConstantCapitalPrice.FormatRounded }}
-        {{ .VariableCapitalPrice.FormatRounded}}
-        {{ .MoneyStockPrice.FormatRounded}}
-        {{ .SalesStockPrice.FormatRounded}}
-        {{ .InitialCapital.FormatRounded}}
-        {{ .CurrentCapital.FormatRounded}} -->
-        <!-- {{ .Show "Profit" }} -->
-        <!-- {{ .Show "ProfitRate" }} -->
+from class-table-sizes
 
+        {{ Show .ConsumptionView "Size" }}
+        {{ Show .MoneyView "Size" }}
+        {{ Show .SalesView "Size" }}
 
-        From industry table sizes
-        <!-- Need functions for the below -->
-        <!-- {{ .Show "ConstantCapitalSize" }} -->
-        <!-- {{ .GetVariable.ViewedField "Size" }} -->
-        <!-- {{ .Show "MoneyStockSize"}} -->
-        <!-- {{ .Show "SalesStockSize"}} -->
-        <!-- {{ .Show "OutputScale"}} -->
+from industry-stocks.html
 
-
-
-From Commodity table
-        <td style="text-align:left">{{.Link "commodity"}}</td>
-        <td style="text-align:center">{{ .OriginGraphic }}</td>
-        <td style="text-align:center">{{ .UsageGraphic }}</td>
-        {{ .Show "Size" }}
-        {{ .Show "TotalValue" }}
-        {{ .Show "UnitValue" }}
-        {{ .Show "UnitPrice" }}
-        {{ .Show "TurnoverTime" }}
-        {{ .Show "Demand" }}
-        {{ .Show "Supply" }}
-        {{ .Show "AllocationRatio" }}
+          <td><a href="/stock/{{.Id}}">{{ .UsageType }}</a></td>
+          <td style=><a href="/industry/{{.Viewed.IndustryId}}">{{ .Viewed.Industry.Name}}</a></td>
+          <td style=><a href="/commodity/{{.Viewed.CommodityId}}">{{ .Viewed.Commodity.Name}}</a></td>
+          {{ .Size.FormatRounded }}
+          {{ .Value.FormatRounded }}
+          {{ .Price.FormatRounded }}
+          {{ .Requirement.Format }}
+          {{ .Demand.FormatRounded }}

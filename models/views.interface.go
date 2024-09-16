@@ -7,7 +7,6 @@ import (
 )
 
 // TODO Show should display decimals when required
-// TODO figure out how to make Graphics a method of the implementation, not the interface
 
 // Interface for all view types. Wrapped by the view struct to
 // provide the 'Show' method, which compares a viewed field at
@@ -34,7 +33,6 @@ type View struct {
 //	f: the name of the field to display
 //	Returns: safe HTML string coloured red if the value has changed
 func Show(v Viewer, f string) template.HTML {
-	// fmt.Printf("   Entered Show with field %s\n", f)
 	vv, _ := strconv.Atoi(v.ViewedField(f))
 	vc, _ := strconv.Atoi(v.ComparedField(f))
 	var htmlString string
@@ -46,23 +44,14 @@ func Show(v Viewer, f string) template.HTML {
 	return template.HTML(htmlString)
 }
 
-// Returns a safe HTML string with a link to the ViewedField object
-// Assumes the implementation supplies Name and ID fields
+// Provide a string representing the named field
 //
-// v: an implementation of the Viewer interface
-// urlBase: the root of the link url (eg `commodity`)
-// template.HTML: safe string using ID and Name fields supplied by the implementation
-func Link(v Viewer, urlBase string) template.HTML {
-	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, urlBase, v.ViewedField(`Id`), v.ViewedField(`Name`)))
-}
+//	v: a View object
+//	f: the name of the field to display
+//	Returns: safe HTML string
 
-// Returns a safe HTML string with a link to the Commodity of an industry
-// Should be a method of  IndustryView but haven't yet figured out how
-//
-// v: an implementation of the Viewer interface
-// template.HTML: safe string using ID and Name fields supplied by the implementation
-func CommodityLink(v Viewer) template.HTML {
-	return template.HTML(fmt.Sprintf(`<td><a href="/commodity/%s">%s</a></td>`, v.ViewedField(`OutputCommodityID`), v.ViewedField("Output")))
+func ShowString(v Viewer, f string) template.HTML {
+	return template.HTML(fmt.Sprintf("<td style=\"text-align:center\">%s</td>", v.ViewedField(f)))
 }
 
 // Returns a safe HTML string with a graphic illustrating the origin
@@ -107,4 +96,44 @@ func UsageGraphic(v Viewer) template.HTML {
 		htmlString = `<td style="text-align:center">Unknown Usage</td>`
 	}
 	return template.HTML(htmlString)
+}
+
+// Returns a safe HTML string with a link to the ViewedField object
+// Assumes the implementation supplies Name and ID fields
+//
+// v: an implementation of the Viewer interface
+// urlBase: the root of the link url (eg `commodity`)
+// template.HTML: safe string using ID and Name fields supplied by the implementation
+func Link(v Viewer, urlBase string) template.HTML {
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, urlBase, v.ViewedField(`Id`), v.ViewedField(`Name`)))
+}
+
+// Implementation-specific methods
+// TODO figure out how to convert these into methods of the implementation, not the interface
+
+// Returns a safe HTML string with a link to the Commodity of an industry
+// Should be a method of IndustryView but haven't yet figured out how to fix this
+//
+// v: an implementation of the Viewer interface
+// template.HTML: safe string using fields supplied by the Commodity implementation
+func IndustryCommodityLink(v Viewer) template.HTML {
+	return template.HTML(fmt.Sprintf(`<td><a href="/commodity/%s">%s</a></td>`, v.ViewedField(`OutputCommodityID`), v.ViewedField("Output")))
+}
+
+// Returns a safe HTML string with a link to this stock's industry
+//
+// v: an implementation of the Viewer interface
+// urlBase: the root of the link url (eg `commodity`)
+// template.HTML: safe string using ID and Name fields supplied by the implementation
+func StockIndustryLink(v Viewer) template.HTML {
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, `industry`, v.ViewedField(`IndustryId`), v.ViewedField(`IndustryId`)))
+}
+
+// Returns a safe HTML string with a link to this stock's commodity
+//
+// v: an implementation of the Viewer interface
+// urlBase: the root of the link url (eg `commodity`)
+// template.HTML: safe string using ID and Name fields supplied by the implementation
+func StockCommodityLink(v Viewer) template.HTML {
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, `commodity`, v.ViewedField(`CommodityId`), v.ViewedField(`CommodityId`)))
 }

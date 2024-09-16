@@ -47,13 +47,8 @@ func CreateClassView(v *Class, c *Class) Viewer {
 //	returns: a pointer to a slice of View objects to supply to templates
 func ClassViews(v *[]Class, c *[]Class) *[]Viewer {
 	var newViews = make([]Viewer, len(*v))
-	var vc *Class
-	var cc *Class
 	for i := range *v {
-		vc = &(*v)[i]
-		cc = &(*c)[i]
-		newView := CreateClassView(vc, cc)
-		newViews[i] = newView
+		newViews[i] = CreateClassView(&(*v)[i], &(*c)[i])
 	}
 	return &newViews
 }

@@ -5,6 +5,8 @@ import (
 	"reflect"
 )
 
+// TODO fix up IndustryLink and CommodityLink for IndustryStock so it displays the name, not the Id
+
 // Type for implementation of Viewer interface
 type IndustryView struct {
 	viewedRecord   *Industry
@@ -32,18 +34,13 @@ func (i *IndustryView) ComparedField(f string) string {
 //	c: the same industry at an earlier point in the simulation
 //	returns: a View object to supply to templates
 func CreateIndustryView(vi *Industry, ci *Industry) Viewer {
-	moneyView := IndustryStockView{vi.Money, ci.Money}
-	salesView := IndustryStockView{vi.Sales, ci.Sales}
-	variableView := IndustryStockView{vi.Variable, ci.Variable}
-	constantView := IndustryStockView{vi.Constant[0], ci.Constant[0]}
-
 	return Viewer(&IndustryView{
 		viewedRecord:   vi,
 		comparedRecord: ci,
-		MoneyView:      &moneyView,
-		SalesView:      &salesView,
-		VariableView:   &variableView,
-		ConstantView:   &constantView,
+		MoneyView:      &IndustryStockView{vi.Money, ci.Money},
+		SalesView:      &IndustryStockView{vi.Sales, ci.Sales},
+		VariableView:   &IndustryStockView{vi.Variable, ci.Variable},
+		ConstantView:   &IndustryStockView{vi.Constant[0], ci.Constant[0]},
 	})
 }
 
@@ -54,14 +51,8 @@ func CreateIndustryView(vi *Industry, ci *Industry) Viewer {
 //	returns: a pointer to a slice of View objects to supply to templates
 func IndustryViews(v *[]Industry, c *[]Industry) *[]Viewer {
 	var views = make([]Viewer, len(*v))
-	var vi *Industry
-	var ci *Industry
 	for i := range *v {
-		vi = &(*v)[i]
-		ci = &(*c)[i]
-
-		view := Viewer(CreateIndustryView(vi, ci))
-		views[i] = view
+		views[i] = Viewer(CreateIndustryView(&(*v)[i], &(*c)[i]))
 	}
 	return &views
 }
@@ -123,12 +114,8 @@ func CreateIndustryStockView(v *IndustryStock, c *IndustryStock) Viewer {
 //	returns: a pointer to a slice of View objects to supply to templates
 func IndustryStockViews(v *[]IndustryStock, c *[]IndustryStock) *[]Viewer {
 	var newViews = make([]Viewer, len(*v))
-	var vc *IndustryStock
-	var cc *IndustryStock
 	for i := range *v {
-		vc = &(*v)[i]
-		cc = &(*c)[i]
-		newView := CreateIndustryStockView(vc, cc)
+		newView := CreateIndustryStockView(&(*v)[i], &(*c)[i])
 		newViews[i] = newView
 	}
 	return &newViews

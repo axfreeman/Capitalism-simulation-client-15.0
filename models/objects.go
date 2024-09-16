@@ -5,6 +5,10 @@
 // (2) they define how this front end communicates with the user
 // that is, the purpose is to intermediate between the simulation itself and the display of its results
 
+// TODO Industry should have a pointer to its Commodity
+// TODO IndustryStock should have a pointer to its Industry
+// TODO ClassStock should have a pointer to its Class
+
 package models
 
 // A Simulation

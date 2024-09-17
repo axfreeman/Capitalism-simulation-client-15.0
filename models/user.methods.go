@@ -6,6 +6,8 @@ import (
 	"gorilla-client/utils"
 )
 
+// TODO rationalise traces
+
 // Retrieve the state of the current simulation
 //
 //		returns:
@@ -50,17 +52,40 @@ func (u User) SimulationsList() *[]Simulation {
 
 type Object interface {
 	Commodity | Industry | Class | IndustryStock | ClassStock
+	GetId() int
 }
 
 func ViewedObjects[T Object](u User, objectType string) *[]T {
 	return (*u.TableSets[*u.GetViewedTimeStamp()])[objectType].Table.(*[]T)
 }
+
 func ComparedObjects[T Object](u User, objectType string) *[]T {
 	return (*u.TableSets[*u.GetComparatorTimeStamp()])[objectType].Table.(*[]T)
 }
 
+func ViewedObject[T Object](u User, objectType string, id int) *T {
+	objectList := (*u.TableSets[*u.GetViewedTimeStamp()])[objectType].Table.(*[]T)
+	for i := 0; i < len(*objectList); i++ {
+		o := (*objectList)[i]
+		if id == o.GetId() {
+			return &o
+		}
+	}
+	return nil
+}
+
+func ComparedObject[T Object](u User, objectType string, id int) *T {
+	objectList := (*u.TableSets[*u.GetComparatorTimeStamp()])[objectType].Table.(*[]T)
+	for i := 0; i < len(*objectList); i++ {
+		o := (*objectList)[i]
+		if id == o.GetId() {
+			return &o
+		}
+	}
+	return nil
+}
+
 // Wrapper for the TraceList
-// TODO rationalise this
 func (u User) Traces(timeStamp int) *[]Trace {
 	if len(u.TableSets) == 0 {
 		return nil

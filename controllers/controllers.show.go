@@ -75,7 +75,9 @@ func ShowCommodity(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPager{Url: "commodity.html", Id: id}
 
 	utils.TraceInfof(utils.BrightYellow, "Fetching commodity %d for user %s", id, user.UserName)
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CommodityDisplayData("", id))
+	Tpl.ExecuteTemplate(w,
+		user.CurrentPage.Url,
+		user.CommodityDisplayData("", id))
 }
 
 // Display one specific industry

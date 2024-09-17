@@ -55,10 +55,6 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 
 	utils.TraceInfof(utils.Green, "Fetched the tables")
 
-	// Temporary diagnostics
-	tableSetDiagnosticString := user.Write()
-	utils.TraceLogf(utils.BrightGreen, "The user data is now \n%s", tableSetDiagnosticString)
-
 	// Set the state so that the simulation can proceed to the next action.
 	user.SetCurrentState(nextStates[action])
 	utils.TraceInfof(utils.Green, "The last page this user visited was %v ", user.CurrentPage.Url)

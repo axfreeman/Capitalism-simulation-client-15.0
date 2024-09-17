@@ -115,7 +115,7 @@ func (u *User) CreateDisplayData(message string) TemplateData {
 func (u User) CommodityDisplayData(message string, id int) CommodityData {
 	return CommodityData{
 		u.CreateDisplayData(message),
-		*u.Commodity(id),
+		*ViewedObject[Commodity](u, `commodities`, id),
 	}
 }
 
@@ -131,7 +131,7 @@ func (u User) CommodityDisplayData(message string, id int) CommodityData {
 func (u User) ClassDisplayData(message string, id int) ClassData {
 	return ClassData{
 		u.CreateDisplayData(message),
-		*u.Class(id),
+		*ViewedObject[Class](u, `classes`, id),
 	}
 }
 
@@ -147,7 +147,7 @@ func (u User) ClassDisplayData(message string, id int) ClassData {
 func (u User) IndustryDisplayData(message string, id int) IndustryData {
 	return IndustryData{
 		u.CreateDisplayData(message),
-		*u.Industry(id),
+		*ViewedObject[Industry](u, `industries`, id),
 	}
 }
 

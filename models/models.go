@@ -259,17 +259,22 @@ var NotFoundIndustry = Industry{
 	UserName:     "UNDEFINED",
 }
 
-// Return the output commodity of this industry
-// Deprecated - we do not want to access objects via the user name
-func (ind *Industry) OutputCommodity() *Commodity {
-	salesStock := ind.Sales
-	return salesStock.Commodity
+func (c Commodity) GetId() int {
+	return c.Id
 }
 
-// return the industry of this industry stock
-// Deprecated - we do not want to access objects via the user name
-func (s IndustryStock) Industry() *Industry {
-	user := LoggedInUsers[s.UserName]
-	ind := user.Industry(s.IndustryId)
-	return ind
+func (i Industry) GetId() int {
+	return i.Id
+}
+
+func (c Class) GetId() int {
+	return c.Id
+}
+
+func (is IndustryStock) GetId() int {
+	return is.Id
+}
+
+func (cs ClassStock) GetId() int {
+	return cs.Id
 }

@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"gorilla-client/utils"
 )
 
@@ -82,11 +81,11 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 		Message:            message,
 	}
 
-	classTest := (*displayData.ClassViews)[0]
-	industryTest := (*displayData.IndustryViews)[0]
+	// classTest := (*displayData.ClassViews)[0]
+	// industryTest := (*displayData.IndustryViews)[0]
 
-	fmt.Println("class test is ", classTest)
-	fmt.Println("industry test is ", industryTest)
+	// fmt.Println("class test is ", classTest)
+	// fmt.Println("industry test is ", industryTest)
 
 	return displayData
 }

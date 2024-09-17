@@ -21,12 +21,6 @@ type Viewer interface {
 	ComparedField(f string) string
 }
 
-// Wrapper for the Viewer struct. Any view that implements Viewer
-// can access the Show method of this type
-type View struct {
-	Viewer
-}
-
 // Provide a string, suitable for display in a template, that formats
 // a viewed value and highlights values that have changed.
 //
@@ -36,8 +30,8 @@ type View struct {
 func Show(v Viewer, f string) template.HTML {
 	vv, _ := strconv.Atoi(v.ViewedField(f))
 	vc, _ := strconv.Atoi(v.ComparedField(f))
-	utils.TraceInfof(utils.BrightYellow, "Show was called with viewedField %s", f)
-	utils.TraceInfof(utils.BrightYellow, "Viewed field is %d and compared Field is %d", vv, vc)
+	utils.TraceInfof(utils.BrightYellow, "Show %s", f)
+	utils.TraceInfof(utils.Yellow, " Viewed field is %d and compared Field is %d", vv, vc)
 	var htmlString string
 	if vv == vc {
 		htmlString = fmt.Sprintf("<td style=\"text-align:center\">%d</td>", vv)

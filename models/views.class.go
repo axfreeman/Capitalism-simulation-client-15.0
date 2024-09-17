@@ -79,10 +79,7 @@ func (i *ClassStockView) ComparedField(f string) string {
 //	c: the same ClassStock at an earlier point in the simulation
 //	returns: a View object to supply to templates
 func CreateClassStockView(v *ClassStock, c *ClassStock) Viewer {
-	return View{&ClassStockView{
-		viewedRecord:   v,
-		comparedRecord: c,
-	}}
+	return &ClassStockView{viewedRecord: v, comparedRecord: c}
 }
 
 // Create a slice of ClassStockView for display in a template

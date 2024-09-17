@@ -35,10 +35,10 @@ func (c *CommodityView) ComparedField(f string) string {
 //	c: the same commodity at an earlier point in the simulation
 //	returns: a View object to supply to templates
 func CreateCommodityView(v *Commodity, c *Commodity) Viewer {
-	return View{&CommodityView{
+	return &CommodityView{
 		viewedRecord:   v,
 		comparedRecord: c,
-	}}
+	}
 }
 
 // Create a slice of CommodityView for display in a template
@@ -47,17 +47,14 @@ func CreateCommodityView(v *Commodity, c *Commodity) Viewer {
 //	c: a slice of the same commodities at an earlier point in the simulation
 //	returns: a pointer to a slice of View objects to supply to templates
 func CommodityViews(v *[]Commodity, c *[]Commodity) *[]Viewer {
-	var newViews = make([]Viewer, len(*v))
+	var view = make([]Viewer, len(*v))
 	var vc *Commodity
 	var cc *Commodity
 	for i := range *v {
 		vc = &(*v)[i]
 		cc = &(*c)[i]
-		newView := View{&CommodityView{
-			viewedRecord:   vc,
-			comparedRecord: cc,
-		}}
-		newViews[i] = newView
+		newView := CreateCommodityView(vc, cc)
+		view[i] = newView
 	}
-	return &newViews
+	return &view
 }

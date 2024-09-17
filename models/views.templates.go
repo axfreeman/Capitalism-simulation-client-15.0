@@ -5,7 +5,7 @@ import (
 )
 
 // Commonly-used Views to pass into templates
-type DisplayData struct {
+type TemplateData struct {
 	Title              string
 	Simulations        *[]Simulation
 	Templates          *[]Simulation
@@ -28,13 +28,13 @@ type DisplayData struct {
 //		returns:
 //	     if the user has no simulations, just the template list
 //	     otherwise, the output data the users current simulation
-func (u *User) CreateDisplayData(message string) DisplayData {
+func (u *User) CreateDisplayData(message string) TemplateData {
 	slist := u.SimulationsList()
 	state := u.GetCurrentState()
 
 	if u.CurrentSimulationID == 0 {
 		utils.TraceInfo(utils.BrightYellow, "User has no simulations")
-		return DisplayData{
+		return TemplateData{
 			Title:              "No simulations",
 			Simulations:        nil,
 			Templates:          &TemplateList,
@@ -65,7 +65,7 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 	csc := (*u.TableSets[*u.GetComparatorTimeStamp()])["class stocks"].Table.(*[]ClassStock)
 
 	// Create the DisplayData object
-	displayData := DisplayData{
+	templateData := TemplateData{
 		Title:              "Hello",
 		Simulations:        slist,
 		Templates:          &TemplateList,
@@ -87,7 +87,7 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 	// fmt.Println("class test is ", classTest)
 	// fmt.Println("industry test is ", industryTest)
 
-	return displayData
+	return templateData
 }
 
 // Create a CommodityData to display a single commodity in the
@@ -136,4 +136,22 @@ func (u User) IndustryDisplayData(message string, id int) IndustryData {
 		u.CreateDisplayData(message),
 		*u.Industry(id),
 	}
+}
+
+// Embedded data for a single commodity, to pass into templates
+type CommodityData struct {
+	TemplateData
+	Commodity Commodity
+}
+
+// Embedded data for a single class, to pass into templates
+type ClassData struct {
+	TemplateData
+	Class Class
+}
+
+// Embedded data for a single industry, to pass into templates
+type IndustryData struct {
+	TemplateData
+	Industry Industry
 }

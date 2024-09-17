@@ -1,22 +1,7 @@
 package models
 
-// Embedded data for a single commodity, to pass into templates
-type CommodityData struct {
-	DisplayData
-	Commodity Commodity
-}
-
-// Embedded data for a single class, to pass into templates
-type ClassData struct {
-	DisplayData
-	Class Class
-}
-
-// Embedded data for a single industry, to pass into templates
-type IndustryData struct {
-	DisplayData
-	Industry Industry
-}
+//TODO Tabler should maybe use generics instead of interface{}?
+//TODO user should get the timestamp from the current simulation
 
 // Defines Table to be synchronised with the server
 //

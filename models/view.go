@@ -90,7 +90,9 @@ func (u *User) CreateDisplayData(message string) DisplayData {
 	return displayData
 }
 
-// Get a CommodityData to display a single commodity in the commodity.html template
+// Create a CommodityData to display a single commodity in the
+// commodity.html template. This is added dynamically to the DisplayData
+// template when the Commodity view is requested
 //
 //	u: the user
 //	message: any message
@@ -104,7 +106,9 @@ func (u User) CommodityDisplayData(message string, id int) CommodityData {
 	}
 }
 
-// Get a ClassData to display a single social class in the class.html template
+// Create a CommodityData to display a single class in the
+// class.html template. This is added dynamically to the DisplayData
+// template when the Commodity view is requested
 //
 //	u: the user
 //	message: any message
@@ -118,7 +122,9 @@ func (u User) ClassDisplayData(message string, id int) ClassData {
 	}
 }
 
-// Get an IndustryData to display a single industry in the industry.html template
+// Create an IndustryData to display a single industry in the
+// industry.html template. This is added dynamically to the DisplayData
+// template when the Commodity view is requested
 //
 //	u: the user
 //	message: any message

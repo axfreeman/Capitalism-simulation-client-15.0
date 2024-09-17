@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"gorilla-client/utils"
 	"html/template"
 	"strconv"
 )
@@ -35,6 +36,8 @@ type View struct {
 func Show(v Viewer, f string) template.HTML {
 	vv, _ := strconv.Atoi(v.ViewedField(f))
 	vc, _ := strconv.Atoi(v.ComparedField(f))
+	utils.TraceInfof(utils.BrightYellow, "Show was called with viewedField %s", f)
+	utils.TraceInfof(utils.BrightYellow, "Viewed field is %d and compared Field is %d", vv, vc)
 	var htmlString string
 	if vv == vc {
 		htmlString = fmt.Sprintf("<td style=\"text-align:center\">%d</td>", vv)

@@ -12,6 +12,8 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+//TODO Switch to in-memory database. We only used sqlite for diagnostic purposes in development. The API keeps a permanent register and that is enough.
+
 // Database using SQlite
 // Implements DataHander interface
 //
@@ -45,7 +47,6 @@ func NewSQLDB() SQLDbStruct {
 		log.Fatal(err.Error())
 	}
 	file.Close()
-	utils.TraceInfo(utils.BrightWhite, "New sqlite file created")
 
 	// Now open the database we just created
 	sdb, err := sql.Open("sqlite3", config.Config.SQLiteFile)

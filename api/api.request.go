@@ -161,7 +161,7 @@ func FetchRemoteTemplates() error {
 	status, err := AdminGetRequest(config.Config.ApiSource+`/templates/templates`, &models.TemplateList)
 	if err != nil {
 		errorReport := fmt.Sprintf("Could not retrieve template information from server. Status %d, error message folows:\n%v", status, err)
-		utils.TraceInfo(utils.BrightRed, errorReport)
+		utils.TraceError(errorReport)
 		return errors.New(errorReport)
 	}
 	utils.TraceInfo(utils.Cyan, "Templates retrieved from server")
@@ -171,7 +171,7 @@ func FetchRemoteTemplates() error {
 // Populate the RegisteredUser database with data fetched from the remote server
 func LoadRegisteredUsers() error {
 	var RegisteredUserList []models.RegisteredUser // Temporary storage for initializing
-	utils.TraceInfo(utils.BrightCyan, "Loading remote users")
+	utils.TraceInfo(utils.Purple, "Loading remote users")
 	_, err := AdminGetRequest(config.Config.ApiSource+`/admin/users`, &RegisteredUserList)
 	if err != nil {
 		log.Fatal("server failed to return user data. Cannot continue")
@@ -188,6 +188,6 @@ func LoadRegisteredUsers() error {
 		db.DataBase.CreateRegisteredUser(&item)
 	}
 
-	utils.TraceInfo(utils.BrightCyan, "Registered Users Loaded")
+	utils.TraceInfo(utils.Purple, "Registered Users Loaded")
 	return nil
 }

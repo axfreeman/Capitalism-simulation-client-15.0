@@ -24,7 +24,7 @@ func (u User) GetCurrentState() string {
 //	new_state: one of "DEMAND", "TRADE",  ... (the stages of the cycle)
 //	returns: does not report any error. It probably should.
 func (u User) SetCurrentState(new_state string) {
-	utils.TraceInfof(utils.Purple, "Set the state of simulation with id %d to %s", u.CurrentSimulationID, new_state)
+	utils.TraceInfof(utils.Green, "Set the state of simulation with id %d to %s", u.CurrentSimulationID, new_state)
 	var s *Simulation
 	if s = u.Simulation(u.CurrentSimulationID); s == nil {
 		utils.TraceError("Attempt to access non-existent simulation")

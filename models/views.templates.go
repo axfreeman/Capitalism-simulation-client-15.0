@@ -53,16 +53,29 @@ func (u *User) CreateDisplayData(message string) TemplateData {
 
 	// retrieve comparator and viewed records for all data objects
 	// to prepare for entry into Views in the DisplayData object
-	cv := (*u.TableSets[*u.GetViewedTimeStamp()])["commodities"].Table.(*[]Commodity)
-	cc := (*u.TableSets[*u.GetComparatorTimeStamp()])["commodities"].Table.(*[]Commodity)
-	iv := (*u.TableSets[*u.GetViewedTimeStamp()])["industries"].Table.(*[]Industry)
-	ic := (*u.TableSets[*u.GetComparatorTimeStamp()])["industries"].Table.(*[]Industry)
-	clv := (*u.TableSets[*u.GetViewedTimeStamp()])["classes"].Table.(*[]Class)
-	clc := (*u.TableSets[*u.GetComparatorTimeStamp()])["classes"].Table.(*[]Class)
-	isv := (*u.TableSets[*u.GetViewedTimeStamp()])["industry stocks"].Table.(*[]IndustryStock)
-	isc := (*u.TableSets[*u.GetComparatorTimeStamp()])["industry stocks"].Table.(*[]IndustryStock)
-	csv := (*u.TableSets[*u.GetViewedTimeStamp()])["class stocks"].Table.(*[]ClassStock)
-	csc := (*u.TableSets[*u.GetComparatorTimeStamp()])["class stocks"].Table.(*[]ClassStock)
+
+	// OLD CODE
+	// cv := (*u.TableSets[*u.GetViewedTimeStamp()])["commodities"].Table.(*[]Commodity)
+	// cc := (*u.TableSets[*u.GetComparatorTimeStamp()])["commodities"].Table.(*[]Commodity)
+	// iv := (*u.TableSets[*u.GetViewedTimeStamp()])["industries"].Table.(*[]Industry)
+	// ic := (*u.TableSets[*u.GetComparatorTimeStamp()])["industries"].Table.(*[]Industry)
+	// clv := (*u.TableSets[*u.GetViewedTimeStamp()])["classes"].Table.(*[]Class)
+	// clc := (*u.TableSets[*u.GetComparatorTimeStamp()])["classes"].Table.(*[]Class)
+	// isv := (*u.TableSets[*u.GetViewedTimeStamp()])["industry stocks"].Table.(*[]IndustryStock)
+	// isc := (*u.TableSets[*u.GetComparatorTimeStamp()])["industry stocks"].Table.(*[]IndustryStock)
+	// csv := (*u.TableSets[*u.GetViewedTimeStamp()])["class stocks"].Table.(*[]ClassStock)
+	// csc := (*u.TableSets[*u.GetComparatorTimeStamp()])["class stocks"].Table.(*[]ClassStock)
+
+	cv := ViewedObjects[Commodity](*u, `commodities`)
+	cc := ComparedObjects[Commodity](*u, `commodities`)
+	iv := ViewedObjects[Industry](*u, `industries`)
+	ic := ComparedObjects[Industry](*u, `industries`)
+	clv := ViewedObjects[Class](*u, `classes`)
+	clc := ComparedObjects[Class](*u, `classes`)
+	isv := ViewedObjects[IndustryStock](*u, `industry stocks`)
+	isc := ComparedObjects[IndustryStock](*u, `industry stocks`)
+	csv := ViewedObjects[ClassStock](*u, `class stocks`)
+	csc := ComparedObjects[ClassStock](*u, `class stocks`)
 
 	// Create the DisplayData object
 	templateData := TemplateData{

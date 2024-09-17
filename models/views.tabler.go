@@ -1,6 +1,6 @@
 package models
 
-//TODO Tabler should maybe use generics instead of interface{}?
+//TODO Table should maybe use generics instead of interface{}?
 //TODO user should get the timestamp from the current simulation
 
 // Defines Table to be synchronised with the server
@@ -8,7 +8,7 @@ package models
 //	ApiUrl:the endpoint on the server which fetches the Table
 //	Table: one of Commodity, Industry, Class, etc etc
 //	Name: convenience field for diagnostics
-type Tabler struct {
+type Table struct {
 	ApiUrl string      //Url to use when requesting data from the server
 	Name   string      //The name of the table (for convenience, may be redundant)
 	Table  interface{} //All the data for one Table (eg Commodity, Industry, etc)
@@ -16,13 +16,12 @@ type Tabler struct {
 
 // Contains all the tables in one stage of one simulation
 // Indexed by the name of the table (commodity, industry, etc)
-type TableSet map[string]Tabler
+type TableSet map[string]Table
 
-// Constructor for a TableSet. This contains all the Tables in one stage
-// required for one stage of one simulation. Tables are "commodities",
+// Constructor for a TableSet. This contains all the Tables required for one stage of one simulation. Tables are "commodities",
 // "industries", etc
 func NewTableSet() TableSet {
-	return map[string]Tabler{
+	return map[string]Table{
 		"commodities": {
 			ApiUrl: `/commodity`,
 			Table:  new([]Commodity),

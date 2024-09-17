@@ -48,29 +48,19 @@ func (u User) SimulationsList() *[]Simulation {
 	return list
 }
 
-func (u User) Commodities() *[]Commodity {
-	return (*u.TableSets[*u.GetViewedTimeStamp()])["commodities"].Table.(*[]Commodity)
+type Object interface {
+	Commodity | Industry | Class | IndustryStock | ClassStock
 }
 
-func (u User) Industries() *[]Industry {
-	return (*u.TableSets[*u.GetViewedTimeStamp()])["industries"].Table.(*[]Industry)
+func ViewedObjects[T Object](u User, objectType string) *[]T {
+	return (*u.TableSets[*u.GetViewedTimeStamp()])[objectType].Table.(*[]T)
 }
-
-func (u User) Classes() *[]Class {
-	return (*u.TableSets[*u.GetViewedTimeStamp()])["classes"].Table.(*[]Class)
-}
-
-// Wrapper for the IndustryStockList
-func (u User) IndustryStocks(timeStamp int) *[]IndustryStock {
-	return (*u.TableSets[timeStamp])["industry stocks"].Table.(*[]IndustryStock)
-}
-
-// Wrapper for the ClassStockList
-func (u User) ClassStocks(timeStamp int) *[]ClassStock {
-	return (*u.TableSets[timeStamp])["class stocks"].Table.(*[]ClassStock)
+func ComparedObjects[T Object](u User, objectType string) *[]T {
+	return (*u.TableSets[*u.GetComparatorTimeStamp()])[objectType].Table.(*[]T)
 }
 
 // Wrapper for the TraceList
+// TODO rationalise this
 func (u User) Traces(timeStamp int) *[]Trace {
 	if len(u.TableSets) == 0 {
 		return nil

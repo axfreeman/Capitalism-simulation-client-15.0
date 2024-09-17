@@ -19,7 +19,7 @@ import (
 //
 //	Return: nil if it worked
 //	Return: error string if there was an error
-func Fetch(apiKey string, d *models.Tabler) error {
+func Fetch(apiKey string, d *models.Table) error {
 	utils.TraceInfo(utils.BrightCyan, fmt.Sprintf("Fetching a table from server with api key %s and path %s", apiKey, d.ApiUrl))
 
 	response, err := UserGetRequest(apiKey, d.ApiUrl)

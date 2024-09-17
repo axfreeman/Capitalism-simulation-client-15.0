@@ -1,6 +1,6 @@
-// PATH: go-auth/models/User.go
-
 package models
+
+//TODO replace object finders with generics and maybe they don't belong in this file anyhow
 
 import (
 	"encoding/json"
@@ -25,7 +25,7 @@ type User struct {
 	TimeStamp           int          // Indexes Datasets. Selects the stage that the simulation has reached
 	ViewedTimeStamp     int          // Indexes Datasets. Selects what the user is viewing
 	ComparatorTimeStamp int          // Indexes Datasets. Selects what Viewed items are compared with.
-	Simulations         Tabler       // Details of all simulations
+	Simulations         Table        // Details of all simulations
 	TableSets           []*TableSet  // Repository for the data objects generated during the simulation
 }
 
@@ -41,7 +41,7 @@ func NewUser(username string) *User {
 		ViewedTimeStamp:     0,
 		ComparatorTimeStamp: 0,
 		TableSets:           []*TableSet{},
-		Simulations: Tabler{
+		Simulations: Table{
 			ApiUrl: `/simulations`,
 			Table:  new([]Simulation),
 			Name:   "Simulations",
@@ -96,7 +96,8 @@ func (u *User) Write() string {
 //	Return: pointer to the commodity if it found
 //	Return: pointer to NotFoundCommodity if not found.
 func (u User) Commodity(id int) *Commodity {
-	commodityList := *LoggedInUsers[u.UserName].Commodities()
+	// commodityList := *LoggedInUsers[u.UserName].OldCommodities()
+	commodityList := *ViewedObjects[Commodity](u, `commodities`)
 	for i := 0; i < len(commodityList); i++ {
 		c := commodityList[i]
 		if id == c.Id {
@@ -128,7 +129,8 @@ func (u *User) Simulation(id int) *Simulation {
 //	Return: pointer to the class if it found
 //	Return: pointer to NotFoundClass if not found.
 func (u User) Class(id int) *Class {
-	classList := *LoggedInUsers[u.UserName].Classes()
+	// classList := *LoggedInUsers[u.UserName].OldClasses()
+	classList := *ViewedObjects[Class](u, `classes`)
 	for i := 0; i < len(classList); i++ {
 		c := classList[i]
 		if id == c.Id {
@@ -144,7 +146,8 @@ func (u User) Class(id int) *Class {
 //	Return: pointer to the industry if it found
 //	Return: pointer to NotFoundIndustry if not found.
 func (u User) Industry(id int) *Industry {
-	industryList := *LoggedInUsers[u.UserName].Industries()
+	// industryList := *LoggedInUsers[u.UserName].OldIndustries()
+	industryList := *ViewedObjects[Industry](u, `industries`)
 	for i := 0; i < len(industryList); i++ {
 		ind := industryList[i]
 		if id == ind.Id {

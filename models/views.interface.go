@@ -30,6 +30,7 @@ func Show(v Viewer, f string) template.HTML {
 	vv, _ := strconv.Atoi(v.ViewedField(f))
 	vc, _ := strconv.Atoi(v.ComparedField(f))
 
+	// Diagnostics - turn on if problems with display
 	// utils.TraceInfof(utils.BrightYellow,
 	// 	"Show %s:\t\t%s",
 	// 	f,
@@ -51,7 +52,6 @@ func Show(v Viewer, f string) template.HTML {
 //	v: a View object
 //	f: the name of the field to display
 //	Returns: safe HTML string
-
 func ShowString(v Viewer, f string) template.HTML {
 	return template.HTML(fmt.Sprintf("<td style=\"text-align:center\">%s</td>", v.ViewedField(f)))
 }

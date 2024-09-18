@@ -22,7 +22,8 @@ func (i *ClassView) ViewedField(f string) string {
 
 // Implements Viewer interface ComparedField method
 func (i *ClassView) ComparedField(f string) string {
-	return reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f).String()
+	s := reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f)
+	return fmt.Sprint(s)
 }
 
 // Create a single ClassView for display in a template
@@ -70,7 +71,8 @@ func (i *ClassStockView) ViewedField(f string) string {
 
 // Implements Viewer interface ComparedField method
 func (i *ClassStockView) ComparedField(f string) string {
-	return reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f).String()
+	s := reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f)
+	return fmt.Sprint(s)
 }
 
 // Create a single ClassStockView for display in a template

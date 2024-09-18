@@ -60,9 +60,9 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfof(utils.Green, "The last page this user visited was %v ", user.CurrentPage.Url)
 
 	if useLastVisited(user.CurrentPage.Url) {
-		Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateDisplayData(""))
+		Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 	} else {
-		Tpl.ExecuteTemplate(w, "user-dashboard.html", user.CreateDisplayData(""))
+		Tpl.ExecuteTemplate(w, "user-dashboard.html", user.CreateTemplateData(""))
 	}
 }
 
@@ -79,9 +79,9 @@ func Back(w http.ResponseWriter, r *http.Request) {
 	}
 	utils.TraceInfof(utils.Green, "Viewing %d with comparator %d", *u.GetViewedTimeStamp(), *u.GetComparatorTimeStamp())
 	if useLastVisited(u.CurrentPage.Url) {
-		Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateDisplayData(""))
+		Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateTemplateData(""))
 	} else {
-		Tpl.ExecuteTemplate(w, "index.html", u.CreateDisplayData(""))
+		Tpl.ExecuteTemplate(w, "index.html", u.CreateTemplateData(""))
 	}
 }
 
@@ -101,27 +101,27 @@ func Forward(w http.ResponseWriter, r *http.Request) {
 
 	utils.TraceInfof(utils.Green, "Viewing %d with comparator %d", *u.GetViewedTimeStamp(), *u.GetComparatorTimeStamp())
 	if useLastVisited(u.CurrentPage.Url) {
-		Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateDisplayData(""))
+		Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateTemplateData(""))
 	} else {
-		Tpl.ExecuteTemplate(w, "index.html", u.CreateDisplayData(""))
+		Tpl.ExecuteTemplate(w, "index.html", u.CreateTemplateData(""))
 	}
 }
 
 // TODO not working yet
 func SwitchSimulation(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateDisplayData("Sorry, Switching Simulations is not ready yet"))
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData("Sorry, Switching Simulations is not ready yet"))
 }
 
 // TODO not working yet
 func DeleteSimulation(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateDisplayData("Sorry, Deleting a Simulation is not ready yet"))
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData("Sorry, Deleting a Simulation is not ready yet"))
 
 }
 
 // TODO not working yet
 func RestartSimulation(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateDisplayData("Sorry, Restarting a Simulation is not ready yet"))
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData("Sorry, Restarting a Simulation is not ready yet"))
 }

@@ -6,7 +6,7 @@ import (
 	"gorilla-client/utils"
 )
 
-// TODO rationalise traces
+// TODO rationalise traces and simulations
 
 // Retrieve the state of the current simulation
 //
@@ -35,23 +35,8 @@ func (u User) SetCurrentState(new_state string) {
 	s.State = new_state
 }
 
-// List of the user's Simulations.
-//
-//	u: the user
-//	returns:
-//	 Slice of SimulationsList
-//	 If the user has no simulations, an empty slice
-func (u User) SimulationsList() *[]Simulation {
-	list := u.Simulations.Table.(*[]Simulation)
-	if len(*list) == 0 {
-		var fakeList []Simulation = *new([]Simulation)
-		return &fakeList
-	}
-	return list
-}
-
 type Object interface {
-	Commodity | Industry | Class | IndustryStock | ClassStock
+	Commodity | Industry | Class | IndustryStock | ClassStock | Simulation | Trace
 	GetId() int
 }
 
@@ -95,4 +80,19 @@ func (u User) Traces(timeStamp int) *[]Trace {
 		return nil
 	}
 	return table.Table.(*[]Trace)
+}
+
+// List of the user's Simulations.
+//
+//	u: the user
+//	returns:
+//	 Slice of SimulationsList
+//	 If the user has no simulations, an empty slice
+func (u User) SimulationsList() *[]Simulation {
+	list := u.Simulations.Table.(*[]Simulation)
+	if len(*list) == 0 {
+		var fakeList []Simulation = *new([]Simulation)
+		return &fakeList
+	}
+	return list
 }

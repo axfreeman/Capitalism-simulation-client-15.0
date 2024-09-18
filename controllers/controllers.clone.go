@@ -29,7 +29,7 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 
 	user := CurrentUser(r)
 	utils.TraceInfof(utils.Green, "Clone Simulation was called by user %s", user.UserName)
-	user.CurrentPage = models.CurrentPager{Url: "user-dashboard.html", Id: 0}
+	user.CurrentPage = models.CurrentPageType{Url: "user-dashboard.html", Id: 0}
 
 	if s, ok = mux.Vars(r)["id"]; !ok {
 		ReportError(user, w, "Unrecognisable URL. Please report this to the developer")
@@ -80,5 +80,5 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	// Each time we move forward, a new TableSet will be created.
 	// This allows the user to view and compare with previous stages of the simulation.
 	*user.GetViewedTimeStamp() = 0
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateDisplayData(""))
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 }

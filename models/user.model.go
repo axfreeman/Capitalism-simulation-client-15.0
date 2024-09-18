@@ -8,25 +8,25 @@ import (
 
 // A record describing what page the user was visiting
 // together with the information needed to display the page
-type CurrentPager struct {
+type CurrentPageType struct {
 	Url string
 	Id  int
 }
 
 // A User record contains everything relevant to the simulations of a single logged in user
 type User struct {
-	UserName            string       `json:"username"` // Repeats the key in the map,for ease of use
-	Email               string       `json:"email"`
-	ApiKey              string       `json:"api_key"` // The api key allocated to this user
-	Password            string       `json:"password"`
-	Role                string       `json:"role"`
-	CurrentSimulationID int          `json:"current_simulation_id"` // the id of the simulation that this user is currently using
-	CurrentPage         CurrentPager // more information about what the user was looking at (under development)
-	TimeStamp           int          // Indexes Datasets. Selects the stage that the simulation has reached
-	ViewedTimeStamp     int          // Indexes Datasets. Selects what the user is viewing
-	ComparatorTimeStamp int          // Indexes Datasets. Selects what Viewed items are compared with.
-	Simulations         Table        // Details of all simulations
-	TableSets           []*TableSet  // Repository for the data objects generated during the simulation
+	UserName            string          `json:"username"` // Repeats the key in the map,for ease of use
+	Email               string          `json:"email"`
+	ApiKey              string          `json:"api_key"` // The api key allocated to this user
+	Password            string          `json:"password"`
+	Role                string          `json:"role"`
+	CurrentSimulationID int             `json:"current_simulation_id"` // the id of the simulation that this user is currently using
+	CurrentPage         CurrentPageType // more information about what the user was looking at (under development)
+	TimeStamp           int             // Indexes Datasets. Selects the stage that the simulation has reached
+	ViewedTimeStamp     int             // Indexes Datasets. Selects what the user is viewing
+	ComparatorTimeStamp int             // Indexes Datasets. Selects what Viewed items are compared with.
+	Simulations         Table           // Details of all simulations
+	TableSets           []*TableSet     // Repository for the data objects generated during the simulation
 }
 
 // Constructor for a standard initial User.
@@ -36,7 +36,7 @@ func NewUser(username string) *User {
 		Password:            "",
 		ApiKey:              "",
 		CurrentSimulationID: 0,
-		CurrentPage:         CurrentPager{"", 0},
+		CurrentPage:         CurrentPageType{"", 0},
 		TimeStamp:           0,
 		ViewedTimeStamp:     0,
 		ComparatorTimeStamp: 0,

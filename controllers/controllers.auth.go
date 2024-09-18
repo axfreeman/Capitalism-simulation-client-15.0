@@ -202,7 +202,7 @@ func LoginAuthHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// display the welcome screen
-	user.CurrentPage = models.CurrentPager{Url: "welcome.html", Id: 0}
+	user.CurrentPage = models.CurrentPageType{Url: "welcome.html", Id: 0}
 	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, MessageData{Message: "", Username: user.UserName})
 }
 

@@ -21,7 +21,7 @@ func main() {
 
 	utils.TraceInfo(utils.Yellow, "The Rosy Dawn of Capitalism has begun")
 
-	db.DataBase = db.NewSQLDB()
+	db.DataBase = db.NewImDB()
 
 	api.LoadRegisteredUsers()
 

@@ -97,6 +97,7 @@ type Class struct {
 	Id                 int     `json:"id"`
 	Name               string  `json:"name"`
 	SimulationId       int32   `json:"simulation_id"`
+	Output             string  `json:"output"`
 	UserName           string  `json:"username"`
 	Population         float32 `json:"population"`
 	ParticipationRatio float32 `json:"participation_ratio"`

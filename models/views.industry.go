@@ -95,7 +95,8 @@ func (i *IndustryStockView) ViewedField(f string) string {
 
 // Implements Viewer interface ViewedField method
 func (i *IndustryStockView) ComparedField(f string) string {
-	return reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f).String()
+	s := reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f)
+	return fmt.Sprint(s)
 }
 
 // Create a single IndustryStockView for display in a template

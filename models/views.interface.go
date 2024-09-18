@@ -117,9 +117,20 @@ func Link(v Viewer, urlBase string) template.HTML {
 //
 // v: an implementation of the Viewer interface
 // template.HTML: safe string using fields supplied by the Commodity implementation
-func IndustryCommodityLink(v Viewer) template.HTML {
-	o := v.(*IndustryView).viewedRecord
-	return template.HTML(fmt.Sprintf(`<td><a href="/commodity/%s">%s</a></td>`, v.ViewedField(`OutputCommodityID`), o.Output))
+func IndustryCommodityLink(v IndustryView) template.HTML {
+	o := v.viewedRecord
+	c := *o.Commodity
+
+	// utils.TraceInfof(utils.Purple, "Industry is %v and commodity is %v", o, c)
+	output := template.HTML(fmt.Sprintf(`<td><a href="/commodity/%d">%s</a></td>`, c.Id, o.Output))
+	utils.TraceInfof(utils.Purple, "Industry Commodity Link says commodity Id is %s", string(output))
+	return output
+}
+
+// TODO get this working
+func ReplacementIndustryCommodityLink(v IndustryView) template.HTML {
+	o := v.viewedRecord
+	return template.HTML(fmt.Sprintf(`<td><a href="/commodity/%d">%s</a></td>`, o.Commodity.Id, o.Output))
 }
 
 // Returns a safe HTML string with a link to this stock's commodity

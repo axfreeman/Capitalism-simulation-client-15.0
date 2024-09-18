@@ -46,12 +46,15 @@ func Fetch(apiKey string, d *models.Table) error {
 
 // Fetches a simulation and associated tables from the api server.
 // NOTE the server works out who the user is from the apiKey
-// NOTE the server must first be told this user's current simulation ID
+// NOTE the server knows the simulationID because it knows about the user
 //
-//	user: supplies apiKey and simulationID that uniquely identify the simulation
+// Replace Id fields with pointers. This makes for speed of access and
+// visibility of code.
 //
-//	returns:
-//	  err if anything goes wrong
+// user: supplies apiKey and simulationID that uniquely identify the simulation
+//
+//	 returns:
+//		err if anything goes wrong
 func FetchTables(user *models.User) error {
 	// Fetch all the simulations for this user (regardless of ID)
 	err := Fetch(user.ApiKey, &user.Simulations)
@@ -59,8 +62,6 @@ func FetchTables(user *models.User) error {
 		return err
 	}
 
-	// Fetch all the tables in this simulation
-	// NOTE the server knows the simulationID because it knows about the user
 	newTableSet := models.NewTableSet()
 	for key, value := range newTableSet {
 		err = Fetch(user.ApiKey, &value)
@@ -69,28 +70,12 @@ func FetchTables(user *models.User) error {
 		}
 	}
 
+	// TODO use generic funcs to abstract from implementation
 	industries := *(newTableSet[`industries`].Table.(*[]models.Industry))
 	industryStocks := *newTableSet[`industry stocks`].Table.(*[]models.IndustryStock)
 	classes := *(newTableSet[`classes`].Table.(*[]models.Class))
 	classStocks := *newTableSet[`class stocks`].Table.(*[]models.ClassStock)
 	commodities := *newTableSet[`commodities`].Table.(*[]models.Commodity)
-
-	// create direct pointers to commodities the stock objects
-	for com := range commodities {
-		commodityId := commodities[com].Id
-		for is := range industryStocks {
-			if industryStocks[is].CommodityId == commodityId {
-				industryStocks[is].Commodity = &commodities[com]
-				industryStocks[is].CommodityName = commodities[com].Name
-			}
-		}
-		for cs := range classStocks {
-			if classStocks[cs].CommodityId == commodityId {
-				classStocks[cs].Commodity = &commodities[com]
-				classStocks[cs].CommodityName = commodities[com].Name
-			}
-		}
-	}
 
 	// set the Commodity, Sales Stock, Money stock, Industrial stocks (=Constant capital) and Social stock (=Variable Capital) of every industry
 	for ind := range industries {
@@ -134,6 +119,36 @@ func FetchTables(user *models.User) error {
 				}
 			}
 		}
+	}
+
+	// create direct pointers to commodities in the stock, industry and class objects.
+	for com := range commodities {
+		commodityId := commodities[com].Id
+		for is := range industryStocks {
+			if industryStocks[is].CommodityId == commodityId {
+				industryStocks[is].Commodity = &commodities[com]
+				industryStocks[is].CommodityName = commodities[com].Name
+			}
+		}
+		for cs := range classStocks {
+			if classStocks[cs].CommodityId == commodityId {
+				classStocks[cs].Commodity = &commodities[com]
+				classStocks[cs].CommodityName = commodities[com].Name
+			}
+		}
+		// create direct pointers to commodities in the industry objects
+		for ind := range industries {
+			if industries[ind].Sales.CommodityId == commodityId {
+				industries[ind].Commodity = &commodities[com]
+			}
+		}
+		// create direct pointers to commodities in the class objects
+		for class := range classes {
+			if classes[class].Sales.CommodityId == commodityId {
+				classes[class].Commodity = &commodities[com]
+			}
+		}
+
 	}
 
 	user.TableSets = append(user.TableSets, &newTableSet)

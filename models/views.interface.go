@@ -30,8 +30,11 @@ type Viewer interface {
 func Show(v Viewer, f string) template.HTML {
 	vv, _ := strconv.Atoi(v.ViewedField(f))
 	vc, _ := strconv.Atoi(v.ComparedField(f))
-	utils.TraceInfof(utils.BrightYellow, "Show %s", f)
-	utils.TraceInfof(utils.Yellow, " Viewed field is %d and compared Field is %d", vv, vc)
+	utils.TraceInfof(utils.BrightYellow,
+		"Show %s:\t\t%s",
+		f,
+		utils.TraceInfoPart(utils.Yellow, " Viewed %d, Compared %d", vv, vc),
+	)
 	var htmlString string
 	if vv == vc {
 		htmlString = fmt.Sprintf("<td style=\"text-align:center\">%d</td>", vv)
@@ -102,7 +105,7 @@ func UsageGraphic(v Viewer) template.HTML {
 // urlBase: the root of the link url (eg `commodity`)
 // template.HTML: safe string using ID and Name fields supplied by the implementation
 func Link(v Viewer, urlBase string) template.HTML {
-	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, urlBase, v.ViewedField(`Id`), v.ViewedField(`Name`)))
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s">%s</a>`, urlBase, v.ViewedField(`Id`), v.ViewedField(`Name`)))
 }
 
 // Implementation-specific methods

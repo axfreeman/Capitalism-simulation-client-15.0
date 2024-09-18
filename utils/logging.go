@@ -75,20 +75,32 @@ func TraceError(message string) error {
 	return errors.New(formattedMessage)
 }
 
-// convenience function to include a variable in an TraceError message
+// convenience function to include variables in an TraceError message
 //
 //	startColour: the colour of the message
-//	message: the message, which must contain one formatting symbol
-//	details: the variable to be printed
+//	message: the message, containing formatting symbols using fmt.Printf conventions
+//	details: the variables to be printed
 func TraceErrorf(message string, details ...any) error {
 	return TraceError(fmt.Sprintf(message, details...))
 }
 
-// convenience function to include a variable in a TraceInfo message
+// convenience function to include variables in a TraceInfo message
 //
 //	startColour: the colour of the message
-//	message: the message, which must contain one formatting symbol
-//	details: the variable to be printed
+//	message: the message, containing formatting symbols using fmt.Printf conventions
+//	details: the variables to be printed
 func TraceInfof(startColour string, message string, details ...any) string {
 	return TraceInfo(startColour, fmt.Sprintf(message, details...))
+}
+
+// convenience function to create a component of a trace message.
+// Does not add a prefix or newline, so composite messages can
+// be constructed from it.
+//
+//	startColour: the colour of the message
+//	message: the message, containing formatting symbols using fmt.Printf conventions
+//	details: the variables to be printed
+func TraceInfoPart(startColour string, message string, details ...any) string {
+	formattedMessage := Reset + startColour + message + Reset
+	return fmt.Sprintf(formattedMessage, details...)
 }

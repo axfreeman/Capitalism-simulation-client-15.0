@@ -30,15 +30,17 @@ func main() {
 	// controllers.Tpl, err = template.ParseGlob("./templates/*/*")
 
 	funcMap := template.FuncMap{
-		"Show":                  models.Show,
-		"ShowString":            models.ShowString,
-		"Link":                  models.Link,
-		"OriginGraphic":         models.OriginGraphic,
-		"UsageGraphic":          models.UsageGraphic,
-		"IndustryCommodityLink": models.IndustryCommodityLink,
-		"StockIndustryLink":     models.StockIndustryLink,
-		"StockCommodityLink":    models.StockCommodityLink,
-		"StockClassLink":        models.StockClassLink,
+		"Show":                       models.Show,
+		"ShowString":                 models.ShowString,
+		"Link":                       models.Link,
+		"OriginGraphic":              models.OriginGraphic,
+		"UsageGraphic":               models.UsageGraphic,
+		"IndustryCommodityLink":      models.IndustryCommodityLink,
+		"ClassCommodityLink":         models.ClassCommodityLink,
+		"StockIndustryLink":          models.StockIndustryLink,
+		"IndustryStockCommodityLink": models.IndustryStockCommodityLink,
+		"ClassStockCommodityLink":    models.ClassStockCommodityLink,
+		"StockClassLink":             models.StockClassLink,
 	}
 
 	controllers.Tpl, err = template.New("").Funcs(funcMap).ParseGlob("./templates/*/*")

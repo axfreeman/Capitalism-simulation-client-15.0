@@ -108,57 +108,72 @@ func Link(v Viewer, urlBase string) template.HTML {
 	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s">%s</a>`, urlBase, v.ViewedField(`Id`), v.ViewedField(`Name`)))
 }
 
-// Implementation-specific methods
-// TODO figure out how to convert these into methods of the implementation, not the interface
-// TODO: then use the viewedRecord directly instead of 'ViewedField'
+// Implementation-specific template methods
 
 // Returns a safe HTML string with a link to the Commodity of an industry
 // Should be a method of IndustryView but haven't yet figured out how to fix this
 //
-// v: an implementation of the Viewer interface
-// template.HTML: safe string using fields supplied by the Commodity implementation
+//	v: Industry implementation of the Viewer interface
+//	template.HTML: safe string using fields supplied by the Commodity implementation
 func IndustryCommodityLink(v IndustryView) template.HTML {
 	o := v.viewedRecord
-	c := *o.Commodity
-
-	// utils.TraceInfof(utils.Purple, "Industry is %v and commodity is %v", o, c)
-	output := template.HTML(fmt.Sprintf(`<td><a href="/commodity/%d">%s</a></td>`, c.Id, o.Output))
-	utils.TraceInfof(utils.Purple, "Industry Commodity Link says commodity Id is %s", string(output))
+	output := template.HTML(fmt.Sprintf(`<td><a href="/commodity/%d">%s</a></td>`, o.Commodity.Id, o.Output))
+	// utils.TraceInfof(utils.Purple, "Industry Commodity Link says commodity Id is %s", string(output))
 	return output
 }
 
-// TODO get this working
-func ReplacementIndustryCommodityLink(v IndustryView) template.HTML {
+// Returns a safe HTML string with a link to industry stock's commodity
+//
+//	v: IndustryStock implementation of the Viewer interface
+//	urlBase: the root of the link url (eg `commodity`)
+//	template.HTML: safe string using ID and Name fields supplied by the implementation
+func IndustryStockCommodityLink(v IndustryStockView) template.HTML {
 	o := v.viewedRecord
-	return template.HTML(fmt.Sprintf(`<td><a href="/commodity/%d">%s</a></td>`, o.Commodity.Id, o.Output))
+	commodityName := o.CommodityName
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s">%s</a>`, `commodity`, v.ViewedField(`CommodityId`), commodityName))
 }
 
-// Returns a safe HTML string with a link to this stock's commodity
+// Returns a safe HTML string with a link to industry stock's industry
 //
-// v: an implementation of the Viewer interface
-// urlBase: the root of the link url (eg `commodity`)
-// template.HTML: safe string using ID and Name fields supplied by the implementation
-func StockCommodityLink(v Viewer) template.HTML {
-	commodityName := v.ViewedField(`CommodityName`)
-	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, `commodity`, v.ViewedField(`CommodityId`), commodityName))
+//	v: an implementation of the Viewer interface
+//	urlBase: the root of the link url (eg `commodity`)
+//	template.HTML: safe string using ID and Name fields supplied by the implementation
+func StockIndustryLink(v IndustryStockView) template.HTML {
+	o := v.viewedRecord
+	industryName := o.IndustryName
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s">%s</a>`, `industry`, v.ViewedField(`IndustryId`), industryName))
 }
 
-// Returns a safe HTML string with a link to this stock's industry
+// Returns a safe HTML string with a link to the Commodity of a class
+// Should be a method of IndustryView but haven't yet figured out how to fix this
 //
-// v: an implementation of the Viewer interface
-// urlBase: the root of the link url (eg `commodity`)
-// template.HTML: safe string using ID and Name fields supplied by the implementation
-func StockIndustryLink(v Viewer) template.HTML {
-	industryName := v.ViewedField(`IndustryName`)
-	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, `industry`, v.ViewedField(`IndustryId`), industryName))
+//	v: Industry implementation of the Viewer interface
+//	template.HTML: safe string using fields supplied by the Commodity implementation
+func ClassCommodityLink(v ClassView) template.HTML {
+	o := v.viewedRecord
+	output := template.HTML(fmt.Sprintf(`<td><a href="/commodity/%d">%s</a></td>`, o.Commodity.Id, "Under Development"))
+	// utils.TraceInfof(utils.Purple, "Industry Commodity Link says commodity Id is %s", string(output))
+	return output
 }
 
-// Returns a safe HTML string with a link to this stock's class
+// Returns a safe HTML string with a link to stock's class
 //
-// v: an implementation of the Viewer interface
-// urlBase: the root of the link url (eg `commodity`)
-// template.HTML: safe string using ID and Name fields supplied by the implementation
-func StockClassLink(v Viewer) template.HTML {
-	className := v.ViewedField(`ClassName`)
+//	v: an implementation of the Viewer interface
+//	urlBase: the root of the link url (eg `commodity`)
+//	template.HTML: safe string using ID and Name fields supplied by the implementation
+func StockClassLink(v ClassStockView) template.HTML {
+	o := v.viewedRecord
+	className := o.ClassName
 	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s\">%s</a>`, `industry`, v.ViewedField(`IndustryId`), className))
+}
+
+// Returns a safe HTML string with a link to industry stock's commodity
+//
+//	v: IndustryStock implementation of the Viewer interface
+//	urlBase: the root of the link url (eg `commodity`)
+//	template.HTML: safe string using ID and Name fields supplied by the implementation
+func ClassStockCommodityLink(v ClassStockView) template.HTML {
+	o := v.viewedRecord
+	commodityName := o.CommodityName
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s">%s</a>`, `commodity`, v.ViewedField(`CommodityId`), commodityName))
 }

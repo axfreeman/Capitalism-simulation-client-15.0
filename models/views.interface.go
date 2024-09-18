@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"gorilla-client/utils"
 	"html/template"
 	"strconv"
 )
@@ -30,13 +29,14 @@ type Viewer interface {
 func Show(v Viewer, f string) template.HTML {
 	vv, _ := strconv.Atoi(v.ViewedField(f))
 	vc, _ := strconv.Atoi(v.ComparedField(f))
-	utils.TraceInfof(utils.BrightYellow,
-		"Show %s:\t\t%s",
-		f,
-		utils.TraceInfoPart(utils.Yellow, " Viewed %d, Compared %d", vv, vc),
-	)
 
-	utils.TraceInfof(utils.Cyan, " Id of viewed %s,  compared %s:", v.ViewedField(`Id`), v.ComparedField(`Id`))
+	// utils.TraceInfof(utils.BrightYellow,
+	// 	"Show %s:\t\t%s",
+	// 	f,
+	// 	utils.TraceInfoPart(utils.Yellow, " Viewed %d, Compared %d", vv, vc),
+	// )
+	// utils.TraceInfof(utils.Cyan, " Id of viewed %s,  compared %s:", v.ViewedField(`Id`), v.ComparedField(`Id`))
+
 	var htmlString string
 	if vv == vc {
 		htmlString = fmt.Sprintf("<td style=\"text-align:center\">%d</td>", vv)

@@ -63,7 +63,9 @@ func FetchTableSet(user *models.User) (*models.TableSet, error) {
 	return &newTableSet, nil
 }
 
-// Convert every Id into a pointer
+// Replace Id fields with pointers. This makes for  legible code and faster access.
+//
+//	newTableSet: a TableSet, which has been populated by FetchTableSet
 func ConvertTableSet(newTableSet *models.TableSet) {
 	industries := *(*newTableSet)[`industries`].Table.(*[]models.Industry)
 	industryStocks := *(*newTableSet)[`industry stocks`].Table.(*[]models.IndustryStock)
@@ -144,7 +146,6 @@ func ConvertTableSet(newTableSet *models.TableSet) {
 		}
 
 	}
-
 }
 
 // Fetches a simulation and associated tables from the api server.
@@ -165,16 +166,13 @@ func CreateTableSet(user *models.User) error {
 		return err
 	}
 
-	newTableSet := models.NewTableSet()
-	for key, value := range newTableSet {
-		err = Fetch(user.ApiKey, &value)
-		if err != nil {
-			utils.TraceErrorf("Could not retrieve server data with key %s because of error %s", key, err.Error())
-		}
+	newTableSet, err := FetchTableSet(user)
+	if err != nil {
+		return err
 	}
 
-	ConvertTableSet(&newTableSet)
+	ConvertTableSet(newTableSet)
 
-	user.TableSets = append(user.TableSets, &newTableSet)
+	user.TableSets = append(user.TableSets, newTableSet)
 	return nil
 }

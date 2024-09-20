@@ -1,5 +1,3 @@
-// methods.simulation.go
-// class methods of the objects specified in models.simulation.go
 package models
 
 import (

@@ -47,6 +47,7 @@ func AuthRoutes() {
 	Router.HandleFunc("/trace", controllers.Auth(controllers.ShowTrace))
 	Router.HandleFunc("/index", controllers.Auth(controllers.ShowIndexPage))
 	Router.HandleFunc("/", controllers.Auth(controllers.ShowIndexPage))
+	Router.HandleFunc(`/download`, controllers.Auth(controllers.Download))
 
 	Router.NotFoundHandler = http.HandlerFunc(controllers.NotFound)
 

@@ -53,18 +53,6 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 	// retrieve comparator and viewed records for all data objects
 	// to prepare for entry into Views in the DisplayData object
 
-	// OLD CODE
-	// cv := (*u.TableSets[*u.GetViewedTimeStamp()])["commodities"].Table.(*[]Commodity)
-	// cc := (*u.TableSets[*u.GetComparatorTimeStamp()])["commodities"].Table.(*[]Commodity)
-	// iv := (*u.TableSets[*u.GetViewedTimeStamp()])["industries"].Table.(*[]Industry)
-	// ic := (*u.TableSets[*u.GetComparatorTimeStamp()])["industries"].Table.(*[]Industry)
-	// clv := (*u.TableSets[*u.GetViewedTimeStamp()])["classes"].Table.(*[]Class)
-	// clc := (*u.TableSets[*u.GetComparatorTimeStamp()])["classes"].Table.(*[]Class)
-	// isv := (*u.TableSets[*u.GetViewedTimeStamp()])["industry stocks"].Table.(*[]IndustryStock)
-	// isc := (*u.TableSets[*u.GetComparatorTimeStamp()])["industry stocks"].Table.(*[]IndustryStock)
-	// csv := (*u.TableSets[*u.GetViewedTimeStamp()])["class stocks"].Table.(*[]ClassStock)
-	// csc := (*u.TableSets[*u.GetComparatorTimeStamp()])["class stocks"].Table.(*[]ClassStock)
-
 	cv := ViewedObjects[Commodity](*u, `commodities`)
 	cc := ComparedObjects[Commodity](*u, `commodities`)
 	iv := ViewedObjects[Industry](*u, `industries`)

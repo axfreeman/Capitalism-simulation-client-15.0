@@ -5,9 +5,12 @@
 package controllers
 
 import (
+	"encoding/json"
 	"gorilla-client/api"
+	"gorilla-client/models"
 	"gorilla-client/utils"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 )
@@ -124,4 +127,35 @@ func DeleteSimulation(w http.ResponseWriter, r *http.Request) {
 func RestartSimulation(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
 	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData("Sorry, Restarting a Simulation is not ready yet"))
+}
+
+// Quick and Dirty download method
+func Download(w http.ResponseWriter, r *http.Request) {
+	type listItem struct {
+		filename string
+		object   any
+	}
+	var f *os.File
+	var err error
+	u := CurrentUser(r)
+	outputList := make([]listItem, 5)
+	outputList[0] = listItem{`commodities.json`, models.ViewedObjects[models.Commodity](*u, `commodities`)}
+	outputList[1] = listItem{`industries.json`, models.ViewedObjects[models.Industry](*u, `industries`)}
+	outputList[2] = listItem{`classes.json`, models.ViewedObjects[models.Class](*u, `classes`)}
+	outputList[3] = listItem{`industry-stocks.json`, models.ViewedObjects[models.IndustryStock](*u, `industry stocks`)}
+	outputList[4] = listItem{`class-stocks.json`, models.ViewedObjects[models.ClassStock](*u, `class stocks`)}
+	for i := range outputList {
+		out, _ := json.MarshalIndent(outputList[i].object, "", "")
+		f, err = os.Create(`./dump/` + outputList[i].filename)
+		if err != nil {
+			utils.TraceErrorf("Error %v creating download file %v", err, outputList[i].filename)
+			return
+		}
+		defer f.Close()
+		_, err = f.Write(out)
+		if err != nil {
+			utils.TraceErrorf("Error %v downloading to file %s", err, outputList[i].filename)
+			return
+		}
+	}
 }

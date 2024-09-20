@@ -139,11 +139,11 @@ func Download(w http.ResponseWriter, r *http.Request) {
 	var err error
 	u := CurrentUser(r)
 	outputList := make([]listItem, 5)
-	outputList[0] = listItem{`commodities.json`, models.ViewedObjects[models.Commodity](*u, `commodities`)}
-	outputList[1] = listItem{`industries.json`, models.ViewedObjects[models.Industry](*u, `industries`)}
-	outputList[2] = listItem{`classes.json`, models.ViewedObjects[models.Class](*u, `classes`)}
-	outputList[3] = listItem{`industry-stocks.json`, models.ViewedObjects[models.IndustryStock](*u, `industry stocks`)}
-	outputList[4] = listItem{`class-stocks.json`, models.ViewedObjects[models.ClassStock](*u, `class stocks`)}
+	outputList[0] = listItem{`commodities.json`, *models.ViewedObjects[models.Commodity](*u, `commodities`)}
+	outputList[1] = listItem{`industries.json`, *models.ViewedObjects[models.Industry](*u, `industries`)}
+	outputList[2] = listItem{`classes.json`, *models.ViewedObjects[models.Class](*u, `classes`)}
+	outputList[3] = listItem{`industry-stocks.json`, *models.ViewedObjects[models.IndustryStock](*u, `industry stocks`)}
+	outputList[4] = listItem{`class-stocks.json`, *models.ViewedObjects[models.ClassStock](*u, `class stocks`)}
 	for i := range outputList {
 		out, _ := json.MarshalIndent(outputList[i].object, "", "")
 		f, err = os.Create(`./dump/` + outputList[i].filename)

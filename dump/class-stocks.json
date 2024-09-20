@@ -37,7 +37,7 @@
 "investment_proportion": 0
 },
 "ClassAddress": {
-"address": "\u0026{37 Capitalists 9 Capital Services guest 1500 0 1 1500 0 0xc0000d2908 [0xc0000e0a08] 0xc0000e0aa0 0xc0000e0d00}"
+"address": "\u0026{37 Capitalists 9 Capital Services guest 1500 0 1 1500 0 0xc000316d88 [0xc00024a008] 0xc00024a0a0 0xc00024a300}"
 }
 },
 {
@@ -78,7 +78,7 @@
 "investment_proportion": 0
 },
 "ClassAddress": {
-"address": "\u0026{37 Capitalists 9 Capital Services guest 1500 0 1 1500 0 0xc0000d2908 [0xc0000e0a08] 0xc0000e0aa0 0xc0000e0d00}"
+"address": "\u0026{37 Capitalists 9 Capital Services guest 1500 0 1 1500 0 0xc000316d88 [0xc00024a008] 0xc00024a0a0 0xc00024a300}"
 }
 },
 {
@@ -119,7 +119,7 @@
 "investment_proportion": 0
 },
 "ClassAddress": {
-"address": "\u0026{38 Workers 9 Labour Power guest 3000 0 0.5 0 0 0xc0000d2728 [0xc0000e0b38] 0xc0000e0bd0 0xc0000e0c68}"
+"address": "\u0026{38 Workers 9 Labour Power guest 3000 0 0.5 0 0 0xc000316ba8 [0xc00024a138] 0xc00024a1d0 0xc00024a268}"
 }
 },
 {
@@ -160,7 +160,7 @@
 "investment_proportion": 0
 },
 "ClassAddress": {
-"address": "\u0026{38 Workers 9 Labour Power guest 3000 0 0.5 0 0 0xc0000d2728 [0xc0000e0b38] 0xc0000e0bd0 0xc0000e0c68}"
+"address": "\u0026{38 Workers 9 Labour Power guest 3000 0 0.5 0 0 0xc000316ba8 [0xc00024a138] 0xc00024a1d0 0xc00024a268}"
 }
 },
 {
@@ -201,7 +201,7 @@
 "investment_proportion": 0
 },
 "ClassAddress": {
-"address": "\u0026{38 Workers 9 Labour Power guest 3000 0 0.5 0 0 0xc0000d2728 [0xc0000e0b38] 0xc0000e0bd0 0xc0000e0c68}"
+"address": "\u0026{38 Workers 9 Labour Power guest 3000 0 0.5 0 0 0xc000316ba8 [0xc00024a138] 0xc00024a1d0 0xc00024a268}"
 }
 },
 {
@@ -242,7 +242,7 @@
 "investment_proportion": 0
 },
 "ClassAddress": {
-"address": "\u0026{37 Capitalists 9 Capital Services guest 1500 0 1 1500 0 0xc0000d2908 [0xc0000e0a08] 0xc0000e0aa0 0xc0000e0d00}"
+"address": "\u0026{37 Capitalists 9 Capital Services guest 1500 0 1 1500 0 0xc000316d88 [0xc00024a008] 0xc00024a0a0 0xc00024a300}"
 }
 }
 ]

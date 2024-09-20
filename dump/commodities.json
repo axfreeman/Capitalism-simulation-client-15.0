@@ -1,9 +1,12 @@
-[
+{
+"ApiUrl": "/commodity",
+"Name": "Commodity",
+"Table": [
 {
 "id": 45,
 "name": "Consumption",
 "simulation_id": 9,
-"username": "guest",
+"username": "Apollo",
 "origin": "INDUSTRIAL",
 "usage": "CONSUMPTION",
 "size": 3000,
@@ -12,7 +15,7 @@
 "unit_value": 1,
 "unit_price": 1,
 "turnover_time": 1,
-"demand": 0,
+"demand": 3000,
 "supply": 3000,
 "allocation_ratio": 1,
 "display_order": 3,
@@ -25,7 +28,7 @@
 "id": 46,
 "name": "Labour Power",
 "simulation_id": 9,
-"username": "guest",
+"username": "Apollo",
 "origin": "SOCIAL",
 "usage": "PRODUCTIVE",
 "size": 3000,
@@ -34,8 +37,8 @@
 "unit_value": 0.5,
 "unit_price": 0.5,
 "turnover_time": 1,
-"demand": 0,
-"supply": 0,
+"demand": 3000,
+"supply": 3000,
 "allocation_ratio": 0,
 "display_order": 2,
 "image_name": "labourPower.png",
@@ -47,7 +50,7 @@
 "id": 47,
 "name": "Means of Production",
 "simulation_id": 9,
-"username": "guest",
+"username": "Apollo",
 "origin": "INDUSTRIAL",
 "usage": "PRODUCTIVE",
 "size": 6000,
@@ -56,7 +59,7 @@
 "unit_value": 1,
 "unit_price": 1,
 "turnover_time": 1,
-"demand": 0,
+"demand": 6000,
 "supply": 6000,
 "allocation_ratio": 1,
 "display_order": 1,
@@ -69,7 +72,7 @@
 "id": 48,
 "name": "Money",
 "simulation_id": 9,
-"username": "guest",
+"username": "Apollo",
 "origin": "MONEY",
 "usage": "MONEY",
 "size": 15000,
@@ -91,7 +94,7 @@
 "id": 49,
 "name": "Capital Services",
 "simulation_id": 9,
-"username": "guest",
+"username": "Apollo",
 "origin": "SOCIAL",
 "usage": "Useless",
 "size": 0,
@@ -110,3 +113,4 @@
 "investment_proportion": 0
 }
 ]
+}

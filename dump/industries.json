@@ -1,8 +1,44 @@
-[
 {
-"address": "\u0026{20 Department I 9 guest Means of Production 6000 0 14000 0 14000 0 0 0xc0003067c8 [0xc000306ff8] 0xc000306f50 0xc000306e00 0xc000306d58}"
+"ApiUrl": "/industry",
+"Name": "Industry",
+"Table": [
+{
+"id": 20,
+"name": "Department I",
+"simulation_id": 9,
+"username": "Apollo",
+"output": "Means of Production",
+"output_scale": 6000,
+"output_growth_rate": 0,
+"initial_capital": 14000,
+"work_in_progress": 0,
+"current_capital": 14000,
+"profit": 0,
+"profit_rate": 0,
+"Commodity": null,
+"Constant": null,
+"Variable": null,
+"Money": null,
+"Sales": null
 },
 {
-"address": "\u0026{21 Department II 9 guest Consumption 3000 0 7000 0 7000 0 0 0xc000306688 [0xc000306c08] 0xc000306cb0 0xc000306ea8 0xc0003070a0}"
+"id": 21,
+"name": "Department II",
+"simulation_id": 9,
+"username": "Apollo",
+"output": "Consumption",
+"output_scale": 3000,
+"output_growth_rate": 0,
+"initial_capital": 7000,
+"work_in_progress": 0,
+"current_capital": 7000,
+"profit": 0,
+"profit_rate": 0,
+"Commodity": null,
+"Constant": null,
+"Variable": null,
+"Money": null,
+"Sales": null
 }
 ]
+}

@@ -11,11 +11,6 @@
 
 package models
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // A Simulation
 //
 // For a detailed description of the data model, consult the api.
@@ -111,15 +106,15 @@ type Class struct {
 }
 
 // Custom alias type to prevent jsonMarshal infinite recursion
-type IndustryAlias = Industry
+// type IndustryAlias = Industry
 
-func (i *Industry) MarshalJSON() ([]byte, error) {
-	return json.Marshal(&struct {
-		Address string `json:"address"`
-	}{
-		Address: fmt.Sprintf("%v", i),
-	})
-}
+// func (i *Industry) MarshalJSON() ([]byte, error) {
+// 	return json.Marshal(&struct {
+// 		Address string `json:"address"`
+// 	}{
+// 		Address: fmt.Sprintf("%v", i),
+// 	})
+// }
 
 type IndustryStock struct {
 	Id              int     `json:"id"`
@@ -142,15 +137,15 @@ type IndustryStock struct {
 }
 
 // Custom alias type to prevent jsonMarshal infinite recursion
-type ClassAlias = Class
+// type ClassAlias = Class
 
-func (c *Class) MarshalJSON() ([]byte, error) {
-	return json.Marshal(&struct {
-		Address string `json:"address"`
-	}{
-		Address: fmt.Sprintf("%v", c),
-	})
-}
+// func (c *Class) MarshalJSON() ([]byte, error) {
+// 	return json.Marshal(&struct {
+// 		Address string `json:"address"`
+// 	}{
+// 		Address: fmt.Sprintf("%v", c),
+// 	})
+// }
 
 type ClassStock struct {
 	Id            int     `json:"id"`

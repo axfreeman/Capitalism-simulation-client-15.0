@@ -64,7 +64,7 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	// Fetch everything for the new simulation from the server.
 	// (until now we only told the server to create it - now we want it).
 	// Add this to the user's Tables
-	err = api.FetchTables(user)
+	err = api.CreateTableSet(user)
 	if err != nil {
 		utils.TraceErrorf("Could not retrieve the requested data with apikey %s and simulation id %d", user.ApiKey, result.Simulation_id)
 		ReportError(user, w, "oops")

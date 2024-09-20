@@ -38,7 +38,7 @@
 "investment_proportion": 0
 },
 "IndustryAddress": {
-"address": "\u0026{21 Department II 9 guest Consumption 3000 0 7000 0 7000 0 0 0xc000316b08 [0xc000317088] 0xc000317130 0xc000317328 0xc000317520}"
+"address": "\u0026{21 Department II 9 guest Consumption 3000 0 7000 0 7000 0 0 0xc000306688 [0xc000306c08] 0xc000306cb0 0xc000306ea8 0xc0003070a0}"
 }
 },
 {
@@ -80,7 +80,7 @@
 "investment_proportion": 0
 },
 "IndustryAddress": {
-"address": "\u0026{21 Department II 9 guest Consumption 3000 0 7000 0 7000 0 0 0xc000316b08 [0xc000317088] 0xc000317130 0xc000317328 0xc000317520}"
+"address": "\u0026{21 Department II 9 guest Consumption 3000 0 7000 0 7000 0 0 0xc000306688 [0xc000306c08] 0xc000306cb0 0xc000306ea8 0xc0003070a0}"
 }
 },
 {
@@ -122,7 +122,7 @@
 "investment_proportion": 0
 },
 "IndustryAddress": {
-"address": "\u0026{20 Department I 9 guest Means of Production 6000 0 14000 0 14000 0 0 0xc000316c48 [0xc000317478] 0xc0003173d0 0xc000317280 0xc0003171d8}"
+"address": "\u0026{20 Department I 9 guest Means of Production 6000 0 14000 0 14000 0 0 0xc0003067c8 [0xc000306ff8] 0xc000306f50 0xc000306e00 0xc000306d58}"
 }
 },
 {
@@ -164,7 +164,7 @@
 "investment_proportion": 0
 },
 "IndustryAddress": {
-"address": "\u0026{20 Department I 9 guest Means of Production 6000 0 14000 0 14000 0 0 0xc000316c48 [0xc000317478] 0xc0003173d0 0xc000317280 0xc0003171d8}"
+"address": "\u0026{20 Department I 9 guest Means of Production 6000 0 14000 0 14000 0 0 0xc0003067c8 [0xc000306ff8] 0xc000306f50 0xc000306e00 0xc000306d58}"
 }
 },
 {
@@ -206,7 +206,7 @@
 "investment_proportion": 0
 },
 "IndustryAddress": {
-"address": "\u0026{21 Department II 9 guest Consumption 3000 0 7000 0 7000 0 0 0xc000316b08 [0xc000317088] 0xc000317130 0xc000317328 0xc000317520}"
+"address": "\u0026{21 Department II 9 guest Consumption 3000 0 7000 0 7000 0 0 0xc000306688 [0xc000306c08] 0xc000306cb0 0xc000306ea8 0xc0003070a0}"
 }
 },
 {
@@ -248,7 +248,7 @@
 "investment_proportion": 0
 },
 "IndustryAddress": {
-"address": "\u0026{20 Department I 9 guest Means of Production 6000 0 14000 0 14000 0 0 0xc000316c48 [0xc000317478] 0xc0003173d0 0xc000317280 0xc0003171d8}"
+"address": "\u0026{20 Department I 9 guest Means of Production 6000 0 14000 0 14000 0 0 0xc0003067c8 [0xc000306ff8] 0xc000306f50 0xc000306e00 0xc000306d58}"
 }
 },
 {
@@ -290,7 +290,7 @@
 "investment_proportion": 0
 },
 "IndustryAddress": {
-"address": "\u0026{20 Department I 9 guest Means of Production 6000 0 14000 0 14000 0 0 0xc000316c48 [0xc000317478] 0xc0003173d0 0xc000317280 0xc0003171d8}"
+"address": "\u0026{20 Department I 9 guest Means of Production 6000 0 14000 0 14000 0 0 0xc0003067c8 [0xc000306ff8] 0xc000306f50 0xc000306e00 0xc000306d58}"
 }
 },
 {
@@ -332,7 +332,7 @@
 "investment_proportion": 0
 },
 "IndustryAddress": {
-"address": "\u0026{21 Department II 9 guest Consumption 3000 0 7000 0 7000 0 0 0xc000316b08 [0xc000317088] 0xc000317130 0xc000317328 0xc000317520}"
+"address": "\u0026{21 Department II 9 guest Consumption 3000 0 7000 0 7000 0 0 0xc000306688 [0xc000306c08] 0xc000306cb0 0xc000306ea8 0xc0003070a0}"
 }
 }
 ]

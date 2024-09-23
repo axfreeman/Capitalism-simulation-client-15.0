@@ -32,6 +32,7 @@ func main() {
 	funcMap := template.FuncMap{
 		"Show":                       models.Show,
 		"ShowString":                 models.ShowString,
+		"ShowDecimal":                models.ShowDecimal,
 		"Link":                       models.Link,
 		"OriginGraphic":              models.OriginGraphic,
 		"UsageGraphic":               models.UsageGraphic,

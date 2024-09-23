@@ -47,6 +47,25 @@ func Show(v Viewer, f string) template.HTML {
 	return template.HTML(htmlString)
 }
 
+// Provide a string, suitable for display in a template, that formats
+// a decimal viewed value and highlights values that have changed.
+//
+//	v: a View object
+//	f: the name of the field to display
+//	Returns: safe HTML string coloured red if the value has changed
+func ShowDecimal(v Viewer, f string) template.HTML {
+	sv, _ := strconv.ParseFloat(v.ViewedField(f), 32)
+	sc, _ := strconv.ParseFloat(v.ComparedField(f), 32)
+
+	var htmlString string
+	if sv == sc {
+		htmlString = fmt.Sprintf("<td style=\"text-align:center\">%0.2f</td>", sv)
+	} else {
+		htmlString = fmt.Sprintf("<td style=\"text-align:center; color:red\">%0.2f</td>", sc)
+	}
+	return template.HTML(htmlString)
+}
+
 // Provide a string representing the named field
 //
 //	v: a View object

@@ -1,5 +1,30 @@
 <!--index.html-->
 {{ template "header.html" .}}
+<style>
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc; 
+}
+
+.panel {
+  padding: 0 18px;
+  display: none;
+  background-color: white;
+  overflow: hidden;
+}
+</style>
 <div class="w3-section w3-card-4" style="width:75%; margin:auto">
   <header class="w3-container w3-blue">
     <h3 class="w3-center">{{ .Title}} </h3>
@@ -15,20 +40,38 @@
       <!--Loop over the trace record-->
       {{range .Trace }}
       <tr>
-        <td>{{ .Level }}</td>
+        <td class="level1" class="accordion">Level {{ .Level }}</td>
         {{ if eq .Level 1}}
         <td style="color:green">{{ .Message }}</td>
         {{ else if eq .Level 2}}
-        <td style="color:purple">&nbsp{{ .Message }}</td>
+        <td style="color:purple" class="level2">&nbsp{{ .Message }}</td>
         {{ else if eq .Level 3}}
-        <td style="color:blue">&nbsp&nbsp{{ .Message }}</td>
+        <td style="color:blue" class="level3">&nbsp&nbsp{{ .Message }}</td>
         {{ else}}
-        <td style="color:lightblue">&nbsp&nbsp&nbsp{{ .Message }}</td>
+        <td style="color:lightblue" class="levelhigh">&nbsp&nbsp&nbsp{{ .Message }}</td>
         {{ end }}
       </tr>
       {{end}}
     </tbody>
   </table>
-
 </div>
 {{ template "footer.html" .}}
+
+<script>
+  var acc = document.getElementsByClassName("level1");
+  var i;
+  
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var panel = this.nextElementSibling;
+      if (panel.style.display === "block") {
+        panel.style.display = "none";
+      } else {
+        panel.style.display = "block";
+      }
+    });
+  }
+  </script>
+  
+  

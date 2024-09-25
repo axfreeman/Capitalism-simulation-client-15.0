@@ -47,11 +47,10 @@ func NewTableSet() TableSet {
 			Table:  new([]ClassStock),
 			Name:   `ClassStock`,
 		},
-		// TODO the below produces a very verbose output. Restore it later after adding a trace viewer (with concertina)
-		// "trace": {
-		// 	ApiUrl: `/trace`,
-		// 	Table:  new([]Trace),
-		// 	Name:   `Trace`,
-		// },
+		"trace": {
+			ApiUrl: `/trace`,
+			Table:  new([]Trace),
+			Name:   `Trace`,
+		},
 	}
 }

@@ -59,9 +59,10 @@ func ShowClassStocks(w http.ResponseWriter, r *http.Request) {
 func ShowTrace(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
 	user.CurrentPage = models.CurrentPageType{Url: "trace.html", Id: 0}
-
 	utils.TraceInfof(utils.BrightYellow, "Fetching classes for user %s", user.UserName)
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
+	t := models.Traces(user)
+	utils.UNUSED(t)
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, models.TemplateData{Trace: t}) // nearly empty TemplateData object with just Trace in it
 }
 
 // Display one specific commodity

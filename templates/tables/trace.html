@@ -7,6 +7,7 @@
   <table class="table w-auto">
     <thead>
       <tr>
+        <th>Level</th>
         <th>Message</th>
       </tr>
     </thead>
@@ -14,7 +15,16 @@
       <!--Loop over the trace record-->
       {{range .Trace }}
       <tr>
-        <td>{{ .Message }}</td>
+        <td>{{ .Level }}</td>
+        {{ if eq .Level 1}}
+        <td style="color:green">{{ .Message }}</td>
+        {{ else if eq .Level 2}}
+        <td style="color:purple">&nbsp{{ .Message }}</td>
+        {{ else if eq .Level 3}}
+        <td style="color:blue">&nbsp&nbsp{{ .Message }}</td>
+        {{ else}}
+        <td style="color:lightblue">&nbsp&nbsp&nbsp{{ .Message }}</td>
+        {{ end }}
       </tr>
       {{end}}
     </tbody>

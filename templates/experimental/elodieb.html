@@ -50,7 +50,7 @@
       {{range .Trace }}
       {{ if ne .Level $currentLevel }}
       {{ if gt .Level $currentLevel }}
-      <dd class="active"><div class="accordion-nested"><dl>
+      <dd><div class="accordion-nested"><dl>
       {{ else }}
       </dl></div></dd>
       {{ end }}

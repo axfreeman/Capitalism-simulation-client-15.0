@@ -20,7 +20,6 @@ type Trace struct {
 // have a separate template loader method.
 func Traces(u *User) *[]Trace {
 	timeStamp := *u.GetTimeStamp()
-	fmt.Println("Entering Traces")
 	if len(u.TableSets) == 0 {
 		return nil
 	}

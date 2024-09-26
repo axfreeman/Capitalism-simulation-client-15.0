@@ -19,3 +19,8 @@
 
 ## Custom jsonMarshal
 * https://deepsource.com/blog/custom-marshalers-in-go
+
+## Worth trying
+* https://codyhouse.co/templates
+* https://codepen.io/Elodieb/pen/OJyLxXm
+

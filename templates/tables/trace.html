@@ -1,68 +1,82 @@
 <!--index.html-->
 {{ template "header.html" .}}
+<div class="w3-top w3-center"></div>
+<div class="w3-bar">
+  <a class="w3-button" id="less"><i class="fas fa-arrow-left"></i> </a>
+  <a class="w3-button" id="more"><i class="fas fa-arrow-right"></i></a>
+</div>
+</div>
 <style>
-.accordion {
-  background-color: #eee;
-  color: #444;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-  transition: 0.4s;
-}
+  .accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    list-style-type:none;
+    outline: none;
+    transition: 0.4s;
+  }
 
-.active, .accordion:hover {
-  background-color: #ccc; 
-}
+  .active,
+  .accordion:hover {
+    background-color: #ccc;
+  }
 
-.panel {
-  padding: 0 18px;
-  display: none;
-  background-color: white;
-  overflow: hidden;
-}
+  .panel {
+    padding: 0 18px;
+    display: none;
+    background-color: white;
+    overflow: hidden;
+  }
 </style>
-<div class="w3-section w3-card-4" style="width:75%; margin:auto">
+<div class="w3-section w3-card-4" style="width:90%; margin:auto">
   <header class="w3-container w3-blue">
     <h3 class="w3-center">{{ .Title}} </h3>
   </header>
-  <table class="table w-auto">
-    <thead>
-      <tr>
-        <th>Level</th>
-        <th>Message</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!--Loop over the trace record-->
-      {{range .Trace }}
-      <tr>
-        <td class="level1" class="accordion">Level {{ .Level }}</td>
-        {{ if eq .Level 1}}
-        <td style="color:green">{{ .Message }}</td>
-        {{ else if eq .Level 2}}
-        <td style="color:purple" class="level2">&nbsp{{ .Message }}</td>
-        {{ else if eq .Level 3}}
-        <td style="color:blue" class="level3">&nbsp&nbsp{{ .Message }}</td>
-        {{ else}}
-        <td style="color:lightblue" class="levelhigh">&nbsp&nbsp&nbsp{{ .Message }}</td>
-        {{ end }}
-      </tr>
-      {{end}}
-    </tbody>
-  </table>
+  <ul class="accordion">
+    <!--Loop over the trace record-->
+    {{range .Trace }}
+    <li class="level1">Level {{ .Level }}</li>
+    {{ if eq .Level 1}}
+    <li style="color:green">{{ .Message }}</li>
+    {{ else if eq .Level 2}}
+    <li style="color:purple" class="level2">&nbsp{{ .Message }}</li>
+    {{ else if eq .Level 3}}
+    <li style="color:blue" class="level3">&nbsp&nbsp{{ .Message }}</li>
+    {{ else}}
+    <li style="color:lightblue" class="levelhigh">&nbsp&nbsp&nbsp{{ .Message }}</li>
+    {{ end }}
+    </tr>
+    {{end}}
+  </ul>
+
 </div>
 {{ template "footer.html" .}}
 
+<!-- Accordion script -->
 <script>
-  var acc = document.getElementsByClassName("level1");
+  var acc = document.getElementsByClassName("accordion");
+  var l1 = document.getElementsByClassName("level1");
+  var l2 = document.getElementsByClassName("level2");
+  var l3 = document.getElementsByClassName("level3");
+  var l4 = document.getElementsByClassName("level4");
+  var less = document.getElementById("less");
+  var more = document.getElementById("more");
+  less.addEventListener("click", function () {
+    if (l2.style.display === "block") {
+      l1.style.display = "none"
+    } else {
+      l1.style.display = "block"
+    }
+  });
+
+
   var i;
-  
   for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
+    acc[i].addEventListener("click", function () {
       this.classList.toggle("active");
       var panel = this.nextElementSibling;
       if (panel.style.display === "block") {
@@ -72,6 +86,4 @@
       }
     });
   }
-  </script>
-  
-  
+</script>

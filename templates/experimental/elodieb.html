@@ -3,12 +3,8 @@
 <style>
   .accordion dl dt {
     cursor: pointer;
-    padding: 0.5em;
-    color: #fff;
-    background: lightgray;
     border-bottom: 1px solid #fff;
     width:90%;
-    margin:auto;
   }
 
   .accordion dl dd {
@@ -26,25 +22,25 @@
 
   .accordion-nested dl dt {
     background: lightgray;
-    padding-left: 1 em;
+    margin-left: 10px ;
     color:green;
   }
 
   .accordion-nested .accordion-nested dl dt {
     background: lightgray;
-    padding-left: 2 em;
+    margin-left: 20px;
     color:Blue;
   }
 
   .accordion-nested .accordion-nested .accordion-nested dl dt {
     background: lightgray;
-    padding-left: 3 em;
+    margin-left: 30px;
     color:red;
   }
 
   .accordion-nested .accordion-nested .accordion-nested .accordion-nested dl dt {
     background: white;
-    padding-left: 4 em;
+    margin-left: 40px;
   }
 </style>
 <div class="accordion">
@@ -59,7 +55,7 @@
           {{ end }}
           {{ $currentLevel = .Level}} <!-- ASSUMES INPUTS ARE PROPERLY NESTED WITH NO GAPS -->
       {{ end }}
-      <dt >{{.Level}}:{{ .Message }}</dt>
+      <dt >{{ .Message }}</dt>
     {{ end }}
   </div>
 </div>

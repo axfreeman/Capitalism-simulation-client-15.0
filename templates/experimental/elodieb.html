@@ -4,7 +4,7 @@
   .accordion dl dt {
     cursor: pointer;
     border-bottom: 1px solid #fff;
-    width:90%;
+    width: 90%;
   }
 
   .accordion dl dd {
@@ -22,20 +22,20 @@
 
   .accordion-nested dl dt {
     background: lightgray;
-    margin-left: 10px ;
-    color:green;
+    margin-left: 10px;
+    color: green;
   }
 
   .accordion-nested .accordion-nested dl dt {
     background: lightgray;
     margin-left: 20px;
-    color:Blue;
+    color: Blue;
   }
 
   .accordion-nested .accordion-nested .accordion-nested dl dt {
     background: lightgray;
     margin-left: 30px;
-    color:red;
+    color: red;
   }
 
   .accordion-nested .accordion-nested .accordion-nested .accordion-nested dl dt {
@@ -44,19 +44,20 @@
   }
 </style>
 <div class="accordion">
-  <div class="accordion-nested"><dl>
-    {{ $currentLevel := 1 }}
-    {{range .Trace }}
+  <div class="accordion-nested">
+    <dl>
+      {{ $currentLevel := 1 }}
+      {{range .Trace }}
       {{ if ne .Level $currentLevel }}
-          {{ if gt .Level $currentLevel }}
-            <div class="accordion-nested"><dl>
-          {{ else }}      
-            </dl></div>
-          {{ end }}
-          {{ $currentLevel = .Level}} <!-- ASSUMES INPUTS ARE PROPERLY NESTED WITH NO GAPS -->
+      {{ if gt .Level $currentLevel }}
+      <dd class="active"><div class="accordion-nested"><dl>
+      {{ else }}
+      </dl></div></dd>
       {{ end }}
-      <dt >{{ .Message }}</dt>
-    {{ end }}
+      {{ $currentLevel = .Level}} <!-- ASSUMES INPUTS ARE PROPERLY NESTED WITH NO GAPS -->
+      {{ end }}
+      <dt>{{ .Message }}</dt>
+      {{ end }}
   </div>
 </div>
 

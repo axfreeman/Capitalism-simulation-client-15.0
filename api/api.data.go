@@ -47,10 +47,21 @@ func Fetch(apiKey string, d *models.Table) error {
 // experimental document soon
 // build a tableset from the API, but don't do anything with it yet
 func FetchTableSet(user *models.User) (*models.TableSet, error) {
+
 	// Fetch all the simulations for this user (regardless of ID)
+	// NOTE unlike all other objects there is only simulation object
+	// and new objects are not created when the simulation steps forward.
+	// HOWEVER when the simulation steps forward the States map is updated.
+	// The states map is created in the 'ConvertTableSet()' function
 	err := Fetch(user.ApiKey, &user.Simulations)
 	if err != nil {
 		return nil, err
+	}
+
+	simulations := (*user).Simulations.Table.(*[]models.Simulation)
+	for i := range *simulations {
+		utils.TraceInfof(utils.BrightCyan, "Setting up State table for the simulation %s", (*simulations)[i].Name)
+		(*simulations)[i].States = make(map[int]string)
 	}
 
 	newTableSet := models.NewTableSet()
@@ -66,12 +77,12 @@ func FetchTableSet(user *models.User) (*models.TableSet, error) {
 // Replace Id fields with pointers. This makes for  legible code and faster access.
 //
 //	newTableSet: a TableSet, which has been populated by FetchTableSet
-func ConvertTableSet(newTableSet *models.TableSet) {
-	industries := *(*newTableSet)[`industries`].Table.(*[]models.Industry)
-	industryStocks := *(*newTableSet)[`industry stocks`].Table.(*[]models.IndustryStock)
-	classes := *(*newTableSet)[`classes`].Table.(*[]models.Class)
-	classStocks := *(*newTableSet)[`class stocks`].Table.(*[]models.ClassStock)
-	commodities := *(*newTableSet)[`commodities`].Table.(*[]models.Commodity)
+func ConvertTableSet(tableSet *models.TableSet) {
+	industries := *(*tableSet)[`industries`].Table.(*[]models.Industry)
+	industryStocks := *(*tableSet)[`industry stocks`].Table.(*[]models.IndustryStock)
+	classes := *(*tableSet)[`classes`].Table.(*[]models.Class)
+	classStocks := *(*tableSet)[`class stocks`].Table.(*[]models.ClassStock)
+	commodities := *(*tableSet)[`commodities`].Table.(*[]models.Commodity)
 
 	// set the Commodity, Sales Stock, Money stock, Industrial stocks (=Constant capital) and Social stock (=Variable Capital) of every industry
 	for ind := range industries {

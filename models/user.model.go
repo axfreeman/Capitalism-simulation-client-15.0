@@ -4,6 +4,7 @@ package models
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // A record describing what page the user was visiting
@@ -88,9 +89,11 @@ func NewRegisteredUser(username string, password string, apikey string) *Registe
 //	Return: pointer to the simulation if it found
 //	Return: nil if not found.
 func (u *User) Simulation(id int) *Simulation {
-	simulationList := LoggedInUsers[u.UserName].Simulations.Table.(*[]Simulation)
+	fmt.Println("Looking for a simulation with id", id, "Length of list is", len(*u.SimulationsList()))
+	simulationList := u.SimulationsList()
 	for i := 0; i < len(*simulationList); i++ {
 		s := (*simulationList)[i]
+		fmt.Printf("Looking for simulationId %d and checking the simulation whose Id is %d\n", id, s.Id)
 		if id == s.Id {
 			return &s
 		}

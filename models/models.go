@@ -31,18 +31,19 @@ type Simulation struct {
 	TimeStamp            int
 	ViewedTimeStamp      int
 	ComparatorTimeStamp  int
-	UserName             string  `json:"username"`
-	State                string  `json:"state"`
-	PeriodsPerYear       float32 `json:"periods_per_year"`
-	PopulationGrowthRate float32 `json:"population_growth_rate"`
-	InvestmentRatio      float32 `json:"investment_ratio"`
-	LabourSupplyDemand   string  `json:"labour_supply_response"`
-	PriceResponseType    string  `json:"price_response_type"`
-	MeltResponseType     string  `json:"melt_response_type"`
-	CurrencySymbol       string  `json:"currency_symbol"`
-	QuantitySymbol       string  `json:"quantity_symbol"`
-	Melt                 float32 `json:"melt"`
-	User                 int32   `json:"user_id"`
+	UserName             string         `json:"username"`
+	State                string         `json:"state"`
+	States               map[int]string // use a map not a slice for efficiency
+	PeriodsPerYear       float32        `json:"periods_per_year"`
+	PopulationGrowthRate float32        `json:"population_growth_rate"`
+	InvestmentRatio      float32        `json:"investment_ratio"`
+	LabourSupplyDemand   string         `json:"labour_supply_response"`
+	PriceResponseType    string         `json:"price_response_type"`
+	MeltResponseType     string         `json:"melt_response_type"`
+	CurrencySymbol       string         `json:"currency_symbol"`
+	QuantitySymbol       string         `json:"quantity_symbol"`
+	Melt                 float32        `json:"melt"`
+	User                 int32          `json:"user_id"`
 }
 
 type Commodity struct {

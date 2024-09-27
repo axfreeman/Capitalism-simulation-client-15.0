@@ -30,7 +30,7 @@ type TemplateData struct {
 //	     otherwise, the output data the users current simulation
 func (u *User) CreateTemplateData(message string) TemplateData {
 	slist := u.SimulationsList()
-	state := u.GetCurrentState()
+	state := u.GetCurrentStates()
 	utils.TraceInfof(utils.BrightYellow, "TemplateData is retrieving data for user %s with simulationID %d", u.UserName, u.CurrentSimulationID)
 	if u.CurrentSimulationID == 0 {
 		utils.TraceInfo(utils.BrightYellow, "User has no simulations")

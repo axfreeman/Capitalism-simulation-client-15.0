@@ -6,12 +6,12 @@ import (
 
 // TODO rationalise traces and simulations
 
-// Retrieve the state of the current simulation
+// Retrieve the current state of the current simulation
 //
 //		returns:
 //	   if successful, one of "DEMAND", "TRADE",  ...(the stages of the cycle)
 //	   if unsuccessful "UNKNOWN"
-func (u User) GetCurrentState() string {
+func (u User) GetCurrentStates() string {
 	var s *Simulation
 	if s = u.Simulation(u.CurrentSimulationID); s != nil {
 		return s.State
@@ -19,7 +19,8 @@ func (u User) GetCurrentState() string {
 	return "UNKNOWN"
 }
 
-// Set the state of the current simulation
+// Set the state of the current simulation. Make a record of this state
+// in the 'States' map so it can be retrieved as a comparator state
 //
 //	new_state: one of "DEMAND", "TRADE",  ... (the stages of the cycle)
 //	returns: does not report any error. It probably should.
@@ -31,6 +32,8 @@ func (u User) SetCurrentState(new_state string) {
 		return
 	}
 	s.State = new_state
+	s.States[u.TimeStamp] = new_state
+	utils.TraceInfof(utils.Green, "Setting new state %s. States map now has %d elements", new_state, len(s.States))
 }
 
 type Object interface {

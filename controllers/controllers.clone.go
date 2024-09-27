@@ -58,8 +58,6 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	// Set the current simulation
 	utils.TraceInfof(utils.Green, "Setting current simulation to %d", result.Simulation_id)
 	user.CurrentSimulationID = result.Simulation_id
-	utils.TraceInfo(utils.Green, ("Setting current state to DEMAND"))
-	user.SetCurrentState("DEMAND")
 
 	// Fetch everything for the new simulation from the server.
 	// (until now we only told the server to create it - now we want it).
@@ -70,6 +68,10 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 		ReportError(user, w, "oops")
 		return
 	}
+
+	utils.TraceInfo(utils.Green, ("Setting current state to DEMAND"))
+	user.SetCurrentState("DEMAND")
+
 	simstring, _ := json.MarshalIndent(user.Simulations, " ", " ")
 	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the simulation %s", string(simstring))
 	tablestring, _ := json.MarshalIndent(user.TableSets, " ", " ")

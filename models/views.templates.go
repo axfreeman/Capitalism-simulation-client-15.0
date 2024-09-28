@@ -18,6 +18,7 @@ type TemplateData struct {
 	Count              int
 	Username           string
 	State              string
+	ComparatorState    string
 	Message            string
 }
 
@@ -29,8 +30,6 @@ type TemplateData struct {
 //	     if the user has no simulations, just the template list
 //	     otherwise, the output data the users current simulation
 func (u *User) CreateTemplateData(message string) TemplateData {
-	slist := u.SimulationsList()
-	state := u.GetCurrentStates()
 	utils.TraceInfof(utils.BrightYellow, "TemplateData is retrieving data for user %s with simulationID %d", u.UserName, u.CurrentSimulationID)
 	if u.CurrentSimulationID == 0 {
 		utils.TraceInfo(utils.BrightYellow, "User has no simulations")
@@ -40,7 +39,8 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 			Templates:          &TemplateList,
 			Count:              0,
 			Username:           u.UserName,
-			State:              state,
+			State:              "UNKNOWN",
+			ComparatorState:    "UNKNOWN",
 			CommodityViews:     nil,
 			IndustryViews:      nil,
 			IndustryStockViews: nil,
@@ -52,7 +52,8 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 
 	// retrieve comparator and viewed records for all data objects
 	// to prepare for entry into Views in the DisplayData object
-
+	slist := u.SimulationsList()
+	state := u.GetCurrentState()
 	cv := ViewedObjects[Commodity](*u, `commodities`)
 	cc := ComparedObjects[Commodity](*u, `commodities`)
 	iv := ViewedObjects[Industry](*u, `industries`)
@@ -64,6 +65,12 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 	csv := ViewedObjects[ClassStock](*u, `class stocks`)
 	csc := ComparedObjects[ClassStock](*u, `class stocks`)
 
+	// diagnostics - pick up the viewedState and ComparatorStates by a different route, to check it's all working
+	utils.TraceInfof(utils.BrightYellow, "Timestamps are %d, %d", *u.GetTimeStamp(), *u.GetComparatorTimeStamp())
+	viewedState := u.Simulation(u.CurrentSimulationID).States[*u.GetTimeStamp()]
+	comparatorState := u.Simulation(u.CurrentSimulationID).States[*u.GetComparatorTimeStamp()]
+	utils.TraceInfof(utils.BrightYellow, "State %s, viewedState is %s and comparatorState is %s", state, viewedState, comparatorState)
+
 	// Create the DisplayData object
 	templateData := TemplateData{
 		Title:              "Hello",
@@ -72,6 +79,7 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 		Count:              len(*slist),
 		Username:           u.UserName,
 		State:              state,
+		ComparatorState:    comparatorState,
 		CommodityViews:     CommodityViews(cv, cc),
 		IndustryViews:      IndustryViews(iv, ic),
 		ClassViews:         ClassViews(clv, clc),

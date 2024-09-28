@@ -11,7 +11,7 @@ import (
 //		returns:
 //	   if successful, one of "DEMAND", "TRADE",  ...(the stages of the cycle)
 //	   if unsuccessful "UNKNOWN"
-func (u User) GetCurrentStates() string {
+func (u User) GetCurrentState() string {
 	var s *Simulation
 	if s = u.Simulation(u.CurrentSimulationID); s != nil {
 		return s.State
@@ -34,6 +34,9 @@ func (u User) SetCurrentState(new_state string) {
 	s.State = new_state
 	s.States[u.TimeStamp] = new_state
 	utils.TraceInfof(utils.Green, "Setting new state %s. States map now has %d elements", new_state, len(s.States))
+	for i := range s.States {
+		utils.TraceInfof(utils.BrightGreen, "State %d is %s", i, s.States[i])
+	}
 }
 
 type Object interface {

@@ -33,7 +33,7 @@ func CurrentUser(r *http.Request) *models.User {
 	return models.LoggedInUsers[content.(string)]
 }
 
-// Display the data that is available for the user who made this call
+// Display the data that are available for the user who made this call
 // Fetch the data from the client local store, not from the server
 func AllData(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
@@ -51,7 +51,7 @@ func AllData(w http.ResponseWriter, r *http.Request) {
 
 // Display the tables that are available for the user who made this call
 // Fetch the data from the client local store, not from the server
-func TableData(w http.ResponseWriter, r *http.Request) {
+func DisplayData(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
 	utils.TraceInfof(utils.Green, "Get Table Data for user %s", user.UserName)
 	output := user.CreateTemplateData("This user's display data")

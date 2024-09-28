@@ -23,7 +23,7 @@ func AuthRoutes() {
 	Router.HandleFunc("/about", controllers.Auth(controllers.AboutHandler))
 	Router.HandleFunc("/welcome", controllers.Auth(controllers.WelcomeHandler))
 	Router.HandleFunc("/user/data", controllers.AllData)
-	Router.HandleFunc("/user/table-data", controllers.TableData)
+	Router.HandleFunc("/user/table-data", controllers.DisplayData)
 	Router.HandleFunc("/user/dashboard", controllers.Auth(controllers.UserDashboard))
 	Router.HandleFunc(`/user/delete/{id}`, controllers.Auth(controllers.DeleteSimulation))
 	Router.HandleFunc(`/user/switch/{id}`, controllers.Auth(controllers.SwitchSimulation))

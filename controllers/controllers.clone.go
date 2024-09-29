@@ -72,7 +72,7 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfo(utils.Green, ("Setting current state to DEMAND"))
 	user.SetCurrentState("DEMAND")
 
-	simstring, _ := json.MarshalIndent(user.Simulations, " ", " ")
+	simstring, _ := json.MarshalIndent(user.Manager, " ", " ")
 	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the simulation %s", string(simstring))
 	tablestring, _ := json.MarshalIndent(user.Stages, " ", " ")
 	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the tables %s", string(tablestring))

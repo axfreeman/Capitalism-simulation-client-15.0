@@ -12,7 +12,7 @@ import (
 //	   if successful, one of "DEMAND", "TRADE",  ...(the stages of the cycle)
 //	   if unsuccessful "UNKNOWN"
 func (u User) GetCurrentState() string {
-	var s *Simulation
+	var s *Manager
 	if s = u.Simulation(u.CurrentSimulationID); s != nil {
 		return s.State
 	}
@@ -26,7 +26,7 @@ func (u User) GetCurrentState() string {
 //	returns: does not report any error. It probably should.
 func (u User) SetCurrentState(new_state string) {
 	utils.TraceInfof(utils.Green, "Set the state of simulation with id %d to %s", u.CurrentSimulationID, new_state)
-	var s *Simulation
+	var s *Manager
 	if s = u.Simulation(u.CurrentSimulationID); s == nil {
 		utils.TraceError("Attempt to access non-existent simulation")
 		return
@@ -40,7 +40,7 @@ func (u User) SetCurrentState(new_state string) {
 }
 
 type Object interface {
-	Commodity | Industry | Class | IndustryStock | ClassStock | Simulation | Trace
+	Commodity | Industry | Class | IndustryStock | ClassStock | Manager | Trace
 	GetId() int
 }
 
@@ -92,10 +92,10 @@ func (u User) Traces(timeStamp int) *[]Trace {
 //	returns:
 //	 Slice of SimulationsList
 //	 If the user has no simulations, an empty slice
-func (u User) SimulationsList() *[]Simulation {
-	list := u.Simulations.Table.(*[]Simulation)
+func (u User) SimulationsList() *[]Manager {
+	list := u.Manager.Table.(*[]Manager)
 	if len(*list) == 0 {
-		var fakeList []Simulation = *new([]Simulation)
+		var fakeList []Manager = *new([]Manager)
 		return &fakeList
 	}
 	return list

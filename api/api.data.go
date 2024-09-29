@@ -44,29 +44,29 @@ func Fetch(apiKey string, d *models.Table) error {
 	return nil
 }
 
-// Fetch all tables for all simulations for this user for the current step.
-// Do not fetch the simulation object itself. This should only be done
-// when cloning (ie creating a new Simulation), because the Simulation
-// Object represents the entire simulation and refers to many TableSets.
+// Fetch all tables for one simulation for one user.
 //
-// After fetching the Tablesets, the caller should call 'ConvertTableSet()'
-// which transforms Database (Id-based) references from the AIP into pointers.
+// Do not convert database (Id-based) references from the AIP into pointers.
+// The separate function 'ConvertStage' does this
+//
+// Do not fetch the StageManager.
+// The separate function 'FetchStageManager' does this.
 //
 //	user: this user
 //	returns:
 //	  One TableSet containing all the Tables for the current Step
 //	  error: if something goes wrong, usually at the API end.
-func FetchTables(user *models.User) (*models.Stage, error) {
+func FetchStage(user *models.User) (*models.Stage, error) {
 
-	err := Fetch(user.ApiKey, &user.Simulations)
+	err := Fetch(user.ApiKey, &user.Manager)
 	if err != nil {
 		return nil, err
 	}
 
-	simulations := (*user).Simulations.Table.(*[]models.Simulation)
-	for i := range *simulations {
-		utils.TraceInfof(utils.BrightCyan, "Setting up State table for the simulation %s", (*simulations)[i].Name)
-		(*simulations)[i].States = make(map[int]string)
+	managers := (*user).Manager.Table.(*[]models.Manager)
+	for i := range *managers {
+		utils.TraceInfof(utils.BrightCyan, "Setting up State table for the simulation %s", (*managers)[i].Name)
+		(*managers)[i].States = make(map[int]string)
 	}
 
 	newTableSet := models.NewStage()
@@ -176,13 +176,13 @@ func ConvertTableSet(tableSet *models.Stage) {
 //	 returns:
 //		err if anything goes wrong
 func CreateStage(user *models.User) error {
-	// Fetch all the simulations for this user (regardless of ID)
-	err := Fetch(user.ApiKey, &user.Simulations)
+	// Fetch the manager of the current simulation for this user
+	err := Fetch(user.ApiKey, &user.Manager)
 	if err != nil {
 		return err
 	}
 
-	newTableSet, err := FetchTables(user)
+	newTableSet, err := FetchStage(user)
 	if err != nil {
 		return err
 	}
@@ -190,5 +190,13 @@ func CreateStage(user *models.User) error {
 	ConvertTableSet(newTableSet)
 
 	user.Stages = append(user.Stages, newTableSet)
+	return nil
+}
+
+func CreateManager(user *models.User) error {
+	err := Fetch(user.ApiKey, &user.Manager)
+	if err != nil {
+		return err
+	}
 	return nil
 }

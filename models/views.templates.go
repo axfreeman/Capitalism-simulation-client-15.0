@@ -7,8 +7,8 @@ import (
 // Commonly-used Views to pass into templates
 type TemplateData struct {
 	Title              string
-	Simulations        *[]Simulation
-	Templates          *[]Simulation
+	Simulations        *[]Manager
+	Templates          *[]Manager
 	CommodityViews     *[]Viewer
 	IndustryViews      *[]Viewer
 	ClassViews         *[]Viewer

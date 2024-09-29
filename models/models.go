@@ -16,7 +16,7 @@ import (
 	"fmt"
 )
 
-// A Simulation
+// A Manager
 //
 // For a detailed description of the data model, consult the api.
 //
@@ -30,7 +30,7 @@ import (
 //
 // NOTE UserName is a convenience field added by this frontend
 // after retrieving the data from the server. It is probably redundant now.
-type Simulation struct {
+type Manager struct {
 	Id                   int    `json:"id"`
 	Name                 string `json:"name"`
 	TimeStamp            int
@@ -174,7 +174,7 @@ type ClassStock struct {
 // It is initialized when this frontend restarts.
 // In future there should be some procedure for adding new templates
 // or editing existing ones.
-var TemplateList []Simulation
+var TemplateList []Manager
 
 // A default Industry_stock returned if any condition is not met (that is, if the predicated stock does not exist)
 // Used to signal to the user that there has been a programme error

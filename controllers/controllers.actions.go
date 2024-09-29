@@ -131,7 +131,7 @@ func RestartSimulation(w http.ResponseWriter, r *http.Request) {
 // Quick and Dirty download method
 func Download(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
-	newStage, _ := api.FetchTables(user)
+	newStage, _ := api.FetchStage(user)
 
 	type listItem struct {
 		filename string

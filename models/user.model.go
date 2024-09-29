@@ -13,6 +13,8 @@ type CurrentPageType struct {
 	Id  int
 }
 
+// A Simulation object completely describes one simulation
+
 // A User record contains everything relevant to the simulations of a single logged in user
 type User struct {
 	UserName            string          `json:"username"` // Repeats the key in the map,for ease of use
@@ -25,8 +27,14 @@ type User struct {
 	TimeStamp           int             // Indexes Datasets. Selects the stage that the simulation has reached
 	ViewedTimeStamp     int             // Indexes Datasets. Selects what the user is viewing
 	ComparatorTimeStamp int             // Indexes Datasets. Selects what Viewed items are compared with.
-	Simulations         Table           // Details of all simulations
-	Stages              []*Stage        // History of the Stages generated during the simulation
+	Simulations         []Simulation
+	Manager             Table    // TODO deprecate
+	Stages              []*Stage // TODO deprecate
+}
+
+type Simulation struct {
+	Manager Manager  // Manager for the Stages of this simulation
+	Stages  []*Stage // All Stages generated during one simulation
 }
 
 // Constructor for a standard initial User.
@@ -41,9 +49,9 @@ func NewUser(username string) *User {
 		ViewedTimeStamp:     0,
 		ComparatorTimeStamp: 0,
 		Stages:              []*Stage{},
-		Simulations: Table{
+		Manager: Table{
 			ApiUrl: `/simulations`,
-			Table:  new([]Simulation),
+			Table:  new([]Manager),
 			Name:   "Simulations",
 		},
 	}
@@ -87,7 +95,7 @@ func NewRegisteredUser(username string, password string, apikey string) *Registe
 //	u: the user to whom the simulation belongs
 //	Return: pointer to the simulation if it found
 //	Return: nil if not found.
-func (u *User) Simulation(id int) *Simulation {
+func (u *User) Simulation(id int) *Manager {
 	// fmt.Println("Looking for a simulation with id", id, "Length of list is", len(*u.SimulationsList()))
 	simulationList := u.SimulationsList()
 	for i := 0; i < len(*simulationList); i++ {

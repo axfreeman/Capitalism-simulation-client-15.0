@@ -45,15 +45,15 @@ type Object interface {
 }
 
 func ViewedObjects[T Object](u User, objectType string) *[]T {
-	return (*u.TableSets[*u.GetViewedTimeStamp()])[objectType].Table.(*[]T)
+	return (*u.Stages[*u.GetViewedTimeStamp()])[objectType].Table.(*[]T)
 }
 
 func ComparedObjects[T Object](u User, objectType string) *[]T {
-	return (*u.TableSets[*u.GetComparatorTimeStamp()])[objectType].Table.(*[]T)
+	return (*u.Stages[*u.GetComparatorTimeStamp()])[objectType].Table.(*[]T)
 }
 
 func ViewedObject[T Object](u User, objectType string, id int) *T {
-	objectList := (*u.TableSets[*u.GetViewedTimeStamp()])[objectType].Table.(*[]T)
+	objectList := (*u.Stages[*u.GetViewedTimeStamp()])[objectType].Table.(*[]T)
 	for i := 0; i < len(*objectList); i++ {
 		o := (*objectList)[i]
 		if id == o.GetId() {
@@ -64,7 +64,7 @@ func ViewedObject[T Object](u User, objectType string, id int) *T {
 }
 
 func ComparedObject[T Object](u User, objectType string, id int) *T {
-	objectList := (*u.TableSets[*u.GetComparatorTimeStamp()])[objectType].Table.(*[]T)
+	objectList := (*u.Stages[*u.GetComparatorTimeStamp()])[objectType].Table.(*[]T)
 	for i := 0; i < len(*objectList); i++ {
 		o := (*objectList)[i]
 		if id == o.GetId() {
@@ -76,10 +76,10 @@ func ComparedObject[T Object](u User, objectType string, id int) *T {
 
 // Wrapper for the TraceList
 func (u User) Traces(timeStamp int) *[]Trace {
-	if len(u.TableSets) == 0 {
+	if len(u.Stages) == 0 {
 		return nil
 	}
-	table, ok := (*u.TableSets[timeStamp])["trace"]
+	table, ok := (*u.Stages[timeStamp])["trace"]
 	if !ok {
 		return nil
 	}

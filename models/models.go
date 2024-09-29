@@ -25,7 +25,7 @@ import (
 //
 // In this frontend, this relational structure is not used.
 // Instead, the objects are stored in local memory for speed.
-// Each step in the simulation generates a new Tableset, which represents
+// Each step in the simulation generates a new Stage, which represents
 // this step in a form that can be passed into the Templates.
 //
 // NOTE UserName is a convenience field added by this frontend

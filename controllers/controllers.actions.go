@@ -43,14 +43,14 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// The action was taken. Advance the TimeStamp and the ViewedTimeStamp.
-	// Create a new TableSet and Append it to Datasets.
+	// Create a new Stage and Append it to Datasets.
 	// Set the TimeStamps
 	*user.GetComparatorTimeStamp() = *user.GetTimeStamp() // Temporary transitional
 	*user.GetTimeStamp() += 1                             // Temporary transitional
 	*user.GetViewedTimeStamp() = *user.GetTimeStamp()     // Temporary transitional
 
 	// Now refresh the data from the server
-	if err = api.CreateTableSet(user); err != nil {
+	if err = api.CreateStage(user); err != nil {
 		ReportError(user, w, "The server completed the action but did not send back any data.")
 		return
 	}
@@ -131,7 +131,7 @@ func RestartSimulation(w http.ResponseWriter, r *http.Request) {
 // Quick and Dirty download method
 func Download(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
-	newTableSet, _ := api.FetchTableSet(user)
+	newStage, _ := api.FetchTables(user)
 
 	type listItem struct {
 		filename string
@@ -140,11 +140,11 @@ func Download(w http.ResponseWriter, r *http.Request) {
 	var f *os.File
 	var err error
 	outputList := make([]listItem, 5)
-	outputList[0] = listItem{`commodities.json`, (*newTableSet)[`commodities`]}
-	outputList[1] = listItem{`industries.json`, (*newTableSet)[`industries`]}
-	outputList[2] = listItem{`classes.json`, (*newTableSet)[`classes`]}
-	outputList[3] = listItem{`industry-stocks.json`, (*newTableSet)[`industry stocks`]}
-	outputList[4] = listItem{`class-stocks.json`, (*newTableSet)[`class stocks`]}
+	outputList[0] = listItem{`commodities.json`, (*newStage)[`commodities`]}
+	outputList[1] = listItem{`industries.json`, (*newStage)[`industries`]}
+	outputList[2] = listItem{`classes.json`, (*newStage)[`classes`]}
+	outputList[3] = listItem{`industry-stocks.json`, (*newStage)[`industry stocks`]}
+	outputList[4] = listItem{`class-stocks.json`, (*newStage)[`class stocks`]}
 	for i := range outputList {
 		out, _ := json.MarshalIndent(outputList[i].object, "", "")
 		f, err = os.Create(`./dump/` + outputList[i].filename)

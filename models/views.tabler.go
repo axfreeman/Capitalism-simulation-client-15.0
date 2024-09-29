@@ -16,11 +16,11 @@ type Table struct {
 
 // Contains all the tables in one stage of one simulation
 // Indexed by the name of the table (commodity, industry, etc)
-type TableSet map[string]Table
+type Stage map[string]Table
 
-// Constructor for a TableSet. This contains all the Tables required for one stage of one simulation. Tables are "commodities",
+// Constructor for a Stage. This contains all the Tables required for one stage of one simulation. Tables are "commodities",
 // "industries", etc
-func NewTableSet() TableSet {
+func NewStage() Stage {
 	return map[string]Table{
 		"commodities": {
 			ApiUrl: `/commodity`,

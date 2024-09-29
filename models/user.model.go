@@ -26,7 +26,7 @@ type User struct {
 	ViewedTimeStamp     int             // Indexes Datasets. Selects what the user is viewing
 	ComparatorTimeStamp int             // Indexes Datasets. Selects what Viewed items are compared with.
 	Simulations         Table           // Details of all simulations
-	TableSets           []*TableSet     // Repository for the data objects generated during the simulation
+	Stages              []*Stage        // History of the Stages generated during the simulation
 }
 
 // Constructor for a standard initial User.
@@ -40,7 +40,7 @@ func NewUser(username string) *User {
 		TimeStamp:           0,
 		ViewedTimeStamp:     0,
 		ComparatorTimeStamp: 0,
-		TableSets:           []*TableSet{},
+		Stages:              []*Stage{},
 		Simulations: Table{
 			ApiUrl: `/simulations`,
 			Table:  new([]Simulation),

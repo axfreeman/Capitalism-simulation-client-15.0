@@ -62,7 +62,7 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	// Fetch everything for the new simulation from the server.
 	// (until now we only told the server to create it - now we want it).
 	// Add this to the user's Tables
-	err = api.CreateTableSet(user)
+	err = api.CreateStage(user)
 	if err != nil {
 		utils.TraceErrorf("Could not retrieve the requested data with apikey %s and simulation id %d", user.ApiKey, result.Simulation_id)
 		ReportError(user, w, "oops")
@@ -74,12 +74,12 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 
 	simstring, _ := json.MarshalIndent(user.Simulations, " ", " ")
 	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the simulation %s", string(simstring))
-	tablestring, _ := json.MarshalIndent(user.TableSets, " ", " ")
+	tablestring, _ := json.MarshalIndent(user.Stages, " ", " ")
 	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the tables %s", string(tablestring))
 
-	// Initialise the timeStamp so that we are viewing the first TableSet.
+	// Initialise the timeStamp so that we are viewing the first Stage.
 	// As the user moves through the circuit, this timestamp will move forwards.
-	// Each time we move forward, a new TableSet will be created.
+	// Each time we move forward, a new Stage will be created.
 	// This allows the user to view and compare with previous stages of the simulation.
 	*user.GetViewedTimeStamp() = 0
 	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))

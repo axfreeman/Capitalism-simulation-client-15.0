@@ -44,15 +44,20 @@ func Fetch(apiKey string, d *models.Table) error {
 	return nil
 }
 
-// experimental document soon
-// build a tableset from the API, but don't do anything with it yet
-func FetchTableSet(user *models.User) (*models.TableSet, error) {
+// Fetch all tables for all simulations for this user for the current step.
+// Do not fetch the simulation object itself. This should only be done
+// when cloning (ie creating a new Simulation), because the Simulation
+// Object represents the entire simulation and refers to many TableSets.
+//
+// After fetching the Tablesets, the caller should call 'ConvertTableSet()'
+// which transforms Database (Id-based) references from the AIP into pointers.
+//
+//	user: this user
+//	returns:
+//	  One TableSet containing all the Tables for the current Step
+//	  error: if something goes wrong, usually at the API end.
+func FetchTables(user *models.User) (*models.Stage, error) {
 
-	// Fetch all the simulations for this user (regardless of ID)
-	// NOTE unlike all other objects there is only simulation object
-	// and new objects are not created when the simulation steps forward.
-	// HOWEVER when the simulation steps forward the States map is updated.
-	// The states map is created in the 'ConvertTableSet()' function
 	err := Fetch(user.ApiKey, &user.Simulations)
 	if err != nil {
 		return nil, err
@@ -64,7 +69,7 @@ func FetchTableSet(user *models.User) (*models.TableSet, error) {
 		(*simulations)[i].States = make(map[int]string)
 	}
 
-	newTableSet := models.NewTableSet()
+	newTableSet := models.NewStage()
 	for key, value := range newTableSet {
 		err = Fetch(user.ApiKey, &value)
 		if err != nil {
@@ -77,7 +82,7 @@ func FetchTableSet(user *models.User) (*models.TableSet, error) {
 // Replace Id fields with pointers. This makes for  legible code and faster access.
 //
 //	newTableSet: a TableSet, which has been populated by FetchTableSet
-func ConvertTableSet(tableSet *models.TableSet) {
+func ConvertTableSet(tableSet *models.Stage) {
 	industries := *(*tableSet)[`industries`].Table.(*[]models.Industry)
 	industryStocks := *(*tableSet)[`industry stocks`].Table.(*[]models.IndustryStock)
 	classes := *(*tableSet)[`classes`].Table.(*[]models.Class)
@@ -170,20 +175,20 @@ func ConvertTableSet(tableSet *models.TableSet) {
 //
 //	 returns:
 //		err if anything goes wrong
-func CreateTableSet(user *models.User) error {
+func CreateStage(user *models.User) error {
 	// Fetch all the simulations for this user (regardless of ID)
 	err := Fetch(user.ApiKey, &user.Simulations)
 	if err != nil {
 		return err
 	}
 
-	newTableSet, err := FetchTableSet(user)
+	newTableSet, err := FetchTables(user)
 	if err != nil {
 		return err
 	}
 
 	ConvertTableSet(newTableSet)
 
-	user.TableSets = append(user.TableSets, newTableSet)
+	user.Stages = append(user.Stages, newTableSet)
 	return nil
 }

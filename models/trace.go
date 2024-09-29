@@ -20,11 +20,11 @@ type Trace struct {
 // have a separate template loader method.
 func Traces(u *User) *[]Trace {
 	timeStamp := *u.GetTimeStamp()
-	if len(u.TableSets) == 0 {
+	if len(u.Stages) == 0 {
 		return nil
 	}
 	var table Table
-	table, ok := (*u.TableSets[timeStamp])["trace"]
+	table, ok := (*u.Stages[timeStamp])["trace"]
 	if !ok {
 		fmt.Println("Something went wrong loading the trace table")
 		return nil

@@ -107,6 +107,12 @@ func useLastVisited(last string) bool {
 	return false
 }
 
+// Helper function to extract an ID from a URL and ensure
+// it is an integer (eg /commodity/3)
+//
+//	returns:
+//	 if the URL is well-formed, (the id as int, nil)
+//	 if the URL is malformed, (0, error saying 'malformed')
 func FetchIDfromURL(r *http.Request) (int, error) {
 	var idAsString string
 	var ok bool

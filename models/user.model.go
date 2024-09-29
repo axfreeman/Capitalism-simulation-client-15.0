@@ -14,27 +14,44 @@ type CurrentPageType struct {
 }
 
 // A Simulation object completely describes one simulation
-
-// A User record contains everything relevant to the simulations of a single logged in user
-type User struct {
-	UserName            string          `json:"username"` // Repeats the key in the map,for ease of use
-	Email               string          `json:"email"`
-	ApiKey              string          `json:"api_key"` // The api key allocated to this user
-	Password            string          `json:"password"`
-	Role                string          `json:"role"`
-	CurrentSimulationID int             `json:"current_simulation_id"` // the id of the simulation that this user is currently using
-	CurrentPage         CurrentPageType // more information about what the user was looking at (under development)
-	TimeStamp           int             // Indexes Datasets. Selects the stage that the simulation has reached
-	ViewedTimeStamp     int             // Indexes Datasets. Selects what the user is viewing
-	ComparatorTimeStamp int             // Indexes Datasets. Selects what Viewed items are compared with.
-	Simulations         []Simulation
-	Manager             Table    // TODO deprecate
-	Stages              []*Stage // TODO deprecate
-}
-
+// One Simulation contains:
+//
+//	Manager, which controls access to the data
+//	Stages, a slice of Stage, which contains the data
+//
+// A Stage is one step in the simulation (Trade, Produce, etc)
+// A Stage contains all Tables of this step (Commoditis, Industries, etc)
+// Each Table contains all the Objects of a single type. Eg in a two-sector
+// model, the Industries Table contains two elements, DI and DII
 type Simulation struct {
 	Manager Manager  // Manager for the Stages of this simulation
 	Stages  []*Stage // All Stages generated during one simulation
+}
+
+// Constructor for a Simulation with empty Stages and nil Manager elements
+//
+//	returns:	a pointer to a new empty Simulation
+func NewSimulation() *Simulation {
+	stages := make([]*Stage, 0)
+	simulation := Simulation{Stages: stages}
+	return &simulation
+}
+
+// A User record contains everything relevant to the simulations of a single logged in user
+type User struct {
+	UserName            string              `json:"username"` // Repeats the key in the map,for ease of use
+	Email               string              `json:"email"`
+	ApiKey              string              `json:"api_key"` // The api key allocated to this user
+	Password            string              `json:"password"`
+	Role                string              `json:"role"`
+	CurrentSimulationID int                 `json:"current_simulation_id"` // the id of the simulation that this user is currently using
+	CurrentPage         CurrentPageType     // more information about what the user was looking at (under development)
+	TimeStamp           int                 // Indexes Datasets. Selects the stage that the simulation has reached
+	ViewedTimeStamp     int                 // Indexes Datasets. Selects what the user is viewing
+	ComparatorTimeStamp int                 // Indexes Datasets. Selects what Viewed items are compared with.
+	Simulations         map[int]*Simulation // Simulations, indexed by SimulationId
+	Managers            Table               // TODO phase this out. Currently needed as a clumsy staging array
+	Stages              []*Stage            // TODO deprecate
 }
 
 // Constructor for a standard initial User.
@@ -48,8 +65,9 @@ func NewUser(username string) *User {
 		TimeStamp:           0,
 		ViewedTimeStamp:     0,
 		ComparatorTimeStamp: 0,
-		Stages:              []*Stage{},
-		Manager: Table{
+		Simulations:         make(map[int]*Simulation, 0), // TODO under development
+		Stages:              []*Stage{},                   // TODO deprecate
+		Managers: Table{ // TODO deprecate
 			ApiUrl: `/simulations`,
 			Table:  new([]Manager),
 			Name:   "Simulations",

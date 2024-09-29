@@ -58,36 +58,36 @@ func Fetch(apiKey string, d *models.Table) error {
 //	  error: if something goes wrong, usually at the API end.
 func FetchStage(user *models.User) (*models.Stage, error) {
 
-	err := Fetch(user.ApiKey, &user.Manager)
+	err := Fetch(user.ApiKey, &user.Managers)
 	if err != nil {
 		return nil, err
 	}
 
-	managers := (*user).Manager.Table.(*[]models.Manager)
+	managers := (*user).Managers.Table.(*[]models.Manager)
 	for i := range *managers {
 		utils.TraceInfof(utils.BrightCyan, "Setting up State table for the simulation %s", (*managers)[i].Name)
 		(*managers)[i].States = make(map[int]string)
 	}
 
-	newTableSet := models.NewStage()
-	for key, value := range newTableSet {
+	newStage := models.NewStage()
+	for key, value := range newStage {
 		err = Fetch(user.ApiKey, &value)
 		if err != nil {
 			utils.TraceErrorf("Could not retrieve server data with key %s because of error %s", key, err.Error())
 		}
 	}
-	return &newTableSet, nil
+	return &newStage, nil
 }
 
 // Replace Id fields with pointers. This makes for  legible code and faster access.
 //
-//	newTableSet: a TableSet, which has been populated by FetchTableSet
-func ConvertTableSet(tableSet *models.Stage) {
-	industries := *(*tableSet)[`industries`].Table.(*[]models.Industry)
-	industryStocks := *(*tableSet)[`industry stocks`].Table.(*[]models.IndustryStock)
-	classes := *(*tableSet)[`classes`].Table.(*[]models.Class)
-	classStocks := *(*tableSet)[`class stocks`].Table.(*[]models.ClassStock)
-	commodities := *(*tableSet)[`commodities`].Table.(*[]models.Commodity)
+//	newStage: a Stage, which has been populated by FetchStage
+func ConvertStage(stage *models.Stage) {
+	industries := *(*stage)[`industries`].Table.(*[]models.Industry)
+	industryStocks := *(*stage)[`industry stocks`].Table.(*[]models.IndustryStock)
+	classes := *(*stage)[`classes`].Table.(*[]models.Class)
+	classStocks := *(*stage)[`class stocks`].Table.(*[]models.ClassStock)
+	commodities := *(*stage)[`commodities`].Table.(*[]models.Commodity)
 
 	// set the Commodity, Sales Stock, Money stock, Industrial stocks (=Constant capital) and Social stock (=Variable Capital) of every industry
 	for ind := range industries {
@@ -164,7 +164,7 @@ func ConvertTableSet(tableSet *models.Stage) {
 	}
 }
 
-// Fetches a simulation and associated tables from the api server.
+// Fetches that data tables for one simulation from the api server.
 // NOTE the server works out who the user is from the apiKey
 // NOTE the server knows the simulationID because it knows about the user
 //
@@ -177,7 +177,7 @@ func ConvertTableSet(tableSet *models.Stage) {
 //		err if anything goes wrong
 func CreateStage(user *models.User) error {
 	// Fetch the manager of the current simulation for this user
-	err := Fetch(user.ApiKey, &user.Manager)
+	err := Fetch(user.ApiKey, &user.Managers)
 	if err != nil {
 		return err
 	}
@@ -187,16 +187,92 @@ func CreateStage(user *models.User) error {
 		return err
 	}
 
-	ConvertTableSet(newTableSet)
+	ConvertStage(newTableSet)
 
 	user.Stages = append(user.Stages, newTableSet)
 	return nil
 }
 
-func CreateManager(user *models.User) error {
-	err := Fetch(user.ApiKey, &user.Manager)
-	if err != nil {
-		return err
+// Fetch the tables representing one Stage in a simulation from the api server.
+// The server works out who the user is from the apiKey.
+// The server knows the simulationID because it knows about the user
+//
+// Do not convert database (Id-based) references from the AIP into pointers.
+// The separate function 'ConvertStage' does this
+//
+// NOTE: there are many Stages for each Manager. Therefore, we do not
+// access or modify the Manager from within this function. This has to
+// be done externally, by setting the timestamps
+//
+//		user:
+//	      supplies apiKey and simulationID that uniquely identify the simulation
+//	      supplies the Manager for this Stage
+//		returns:
+//				err if anything goes wrong
+func ReplacementFetchStage(user *models.User) error {
+	var err error
+	simulationID := user.CurrentSimulationID
+	utils.TraceInfof(utils.BrightCyan, "User %s is creating a new simulation with Id %d", user.UserName, simulationID)
+
+	// Create a receiver for the data
+	newStage := models.NewStage()
+
+	// ask the API server for the data
+	for key, value := range newStage {
+		err = Fetch(user.ApiKey, &value)
+		if err != nil {
+			utils.TraceErrorf("Could not retrieve server data with key %s because of error %s", key, err.Error())
+			return err
+		}
 	}
+
+	// get the simulation
+	simulation := user.Simulations[simulationID]
+
+	// add the stage
+	simulation.Stages = append(simulation.Stages, &newStage)
+
+	b, _ := json.MarshalIndent(simulation, " ", " ")
+	utils.TraceLogf(utils.BrightCyan, "Simulation was %s", string(b))
+
 	return nil
+}
+
+// to be renamed 'FetchManager' once the  code is working
+//
+// Fetch a Manager object from the API server for the given user.
+// The API server thinks this is called a 'Simulation'.
+// We rename it because the API server only knows about the current stage
+// but we keep a record of all stages.
+//
+// Contains a clumsy workaround because we haven't built a function
+// to retrieve a single object. Everything else is retrieved as a table.
+//
+//		user: the user who will receive the new object
+//	  id: the id of the required Manager
+func ReplacementFetchManager(user *models.User, id int) (*models.Manager, error) {
+	tableContainer := models.Table{
+		ApiUrl: `/simulations`,
+		Table:  new([]models.Manager),
+		Name:   "Simulations",
+	}
+	utils.TraceInfof(utils.BrightCyan, "Fetching a manager with id %d", id)
+
+	// Get all the Managers for this user from the API
+	err := Fetch(user.ApiKey, &tableContainer)
+	if err != nil {
+		return nil, err
+	}
+
+	table := tableContainer.Table.(*[]models.Manager)
+
+	// Find the manager we actually want and return a pointer to it
+	for i := range *table {
+		fmt.Println("Looking at Simulation", (*table)[i].Id)
+		if (*table)[i].Id == id {
+			fmt.Println("Found manager with name ", (*table)[i].Name)
+			return &(*table)[i], nil
+		}
+	}
+	return nil, fmt.Errorf("no simulation with id %d was found", id)
 }

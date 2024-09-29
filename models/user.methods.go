@@ -93,7 +93,7 @@ func (u User) Traces(timeStamp int) *[]Trace {
 //	 Slice of SimulationsList
 //	 If the user has no simulations, an empty slice
 func (u User) SimulationsList() *[]Manager {
-	list := u.Manager.Table.(*[]Manager)
+	list := u.Managers.Table.(*[]Manager)
 	if len(*list) == 0 {
 		var fakeList []Manager = *new([]Manager)
 		return &fakeList

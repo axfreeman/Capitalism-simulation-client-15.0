@@ -19,8 +19,12 @@ type CloneResult struct {
 	Simulation_id int    `json:"simulation_id"`
 }
 
-// Creates a new simulation for the user, from the template specified by the 'id' parameter.
-// This can be scaled up when and if login is introduced.
+// Create a new simulation for the user, from the template specified by the 'id' parameter.
+// Set the user's currentSimulationID to point to this simulation
+// Create a Manager for this simulation
+// Initialise the Manager's viewed and comparator timeStamps to 0
+// Create the first stage of the simulation.
+
 func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	var s string
 	var ok bool
@@ -59,6 +63,25 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfof(utils.Green, "Setting current simulation to %d", result.Simulation_id)
 	user.CurrentSimulationID = result.Simulation_id
 
+	// TODO New code starts here
+
+	// Fetch the manager of this object
+	manager, err := api.ReplacementFetchManager(user, result.Simulation_id)
+	if err != nil {
+		utils.TraceErrorf("Could not retrieve the manager object with apikey %s", user.ApiKey)
+		ReportError(user, w, "oops")
+		return
+	}
+	utils.TraceInfo(utils.BrightRed, " Retrieved the Manager object, phew")
+
+	// Create a new Simulation object
+	newSimulation := models.NewSimulation()
+
+	// Make a fresh copy of the manager
+	newSimulation.Manager = *manager
+	user.Simulations[user.CurrentSimulationID] = newSimulation
+
+	// TODO Deprecated code from here
 	// Fetch everything for the new simulation from the server.
 	// (until now we only told the server to create it - now we want it).
 	// Add this to the user's Tables
@@ -72,7 +95,7 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfo(utils.Green, ("Setting current state to DEMAND"))
 	user.SetCurrentState("DEMAND")
 
-	simstring, _ := json.MarshalIndent(user.Manager, " ", " ")
+	simstring, _ := json.MarshalIndent(user.Managers, " ", " ")
 	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the simulation %s", string(simstring))
 	tablestring, _ := json.MarshalIndent(user.Stages, " ", " ")
 	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the tables %s", string(tablestring))

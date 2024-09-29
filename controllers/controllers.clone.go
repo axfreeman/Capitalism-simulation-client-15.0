@@ -30,6 +30,7 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	var ok bool
 	var err error
 	var body []byte
+	var manager *models.Manager
 
 	user := CurrentUser(r)
 	utils.TraceInfof(utils.Green, "Clone Simulation was called by user %s", user.UserName)
@@ -66,8 +67,7 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	// TODO New code starts here
 
 	// Fetch the manager of this object
-	manager, err := api.ReplacementFetchManager(user, result.Simulation_id)
-	if err != nil {
+	if manager, err = api.ReplacementFetchManager(user, result.Simulation_id); err != nil {
 		utils.TraceErrorf("Could not retrieve the manager object with apikey %s", user.ApiKey)
 		ReportError(user, w, "oops")
 		return
@@ -80,6 +80,14 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	// Make a fresh copy of the manager
 	newSimulation.Manager = *manager
 	user.Simulations[user.CurrentSimulationID] = newSimulation
+
+	// Fetch the data from the first Stage
+	if err = api.ReplacementFetchStage(user); err != nil {
+		utils.TraceErrorf("Could not retrieve the data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
+		ReportError(user, w, "oops")
+		return
+	}
+	utils.TraceInfo(utils.BrightRed, " Retrieved the Data, phew")
 
 	// TODO Deprecated code from here
 	// Fetch everything for the new simulation from the server.

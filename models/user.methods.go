@@ -39,6 +39,27 @@ func (u User) SetCurrentState(new_state string) {
 	}
 }
 
+// Set the state of the current simulation. Make a record of this state
+// in the 'States' map so it can be retrieved as a comparator state
+//
+//	new_state: one of "DEMAND", "TRADE",  ... (the stages of the cycle)
+//	returns: does not report any error. It probably should.
+func (u User) ReplacementSetCurrentState(new_state string) {
+	utils.TraceInfof(utils.Green, "Set the state of simulation with id %d to %s", u.CurrentSimulationID, new_state)
+	s, ok := u.Simulations[u.CurrentSimulationID]
+	if !ok {
+		utils.TraceErrorf("attempt to set the state of a non-existent simulation using id %d", u.CurrentSimulationID)
+		return
+	}
+	m := &s.Manager
+	m.State = new_state
+	m.States[u.TimeStamp] = new_state
+	utils.TraceInfof(utils.Green, "Setting new state %s. States map now has %d elements", new_state, len(m.States))
+	for i := range m.States {
+		utils.TraceInfof(utils.BrightGreen, "State %d is %s", i, m.States[i])
+	}
+}
+
 type Object interface {
 	Commodity | Industry | Class | IndustryStock | ClassStock | Manager | Trace
 	GetId() int

@@ -81,6 +81,15 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	newSimulation.Manager = *manager
 	user.Simulations[user.CurrentSimulationID] = newSimulation
 
+	// Set the manager's timeStamps and initial state, and create the States map
+	user.Simulations[user.CurrentSimulationID].Manager.TimeStamp = 0
+	user.Simulations[user.CurrentSimulationID].Manager.ViewedTimeStamp = 0
+	user.Simulations[user.CurrentSimulationID].Manager.ComparatorTimeStamp = 0
+	user.Simulations[user.CurrentSimulationID].Manager.States = make(map[int]string)
+	user.ReplacementSetCurrentState("DEMAND")
+
+	utils.TraceInfo(utils.BrightRed, " Set up the managers initial state and timestamps, phew")
+
 	// Fetch the data from the first Stage
 	if err = api.ReplacementFetchStage(user); err != nil {
 		utils.TraceErrorf("Could not retrieve the data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
@@ -88,6 +97,11 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.TraceInfo(utils.BrightRed, " Retrieved the Data, phew")
+
+	// Convert the data to add pointers in place of Id field
+	api.ConvertStage(newSimulation.Stages[user.Simulations[user.CurrentSimulationID].Manager.ViewedTimeStamp])
+
+	utils.TraceInfo(utils.BrightRed, " Converted the Data, phew")
 
 	// TODO Deprecated code from here
 	// Fetch everything for the new simulation from the server.

@@ -23,6 +23,69 @@ import (
 //
 //	user.CurrentPageDetail.Url will be used to display errors if set
 //	otherwise, a standard error page will be displayed
+func ReplacementActionHandler(w http.ResponseWriter, r *http.Request) {
+	var err error
+	var action string
+	var ok bool
+
+	user := CurrentUser(r)
+	utils.TraceInfof(utils.Green, "Processing action for user %s", user.UserName)
+
+	if action, ok = mux.Vars(r)["action"]; !ok {
+		ReportError(user, w, "Poorly specified action in the URL")
+		return
+	}
+	utils.TraceInfof(utils.Green, "User requested action %s", action)
+
+	if _, err = api.UserGetRequest(user.ApiKey, `/action/`+action); err != nil {
+		ReportError(user, w, "The server could not complete the action")
+		return
+	}
+
+	// The action was taken. Advance the TimeStamp and the ViewedTimeStamp.
+	// Create a new Stage and Append it to Datasets.
+	// Set the TimeStamps
+
+	simulation, ok := user.Simulations[user.CurrentSimulationID]
+	if !ok {
+		utils.TraceErrorf("Could not retrieve the simulation object with id %d", user.CurrentSimulationID)
+		ReportError(user, w, "oops")
+		return
+	}
+	manager := &simulation.Manager
+	// move comparator to immediately preceding stage
+	manager.ComparatorTimeStamp = manager.ViewedTimeStamp
+	manager.ViewedTimeStamp += 1
+	manager.TimeStamp += 1
+
+	// Now refresh the data from the server
+	if err = api.ReplacementFetchStage(user); err != nil {
+		ReportError(user, w, "The server completed the action but did not send back any data.")
+		return
+	}
+
+	utils.TraceInfof(utils.Green, "Fetched the tables")
+
+	// Set the state so that the simulation can proceed to the next action.
+	user.ReplacementSetCurrentState(nextStates[action])
+	utils.TraceInfof(utils.Green, "The last page this user visited was %v ", user.CurrentPage.Url)
+
+	if useLastVisited(user.CurrentPage.Url) {
+		Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
+	} else {
+		Tpl.ExecuteTemplate(w, "user-dashboard.html", user.CreateTemplateData(""))
+	}
+}
+
+// Handles requests for the server to take an action comprising a stage
+// of the circuit (demand,supply, trade, produce, invest), corresponding
+// to a button press. This is specified by the URL parameter 'act'.
+//
+// Having requested the action from ths server, sets 'state' to the next
+// stage of the circuit and redisplays whatever the user was looking at.
+//
+//	user.CurrentPageDetail.Url will be used to display errors if set
+//	otherwise, a standard error page will be displayed
 func ActionHandler(w http.ResponseWriter, r *http.Request) {
 	var err error
 	var action string

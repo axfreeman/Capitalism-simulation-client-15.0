@@ -4,7 +4,27 @@ import (
 	"gorilla-client/utils"
 )
 
-// TODO rationalise traces and simulations
+// TODO handle programme errors more systematically
+
+// Retrieve the current stage of the simulation.
+func (u *User) GetCurrentStage() *Stage {
+	manager := &u.Simulations[u.CurrentSimulationID].Manager
+	return u.Simulations[u.CurrentSimulationID].Stages[manager.TimeStamp]
+}
+
+// Retrieve the viewed stage of the simulation. This is the same as the
+// current stage but the distinction leaves the way open to compare any
+// arbitrary two stages.
+func (u *User) GetViewedStage() *Stage {
+	manager := &u.Simulations[u.CurrentSimulationID].Manager
+	return u.Simulations[u.CurrentSimulationID].Stages[manager.ViewedTimeStamp]
+}
+
+// Retrieve the comparator stage of the simulation.
+func (u *User) GetComparatorStage() *Stage {
+	manager := &u.Simulations[u.CurrentSimulationID].Manager
+	return u.Simulations[u.CurrentSimulationID].Stages[manager.ComparatorTimeStamp]
+}
 
 // Retrieve the current state of the current simulation
 //

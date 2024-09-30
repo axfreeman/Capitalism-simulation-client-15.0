@@ -103,6 +103,9 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 
 	utils.TraceInfo(utils.BrightRed, " Converted the Data, phew")
 
+	simstring, _ := json.MarshalIndent(user.Simulations[user.CurrentSimulationID], " ", " ")
+	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the simulation %s", string(simstring))
+
 	// TODO Deprecated code from here
 	// Fetch everything for the new simulation from the server.
 	// (until now we only told the server to create it - now we want it).
@@ -117,7 +120,7 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfo(utils.Green, ("Setting current state to DEMAND"))
 	user.SetCurrentState("DEMAND")
 
-	simstring, _ := json.MarshalIndent(user.Managers, " ", " ")
+	simstring, _ = json.MarshalIndent(user.Managers, " ", " ")
 	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the simulation %s", string(simstring))
 	tablestring, _ := json.MarshalIndent(user.Stages, " ", " ")
 	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the tables %s", string(tablestring))

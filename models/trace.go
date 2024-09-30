@@ -1,6 +1,7 @@
 package models
 
 import (
+	"encoding/json"
 	"fmt"
 	"gorilla-client/utils"
 )
@@ -54,4 +55,15 @@ func Traces(u *User) *[]Trace {
 		}
 	}
 	return t
+}
+
+// Custom MarshalJSON to suppress printout of Trace Records
+// TODO suppress entire Trace table (which is a map, so I haven't yet found out how to do this)
+// TODO I think it involves checking the actual name of the key but then avoiding infinite recursion
+func (i Trace) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&struct {
+		Tldr string `json:"tldr"`
+	}{
+		Tldr: "Trace record suppressed",
+	})
 }

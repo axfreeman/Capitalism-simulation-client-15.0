@@ -111,7 +111,7 @@ type Class struct {
 	Sales              *ClassStock
 }
 
-// Custom alias type to prevent jsonMarshal infinite recursion
+// Custom MarshalJSON to prevent jsonMarshal following pointer to Industry
 func (i *Industry) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&struct {
 		Address string `json:"address"`

@@ -212,9 +212,7 @@ func FetchManager(user *models.User, id int) (*models.Manager, error) {
 
 	// Find the manager we actually want and return a pointer to it
 	for i := range *table {
-		fmt.Println("Looking at Simulation", (*table)[i].Id)
 		if (*table)[i].Id == id {
-			fmt.Println("Found manager with name ", (*table)[i].Name)
 			return &(*table)[i], nil
 		}
 	}

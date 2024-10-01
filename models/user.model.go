@@ -63,7 +63,7 @@ func NewUser(username string) *User {
 		TimeStamp:           0,
 		ViewedTimeStamp:     0,
 		ComparatorTimeStamp: 0,
-		Simulations:         make(map[int]*Simulation, 0), // TODO under development
+		Simulations:         make(map[int]*Simulation, 0),
 	}
 	return &newUser
 }

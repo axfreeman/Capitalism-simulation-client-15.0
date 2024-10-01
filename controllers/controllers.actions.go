@@ -29,46 +29,42 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
 	utils.TraceInfof(utils.Green, "Processing action for user %s", user.UserName)
 
+	// Find the requested action
 	if action, ok = mux.Vars(r)["action"]; !ok {
 		ReportError(user, w, "Poorly specified action in the URL")
 		return
 	}
 	utils.TraceInfof(utils.Green, "User requested action %s", action)
 
+	// Tell the API server to perform the action
 	if _, err = api.UserGetRequest(user.ApiKey, `/action/`+action); err != nil {
 		ReportError(user, w, "The server could not complete the action")
 		return
 	}
 
-	// The action was taken. Advance the TimeStamp and the ViewedTimeStamp.
-	// Create a new Stage and Append it to Datasets.
-	// Set the TimeStamps
-
-	simulation, ok := user.Simulations[user.CurrentSimulationID]
-	if !ok {
-		utils.TraceErrorf("Could not retrieve the simulation object with id %d", user.CurrentSimulationID)
-		ReportError(user, w, "oops")
-		return
-	}
+	// Create a new Stage and Append it to Datasets. Set the TimeStamps,
+	// moving the comparator to immediately preceding stage
+	simulation := user.GetCurrentSimulation()
 	manager := &simulation.Manager
-	// move comparator to immediately preceding stage
 	manager.ComparatorTimeStamp = manager.ViewedTimeStamp
 	manager.ViewedTimeStamp += 1
 	manager.TimeStamp += 1
 
-	// Now refresh the data from the server
+	// Fetch the data from the server and append it to Stages.
 	if err = api.FetchStage(user); err != nil {
 		ReportError(user, w, "The server completed the action but did not send back any data.")
 		return
 	}
+	utils.TraceInfof(utils.Green, "Fetched a new set of tables")
 
 	// Convert the data to add pointers in place of Id field
 	api.ConvertStage(user.GetCurrentStage())
-
-	utils.TraceInfof(utils.Green, "Fetched the tables")
+	utils.TraceInfof(utils.Green, "Converted the tables")
 
 	// Set the state so that the simulation can proceed to the next action.
 	user.SetCurrentState(nextStates[action])
+
+	// Choose which page to display, depending on what the user was looking at
 	utils.TraceInfof(utils.Green, "The last page this user visited was %v ", user.CurrentPage.Url)
 
 	if useLastVisited(user.CurrentPage.Url) {

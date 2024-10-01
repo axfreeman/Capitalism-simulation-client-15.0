@@ -107,7 +107,7 @@ func useLastVisited(last string) bool {
 	return false
 }
 
-// Helper function to extract an ID from a URL and ensure
+// Helper function to extract an object ID from a URL and ensure
 // it is an integer (eg /commodity/3)
 //
 //	returns:
@@ -119,10 +119,10 @@ func FetchIDfromURL(r *http.Request) (int, error) {
 	var err error
 	var id int
 	if idAsString, ok = mux.Vars(r)["id"]; !ok {
-		return 0, errors.New("unrecognised object id")
+		return 0, errors.New("unspecified object id. Please report this to the developer")
 	}
 	if id, err = strconv.Atoi(idAsString); err != nil {
-		return 0, errors.New("malformed id")
+		return 0, errors.New("malformed object id. Please report this to the developer")
 	}
 	return id, nil
 }

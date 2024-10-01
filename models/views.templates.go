@@ -65,19 +65,12 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 	csv := ViewedObjects[ClassStock](*u, `class stocks`)
 	csc := ComparedObjects[ClassStock](*u, `class stocks`)
 
-	// diagnostics - pick up the viewedState and ComparatorStates by a different route, to check it's all working
-	// utils.TraceInfof(utils.BrightYellow, "Timestamps are %d, %d", *u.GetTimeStamp(), *u.GetComparatorTimeStamp())
-	// viewedState := u.Simulation(u.CurrentSimulationID).States[*u.GetTimeStamp()]
-	// comparatorState := u.Simulation(u.CurrentSimulationID).States[*u.GetComparatorTimeStamp()]
-	// utils.TraceInfof(utils.BrightYellow, "State %s, viewedState is %s and comparatorState is %s", state, viewedState, comparatorState)
-
 	// Create the DisplayData object
 	templateData := TemplateData{
-		Title:     "Hello",
-		Templates: &TemplateList,
-		Username:  u.UserName,
-		State:     state,
-		// ComparatorState:    comparatorState,
+		Title:              "Hello",
+		Templates:          &TemplateList,
+		Username:           u.UserName,
+		State:              state,
 		CommodityViews:     CommodityViews(cv, cc),
 		IndustryViews:      IndustryViews(iv, ic),
 		ClassViews:         ClassViews(clv, clc),

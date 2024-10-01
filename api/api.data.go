@@ -48,7 +48,7 @@ func Fetch(apiKey string, d *models.Table) error {
 //
 //	newStage: a Stage, which has been populated by FetchStage
 func ConvertStage(stage *models.Stage) {
-	// fmt.Printf("Entering ConvertState with stage\n %v\n", stage)
+	// fmt.Printf("Entering ConvertStage with stage\n %v\n", stage)
 	industries := *(*stage)[`industries`].Table.(*[]models.Industry)
 	industryStocks := *(*stage)[`industry stocks`].Table.(*[]models.IndustryStock)
 	classes := *(*stage)[`classes`].Table.(*[]models.Class)

@@ -34,8 +34,9 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
 	utils.TraceInfof(utils.Green, "Clone Simulation was called by user %s", user.UserName)
 
+	// Fetch the id that the user requested
 	if s, ok = mux.Vars(r)["id"]; !ok {
-		ReportError(user, w, "Unrecognisable URL. Please report this to the developer")
+		ReportError(user, w, "Poorly specified Simulation. Please report this to the developer")
 		return
 	}
 

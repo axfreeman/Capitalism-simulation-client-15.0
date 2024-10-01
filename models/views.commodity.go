@@ -43,6 +43,28 @@ func CreateCommodityView(v *Commodity, c *Commodity) views.Viewer {
 	}
 }
 
+// Embedded data for a single commodity, to pass into templates
+type CommodityData struct {
+	TemplateData
+	Commodity Commodity
+}
+
+// Create a CommodityData to display a single commodity in the
+// commodity.html template. This is added dynamically to the DisplayData
+// template when the Commodity view is requested
+//
+//	u: the user
+//	message: any message
+//	id: the id of the commodity to display
+//
+//	returns: CommodityData which references this commodity, and embeds an OutputData
+func (u User) CommodityDisplayData(message string, id int) CommodityData {
+	return CommodityData{
+		u.CreateTemplateData(message),
+		*ViewedObject[Commodity](u, `commodities`, id),
+	}
+}
+
 // Create a slice of CommodityView for display in a template
 //
 //	v: a slice of all commodities in the simulation at the current stage

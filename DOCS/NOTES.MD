@@ -3,6 +3,8 @@
 ## Design
 * hashed passwords should be recorded in the server: see `LoadRegisteredUsers`
 * FetchRemoteTemplates creates a global template list. When and if users are allowed to create templates, this will have side effects
+* // TODO handle programme errors more systematically
+
 
 ## For production
 * Proper security on 'Super Secret' key for the cookie store

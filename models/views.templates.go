@@ -5,6 +5,41 @@ import (
 	"gorilla-client/views"
 )
 
+type Object interface {
+	Commodity | Industry | Class | IndustryStock | ClassStock | Manager | Trace
+	GetId() int
+}
+
+func ViewedObjects[T Object](u User, objectType string) *[]T {
+	return (*u.GetViewedStage())[objectType].Table.(*[]T)
+}
+
+func ComparedObjects[T Object](u User, objectType string) *[]T {
+	return (*u.GetComparatorStage())[objectType].Table.(*[]T)
+}
+
+func ViewedObject[T Object](u User, objectType string, id int) *T {
+	objectList := (*u.GetViewedStage())[objectType].Table.(*[]T)
+	for i := 0; i < len(*objectList); i++ {
+		o := (*objectList)[i]
+		if id == o.GetId() {
+			return &o
+		}
+	}
+	return nil
+}
+
+func ComparedObject[T Object](u User, objectType string, id int) *T {
+	objectList := (*u.GetComparatorStage())[objectType].Table.(*[]T)
+	for i := 0; i < len(*objectList); i++ {
+		o := (*objectList)[i]
+		if id == o.GetId() {
+			return &o
+		}
+	}
+	return nil
+}
+
 // Commonly-used Views to pass into templates
 type TemplateData struct {
 	Title              string
@@ -80,73 +115,4 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 	}
 
 	return templateData
-}
-
-// Single Objects
-// TODO implement with generics
-
-// Embedded data for a single commodity, to pass into templates
-type CommodityData struct {
-	TemplateData
-	Commodity Commodity
-}
-
-// Embedded data for a single class, to pass into templates
-type ClassData struct {
-	TemplateData
-	Class Class
-}
-
-// Embedded data for a single industry, to pass into templates
-type IndustryData struct {
-	TemplateData
-	Industry Industry
-}
-
-// Create a CommodityData to display a single commodity in the
-// commodity.html template. This is added dynamically to the DisplayData
-// template when the Commodity view is requested
-//
-//	u: the user
-//	message: any message
-//	id: the id of the commodity to display
-//
-//	returns: CommodityData which references this commodity, and embeds an OutputData
-func (u User) CommodityDisplayData(message string, id int) CommodityData {
-	return CommodityData{
-		u.CreateTemplateData(message),
-		*ViewedObject[Commodity](u, `commodities`, id),
-	}
-}
-
-// Create a ClassData to display a single class in the
-// class.html template. This is added dynamically to the DisplayData
-// template when the Commodity view is requested
-//
-//	u: the user
-//	message: any message
-//	id: the id of the social class to display
-//
-//	returns: classData which references this class, and embeds an OutputData
-func (u User) ClassDisplayData(message string, id int) ClassData {
-	return ClassData{
-		u.CreateTemplateData(message),
-		*ViewedObject[Class](u, `classes`, id),
-	}
-}
-
-// Create an IndustryData to display a single industry in the
-// industry.html template. This is added dynamically to the DisplayData
-// template when the Commodity view is requested
-//
-//	u: the user
-//	message: any message
-//	id: the id of the industry item to display
-//
-//	returns: industryData which references this industry, and embeds an OutputData
-func (u User) IndustryDisplayData(message string, id int) IndustryData {
-	return IndustryData{
-		u.CreateTemplateData(message),
-		*ViewedObject[Industry](u, `industries`, id),
-	}
 }

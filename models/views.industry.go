@@ -7,8 +7,6 @@ import (
 	"reflect"
 )
 
-// TODO fix up IndustryLink and CommodityLink for IndustryStock so it displays the name, not the Id
-
 // Type for implementation of views.Viewer interface
 type IndustryView struct {
 	viewedRecord   *Industry
@@ -112,6 +110,28 @@ func CreateIndustryStockView(v *IndustryStock, c *IndustryStock) views.Viewer {
 	return &IndustryStockView{
 		viewedRecord:   v,
 		comparedRecord: c,
+	}
+}
+
+// Embedded data for a single industry, to pass into templates
+type IndustryData struct {
+	TemplateData
+	Industry Industry
+}
+
+// Create an IndustryData to display a single industry in the
+// industry.html template. This is added dynamically to the DisplayData
+// template when the Commodity view is requested
+//
+//	u: the user
+//	message: any message
+//	id: the id of the industry item to display
+//
+//	returns: industryData which references this industry, and embeds an OutputData
+func (u User) IndustryDisplayData(message string, id int) IndustryData {
+	return IndustryData{
+		u.CreateTemplateData(message),
+		*ViewedObject[Industry](u, `industries`, id),
 	}
 }
 

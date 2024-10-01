@@ -16,6 +16,12 @@ type ClassView struct {
 	SalesView       *ClassStockView
 }
 
+// Embedded data for a single class, to pass into templates
+type ClassData struct {
+	TemplateData
+	Class Class
+}
+
 // Implements views.Viewer interface ViewedField method
 func (i *ClassView) ViewedField(f string) string {
 	s := reflect.Indirect(reflect.ValueOf(i.viewedRecord)).FieldByName(f)
@@ -75,6 +81,21 @@ func (i *ClassStockView) ViewedField(f string) string {
 func (i *ClassStockView) ComparedField(f string) string {
 	s := reflect.Indirect(reflect.ValueOf(i.comparedRecord)).FieldByName(f)
 	return fmt.Sprint(s)
+}
+
+// Create a single ClassDataView to display in the class.html template.
+// This is added dynamically to the DisplayData template when requested
+//
+//	u: the user
+//	message: any message
+//	id: the id of the social class to display
+//
+//	returns: classData which references this class, and embeds an OutputData
+func (u User) ClassDisplayData(message string, id int) ClassData {
+	return ClassData{
+		u.CreateTemplateData(message),
+		*ViewedObject[Class](u, `classes`, id),
+	}
 }
 
 // Create a single ClassStockView for display in a template

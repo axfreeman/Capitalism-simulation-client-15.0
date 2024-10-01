@@ -5,16 +5,43 @@
 // (2) they define how this front end communicates with the user
 // that is, the purpose is to intermediate between the simulation itself and the display of its results
 
-// TODO Industry should have a pointer to its Commodity
-// TODO IndustryStock should have a pointer to its Industry
-// TODO ClassStock should have a pointer to its Class
-
 package models
 
 import (
 	"encoding/json"
 	"fmt"
 )
+
+// A record describing what page the user was visiting
+// together with the information needed to display the page
+type CurrentPageType struct {
+	Url string
+	Id  int
+}
+
+// A Simulation object completely describes one simulation
+// One Simulation contains:
+//
+//	Manager, which controls access to the data
+//	Stages, a slice of Stage, which contains the data
+//
+// A Stage is one step in the simulation (Trade, Produce, etc)
+// A Stage contains all Tables of this step (Commoditis, Industries, etc)
+// Each Table contains all the Objects of a single type. Eg in a two-sector
+// model, the Industries Table contains two elements, DI and DII
+type Simulation struct {
+	Manager Manager  // Manager for the Stages of this simulation
+	Stages  []*Stage // All Stages generated during one simulation
+}
+
+// Constructor for a Simulation with empty Stages and nil Manager elements
+//
+//	returns:	a pointer to a new empty Simulation
+func NewSimulation() *Simulation {
+	stages := make([]*Stage, 0)
+	simulation := Simulation{Stages: stages}
+	return &simulation
+}
 
 // A Manager
 //

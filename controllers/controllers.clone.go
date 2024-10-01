@@ -97,11 +97,10 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 
 	// Convert the data to add pointers in place of Id field
 	api.ConvertStage(user.GetCurrentStage())
-	// WAS 	api.ConvertStage(newSimulation.Stages[user.Simulations[user.CurrentSimulationID].Manager.ViewedTimeStamp])
 
 	utils.TraceInfo(utils.BrightRed, " Converted the Data, phew")
 
-	simstring, _ := json.MarshalIndent(user.Simulations[user.CurrentSimulationID], " ", " ")
+	simstring, _ := json.MarshalIndent(user.GetCurrentSimulation(), " ", " ")
 	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the simulation %s", string(simstring))
 
 	// Initialise all timeStamps so we are viewing the first Stage.

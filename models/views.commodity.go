@@ -2,6 +2,8 @@ package models
 
 import (
 	"fmt"
+	"gorilla-client/views"
+	"html/template"
 	"reflect"
 )
 
@@ -34,7 +36,7 @@ func (c *CommodityView) ComparedField(f string) string {
 //	v: the currently viewed commodity
 //	c: the same commodity at an earlier point in the simulation
 //	returns: a View object to supply to templates
-func CreateCommodityView(v *Commodity, c *Commodity) Viewer {
+func CreateCommodityView(v *Commodity, c *Commodity) views.Viewer {
 	return &CommodityView{
 		viewedRecord:   v,
 		comparedRecord: c,
@@ -46,8 +48,8 @@ func CreateCommodityView(v *Commodity, c *Commodity) Viewer {
 //	v: a slice of all commodities in the simulation at the current stage
 //	c: a slice of the same commodities at an earlier point in the simulation
 //	returns: a pointer to a slice of View objects to supply to templates
-func CommodityViews(v *[]Commodity, c *[]Commodity) *[]Viewer {
-	var view = make([]Viewer, len(*v))
+func CommodityViews(v *[]Commodity, c *[]Commodity) *[]views.Viewer {
+	var view = make([]views.Viewer, len(*v))
 	var vc *Commodity
 	var cc *Commodity
 	for i := range *v {
@@ -57,4 +59,48 @@ func CommodityViews(v *[]Commodity, c *[]Commodity) *[]Viewer {
 		view[i] = newView
 	}
 	return &view
+}
+
+// Returns a safe HTML string with a graphic illustrating the origin
+//
+//	v: a CommodityView
+//	template.HTML: safe string with a graphic representing the origin
+func OriginGraphic(v views.Viewer) template.HTML {
+	var htmlString template.HTML
+	switch v.ViewedField(`Origin`) {
+	case `INDUSTRIAL`:
+		htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:blue" class="fa fa-industry"></i></td>`
+	case `SOCIAL`:
+		if v.ViewedField(`Usage`) == `Useless` {
+			htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:rgba(128, 0, 128, 0.696)" class="fas fa-user-tie"></i></td>`
+		} else {
+			htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:red" class="fa fa-user-friends"></i></td>`
+		}
+	case `MONEY`:
+		htmlString = `<td style="text-align:center"><i style="font-weight: 900; color:goldenrod" class="fa fa-dollar"></i></td>`
+	default:
+		htmlString = `<td style="text-align:center">Unknown Origin</td>`
+	}
+	return template.HTML(htmlString)
+}
+
+// Returns a safe HTML string with a graphic illustrating the usage
+//
+//	v: a CommodityView
+//	template.HTML: safe string with a graphic representing the usage
+func UsageGraphic(v views.Viewer) template.HTML {
+	var htmlString template.HTML
+	switch v.ViewedField(`Usage`) {
+	case `PRODUCTIVE`:
+		htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:blue" class="fas fa-hammer"></i></td>`
+	case `CONSUMPTION`:
+		htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:green" class="fa fa-cutlery"></i></td>`
+	case `MONEY`:
+		htmlString = `<td style="text-align:center"><i class="fa fa-dollar" style="font-weight: 900; color:goldenrod"></i></td>`
+	case `Useless`:
+		htmlString = `<td style="text-align:center"><i class="fas fa-skull-crossbones" style="font-weight: bolder; color:black"></i></td>`
+	default:
+		htmlString = `<td style="text-align:center">Unknown Usage</td>`
+	}
+	return template.HTML(htmlString)
 }

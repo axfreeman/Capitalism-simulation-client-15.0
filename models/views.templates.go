@@ -2,6 +2,7 @@ package models
 
 import (
 	"gorilla-client/utils"
+	"gorilla-client/views"
 )
 
 // Commonly-used Views to pass into templates
@@ -9,11 +10,11 @@ type TemplateData struct {
 	Title              string
 	Simulations        *[]Manager
 	Templates          *[]Manager
-	CommodityViews     *[]Viewer
-	IndustryViews      *[]Viewer
-	ClassViews         *[]Viewer
-	IndustryStockViews *[]Viewer
-	ClassStockViews    *[]Viewer
+	CommodityViews     *[]views.Viewer
+	IndustryViews      *[]views.Viewer
+	ClassViews         *[]views.Viewer
+	IndustryStockViews *[]views.Viewer
+	ClassStockViews    *[]views.Viewer
 	Trace              *[]Trace
 	Count              int
 	Username           string

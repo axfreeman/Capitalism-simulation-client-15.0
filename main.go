@@ -8,6 +8,7 @@ import (
 	"gorilla-client/models"
 	"gorilla-client/routes"
 	"gorilla-client/utils"
+	"gorilla-client/views"
 	"html/template"
 	"log"
 	"net/http"
@@ -30,10 +31,10 @@ func main() {
 	// controllers.Tpl, err = template.ParseGlob("./templates/*/*")
 
 	funcMap := template.FuncMap{
-		"Show":                       models.Show,
-		"ShowString":                 models.ShowString,
-		"ShowDecimal":                models.ShowDecimal,
-		"Link":                       models.Link,
+		"Show":                       views.Show,
+		"ShowString":                 views.ShowString,
+		"ShowDecimal":                views.ShowDecimal,
+		"Link":                       views.Link,
 		"OriginGraphic":              models.OriginGraphic,
 		"UsageGraphic":               models.UsageGraphic,
 		"IndustryCommodityLink":      models.IndustryCommodityLink,

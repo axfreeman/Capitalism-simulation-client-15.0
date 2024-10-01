@@ -74,19 +74,23 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Display the previous state of the simulation
-// Do nothing if we are already at the earliest stage
+// View the previous stage of the simulation
+// Comparator stays one step behind Viewed
+// Later we can develop more sophisticated logic
+// If Comparator is at the start, do nothing
 func Back(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfo(utils.Green, "Back was requested")
 	u := CurrentUser(r)
-	m := u.GetCurrentSimulation().Manager
-	if m.ViewedTimeStamp > 0 {
-		m.ViewedTimeStamp--
-	}
-	if m.ViewedTimeStamp > 0 {
+	m := CurrentUser(r).GetCurrentSimulation().Manager
+
+	// View one earlier stage and compare it with the preceding
+	if m.ComparatorTimeStamp > 0 {
+		m.ComparatorTimeStamp--
 		m.ViewedTimeStamp--
 	}
 	utils.TraceInfof(utils.Green, "Viewing %d with comparator %d", m.ViewedTimeStamp, m.ComparatorTimeStamp)
+
+	// Display appropriate page depending what the user was looking at
 	if useLastVisited(u.CurrentPage.Url) {
 		Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateTemplateData(""))
 	} else {
@@ -94,18 +98,17 @@ func Back(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Display the next state of the simulation
-// Do nothing if we are already viewing the most recent state
-// Ensure the comparator stamp is one step behind the view stamp
+// View the previous stage of the simulation
+// Comparator stays at least one step behind Viewed
+// Later we can develop more sophisticated logic
+// If Viewed is at the current stage, do nothing
 func Forward(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfo(utils.Green, "Forward was requested")
 	u := CurrentUser(r)
-	m := u.GetCurrentSimulation().Manager
+	m := CurrentUser(r).GetCurrentSimulation().Manager
 
 	if m.ViewedTimeStamp < m.TimeStamp {
 		m.ViewedTimeStamp++
-	}
-	if m.ComparatorTimeStamp != 0 {
 		m.ComparatorTimeStamp++
 	}
 

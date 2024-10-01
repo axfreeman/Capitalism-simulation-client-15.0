@@ -33,7 +33,6 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 
 	user := CurrentUser(r)
 	utils.TraceInfof(utils.Green, "Clone Simulation was called by user %s", user.UserName)
-	user.CurrentPage = models.CurrentPageType{Url: "user-dashboard.html", Id: 0}
 
 	if s, ok = mux.Vars(r)["id"]; !ok {
 		ReportError(user, w, "Unrecognisable URL. Please report this to the developer")
@@ -114,5 +113,7 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	user.GetCurrentSimulation().Manager.TimeStamp = 0
 	user.GetCurrentSimulation().Manager.ViewedTimeStamp = 0
 	user.GetCurrentSimulation().Manager.ComparatorTimeStamp = 0
+
+	user.CurrentPage = models.CurrentPageType{Url: "index.html", Id: 0}
 	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 }

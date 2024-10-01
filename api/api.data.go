@@ -44,45 +44,11 @@ func Fetch(apiKey string, d *models.Table) error {
 	return nil
 }
 
-// Fetch all tables for one simulation for one user.
-//
-// Do not convert database (Id-based) references from the AIP into pointers.
-// The separate function 'ConvertStage' does this
-//
-// Do not fetch the StageManager.
-// The separate function 'FetchStageManager' does this.
-//
-//	user: this user
-//	returns:
-//	  One TableSet containing all the Tables for the current Step
-//	  error: if something goes wrong, usually at the API end.
-func FetchStage(user *models.User) (*models.Stage, error) {
-
-	err := Fetch(user.ApiKey, &user.Managers)
-	if err != nil {
-		return nil, err
-	}
-
-	managers := (*user).Managers.Table.(*[]models.Manager)
-	for i := range *managers {
-		utils.TraceInfof(utils.BrightCyan, "Setting up State table for the simulation %s", (*managers)[i].Name)
-		(*managers)[i].States = make(map[int]string)
-	}
-
-	newStage := models.NewStage()
-	for key, value := range newStage {
-		err = Fetch(user.ApiKey, &value)
-		if err != nil {
-			utils.TraceErrorf("Could not retrieve server data with key %s because of error %s", key, err.Error())
-		}
-	}
-	return &newStage, nil
-}
-
 // Replace Id fields with pointers. This makes for  legible code and faster access.
 //
 //	newStage: a Stage, which has been populated by FetchStage
 func ConvertStage(stage *models.Stage) {
+	// fmt.Printf("Entering ConvertState with stage\n %v\n", stage)
 	industries := *(*stage)[`industries`].Table.(*[]models.Industry)
 	industryStocks := *(*stage)[`industry stocks`].Table.(*[]models.IndustryStock)
 	classes := *(*stage)[`classes`].Table.(*[]models.Class)
@@ -91,21 +57,28 @@ func ConvertStage(stage *models.Stage) {
 
 	// set the Commodity, Sales Stock, Money stock, Industrial stocks (=Constant capital) and Social stock (=Variable Capital) of every industry
 	for ind := range industries {
+		// fmt.Printf("Convert Industries is Processing industry %s\n", industries[ind].Name)
 		industries[ind].Constant = make([]*models.IndustryStock, 0)
 		for i := range industryStocks {
 			if industryStocks[i].IndustryId == industries[ind].Id {
+				// fmt.Printf("Convert Industries is Processing stock %s\n", industryStocks[i].Name)
 				industryStocks[i].IndustryAddress = &industries[ind]
 				industryStocks[i].IndustryName = industries[ind].Name
 				switch industryStocks[i].UsageType {
 				case `Money`:
+					// fmt.Println("Money Stock")
 					industries[ind].Money = &(industryStocks[i])
 				case `Production`:
+					// fmt.Println("Production Stock")
 					if industryStocks[i].Origin == `SOCIAL` {
+						// fmt.Println("Social Origin Stock")
 						industries[ind].Variable = &(industryStocks[i])
 					} else {
+						// fmt.Println("Production Origin Stock")
 						industries[ind].Constant = append(industries[ind].Constant, &(industryStocks[i]))
 					}
 				case `Sales`:
+					// fmt.Println("Sales Stock")
 					industries[ind].Sales = &(industryStocks[i])
 				default:
 				}
@@ -164,35 +137,6 @@ func ConvertStage(stage *models.Stage) {
 	}
 }
 
-// Fetches that data tables for one simulation from the api server.
-// NOTE the server works out who the user is from the apiKey
-// NOTE the server knows the simulationID because it knows about the user
-//
-// Replace Id fields with pointers. This makes for speed of access and
-// visibility of code.
-//
-// user: supplies apiKey and simulationID that uniquely identify the simulation
-//
-//	 returns:
-//		err if anything goes wrong
-func CreateStage(user *models.User) error {
-	// Fetch the manager of the current simulation for this user
-	err := Fetch(user.ApiKey, &user.Managers)
-	if err != nil {
-		return err
-	}
-
-	newTableSet, err := FetchStage(user)
-	if err != nil {
-		return err
-	}
-
-	ConvertStage(newTableSet)
-
-	user.Stages = append(user.Stages, newTableSet)
-	return nil
-}
-
 // Fetch the tables representing one Stage in a simulation from the api server.
 // The server works out who the user is from the apiKey.
 // The server knows the simulationID because it knows about the user
@@ -209,7 +153,7 @@ func CreateStage(user *models.User) error {
 //	      supplies the Manager for this Stage
 //		returns:
 //				err if anything goes wrong
-func ReplacementFetchStage(user *models.User) error {
+func FetchStage(user *models.User) error {
 	var err error
 	simulationID := user.CurrentSimulationID
 	utils.TraceInfof(utils.BrightCyan, "User %s is creating a new simulation with Id %d", user.UserName, simulationID)
@@ -250,7 +194,7 @@ func ReplacementFetchStage(user *models.User) error {
 //
 //		user: the user who will receive the new object
 //	  id: the id of the required Manager
-func ReplacementFetchManager(user *models.User, id int) (*models.Manager, error) {
+func FetchManager(user *models.User, id int) (*models.Manager, error) {
 	tableContainer := models.Table{
 		ApiUrl: `/simulations`,
 		Table:  new([]models.Manager),

@@ -195,10 +195,37 @@ func LoginAuthHandler(w http.ResponseWriter, r *http.Request) {
 	//Grab this user's data from the server TODO degrade gracefully if this doesn't work
 	utils.TraceInfof(utils.BrightGreen, "the user's current simulation is %d", user.CurrentSimulationID)
 	if user.CurrentSimulationID != 0 {
-		if err = api.CreateStage(user); err != nil {
-			ReportError(user, w, err.Error())
+		// TODO this code is redundant. If the client app is running
+		// TODO then it should already know this user's data
+		// TODO ALSO the API server only supplies one stage anyhow - only the client knows the history.
+
+		// Fetch the manager
+		manager, err := api.FetchManager(user, user.CurrentSimulationID)
+		if err != nil {
+			utils.TraceErrorf("Could not retrieve the manager object with apikey %s", user.ApiKey)
+			ReportError(user, w, "oops")
 			return
 		}
+		utils.TraceInfo(utils.BrightRed, " Retrieved the Manager object, phew")
+		newSimulation := models.NewSimulation()
+
+		// Make a fresh copy of the manager
+		newSimulation.Manager = *manager
+		user.Simulations[user.CurrentSimulationID] = newSimulation
+
+		// Fetch the Stage data
+		if err = api.FetchStage(user); err != nil {
+			utils.TraceErrorf("Could not retrieve the data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
+			ReportError(user, w, "oops")
+			return
+		}
+		utils.TraceInfo(utils.BrightRed, " Retrieved the Data, phew")
+
+		// Convert the data to add pointers in place of Id field
+		api.ConvertStage(user.GetCurrentStage())
+		// WAS		api.ConvertStage(newSimulation.Stages[user.Simulations[user.CurrentSimulationID].Manager.ViewedTimeStamp])
+
+		utils.TraceInfo(utils.BrightRed, " Converted the Data, phew")
 	}
 
 	// display the welcome screen

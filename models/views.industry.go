@@ -35,6 +35,7 @@ func (i *IndustryView) ComparedField(f string) string {
 //	c: the same industry at an earlier point in the simulation
 //	returns: a View object to supply to templates
 func CreateIndustryView(v *Industry, c *Industry) Viewer {
+	// fmt.Printf("Entering CreateIndustryView\n%v\n%v\n%v\n%v\n", v, c, v.Constant, c.Constant)
 	return Viewer(&IndustryView{
 		viewedRecord:   v,
 		comparedRecord: c,

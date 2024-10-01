@@ -20,12 +20,8 @@ type Trace struct {
 // viewed and compared fields for the trace table so we
 // have a separate template loader method.
 func Traces(u *User) *[]Trace {
-	timeStamp := *u.GetTimeStamp()
-	if len(u.Stages) == 0 {
-		return nil
-	}
 	var table Table
-	table, ok := (*u.Stages[timeStamp])["trace"]
+	table, ok := (*u.GetCurrentStage())["trace"]
 	if !ok {
 		fmt.Println("Something went wrong loading the trace table")
 		return nil

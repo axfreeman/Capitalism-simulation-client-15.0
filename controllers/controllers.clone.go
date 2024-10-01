@@ -24,7 +24,6 @@ type CloneResult struct {
 // Create a Manager for this simulation
 // Initialise the Manager's viewed and comparator timeStamps to 0
 // Create the first stage of the simulation.
-
 func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	var s string
 	var ok bool
@@ -64,10 +63,8 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfof(utils.Green, "Setting current simulation to %d", result.Simulation_id)
 	user.CurrentSimulationID = result.Simulation_id
 
-	// TODO New code starts here
-
 	// Fetch the manager of this object
-	if manager, err = api.ReplacementFetchManager(user, result.Simulation_id); err != nil {
+	if manager, err = api.FetchManager(user, result.Simulation_id); err != nil {
 		utils.TraceErrorf("Could not retrieve the manager object with apikey %s", user.ApiKey)
 		ReportError(user, w, "oops")
 		return
@@ -82,16 +79,16 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	user.Simulations[user.CurrentSimulationID] = newSimulation
 
 	// Set the manager's timeStamps and initial state, and create the States map
-	user.Simulations[user.CurrentSimulationID].Manager.TimeStamp = 0
-	user.Simulations[user.CurrentSimulationID].Manager.ViewedTimeStamp = 0
-	user.Simulations[user.CurrentSimulationID].Manager.ComparatorTimeStamp = 0
-	user.Simulations[user.CurrentSimulationID].Manager.States = make(map[int]string)
-	user.ReplacementSetCurrentState("DEMAND")
+	user.GetCurrentSimulation().Manager.TimeStamp = 0
+	user.GetCurrentSimulation().Manager.ViewedTimeStamp = 0
+	user.GetCurrentSimulation().Manager.ComparatorTimeStamp = 0
+	user.GetCurrentSimulation().Manager.States = make(map[int]string)
+	user.SetCurrentState("DEMAND")
 
-	utils.TraceInfo(utils.BrightRed, " Set up the managers initial state and timestamps, phew")
+	utils.TraceInfo(utils.BrightRed, " Set up the manager's initial state and timestamps, phew")
 
 	// Fetch the data from the first Stage
-	if err = api.ReplacementFetchStage(user); err != nil {
+	if err = api.FetchStage(user); err != nil {
 		utils.TraceErrorf("Could not retrieve the data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
 		ReportError(user, w, "oops")
 		return
@@ -99,36 +96,23 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfo(utils.BrightRed, " Retrieved the Data, phew")
 
 	// Convert the data to add pointers in place of Id field
-	api.ConvertStage(newSimulation.Stages[user.Simulations[user.CurrentSimulationID].Manager.ViewedTimeStamp])
+	api.ConvertStage(user.GetCurrentStage())
+	// WAS 	api.ConvertStage(newSimulation.Stages[user.Simulations[user.CurrentSimulationID].Manager.ViewedTimeStamp])
 
 	utils.TraceInfo(utils.BrightRed, " Converted the Data, phew")
 
 	simstring, _ := json.MarshalIndent(user.Simulations[user.CurrentSimulationID], " ", " ")
 	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the simulation %s", string(simstring))
 
-	// TODO Deprecated code from here
-	// Fetch everything for the new simulation from the server.
-	// (until now we only told the server to create it - now we want it).
-	// Add this to the user's Tables
-	err = api.CreateStage(user)
-	if err != nil {
-		utils.TraceErrorf("Could not retrieve the requested data with apikey %s and simulation id %d", user.ApiKey, result.Simulation_id)
-		ReportError(user, w, "oops")
-		return
-	}
-
-	utils.TraceInfo(utils.Green, ("Setting current state to DEMAND"))
-	user.SetCurrentState("DEMAND")
-
-	simstring, _ = json.MarshalIndent(user.Managers, " ", " ")
-	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the simulation %s", string(simstring))
-	tablestring, _ := json.MarshalIndent(user.Stages, " ", " ")
-	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the tables %s", string(tablestring))
-
-	// Initialise the timeStamp so that we are viewing the first Stage.
-	// As the user moves through the circuit, this timestamp will move forwards.
+	// Initialise all timeStamps so we are viewing the first Stage.
+	// As the user moves through the circuit, timestamp will move forwards.
 	// Each time we move forward, a new Stage will be created.
-	// This allows the user to view and compare with previous stages of the simulation.
-	*user.GetViewedTimeStamp() = 0
+	// The user can move the ViewedTimeStamp backwards and forward to view
+	// the history. At present the ComparatorTimeStamp stays one step
+	// behind the ViewedTimeStamp but we may change this in future, for
+	// example to compare one period with the previous one.
+	user.GetCurrentSimulation().Manager.TimeStamp = 0
+	user.GetCurrentSimulation().Manager.ViewedTimeStamp = 0
+	user.GetCurrentSimulation().Manager.ComparatorTimeStamp = 0
 	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 }

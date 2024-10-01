@@ -50,8 +50,6 @@ type User struct {
 	ViewedTimeStamp     int                 // Indexes Datasets. Selects what the user is viewing
 	ComparatorTimeStamp int                 // Indexes Datasets. Selects what Viewed items are compared with.
 	Simulations         map[int]*Simulation // Simulations, indexed by SimulationId
-	Managers            Table               // TODO phase this out. Currently needed as a clumsy staging array
-	Stages              []*Stage            // TODO deprecate
 }
 
 // Constructor for a standard initial User.
@@ -66,12 +64,6 @@ func NewUser(username string) *User {
 		ViewedTimeStamp:     0,
 		ComparatorTimeStamp: 0,
 		Simulations:         make(map[int]*Simulation, 0), // TODO under development
-		Stages:              []*Stage{},                   // TODO deprecate
-		Managers: Table{ // TODO deprecate
-			ApiUrl: `/simulations`,
-			Table:  new([]Manager),
-			Name:   "Simulations",
-		},
 	}
 	return &newUser
 }
@@ -108,23 +100,24 @@ func NewRegisteredUser(username string, password string, apikey string) *Registe
 	return &new_RegisteredUser
 }
 
+// TODO restore or deprecate
 // Find the simulation with a given id.
 //
 //	u: the user to whom the simulation belongs
 //	Return: pointer to the simulation if it found
 //	Return: nil if not found.
-func (u *User) Simulation(id int) *Manager {
-	// fmt.Println("Looking for a simulation with id", id, "Length of list is", len(*u.SimulationsList()))
-	simulationList := u.SimulationsList()
-	for i := 0; i < len(*simulationList); i++ {
-		s := (*simulationList)[i]
-		// fmt.Printf("Looking for simulationId %d and checking the simulation whose Id is %d\n", id, s.Id)
-		if id == s.Id {
-			return &s
-		}
-	}
-	return nil
-}
+// func (u *User) Simulation(id int) *Manager {
+// 	// fmt.Println("Looking for a simulation with id", id, "Length of list is", len(*u.SimulationsList()))
+// 	simulationList := u.SimulationsList()
+// 	for i := 0; i < len(*simulationList); i++ {
+// 		s := (*simulationList)[i]
+// 		// fmt.Printf("Looking for simulationId %d and checking the simulation whose Id is %d\n", id, s.Id)
+// 		if id == s.Id {
+// 			return &s
+// 		}
+// 	}
+// 	return nil
+// }
 
 // Return a pointer to the TimeStamp of the user's current simulation
 // Temporary stepping stone

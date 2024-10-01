@@ -103,20 +103,3 @@ func ComparedObject[T Object](u User, objectType string, id int) *T {
 	}
 	return nil
 }
-
-// TODO deprecate and remove?
-
-// List of the user's Simulations.
-//
-//	u: the user
-//	returns:
-//	 Slice of SimulationsList
-//	 If the user has no simulations, an empty slice
-// func (u User) SimulationsList() *[]Manager {
-// 	list := u.Managers.Table.(*[]Manager)
-// 	if len(*list) == 0 {
-// 		var fakeList []Manager = *new([]Manager)
-// 		return &fakeList
-// 	}
-// 	return list
-// }

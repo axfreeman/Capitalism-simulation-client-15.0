@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Display Data</h2><br>
+
+<h4>The Template {{.}}</h4>
+{{ range .CommodityViews }}
+<p> an item {{ . }} </p>
+<p> {{ .viewedRecord }} </p>
+{{ end }}
+
+</body>
+</html>

@@ -46,6 +46,26 @@ func CreateIndustryView(v *Industry, c *Industry) views.Viewer {
 	})
 }
 
+// Diagnostic method exposes base viewed record to the Viewer interface
+func (v *IndustryView) Viewed() any {
+	return v.viewedRecord
+}
+
+// Diagnostic method exposes base compared record to the Viewer interface
+func (c *IndustryView) Compared() any {
+	return c.comparedRecord
+}
+
+// Diagnostic method exposes base viewed record to the Viewer interface
+func (v *IndustryStockView) Viewed() any {
+	return v.viewedRecord
+}
+
+// Diagnostic method exposes base compared record to the Viewer interface
+func (c *IndustryStockView) Compared() any {
+	return c.comparedRecord
+}
+
 // Create a slice of IndustryView for display in a template
 //
 //	v: a slice of all industries in the simulation at the current stage

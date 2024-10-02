@@ -137,7 +137,36 @@ func WelcomeHandler(w http.ResponseWriter, r *http.Request) {
 	Tpl.ExecuteTemplate(w, "welcome.html", user.CreateTemplateData(""))
 }
 
+// TODO remove. Just a basic test page
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Enter AboutHandler")
 	Tpl.ExecuteTemplate(w, "about.html", "Logged In")
+}
+
+// Diagnostic function mainly for the developer, to show all the DisplayData
+// TODO this is a crude implementation. There is probably a better way
+func AllDisplayData(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Enter ShowDisplayData")
+	user := CurrentUser(r)
+	// Tpl.ExecuteTemplate(w, "displayData.html", user.CreateTemplateData(""))
+
+	templateData := user.CreateTemplateData("")
+	utils.TraceLogf(utils.White, "Template data is %v\n", templateData)
+
+	// Log all the commodities
+	commodityData := templateData.CommodityViews
+	fmt.Println("Commodities")
+	utils.TraceLogf(utils.White, "CommodityViews (%v)\n", commodityData)
+	for i := range *commodityData {
+		v := (*commodityData)[i].(*models.CommodityView).Viewed().(*models.Commodity)
+		fmt.Println(v.Write())
+	}
+	// Log all the Industries
+	industryData := templateData.IndustryViews
+	fmt.Println("Industries")
+	utils.TraceLogf(utils.White, "IndustryViews (%v)\n", industryData)
+	for i := range *industryData {
+		v := (*industryData)[i].(*models.IndustryView).Viewed().(*models.Industry)
+		fmt.Println(v.Write())
+	}
 }

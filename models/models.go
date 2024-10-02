@@ -101,6 +101,12 @@ type Commodity struct {
 	InvestmentProportion      float32 `json:"investment_proportion"`
 }
 
+// Return json string representation of a commodity
+func (c *Commodity) Write() string {
+	b, _ := json.MarshalIndent(c, " ", " ")
+	return fmt.Sprint(string(b))
+}
+
 type Industry struct {
 	Id               int     `json:"id"`
 	Name             string  `json:"name"`
@@ -121,6 +127,13 @@ type Industry struct {
 	Sales            *IndustryStock
 }
 
+// Return json string representation of an industry
+func (i *Industry) Write() string {
+	copy := *i
+	b, _ := json.MarshalIndent(copy, " ", " ")
+	return fmt.Sprint(string(b))
+}
+
 type Class struct {
 	Id                 int     `json:"id"`
 	Name               string  `json:"name"`
@@ -138,13 +151,19 @@ type Class struct {
 	Sales              *ClassStock
 }
 
-// Custom MarshalJSON to prevent jsonMarshal following pointer to Industry
-func (i *Industry) MarshalJSON() ([]byte, error) {
+// Custom MarshalJSON to prevent jsonMarshal following pointer to Class
+func (c *Class) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&struct {
 		Address string `json:"address"`
 	}{
-		Address: fmt.Sprintf("%v", i),
+		Address: fmt.Sprintf("%v", c),
 	})
+}
+
+// Return json string representation of a class
+func (i *Class) Write() string {
+	b, _ := json.MarshalIndent(i, " ", " ")
+	return fmt.Sprint(string(b))
 }
 
 type IndustryStock struct {
@@ -167,12 +186,18 @@ type IndustryStock struct {
 	IndustryAddress *Industry
 }
 
-// Custom MarshalJSON to prevent jsonMarshal following pointer to Class
-func (c *Class) MarshalJSON() ([]byte, error) {
+// Return json string representation of an industry stock
+func (i *IndustryStock) Write() string {
+	b, _ := json.MarshalIndent(i, " ", " ")
+	return fmt.Sprint(string(b))
+}
+
+// Custom MarshalJSON to prevent jsonMarshal following pointer to Industry
+func (i *Industry) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&struct {
 		Address string `json:"address"`
 	}{
-		Address: fmt.Sprintf("%v", c),
+		Address: fmt.Sprintf("%v", i),
 	})
 }
 
@@ -193,6 +218,12 @@ type ClassStock struct {
 	CommodityName string
 	Commodity     *Commodity
 	ClassAddress  *Class
+}
+
+// Return json string representation of a class stock
+func (i *ClassStock) Write() string {
+	b, _ := json.MarshalIndent(i, " ", " ")
+	return fmt.Sprint(string(b))
 }
 
 // This list of templates is common to all users.

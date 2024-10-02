@@ -43,6 +43,16 @@ func CreateCommodityView(v *Commodity, c *Commodity) views.Viewer {
 	}
 }
 
+// Diagnostic method exposes base viewed record to the Viewer interface
+func (v *CommodityView) Viewed() any {
+	return v.viewedRecord
+}
+
+// Diagnostic method exposes base compared record to the Viewer interface
+func (c *CommodityView) Compared() any {
+	return c.comparedRecord
+}
+
 // Embedded data for a single commodity, to pass into templates
 type CommodityData struct {
 	TemplateData

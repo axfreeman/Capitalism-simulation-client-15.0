@@ -48,6 +48,7 @@ func AuthRoutes() {
 	Router.HandleFunc("/index", controllers.Auth(controllers.ShowIndexPage))
 	Router.HandleFunc("/", controllers.Auth(controllers.ShowIndexPage))
 	Router.HandleFunc(`/download`, controllers.Auth(controllers.Download))
+	Router.HandleFunc(`/all-display-data`, controllers.Auth(controllers.AllDisplayData))
 
 	Router.NotFoundHandler = http.HandlerFunc(controllers.NotFound)
 

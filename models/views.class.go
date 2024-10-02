@@ -83,6 +83,16 @@ func (i *ClassStockView) ComparedField(f string) string {
 	return fmt.Sprint(s)
 }
 
+// Diagnostic method exposes base viewed record to the Viewer interface
+func (v *ClassView) Viewed() any {
+	return v.viewedRecord
+}
+
+// Diagnostic method exposes base compared record to the Viewer interface
+func (c *ClassView) Compared() any {
+	return c.comparedRecord
+}
+
 // Create a single ClassDataView to display in the class.html template.
 // This is added dynamically to the DisplayData template when requested
 //
@@ -105,6 +115,16 @@ func (u User) ClassDisplayData(message string, id int) ClassData {
 //	returns: a View object to supply to templates
 func CreateClassStockView(v *ClassStock, c *ClassStock) views.Viewer {
 	return &ClassStockView{viewedRecord: v, comparedRecord: c}
+}
+
+// Diagnostic method exposes base viewed record to the Viewer interface
+func (v *ClassStockView) Viewed() any {
+	return v.viewedRecord
+}
+
+// Diagnostic method exposes base compared record to the Viewer interface
+func (c *ClassStockView) Compared() any {
+	return c.comparedRecord
 }
 
 // Create a slice of ClassStockView for display in a template

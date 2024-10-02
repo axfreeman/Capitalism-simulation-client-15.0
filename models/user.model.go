@@ -14,7 +14,7 @@ type User struct {
 	Password            string              `json:"password"`
 	Role                string              `json:"role"`
 	CurrentSimulationID int                 `json:"current_simulation_id"` // the id of the simulation that this user is currently using
-	CurrentPage         CurrentPageType     // more information about what the user was looking at (under development)
+	CurrentPage         CurrentPageType     // more information about what the user was looking at
 	Simulations         map[int]*Simulation // Simulations, indexed by SimulationId
 }
 

@@ -58,10 +58,10 @@ type CommodityData struct {
 //	id: the id of the commodity to display
 //
 //	returns: CommodityData which references this commodity, and embeds an OutputData
-func (u User) CommodityDisplayData(message string, id int) CommodityData {
+func CommodityDisplayData(u *User, message string, id int) CommodityData {
 	return CommodityData{
 		u.CreateTemplateData(message),
-		*ViewedObject[Commodity](u, `commodities`, id),
+		*ViewedObject[Commodity](*u, `commodities`, id),
 	}
 }
 

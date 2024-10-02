@@ -79,7 +79,7 @@ func ShowCommodity(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfof(utils.BrightYellow, "Fetching commodity %d for user %s", id, user.UserName)
 	Tpl.ExecuteTemplate(w,
 		user.CurrentPage.Url,
-		user.CommodityDisplayData("", id))
+		models.CommodityDisplayData(user, "", id))
 }
 
 // Display one specific industry

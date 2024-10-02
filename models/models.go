@@ -78,6 +78,11 @@ type Manager struct {
 	User                 int32          `json:"user_id"`
 }
 
+func (m *Manager) Write() string {
+	b, _ := json.MarshalIndent(m, " ", " ")
+	return string(b)
+}
+
 type Commodity struct {
 	Id                        int     `json:"id"`
 	Name                      string  `json:"name"`

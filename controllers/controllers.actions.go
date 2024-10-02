@@ -81,14 +81,14 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 func Back(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfo(utils.Green, "Back was requested")
 	u := CurrentUser(r)
-	m := CurrentUser(r).GetCurrentSimulation().Manager
+	m := &CurrentUser(r).GetCurrentSimulation().Manager
 
 	// View one earlier stage and compare it with the preceding
 	if m.ComparatorTimeStamp > 0 {
 		m.ComparatorTimeStamp--
 		m.ViewedTimeStamp--
 	}
-	utils.TraceInfof(utils.Green, "Viewing %d with comparator %d", m.ViewedTimeStamp, m.ComparatorTimeStamp)
+	utils.TraceInfof(utils.Green, "Viewing timeStamp %d with comparator %d", m.ViewedTimeStamp, m.ComparatorTimeStamp)
 
 	// Display appropriate page depending what the user was looking at
 	if useLastVisited(u.CurrentPage.Url) {
@@ -105,7 +105,7 @@ func Back(w http.ResponseWriter, r *http.Request) {
 func Forward(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfo(utils.Green, "Forward was requested")
 	u := CurrentUser(r)
-	m := CurrentUser(r).GetCurrentSimulation().Manager
+	m := &CurrentUser(r).GetCurrentSimulation().Manager
 
 	if m.ViewedTimeStamp < m.TimeStamp {
 		m.ViewedTimeStamp++

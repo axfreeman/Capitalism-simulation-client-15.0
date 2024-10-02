@@ -169,4 +169,11 @@ func AllDisplayData(w http.ResponseWriter, r *http.Request) {
 		v := (*industryData)[i].(*models.IndustryView).Viewed().(*models.Industry)
 		fmt.Println(v.Write())
 	}
+
+	// TODO send this to a page to be viewed
+}
+
+// under development
+func DisplayStage(*models.Stage) string {
+	return "wtf"
 }

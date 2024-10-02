@@ -25,6 +25,7 @@ func (u *User) GetCurrentStage() *Stage {
 // is normally one step behind, but this may change in the future
 func (u *User) GetViewedStage() *Stage {
 	manager := &u.GetCurrentSimulation().Manager
+	// fmt.Printf("GetViewedStage called with stamp %d\n", manager.ViewedTimeStamp)
 	return u.GetCurrentSimulation().Stages[manager.ViewedTimeStamp]
 }
 
@@ -33,6 +34,7 @@ func (u *User) GetViewedStage() *Stage {
 // to view the difference between one period and the next.
 func (u *User) GetComparatorStage() *Stage {
 	manager := &u.GetCurrentSimulation().Manager
+	// fmt.Printf("GetComparatorStage called with stamp %d\n", manager.ComparatorTimeStamp)
 	return u.GetCurrentSimulation().Stages[manager.ComparatorTimeStamp]
 }
 

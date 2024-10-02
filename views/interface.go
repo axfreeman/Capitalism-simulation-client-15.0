@@ -2,7 +2,6 @@ package views
 
 import (
 	"fmt"
-	"gorilla-client/utils"
 	"html/template"
 	"strconv"
 )
@@ -32,14 +31,10 @@ type Viewer interface {
 func Show(v Viewer, f string) template.HTML {
 	vv, _ := strconv.Atoi(v.ViewedField(f))
 	vc, _ := strconv.Atoi(v.ComparedField(f))
-
 	// Diagnostics - turn on if problems with display
-	utils.TraceInfof(utils.BrightYellow,
-		"Show %s:\t\t%s",
-		f,
-		utils.TraceInfoPart(utils.Yellow, " Viewed %d, Compared %d", vv, vc),
-	)
-	utils.TraceInfof(utils.Cyan, " Id of viewed %s,  compared %s:", v.ViewedField(`Id`), v.ComparedField(`Id`))
+	// firstPart := utils.TraceInfoPart(utils.Yellow, " Viewed %d, Compared %d", vv, vc)
+	// secondPart := utils.TraceInfoPart(utils.Cyan, " Viewed Id %s, Compared Id %s", v.ViewedField(`Id`), v.ComparedField(`Id`))
+	// utils.TraceInfof(utils.BrightYellow, "Show %s: %s [%s]", f, firstPart, secondPart)
 
 	var htmlString string
 	if vv == vc {

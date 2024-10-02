@@ -48,6 +48,30 @@ func (u User) GetCurrentState() string {
 	return manager.State
 }
 
+// Retrieve the viewed state of the current simulation
+//
+//		returns:
+//	   if successful, one of "DEMAND", "TRADE",  ...(the stages of the cycle)
+//	   if unsuccessful "UNKNOWN"
+func (u User) ViewedState() string {
+	manager := &u.GetCurrentSimulation().Manager
+	viewedStamp := manager.ViewedTimeStamp
+	viewedState := manager.States[viewedStamp]
+	return viewedState
+}
+
+// Retrieve the comparator state of the current simulation
+//
+//		returns:
+//	   if successful, one of "DEMAND", "TRADE",  ...(the stages of the cycle)
+//	   if unsuccessful "UNKNOWN"
+func (u User) ComparatorState() string {
+	manager := &u.GetCurrentSimulation().Manager
+	viewedStamp := manager.ComparatorTimeStamp
+	viewedState := manager.States[viewedStamp]
+	return viewedState
+}
+
 // Set the state of the current simulation. Make a record of this state
 // in the 'States' map so it can be retrieved as a comparator state
 //

@@ -55,6 +55,7 @@ type TemplateData struct {
 	Count              int
 	Username           string
 	State              string
+	ViewedState        string
 	ComparatorState    string
 	Message            string
 }
@@ -77,6 +78,7 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 			Count:              0,
 			Username:           u.UserName,
 			State:              "UNKNOWN",
+			ViewedState:        "UNKNOWN",
 			ComparatorState:    "UNKNOWN",
 			CommodityViews:     nil,
 			IndustryViews:      nil,
@@ -111,6 +113,8 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 		Templates:          &TemplateList,
 		Username:           u.UserName,
 		State:              state,
+		ViewedState:        u.ViewedState(),
+		ComparatorState:    u.ComparatorState(),
 		CommodityViews:     CommodityViews(cv, cc),
 		IndustryViews:      IndustryViews(iv, ic),
 		ClassViews:         ClassViews(clv, clc),

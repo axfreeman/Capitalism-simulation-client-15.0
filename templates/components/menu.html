@@ -16,7 +16,6 @@
         <a class=" w3-button  w3-bar-item" href="/all-display-data">Display Data</a>
         <a class=" w3-button  w3-bar-item" href="/admin/dashboard">Admin</a>
         <a class=" w3-button  w3-bar-item" href="/trace">Trace</a>
-
       </div>
     </div>
 
@@ -39,31 +38,26 @@
         {{ else }}
         <a class=" w3-button w3-disabled w3-bar-item ">Demand</a>
         {{ end }}
-
         {{ if eq .State "SUPPLY"}}
         <a class=" w3-button  w3-bar-item" href="/action/supply">Supply</a>
         {{ else }}
         <a class=" w3-button w3-disabled w3-bar-item ">Supply</a>
         {{ end }}
-
         {{ if eq .State "TRADE"}}
         <a class=" w3-button  w3-bar-item" href="/action/trade">Trade</a>
         {{ else }}
         <a class=" w3-button w3-disabled w3-bar-item ">Trade</a>
         {{ end }}
-
         {{ if eq .State "PRODUCE"}}
         <a class=" w3-button  w3-bar-item" href="/action/produce">Produce</a>
         {{ else }}
         <a class=" w3-button w3-disabled w3-bar-item ">Produce</a>
         {{ end }}
-
         {{ if eq .State "CONSUME"}}
         <a class=" w3-button  w3-bar-item" href="/action/consume">Consume</a>
         {{ else }}
         <a class=" w3-button w3-disabled w3-bar-item ">Consume</a>
         {{ end }}
-
         {{ if eq .State "INVEST"}}
         <a class=" w3-button  w3-bar-item" href="/action/invest">Invest</a>
         {{ else }}
@@ -71,7 +65,8 @@
         {{ end }}
       </div>
     </div>
-    <a class=" w3-button  " href="/user/back"><i class="fas fa-arrow-left"></i> </a> {{ .ComparatorState }} {{ .ViewedState }}
+    <a class=" w3-button  " href="/user/back"><i class="fas fa-arrow-left"></i> </a> 
+    {{ .ComparatorState }} <button class="w3-teal"> {{ .State }}</button> {{.ViewedState }}
     <a class=" w3-button  " href="/user/forward"><i class="fas fa-arrow-right"></i></a>
     <a class=" w3-button w3-xlarge" href="https://axfreeman.github.io/just-the-docs-template/"><i
         class="fa fa-question"></i> </a>

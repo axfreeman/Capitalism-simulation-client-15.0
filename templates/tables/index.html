@@ -2,6 +2,10 @@
 {{ template "menu.html" .}}
 <!-- {{ $A := len .CommodityViews}} -->
 <div class="w3-section w3-serif" style="width:auto ;margin:auto; padding-top: 3em;">
+
+  <!-- Possible future space for more detailed status information -->
+  <!-- {{ template "status-bar.html" . }} -->
+
   <!-- {{ if ne $A 0}} -->
   <div>{{ template "commodity-table.html" .}}</div>
   <div class="w3-row ">
@@ -25,7 +29,7 @@
   <!-- {{ else }} -->
   <div class="w3-container w3-blue" style="margin: auto; width: 100%">
     <h3 class="w3-center"> {{ .username }} has no simulations yet</h3>
-    <h3 class="w3-center"> 
+    <h3 class="w3-center">
       <a class=" w3-button w3-gray w3-round" href="/user/dashboard">Choose one here</a>
       <a class=" w3-button w3-gray w3-round" href="quit">Or log in as a different user</a>
     </h3>

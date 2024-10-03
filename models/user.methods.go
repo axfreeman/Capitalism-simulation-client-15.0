@@ -43,7 +43,7 @@ func (u *User) GetComparatorStage() *Stage {
 //		returns:
 //	   if successful, one of "DEMAND", "TRADE",  ...(the stages of the cycle)
 //	   if unsuccessful "UNKNOWN"
-func (u User) GetCurrentState() string {
+func (u User) CurrentState() string {
 	manager := &u.GetCurrentSimulation().Manager
 	return manager.State
 }

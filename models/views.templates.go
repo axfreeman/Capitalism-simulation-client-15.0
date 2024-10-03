@@ -95,7 +95,6 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 
 	fmt.Println("***Manager is ", manager.Write())
 
-	state := u.GetCurrentState()
 	cv := ViewedObjects[Commodity](*u, `commodities`)
 	cc := ComparedObjects[Commodity](*u, `commodities`)
 	iv := ViewedObjects[Industry](*u, `industries`)
@@ -112,7 +111,7 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 		Title:              "Hello",
 		Templates:          &TemplateList,
 		Username:           u.UserName,
-		State:              state,
+		State:              u.CurrentState(),
 		ViewedState:        u.ViewedState(),
 		ComparatorState:    u.ComparatorState(),
 		CommodityViews:     CommodityViews(cv, cc),

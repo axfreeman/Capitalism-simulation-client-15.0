@@ -13,10 +13,38 @@
       </tr>
     </thead>
     <tbody>
-
       <tr>
-        <td> Just testing at this time</td>
+        <td> Industry </td>
+        <td style="text-align:center">{{ .IndustryStock.IndustryName }}</td>
+      </tr>
       <tr>
+        <td> Commodity </td>
+        <td style="text-align:center">{{ .IndustryStock.CommodityName }}</td>
+      </tr>
+      <tr>
+        <td> Origin </td>
+        <td style="text-align:center">{{ .IndustryStock.Origin }}</td>
+      </tr>
+      <tr>
+        <td> Usage </td>
+        <td style="text-align:center">{{ .IndustryStock.UsageType}}</td>
+      </tr>
+      <tr>
+        <td> Size </td>
+        <td style="text-align:center">{{ .IndustryStock.Size }}</td>
+      </tr>
+      <tr>
+        <td> Value </td>
+        <td style="text-align:center">{{ .IndustryStock.Value }}</td>
+      </tr>
+      <tr>
+        <td> Price </td>
+        <td style="text-align:center">{{ .IndustryStock.Price }}</td>
+      </tr>
+      <tr>
+        <td> Demand </td>
+        <td style="text-align:center">{{ .IndustryStock.Demand }}</td>
+      </tr>
     </tbody>
   </table>
   <h4 class="w3-red">{{ .Message }}</h4>

@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"gorilla-client/utils"
 	"gorilla-client/views"
 )
@@ -91,9 +90,10 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 
 	// retrieve comparator and viewed records for all data objects
 	// to prepare for entry into Views in the DisplayData object
-	manager := u.GetCurrentSimulation().Manager
 
-	fmt.Println("***Manager is ", manager.Write())
+	// uncomment for diagnostics
+	// manager := u.GetCurrentSimulation().Manager
+	// fmt.Println("***Manager is ", manager.Write())
 
 	cv := ViewedObjects[Commodity](*u, `commodities`)
 	cc := ComparedObjects[Commodity](*u, `commodities`)

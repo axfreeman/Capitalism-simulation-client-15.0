@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"gorilla-client/utils"
 	"gorilla-client/views"
 )
@@ -19,6 +20,7 @@ func ComparedObjects[T Object](u User, objectType string) *[]T {
 }
 
 func ViewedObject[T Object](u User, objectType string, id int) *T {
+	fmt.Println("ViewedObject was asked to display an object of type ", objectType)
 	objectList := (*u.GetViewedStage())[objectType].Table.(*[]T)
 	for i := 0; i < len(*objectList); i++ {
 		o := (*objectList)[i]
@@ -101,8 +103,8 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 	ic := ComparedObjects[Industry](*u, `industries`)
 	clv := ViewedObjects[Class](*u, `classes`)
 	clc := ComparedObjects[Class](*u, `classes`)
-	isv := ViewedObjects[IndustryStock](*u, `industry stocks`)
-	isc := ComparedObjects[IndustryStock](*u, `industry stocks`)
+	isv := ViewedObjects[IndustryStock](*u, `industry_stocks`)
+	isc := ComparedObjects[IndustryStock](*u, `industry_stocks`)
 	csv := ViewedObjects[ClassStock](*u, `class stocks`)
 	csc := ComparedObjects[ClassStock](*u, `class stocks`)
 

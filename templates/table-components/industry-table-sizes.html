@@ -17,7 +17,7 @@
     <tbody>
       {{range .IndustryViews }}
       <tr>
-        {{ Link . "industry"}}
+        {{ Link . "industry" `Name`}}
         {{ Show .ConstantView "Size" }}
         {{ Show .VariableView "Size" }}
         {{ Show .MoneyView "Size" }}

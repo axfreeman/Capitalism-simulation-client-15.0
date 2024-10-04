@@ -21,7 +21,7 @@
       <!--Loop over the industries -->
       {{range .IndustryViews }}
       <tr>
-        {{ Link . "industry"}}
+        {{ Link . "industry" `Name`}}
         {{ Show .ConstantView "Price" }}
         {{ Show .VariableView "Price" }}
         {{ Show .MoneyView "Price" }}

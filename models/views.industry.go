@@ -169,6 +169,28 @@ func IndustryStockViews(v *[]IndustryStock, c *[]IndustryStock) *[]views.Viewer 
 	return &newViews
 }
 
+// Embedded data for a single IindustryStock, to pass into templates
+type IndustryStockData struct {
+	TemplateData
+	IndustryStock IndustryStock
+}
+
+// Create an IndustryStockData to display a single industryStock in the
+// industry-stock.html template. This is added dynamically to the DisplayData
+// template when the industry-stock view is requested
+//
+//	u: the user
+//	message: any message
+//	id: the id of the industry item to display
+//
+//	returns: industryStockData which references this industryStock, and embeds a TemplateData
+func (u User) IndustryStockDisplayData(message string, id int) IndustryStockData {
+	return IndustryStockData{
+		u.CreateTemplateData(message),
+		*ViewedObject[IndustryStock](u, `industry_stocks`, id),
+	}
+}
+
 // Implementation-specific template methods
 
 // Returns a safe HTML string with a link to the Commodity of an industry

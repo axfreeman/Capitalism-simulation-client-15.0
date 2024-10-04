@@ -32,10 +32,13 @@ type Viewer interface {
 func Show(v Viewer, f string) template.HTML {
 	vv, _ := strconv.Atoi(v.ViewedField(f))
 	vc, _ := strconv.Atoi(v.ComparedField(f))
-	// Diagnostics - turn on if problems with display
-	firstPart := utils.TraceInfoPart(utils.Yellow, " Viewed %d, Compared %d", vv, vc)
-	secondPart := utils.TraceInfoPart(utils.Cyan, " Viewed Id %s, Compared Id %s", v.ViewedField(`Id`), v.ComparedField(`Id`))
-	utils.TraceInfof(utils.BrightYellow, "Show %s: %s [%s]", f, firstPart, secondPart)
+	// Diagnostics - turn on if problems with display ...
+	if f == "Size" {
+		firstPart := utils.TraceInfoPart(utils.Yellow, " Viewed %d, Compared %d", vv, vc)
+		secondPart := utils.TraceInfoPart(utils.Cyan, " Viewed Id %s, Compared Id %s", v.ViewedField(`Id`), v.ComparedField(`Id`))
+		utils.TraceInfof(utils.BrightYellow, "Show %s: %s [%s]", f, firstPart, secondPart)
+	}
+	// ...End of Diagnostics
 
 	var htmlString string
 	if vv == vc {
@@ -79,7 +82,8 @@ func ShowString(v Viewer, f string) template.HTML {
 //
 // v: an implementation of the views.Viewer interface
 // urlBase: the root of the link url (eg `commodity`)
+// f: the field to display
 // template.HTML: safe string using ID and Name fields supplied by the implementation
-func Link(v Viewer, urlBase string) template.HTML {
-	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s">%s</a>`, urlBase, v.ViewedField(`Id`), v.ViewedField(`Name`)))
+func Link(v Viewer, urlBase string, f string) template.HTML {
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s">%s</a>`, urlBase, v.ViewedField(`Id`), v.ViewedField(f)))
 }

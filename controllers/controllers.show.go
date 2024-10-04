@@ -110,6 +110,22 @@ func ShowClass(w http.ResponseWriter, r *http.Request) {
 	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.ClassDisplayData("", id))
 }
 
+// Display one specific industry stock
+func ShowIndustryStock(w http.ResponseWriter, r *http.Request) {
+	var err error
+	var id int
+	user := CurrentUser(r)
+	if id, err = FetchIDfromURL(r); err != nil {
+		ReportError(user, w, err.Error())
+	}
+	user.CurrentPage = models.CurrentPageType{Url: "industry_stock.html", Id: id}
+
+	utils.TraceInfof(utils.BrightYellow, "Fetching industry stock %d for user %s", id, user.UserName)
+	Tpl.ExecuteTemplate(w,
+		user.CurrentPage.Url,
+		user.IndustryStockDisplayData("", id))
+}
+
 // Displays a snapshot of the economy
 func ShowIndexPage(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)

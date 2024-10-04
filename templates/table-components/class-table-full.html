@@ -23,7 +23,7 @@
       {{range .ClassViews }}
 
       <tr>
-        {{ Link . `class`}}
+        {{ Link . `class` `Name`}}
         {{ Show .ConsumptionView "Size" }}
         {{ Show .ConsumptionView "Value" }}
         {{ Show .ConsumptionView "Price" }}

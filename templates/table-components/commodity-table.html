@@ -23,7 +23,7 @@
       <!--Loop over the commodities  -->
       {{range .CommodityViews }}
       <tr>
-        {{ Link . `commodity` }}
+        {{ Link . `commodity` `Name`}}
         {{ OriginGraphic . }}
         {{ UsageGraphic .}}
         {{ Show . "Size" }}

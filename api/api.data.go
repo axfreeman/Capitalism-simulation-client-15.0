@@ -50,7 +50,7 @@ func Fetch(apiKey string, d *models.Table) error {
 func ConvertStage(stage *models.Stage) {
 	// fmt.Printf("Entering ConvertStage with stage\n %v\n", stage)
 	industries := *(*stage)[`industries`].Table.(*[]models.Industry)
-	industryStocks := *(*stage)[`industry stocks`].Table.(*[]models.IndustryStock)
+	industryStocks := *(*stage)[`industry_stocks`].Table.(*[]models.IndustryStock)
 	classes := *(*stage)[`classes`].Table.(*[]models.Class)
 	classStocks := *(*stage)[`class stocks`].Table.(*[]models.ClassStock)
 	commodities := *(*stage)[`commodities`].Table.(*[]models.Commodity)

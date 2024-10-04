@@ -1,0 +1,24 @@
+<!--industries.html-->
+{{ template "header.html" .}}
+{{ template "menu.html" .}}
+<div class="w3-section w3-card-3 w3-serif" style="width:fit-content; margin:auto; padding-top:80px">
+  <header class="w3-container w3-blue">
+    <h3 class="w3center"> {{ .IndustryStock.Name }}</h3>
+  </header>
+  <table class="w3-table-all">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th style="text-align:center">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td> Just testing at this time</td>
+      <tr>
+    </tbody>
+  </table>
+  <h4 class="w3-red">{{ .Message }}</h4>
+</div>
+{{ template "footer.html" .}}

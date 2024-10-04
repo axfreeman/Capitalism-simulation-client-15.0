@@ -22,7 +22,7 @@
         {{ range .ClassStockViews }}
         <tr>
           {{ ShowString . `UsageType` }}
-          {{ StockClassLink . }}
+          {{ StockClassLink . `Name` }}
           {{ ClassStockCommodityLink .}}
           {{ Show . `Size` }}
           {{ Show . `Value` }}

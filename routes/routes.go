@@ -40,6 +40,7 @@ func AuthRoutes() {
 	Router.HandleFunc("/industries", controllers.Auth(controllers.ShowIndustries))
 	Router.HandleFunc("/classes", controllers.Auth(controllers.ShowClasses))
 	Router.HandleFunc("/industry_stocks", controllers.Auth(controllers.ShowIndustryStocks))
+	Router.HandleFunc("/industry_stock/{id}", controllers.Auth(controllers.ShowIndustryStock))
 	Router.HandleFunc("/class_stocks", controllers.Auth(controllers.ShowClassStocks))
 	Router.HandleFunc("/commodity/{id}", controllers.Auth(controllers.ShowCommodity))
 	Router.HandleFunc("/industry/{id}", controllers.Auth(controllers.ShowIndustry))

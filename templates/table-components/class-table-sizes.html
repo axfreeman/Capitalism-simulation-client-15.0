@@ -16,7 +16,7 @@
     <tbody>
       {{range .ClassViews }}
       <tr>
-        {{ Link . `class`}}
+        {{ Link . `class` `Name`}}
         {{ Show . `Population`}}
         {{ Show .ConsumptionView "Size" }}
         {{ Show .MoneyView "Size" }}

@@ -8,7 +8,7 @@
     <table>
       <thead>
         <tr>
-          <th>Id</th>
+          <th>Link</th>
           <th>Usage Type</th>
           <th>Industry</th>
           <th>Commodity</th>
@@ -23,7 +23,7 @@
         <!--Loop over the industry stocks -->
         {{range .IndustryStockViews }}
         <tr>
-          {{ Show . "Id" }}
+          {{ Link . `industry_stock` `Id` }}
           {{ ShowString . "UsageType" }}
           {{ StockIndustryLink . }}
           {{ IndustryStockCommodityLink .}}

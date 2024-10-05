@@ -204,9 +204,17 @@ func (i *IndustryStock) Write() string {
 // Custom MarshalJSON to prevent jsonMarshal following pointer to Industry
 func (i *Industry) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&struct {
-		Address string `json:"address"`
+		Type      string
+		Address   string `json:"address"`
+		Id        int
+		Name      string
+		TimeStamp int
 	}{
-		Address: fmt.Sprintf("%v", i),
+		Type:      `Industry`,
+		Address:   fmt.Sprintf("%p", i),
+		Id:        i.Id,
+		Name:      i.Name,
+		TimeStamp: i.TimeStamp,
 	})
 }
 

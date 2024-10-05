@@ -111,14 +111,18 @@ type IndustryStockView struct {
 }
 
 // Implements views.Viewer interface ViewedField method
+// ** DIAGNOSTICS SEE https://stackoverflow.com/questions/17262238/how-to-cast-reflect-value-to-its-type Last answer ***
 func (i *IndustryStockView) ViewedField(f string) string {
 	utils.TraceInfof(utils.Yellow, "  Entered ViewedField for IndustryStockView with f=%s", f)
-	r := reflect.ValueOf(i.viewedRecord)
-	in := reflect.Indirect(r)
-	s := reflect.Indirect(reflect.ValueOf(i.viewedRecord)).FieldByName(f)
-	utils.TraceInfof(utils.Yellow, "  r: %v", r)
-	utils.TraceInfof(utils.Yellow, "  in: %v", in)
-	utils.TraceInfof(utils.Yellow, "  s: %v", s)
+	var s reflect.Value
+	if f == `Size` {
+		r := reflect.ValueOf(i.viewedRecord)
+		in := reflect.Indirect(r)
+		s = reflect.Indirect(reflect.ValueOf(i.viewedRecord)).FieldByName(f)
+		record := in.Interface().(IndustryStock)
+		st := record.Write()
+		utils.TraceInfof(utils.Yellow, "Stock is:\n%v", st)
+	}
 	return fmt.Sprint(s)
 }
 

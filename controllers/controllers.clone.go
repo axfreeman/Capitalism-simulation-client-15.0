@@ -79,10 +79,10 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	user.Simulations[user.CurrentSimulationID] = newSimulation
 
 	// Set the manager's timeStamps and initial state, and create the States map
-	user.GetCurrentSimulation().Manager.TimeStamp = 0
-	user.GetCurrentSimulation().Manager.ViewedTimeStamp = 0
-	user.GetCurrentSimulation().Manager.ComparatorTimeStamp = 0
-	user.GetCurrentSimulation().Manager.States = make(map[int]string)
+	newSimulation.Manager.TimeStamp = 0
+	newSimulation.Manager.ViewedTimeStamp = 0
+	newSimulation.Manager.ComparatorTimeStamp = 0
+	newSimulation.Manager.States = make(map[int]string)
 	user.SetCurrentState("DEMAND")
 
 	utils.TraceInfo(utils.BrightRed, " Set up the manager's initial state and timestamps, phew")
@@ -96,7 +96,7 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfo(utils.BrightRed, " Retrieved the Data, phew")
 
 	// Convert the data to add pointers in place of Id field
-	api.ConvertStage(user.GetCurrentStage())
+	api.ConvertStage(user.GetCurrentStage(), &newSimulation.Manager)
 
 	utils.TraceInfo(utils.BrightRed, " Converted the Data, phew")
 

@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"gorilla-client/utils"
 	"gorilla-client/views"
 	"html/template"
 	"reflect"
@@ -111,7 +112,13 @@ type IndustryStockView struct {
 
 // Implements views.Viewer interface ViewedField method
 func (i *IndustryStockView) ViewedField(f string) string {
+	utils.TraceInfof(utils.Yellow, "  Entered ViewedField for IndustryStockView with f=%s", f)
+	r := reflect.ValueOf(i.viewedRecord)
+	in := reflect.Indirect(r)
 	s := reflect.Indirect(reflect.ValueOf(i.viewedRecord)).FieldByName(f)
+	utils.TraceInfof(utils.Yellow, "  r: %v", r)
+	utils.TraceInfof(utils.Yellow, "  in: %v", in)
+	utils.TraceInfof(utils.Yellow, "  s: %v", s)
 	return fmt.Sprint(s)
 }
 

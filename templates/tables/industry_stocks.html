@@ -9,6 +9,7 @@
       <thead>
         <tr>
           <th>Link</th>
+          <th>Time Stamp</th>
           <th>Usage Type</th>
           <th>Industry</th>
           <th>Commodity</th>
@@ -22,8 +23,10 @@
       <tbody>
         <!--Loop over the industry stocks -->
         {{range .IndustryStockViews }}
+        {{ . }}
         <tr>
           {{ Link . `industry_stock` `Id` }}
+          {{ Show . "TimeStamp" }}
           {{ ShowString . "UsageType" }}
           {{ StockIndustryLink . }}
           {{ IndustryStockCommodityLink .}}

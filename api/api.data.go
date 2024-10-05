@@ -47,7 +47,8 @@ func Fetch(apiKey string, d *models.Table) error {
 // Replace Id fields with pointers. This makes for  legible code and faster access.
 //
 //	newStage: a Stage, which has been populated by FetchStage
-func ConvertStage(stage *models.Stage) {
+func ConvertStage(stage *models.Stage, manager *models.Manager) {
+	utils.TraceInfof(utils.Green, "Converting a stage with timeStamp %d", manager.TimeStamp)
 	// fmt.Printf("Entering ConvertStage with stage\n %v\n", stage)
 	industries := *(*stage)[`industries`].Table.(*[]models.Industry)
 	industryStocks := *(*stage)[`industry_stocks`].Table.(*[]models.IndustryStock)
@@ -57,29 +58,31 @@ func ConvertStage(stage *models.Stage) {
 
 	// set the Commodity, Sales Stock, Money stock, Industrial stocks (=Constant capital) and Social stock (=Variable Capital) of every industry
 	for ind := range industries {
+		industries[ind].TimeStamp = manager.TimeStamp
 		// fmt.Printf("Convert Industries is Processing industry %s\n", industries[ind].Name)
 		industries[ind].Constant = make([]*models.IndustryStock, 0)
-		for i := range industryStocks {
-			if industryStocks[i].IndustryId == industries[ind].Id {
+		for istock := range industryStocks {
+			industryStocks[istock].TimeStamp = manager.TimeStamp
+			if industryStocks[istock].IndustryId == industries[ind].Id {
 				// fmt.Printf("Convert Industries is Processing stock %s\n", industryStocks[i].Name)
-				industryStocks[i].IndustryAddress = &industries[ind]
-				industryStocks[i].IndustryName = industries[ind].Name
-				switch industryStocks[i].UsageType {
+				industryStocks[istock].IndustryAddress = &industries[ind]
+				industryStocks[istock].IndustryName = industries[ind].Name
+				switch industryStocks[istock].UsageType {
 				case `Money`:
 					// fmt.Println("Money Stock")
-					industries[ind].Money = &(industryStocks[i])
+					industries[ind].Money = &(industryStocks[istock])
 				case `Production`:
 					// fmt.Println("Production Stock")
-					if industryStocks[i].Origin == `SOCIAL` {
+					if industryStocks[istock].Origin == `SOCIAL` {
 						// fmt.Println("Social Origin Stock")
-						industries[ind].Variable = &(industryStocks[i])
+						industries[ind].Variable = &(industryStocks[istock])
 					} else {
 						// fmt.Println("Production Origin Stock")
-						industries[ind].Constant = append(industries[ind].Constant, &(industryStocks[i]))
+						industries[ind].Constant = append(industries[ind].Constant, &(industryStocks[istock]))
 					}
 				case `Sales`:
 					// fmt.Println("Sales Stock")
-					industries[ind].Sales = &(industryStocks[i])
+					industries[ind].Sales = &(industryStocks[istock])
 				default:
 				}
 			}
@@ -88,7 +91,9 @@ func ConvertStage(stage *models.Stage) {
 
 	// set the Sales Stock, Money stock and Consumption stocks of every class
 	for c := range classes {
+		classes[c].TimeStamp = manager.TimeStamp
 		for s := range classStocks {
+			classStocks[s].TimeStamp = manager.TimeStamp
 			if classStocks[s].ClassId == classes[c].Id {
 				classStocks[s].ClassAddress = &classes[c]
 				classStocks[s].ClassName = classes[c].Name
@@ -108,6 +113,7 @@ func ConvertStage(stage *models.Stage) {
 
 	// create direct pointers to commodities in the stock, industry and class objects.
 	for com := range commodities {
+		commodities[com].TimeStamp = manager.TimeStamp
 		commodityId := commodities[com].Id
 		for is := range industryStocks {
 			if industryStocks[is].CommodityId == commodityId {

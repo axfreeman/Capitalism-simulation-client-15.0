@@ -104,6 +104,7 @@ type Commodity struct {
 	Tooltip                   string  `json:"tooltip"`
 	MonetarilyEffectiveDemand float32 `json:"monetarily_effective_demand"`
 	InvestmentProportion      float32 `json:"investment_proportion"`
+	TimeStamp                 int     // for diagnostic purposes
 }
 
 // Return json string representation of a commodity
@@ -125,6 +126,7 @@ type Industry struct {
 	CurrentCapital   float32 `json:"current_capital"`
 	Profit           float32 `json:"profit"`
 	ProfitRate       float32 `json:"profit_rate"`
+	TimeStamp        int     // for diagnostic purposes
 	Commodity        *Commodity
 	Constant         []*IndustryStock
 	Variable         *IndustryStock // For now, only one social stock, being Labour Power
@@ -150,6 +152,7 @@ type Class struct {
 	ConsumptionRatio   float32 `json:"consumption_ratio"`
 	Revenue            float32 `json:"revenue"`
 	Assets             float32 `json:"assets"`
+	TimeStamp          int     // for diagnostic purposes
 	Commodity          *Commodity
 	Consumption        []*ClassStock
 	Money              *ClassStock
@@ -185,6 +188,7 @@ type IndustryStock struct {
 	Price           float32 `json:"price" `
 	Requirement     float32 `json:"requirement" `
 	Demand          float32 `json:"demand" `
+	TimeStamp       int     // for diagnostic purposes
 	IndustryName    string
 	CommodityName   string
 	Commodity       *Commodity
@@ -219,6 +223,7 @@ type ClassStock struct {
 	Price         float32 `json:"price" `
 	Requirement   float32 `json:"requirement"`
 	Demand        float32 `json:"demand" `
+	TimeStamp     int     // for diagnostic purposes
 	ClassName     string
 	CommodityName string
 	Commodity     *Commodity

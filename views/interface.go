@@ -9,13 +9,14 @@ import (
 
 // TODO Show should display decimals when required
 
-// Interface for all view types. Wrapped by the view struct to
-// provide the 'Show' method, which compares a viewed field at
-// the current stage of the simulation, with a compared field
-// at a previous stage.
+// Interface for all view types. Wrapped by the view struct to provide
+// 'Show' and 'ShowDecimal' methods, which compare a field at the
+// current stage with the same field at a previous stage.
 //
-//	viewedField(f): returns the field f of a viewed record
-//	comparedField(f): returns the field f of a compared record
+//	viewedField(f): returns the field named f of a viewed record
+//	comparedField(f): returns the field named f of a compared record
+//	viewed() the whole viewed record
+//	compared() the whole compared record
 type Viewer interface {
 	ViewedField(f string) string
 	ComparedField(f string) string
@@ -34,8 +35,8 @@ func Show(v Viewer, f string) template.HTML {
 	vc, _ := strconv.Atoi(v.ComparedField(f))
 	// Diagnostics - turn on if problems with display ...
 	if f == "Size" {
-		firstPart := utils.TraceInfoPart(utils.Yellow, " Viewed %d, Compared %d", vv, vc)
-		secondPart := utils.TraceInfoPart(utils.Cyan, " Viewed Id %s, Compared Id %s", v.ViewedField(`Id`), v.ComparedField(`Id`))
+		firstPart := utils.TraceInfoPart(utils.Yellow, " Viewed %v, Id %s, TimeStamp %s", vv, v.ViewedField(`Id`), v.ViewedField(`TimeStamp`))
+		secondPart := utils.TraceInfoPart(utils.Yellow, " Comparator %v, Id %s, TimeStamp %s", vc, v.ComparedField(`Id`), v.ComparedField(`TimeStamp`))
 		utils.TraceInfof(utils.BrightYellow, "Show %s: %s [%s]", f, firstPart, secondPart)
 	}
 	// ...End of Diagnostics

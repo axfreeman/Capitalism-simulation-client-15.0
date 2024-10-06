@@ -2,7 +2,6 @@ package views
 
 import (
 	"fmt"
-	"gorilla-client/utils"
 	"html/template"
 	"strconv"
 )
@@ -31,21 +30,20 @@ type Viewer interface {
 //	f: the name of the field to display
 //	Returns: safe HTML string coloured red if the value has changed
 func Show(v Viewer, f string) template.HTML {
-	vv, _ := strconv.Atoi(v.ViewedField(f))
-	vc, _ := strconv.Atoi(v.ComparedField(f))
+	vv, _ := strconv.ParseFloat(v.ViewedField(f), 32)
+	vc, _ := strconv.ParseFloat(v.ComparedField(f), 32)
 	// Diagnostics - turn on if problems with display ...
-	if f == "Size" {
-		firstPart := utils.TraceInfoPart(utils.Yellow, " Viewed %v, Id %s, TimeStamp %s", vv, v.ViewedField(`Id`), v.ViewedField(`TimeStamp`))
-		secondPart := utils.TraceInfoPart(utils.Yellow, " Comparator %v, Id %s, TimeStamp %s", vc, v.ComparedField(`Id`), v.ComparedField(`TimeStamp`))
-		utils.TraceInfof(utils.BrightYellow, "Show %s: %s [%s]", f, firstPart, secondPart)
-	}
+	// if f == "Size" {
+	// 	firstPart := utils.TraceInfoPart(utils.Yellow, " Viewed %v, Id %s, TimeStamp %s", vv, v.ViewedField(`Id`), v.ViewedField(`TimeStamp`))
+	// 	utils.TraceInfof(utils.BrightYellow, "Show %s: %s ", f, firstPart)
+	// }
 	// ...End of Diagnostics
 
 	var htmlString string
 	if vv == vc {
-		htmlString = fmt.Sprintf("<td style=\"text-align:center\">%d</td>", vv)
+		htmlString = fmt.Sprintf("<td style=\"text-align:center\">%0.0f</td>", vv)
 	} else {
-		htmlString = fmt.Sprintf("<td style=\"text-align:center; color:red\">%d</td>", vv)
+		htmlString = fmt.Sprintf("<td style=\"text-align:center; color:red\">%0.0f</td>", vv)
 	}
 	return template.HTML(htmlString)
 }

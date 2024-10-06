@@ -23,7 +23,6 @@
       <tbody>
         <!--Loop over the industry stocks -->
         {{range .IndustryStockViews }}
-        {{ . }}
         <tr>
           {{ Link . `industry_stock` `Id` }}
           {{ Show . "TimeStamp" }}

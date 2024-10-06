@@ -120,7 +120,7 @@ func ShowIndustryStock(w http.ResponseWriter, r *http.Request) {
 	}
 	user.CurrentPage = models.CurrentPageType{Url: "industry_stock.html", Id: id}
 
-	utils.TraceInfof(utils.BrightYellow, "Fetching industry stock %d for user %s", id, user.UserName)
+	utils.TraceInfof(utils.BrightYellow, "Fetching industry_stock %d for user %s", id, user.UserName)
 	Tpl.ExecuteTemplate(w,
 		user.CurrentPage.Url,
 		user.IndustryStockDisplayData("", id))

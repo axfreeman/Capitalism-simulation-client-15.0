@@ -84,7 +84,4 @@ func (u User) SetCurrentState(new_state string) {
 	m.State = new_state
 	m.States[m.TimeStamp] = new_state
 	utils.TraceInfof(utils.Green, "Setting new state %s. States map now has %d elements", new_state, len(m.States))
-	for i := range m.States {
-		utils.TraceInfof(utils.BrightGreen, "State %d is %s", i, m.States[i])
-	}
 }

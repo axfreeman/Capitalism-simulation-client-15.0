@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"gorilla-client/utils"
 	"gorilla-client/views"
 	"html/template"
 	"reflect"
@@ -116,18 +115,18 @@ func (i *IndustryStockView) ViewedField(f string) string {
 	// utils.TraceInfof(utils.Yellow, "  Entered ViewedField for IndustryStockView with f=%s", f)
 	s := reflect.Indirect(reflect.ValueOf(i.viewedRecord)).FieldByName(f)
 	// Diagnostics - probably not needed now...
-	if f == `Size` {
-		utils.TraceInfof(utils.Yellow, "Displaying an IndustryStockView with f=%s", f)
-		r := reflect.ValueOf(i.viewedRecord)
-		in := reflect.Indirect(r)
-		record := in.Interface().(IndustryStock)
-		st := record.Write()
-		fmt.Println("***The result is ", s)
-		fmt.Printf("***The result formatted is %v\n", s)
-		utils.TraceInfof(utils.Yellow, "Stock is:\n%v", st)
-		sf := fmt.Sprint(s)
-		fmt.Println("***The result sprinted is", sf)
-	}
+	// if f == `Size` {
+	// 	utils.TraceInfof(utils.Yellow, "Displaying an IndustryStockView with f=%s", f)
+	// 	r := reflect.ValueOf(i.viewedRecord)
+	// 	in := reflect.Indirect(r)
+	// 	record := in.Interface().(IndustryStock)
+	// 	st := record.Write()
+	// 	fmt.Println("***The result is ", s)
+	// 	fmt.Printf("***The result formatted is %v\n", s)
+	// 	utils.TraceInfof(utils.Yellow, "Stock is:\n%v", st)
+	// 	sf := fmt.Sprint(s)
+	// 	fmt.Println("***The result sprinted is", sf)
+	// }
 	// ...End of diagnostics
 	return fmt.Sprint(s)
 }

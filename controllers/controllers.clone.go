@@ -69,7 +69,6 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 		ReportError(user, w, "oops")
 		return
 	}
-	utils.TraceInfo(utils.BrightRed, " Retrieved the Manager object, phew")
 
 	// Create a new Simulation object
 	newSimulation := models.NewSimulation()
@@ -85,20 +84,15 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	newSimulation.Manager.States = make(map[int]string)
 	user.SetCurrentState("DEMAND")
 
-	utils.TraceInfo(utils.BrightRed, " Set up the manager's initial state and timestamps, phew")
-
 	// Fetch the data from the first Stage
 	if err = api.FetchStage(user); err != nil {
 		utils.TraceErrorf("Could not retrieve the data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
 		ReportError(user, w, "oops")
 		return
 	}
-	utils.TraceInfo(utils.BrightRed, " Retrieved the Data, phew")
 
 	// Convert the data to add pointers in place of Id field
 	api.ConvertStage(user.GetCurrentStage(), &newSimulation.Manager)
-
-	utils.TraceInfo(utils.BrightRed, " Converted the Data, phew")
 
 	simstring, _ := json.MarshalIndent(user.GetCurrentSimulation(), " ", " ")
 	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the simulation %s", string(simstring))

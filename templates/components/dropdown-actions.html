@@ -1,0 +1,35 @@
+<div class="w3-dropdown-hover w3-bar-item">
+    <div class="w3-xlarge w3-margin-left w3-margin-right"><i class="fa fa-refresh"></i></div>
+    <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        {{ if eq .State "DEMAND" }}
+        <a class=" w3-button w3-bar-item " href="/action/demand">Demand</a>
+        {{ else }}
+        <a class=" w3-button w3-disabled w3-bar-item ">Demand</a>
+        {{ end }}
+        {{ if eq .State "SUPPLY"}}
+        <a class=" w3-button  w3-bar-item" href="/action/supply">Supply</a>
+        {{ else }}
+        <a class=" w3-button w3-disabled w3-bar-item ">Supply</a>
+        {{ end }}
+        {{ if eq .State "TRADE"}}
+        <a class=" w3-button  w3-bar-item" href="/action/trade">Trade</a>
+        {{ else }}
+        <a class=" w3-button w3-disabled w3-bar-item ">Trade</a>
+        {{ end }}
+        {{ if eq .State "PRODUCE"}}
+        <a class=" w3-button  w3-bar-item" href="/action/produce">Produce</a>
+        {{ else }}
+        <a class=" w3-button w3-disabled w3-bar-item ">Produce</a>
+        {{ end }}
+        {{ if eq .State "CONSUME"}}
+        <a class=" w3-button  w3-bar-item" href="/action/consume">Consume</a>
+        {{ else }}
+        <a class=" w3-button w3-disabled w3-bar-item ">Consume</a>
+        {{ end }}
+        {{ if eq .State "INVEST"}}
+        <a class=" w3-button  w3-bar-item" href="/action/invest">Invest</a>
+        {{ else }}
+        <a class=" w3-button w3-disabled w3-bar-item ">Invest</a>
+        {{ end }}
+    </div>
+</div>

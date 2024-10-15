@@ -63,6 +63,7 @@ type Manager struct {
 	TimeStamp            int
 	ViewedTimeStamp      int
 	ComparatorTimeStamp  int
+	DisplayDimension     string
 	UserName             string         `json:"username"`
 	State                string         `json:"state"`
 	States               map[int]string // use a map not a slice for efficiency

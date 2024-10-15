@@ -34,6 +34,9 @@ func AuthRoutes() {
 	Router.HandleFunc("/user/forward", controllers.Forward)
 	Router.HandleFunc("/user/back", controllers.Back)
 	Router.HandleFunc("/user/create/{id}", controllers.CreateSimulation)
+	Router.HandleFunc("/user/display-size", controllers.DisplaySize)
+	Router.HandleFunc("/user/display-value", controllers.DisplayValue)
+	Router.HandleFunc("/user/display-price", controllers.DisplayPrice)
 
 	// Table displays
 	Router.HandleFunc("/commodities", controllers.Auth(controllers.ShowCommodities))

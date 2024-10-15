@@ -118,6 +118,41 @@ func Forward(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Set the DisplayDimension of this simulation
+//
+//	Does not check for validity. Just don't be bloody stupid.
+//
+//	DisplayDimension: the dimension to set - either `Size`, `Value`, or `Price`.
+func SetDisplayDimension(w http.ResponseWriter, r *http.Request, displayDimension string) {
+	utils.TraceInfof(utils.Green, "Set Display Dimension to %s was requested", displayDimension)
+	u := CurrentUser(r)
+	m := &CurrentUser(r).GetCurrentSimulation().Manager
+
+	utils.TraceInfof(utils.Green, "Display dimension will be changed from %s to %s", m.DisplayDimension, displayDimension)
+	m.DisplayDimension = displayDimension
+
+	if useLastVisited(u.CurrentPage.Url) {
+		Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateTemplateData(""))
+	} else {
+		Tpl.ExecuteTemplate(w, "index.html", u.CreateTemplateData(""))
+	}
+}
+
+// Set the DisplayDimension of this simulation so that use values are displayed
+func DisplaySize(w http.ResponseWriter, r *http.Request) {
+	SetDisplayDimension(w, r, `Size`)
+}
+
+// Set the DisplayDimension of this simulation so that values are displayed
+func DisplayValue(w http.ResponseWriter, r *http.Request) {
+	SetDisplayDimension(w, r, `Value`)
+}
+
+// Set the DisplayDimension of this simulation so that prices are displayed
+func DisplayPrice(w http.ResponseWriter, r *http.Request) {
+	SetDisplayDimension(w, r, `Price`)
+}
+
 // TODO not working yet
 func SwitchSimulation(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)

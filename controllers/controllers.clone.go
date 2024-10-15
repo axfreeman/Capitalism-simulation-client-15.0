@@ -81,8 +81,13 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	newSimulation.Manager.TimeStamp = 0
 	newSimulation.Manager.ViewedTimeStamp = 0
 	newSimulation.Manager.ComparatorTimeStamp = 0
+
+	// create the states map and initialize it
 	newSimulation.Manager.States = make(map[int]string)
 	user.SetCurrentState("DEMAND")
+
+	// set the display Dimension (size, value or price)
+	newSimulation.Manager.DisplayDimension = "Size"
 
 	// Fetch the data from the first Stage
 	if err = api.FetchStage(user); err != nil {

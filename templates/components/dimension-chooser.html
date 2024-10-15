@@ -1,15 +1,28 @@
 <div class="w3-dropdown-hover w3-bar-item">
     <div class="w3-xlarge w3-margin-right w3-margin-left">
+
+        {{ if eq .DisplayDimension "Size"}}
+        <i style="font-weight: bolder; color:black" class="fa fa-layer-group"></i>
+        {{ end }}
+
+        {{ if eq .DisplayDimension "Value"}}
         <i style="font-weight: bolder; color:red" class="fa fa-clock"></i>
+        {{ end }}
+
+        {{ if eq .DisplayDimension "Price"}}
+        <i style="font-weight: bolder; color:goldenrod" class="fa fa-dollar"></i>
+        {{ end }}
+
+
     </div>
     <div class="w3-dropdown-content w3-bar-block w3-card-4">
-        <a class=" w3-button  w3-bar-item" href="/action/display-values">
+        <a class=" w3-button  w3-bar-item" href="/user/display-size">
+            <i style="font-weight: bolder; color:black" class="fa fa-layer-group"></i>
+        </a>
+        <a class=" w3-button  w3-bar-item" href="/user/display-value">
             <i style="font-weight: bolder; color:red" class="fa fa-clock"></i>
         </a>
-        <a class=" w3-button  w3-bar-item" href="/action/display-sizes">
-            <i style="font-weight: bolder; color:green" class="fa fa-layer-group"></i>
-        </a>
-        <a class=" w3-button  w3-bar-item" href="/action/display-prices">
+        <a class=" w3-button  w3-bar-item" href="/user/display-price">
             <i style="font-weight: bolder; color:goldenrod" class="fa fa-dollar"></i>
         </a>
     </div>

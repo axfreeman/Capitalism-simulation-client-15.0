@@ -85,3 +85,13 @@ func (u User) SetCurrentState(new_state string) {
 	m.States[m.TimeStamp] = new_state
 	utils.TraceInfof(utils.Green, "Setting new state %s. States map now has %d elements", new_state, len(m.States))
 }
+
+// Retrieve the display dimension of the current simulation (size, value or price)
+//
+//	returns:
+//	   if successful, one of "Size", "Value", "Price"
+//	   if unsuccessful "UNKNOWN"
+func (u User) DisplayDimension() string {
+	manager := &u.GetCurrentSimulation().Manager
+	return manager.DisplayDimension
+}

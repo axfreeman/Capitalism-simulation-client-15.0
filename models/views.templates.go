@@ -58,6 +58,7 @@ type TemplateData struct {
 	State              string
 	ViewedState        string
 	ComparatorState    string
+	DisplayDimension   string
 	Message            string
 }
 
@@ -79,6 +80,7 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 			Count:              0,
 			Username:           u.UserName,
 			State:              "UNKNOWN",
+			DisplayDimension:   "Size",
 			ViewedState:        "UNKNOWN",
 			ComparatorState:    "UNKNOWN",
 			CommodityViews:     nil,
@@ -114,6 +116,7 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 		Templates:          &TemplateList,
 		Username:           u.UserName,
 		State:              u.CurrentState(),
+		DisplayDimension:   u.DisplayDimension(),
 		ViewedState:        u.ViewedState(),
 		ComparatorState:    u.ComparatorState(),
 		CommodityViews:     CommodityViews(cv, cc),

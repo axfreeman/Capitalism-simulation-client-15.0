@@ -7,26 +7,25 @@
   <!-- {{ template "status-bar.html" . }} -->
 
   <!-- {{ if ne $A 0}} -->
-
   <div>{{ template "commodity-table.html" .}}</div>
-
   <div class="w3-row ">
-    {{ if eq .DisplayDimension "Size"}}
-    {{ template "industry-table-sizes.html" .}}
-    {{ template "class-table-sizes.html" .}}
-    {{ end }}
-
-    {{ if eq .DisplayDimension "Value"}}
-    {{ template "industry-table-values.html" .}}
-    {{ template "class-table-values.html" .}}
-    {{ end }}
-
-    {{ if eq .DisplayDimension "Price"}}
-    {{ template "industry-table-prices.html" .}}
-    {{ template "class-table-prices.html" .}}
-    {{ end }}
+    <div class="w3-container w3-half">
+      {{ template "industry-table-sizes.html" .}}
+    </div>
+    <div class="w3-container w3-half">
+      {{ template "industry-table-values.html" .}}
+    </div>
   </div>
-
+  {{ template "industry-table-prices.html" .}}
+  <div class="w3-row ">
+    <div class="w3-container w3-half">
+      {{ template "class-table-sizes.html" .}}
+    </div>
+    <div class="w3-container w3-half">
+      {{ template "class-table-values.html" .}}
+    </div>
+  </div>
+  {{ template "class-table-prices.html" .}}
   <!-- {{ else }} -->
   <div class="w3-container w3-blue" style="margin: auto; width: 100%">
     <h3 class="w3-center"> {{ .username }} has no simulations yet</h3>

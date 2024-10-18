@@ -7,6 +7,7 @@
     <thead>
       <tr>
         <th style="width:30%">Class</th>
+        <th style="text-align:center; width:15%"><i style="font-weight: bolder; color:green" class="fa fa-friends"></th>
         <th style="text-align:center; width:15%"><i style="font-weight: bolder; color:green" class="fa fa-cutlery"></th>
         <th style="text-align:center; width:15%"><i class="fa fa-dollar" style="font-weight: 900; color:goldenrod"></th>
         <th style="text-align:center; width:15%">Sales</th>
@@ -16,7 +17,7 @@
       {{range .ClassViews }}
       <tr>
         {{ Link . `class` `Name`}}
-        {{ Show . "Population "}}
+        {{ Show . "Population"}}
         {{ Show .ConsumptionView "Value" }}
         {{ Show .MoneyView "Value" }}
         {{ Show .SalesView "Value" }}

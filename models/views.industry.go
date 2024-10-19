@@ -75,8 +75,6 @@ func IndustryViews(v *[]Industry, c *[]Industry) *[]views.Viewer {
 	var views = make([]views.Viewer, len(*v))
 	for i := range *v {
 		view := CreateIndustryView(&(*v)[i], &(*c)[i])
-		// vs, _ := json.MarshalIndent(view.(*IndustryView).SalesView, " ", " ")
-		// fmt.Printf("Sales View of industry %s is\n %v\n", (*v)[i].Name, string(vs))
 		views[i] = view
 	}
 	return &views

@@ -5,9 +5,9 @@ package controllers
 
 import (
 	"fmt"
-	"gorilla-client/models"
-	"gorilla-client/utils"
 	"net/http"
+	"simulation-client/models"
+	"simulation-client/utils"
 )
 
 // display all commodities in the current simulation

@@ -2,8 +2,8 @@ package models
 
 import (
 	"fmt"
-	"gorilla-client/utils"
-	"gorilla-client/views"
+	"simulation-client/utils"
+	"simulation-client/views"
 )
 
 type Object interface {

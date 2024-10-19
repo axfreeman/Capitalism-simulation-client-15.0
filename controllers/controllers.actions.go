@@ -5,9 +5,9 @@
 package controllers
 
 import (
-	"gorilla-client/api"
-	"gorilla-client/utils"
 	"net/http"
+	"simulation-client/api"
+	"simulation-client/utils"
 
 	"github.com/gorilla/mux"
 )

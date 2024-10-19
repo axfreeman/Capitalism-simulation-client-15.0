@@ -26,7 +26,7 @@ type CurrentPageType struct {
 //	Stages, a slice of Stage, which contains the data
 //
 // A Stage is one step in the simulation (Trade, Produce, etc)
-// A Stage contains all Tables of this step (Commoditis, Industries, etc)
+// A Stage contains all Tables of this step (Commodities, Industries, etc)
 // Each Table contains all the Objects of a single type. Eg in a two-sector
 // model, the Industries Table contains two elements, DI and DII
 type Simulation struct {

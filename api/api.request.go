@@ -6,11 +6,11 @@ package api
 import (
 	"bytes"
 	"encoding/json"
-	"gorilla-client/config"
-	"gorilla-client/db"
-	"gorilla-client/models"
-	"gorilla-client/utils"
 	"log"
+	"simulation-client/config"
+	"simulation-client/db"
+	"simulation-client/models"
+	"simulation-client/utils"
 
 	"errors"
 	"fmt"

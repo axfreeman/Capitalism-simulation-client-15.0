@@ -7,8 +7,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"gorilla-client/models"
-	"gorilla-client/utils"
+	"simulation-client/models"
+	"simulation-client/utils"
 )
 
 // Retrieves the data for a single table from the server.

@@ -3,8 +3,8 @@
 package routes
 
 import (
-	"gorilla-client/controllers"
 	"net/http"
+	"simulation-client/controllers"
 
 	"github.com/gorilla/mux"
 )

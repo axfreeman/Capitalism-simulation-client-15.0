@@ -1,8 +1,8 @@
 package db
 
 import (
-	"gorilla-client/models"
-	"gorilla-client/utils"
+	"simulation-client/models"
+	"simulation-client/utils"
 	"testing"
 )
 

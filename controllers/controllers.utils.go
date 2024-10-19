@@ -5,8 +5,8 @@ package controllers
 import (
 	"encoding/json"
 	"errors"
-	"gorilla-client/models"
-	"gorilla-client/utils"
+	"simulation-client/models"
+	"simulation-client/utils"
 	"strconv"
 
 	"net/http"

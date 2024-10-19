@@ -7,8 +7,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"gorilla-client/models"
-	"gorilla-client/utils"
+	"simulation-client/models"
+	"simulation-client/utils"
 )
 
 // Barebones in memory database

@@ -1,17 +1,17 @@
 package main
 
 import (
-	"gorilla-client/api"
-	"gorilla-client/config"
-	"gorilla-client/controllers"
-	"gorilla-client/db"
-	"gorilla-client/models"
-	"gorilla-client/routes"
-	"gorilla-client/utils"
-	"gorilla-client/views"
 	"html/template"
 	"log"
 	"net/http"
+	"simulation-client/api"
+	"simulation-client/config"
+	"simulation-client/controllers"
+	"simulation-client/db"
+	"simulation-client/models"
+	"simulation-client/routes"
+	"simulation-client/utils"
+	"simulation-client/views"
 )
 
 func main() {

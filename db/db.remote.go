@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"gorilla-client/models"
-	"gorilla-client/utils"
+	"simulation-client/models"
+	"simulation-client/utils"
 )
 
 // Database using the remote server API

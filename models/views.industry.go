@@ -2,9 +2,9 @@ package models
 
 import (
 	"fmt"
-	"gorilla-client/views"
 	"html/template"
 	"reflect"
+	"simulation-client/views"
 )
 
 // Type for implementation of views.Viewer interface

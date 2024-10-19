@@ -3,11 +3,11 @@ package db
 import (
 	"database/sql"
 	"errors"
-	"gorilla-client/config"
-	"gorilla-client/models"
-	"gorilla-client/utils"
 	"log"
 	"os"
+	"simulation-client/config"
+	"simulation-client/models"
+	"simulation-client/utils"
 
 	_ "github.com/mattn/go-sqlite3"
 )

@@ -1,7 +1,7 @@
 package db
 
 import (
-	"gorilla-client/models"
+	"simulation-client/models"
 )
 
 // Interface for database solutions for authorization purposes.

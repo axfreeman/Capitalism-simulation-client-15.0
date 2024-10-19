@@ -3,10 +3,10 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"gorilla-client/api"
-	"gorilla-client/models"
-	"gorilla-client/utils"
 	"net/http"
+	"simulation-client/api"
+	"simulation-client/models"
+	"simulation-client/utils"
 	"strconv"
 
 	"github.com/gorilla/mux"

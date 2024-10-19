@@ -1,8 +1,8 @@
 package models
 
 import (
-	"gorilla-client/utils"
 	"log"
+	"simulation-client/utils"
 )
 
 // Retrieve the current simulation

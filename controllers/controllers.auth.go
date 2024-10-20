@@ -8,12 +8,14 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"log"
 	"net/http"
 	"simulation-client/api"
 	"simulation-client/config"
 	"simulation-client/db"
 	"simulation-client/models"
 	"simulation-client/utils"
+	"strconv"
 
 	"github.com/gorilla/sessions"
 	"golang.org/x/crypto/bcrypt"
@@ -231,4 +233,86 @@ func Auth(HandlerFunc http.HandlerFunc) http.HandlerFunc {
 		// func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request)
 		HandlerFunc.ServeHTTP(w, r)
 	}
+}
+
+// Process the setprice form which the user sees when a single commodity
+// is displayed.
+func SetPriceAuthHandler(w http.ResponseWriter, r *http.Request) {
+	var err error
+	var req *http.Request
+	var res *http.Response
+	user := CurrentUser(r)
+	utils.TraceInfof(utils.BrightGreen, "User %s entered SetPriceAuthHandler", user.UserName)
+
+	// TODO validate the form
+	if r.ParseForm() != nil {
+		Tpl.ExecuteTemplate(w, "Commodity.html", user.CreateTemplateData("Incorrect details. Try again"))
+	}
+
+	// form := r.Form
+	// fmt.Println("Here is the form")
+	// fmt.Println(form)
+	// TODO validate numeric data
+	unitPrice_s := r.FormValue("UnitPrice")
+	commodityId_s := r.FormValue("CommodityId")
+	simulationId_s := r.FormValue("SimulationId")
+
+	unitPrice, uerr := strconv.ParseFloat(unitPrice_s, 32)
+	commodityId, cerr := strconv.Atoi(commodityId_s)
+	simulationId, serr := strconv.Atoi(simulationId_s)
+	if (uerr != nil) || (cerr != nil) || (serr != nil) {
+		log.Printf("Something wrong with the supplied data: %s", err)
+	}
+	utils.TraceInfof(utils.BrightGreen,
+		"User %s is changing the price of commodity %d in simulation %d to %v",
+		user.UserName, commodityId, simulationId, unitPrice,
+	)
+
+	type PriceRequest struct {
+		CommodityId  int     `json:"commodityId"`
+		SimulationId int     `json:"simulationId"`
+		UnitPrice    float32 `json:"unitPrice"`
+	}
+
+	priceRequest := PriceRequest{
+		CommodityId:  commodityId,
+		SimulationId: simulationId,
+		UnitPrice:    float32(unitPrice),
+	}
+	body, err := json.Marshal(&priceRequest)
+	if err != nil {
+		log.Printf("Failed to marshal body: %s", err)
+		return
+	}
+
+	req, rerr := http.NewRequest("POST", config.Config.ApiSource+"/commodity/setprice", bytes.NewBuffer(body))
+
+	if rerr != nil {
+		utils.TraceErrorf("Error constructing server request: %v", err)
+		Tpl.ExecuteTemplate(w, "register.html", MessageData{Message: fmt.Sprintf("Error constructing server request:%v", err), Username: "admin"})
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Add("x-api-key", user.ApiKey)
+	client := &http.Client{}
+
+	res, err = client.Do(req)
+	if err != nil {
+		utils.TraceErrorf("Server returned error:%v", err)
+		Tpl.ExecuteTemplate(w, "errors.html", MessageData{Message: fmt.Sprintf("Server returned error:%v", err), Username: "admin"})
+		return
+	}
+	// respBody, _ := io.ReadAll(res.Body)
+
+	defer res.Body.Close()
+
+	// utils.TraceInfof(utils.BrightGreen, "Server returned status %d and said:%s", res.StatusCode, string(respBody))
+	if res.StatusCode != http.StatusOK {
+		utils.TraceInfof(utils.BrightGreen, "The server didn't like this and returned code %d", res.StatusCode)
+		return
+	}
+
+	Tpl.ExecuteTemplate(w,
+		user.CurrentPage.Url,
+		models.CommodityDisplayData(user, "", commodityId))
 }

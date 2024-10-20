@@ -155,6 +155,46 @@ func AdminPostRequest(url string, body []byte) (int, error) {
 	return http.StatusCreated, nil
 }
 
+// Sends a POST request to the api server using user credentials
+//
+//	url: the endpoint of the API server to which the request is being sent
+//	target: the result will be placed here
+//
+//	returns:
+//	 status
+//	 error if there is a failure, nil otherwise
+func UserPostRequest(user models.User, url string, body []byte) (int, error) {
+	var err error
+	var req *http.Request
+	var res *http.Response
+
+	req, err = http.NewRequest("POST", url, bytes.NewBuffer(body))
+	if err != nil {
+		utils.TraceInfof(utils.Cyan, "Error constructing server request: %v", err)
+		return http.StatusBadRequest, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Add("x-api-key", user.ApiKey)
+
+	client := &http.Client{}
+	res, err = client.Do(req)
+	if err != nil {
+		utils.TraceInfo(utils.Cyan, fmt.Sprintf("Server returned error:%v", err))
+		return res.StatusCode, err
+	}
+	respBody, _ := io.ReadAll(res.Body)
+	defer res.Body.Close()
+	utils.TraceInfof(utils.Cyan, "Server returned status %d and said:%s", res.StatusCode, string(respBody))
+
+	if res.StatusCode != http.StatusCreated {
+		errorReport := fmt.Sprintf("The server could not create the new record and returned status code %d", res.StatusCode)
+		utils.TraceError(errorReport)
+		return res.StatusCode, errors.New(errorReport)
+	}
+
+	return http.StatusCreated, nil
+}
+
 // Loads Templates
 // See note in DOCS folder
 func FetchRemoteTemplates() error {

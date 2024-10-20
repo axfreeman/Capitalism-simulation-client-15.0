@@ -50,11 +50,11 @@
       <tr>
       <tr>
         <td> Supply </td>
-        <td  style="text-align:center">{{ .Commodity.Supply }}</td>
+        <td style="text-align:center">{{ .Commodity.Supply }}</td>
       <tr>
       <tr>
         <td> Allocation Ratio </td>
-        <td  style="text-align:center">{{ .Commodity.AllocationRatio }}</td>
+        <td style="text-align:center">{{ .Commodity.AllocationRatio }}</td>
       <tr>
       <tr>
         <td> Monetarily Effective Demand </td>
@@ -66,6 +66,7 @@
       <tr>
     </tbody>
   </table>
+  {{ template "setprice.html" .}}
   <h4 class="w3-red">{{ .Message }}</h4>
 </div>
 {{ template "footer.html" .}}

@@ -11,6 +11,8 @@ import (
 
 var Router *mux.Router
 
+// TODO convert " to ` where appropriate
+
 func AuthRoutes() {
 	// Export router to globally accessible variable
 	Router = mux.NewRouter()
@@ -19,6 +21,7 @@ func AuthRoutes() {
 	Router.HandleFunc("/auth/logout", controllers.LogoutHandler)
 	Router.HandleFunc("/auth/register", controllers.RegisterHandler)
 	Router.HandleFunc("/auth/registerauth", controllers.RegisterAuthHandler)
+	Router.HandleFunc(`/auth/setprice`, controllers.SetPriceAuthHandler)
 
 	Router.HandleFunc("/about", controllers.Auth(controllers.AboutHandler))
 	Router.HandleFunc("/welcome", controllers.Auth(controllers.WelcomeHandler))

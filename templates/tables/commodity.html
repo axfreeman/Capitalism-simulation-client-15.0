@@ -1,10 +1,10 @@
 {{ template "header.html" .}}
 {{ template "menu.html" .}}
-<div class="w3-section w3-card-3" style="width:fit-content; padding-top:80px; margin:auto">
+<div class="w3-section w3-card-3" style="width:fit-content; padding-top:50px; margin:auto">
   <header class="w3-container w3-blue">
-    <h3 class="w3-center"> Commodity {{ .Commodity.Name }}</h3>
+    <h3 class="w3-center w3-small"> {{ .Commodity.Name }}</h3>
   </header>
-  <table class="w3-table-all w3-small w3-serif">
+  <table class="w3-small w3-serif">
     <thead>
       <tr>
         <th>Item</th>
@@ -15,55 +15,55 @@
       <tr>
         <td> Origin </td>
         <td style="text-align:center">{{ .Commodity.Origin }}</td>
-      <tr>
+      </tr>
       <tr>
         <td> Usage </td>
         <td style="text-align:center">{{ .Commodity.Usage }}</td>
-      <tr>
+      </tr>
       <tr>
         <td> Size </td>
         <td style="text-align:center">{{ .Commodity.Size }}</td>
-      <tr>
+      </tr>
       <tr>
         <td> Total Value </td>
         <td style="text-align:center">{{ .Commodity.TotalValue }}</td>
-      <tr>
+      </tr>
       <tr>
         <td> Total Price </td>
         <td style="text-align:center">{{ .Commodity.TotalPrice }}</td>
-      <tr>
+      </tr>
       <tr>
         <td> Unit Value </td>
         <td style="text-align:center">{{ .Commodity.UnitValue }}</td>
-      <tr>
+      </tr>
       <tr>
         <td> Unit Price </td>
         <td style="text-align:center">{{ .Commodity.UnitPrice }}</td>
-      <tr>
+      </tr>
       <tr>
         <td> Turnover Time </td>
         <td style="text-align:center">{{ .Commodity.TurnoverTime }}</td>
-      <tr>
+      </tr>
       <tr>
         <td> Demand </td>
         <td style="text-align:center">{{ .Commodity.Demand }}</td>
-      <tr>
+      </tr>
       <tr>
         <td> Supply </td>
         <td style="text-align:center">{{ .Commodity.Supply }}</td>
-      <tr>
+      </tr>
       <tr>
         <td> Allocation Ratio </td>
         <td style="text-align:center">{{ .Commodity.AllocationRatio }}</td>
-      <tr>
+      </tr>
       <tr>
         <td> Monetarily Effective Demand </td>
         <td style="text-align:center">{{ .Commodity.MonetarilyEffectiveDemand }}</td>
-      <tr>
+      </tr>
       <tr>
         <td> Investment Proportion </td>
         <td style="text-align:center">{{ .Commodity.InvestmentProportion }}</td>
-      <tr>
+      </tr>
     </tbody>
   </table>
   {{ template "setprice.html" .}}

@@ -4,7 +4,7 @@
         <label>Unit Price</label>
         <input autocomplete="off" class="w3-input"  
         value="{{ .Commodity.UnitPrice }}" 
-        pattern="[0-9]+(\.[0-9])"
+        pattern=" [-+]?[0-9]*\.?[0-9]+"
         name="UnitPrice">
         <input autocomplete='off' name="CommodityId" type="hidden" value="{{ .Commodity.Id }}">
         <input autocomplete='off' name="SimulationId" type="hidden" value="{{ .Commodity.SimulationId }}">

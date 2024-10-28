@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"simulation-client/utils"
 	"simulation-client/views"
 )
@@ -20,7 +19,7 @@ func ComparedObjects[T Object](u User, objectType string) *[]T {
 }
 
 func ViewedObject[T Object](u User, objectType string, id int) *T {
-	fmt.Println("ViewedObject was asked to display an object of type ", objectType)
+	// fmt.Println("ViewedObject was asked to display an object of type ", objectType)
 	objectList := (*u.GetViewedStage())[objectType].Table.(*[]T)
 	for i := 0; i < len(*objectList); i++ {
 		o := (*objectList)[i]

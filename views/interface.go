@@ -58,11 +58,14 @@ func ShowDecimal(v Viewer, f string) template.HTML {
 	sv, _ := strconv.ParseFloat(v.ViewedField(f), 32)
 	sc, _ := strconv.ParseFloat(v.ComparedField(f), 32)
 
+	// Diagnostics - uncomment to turn on
+	// fmt.Printf(utils.Blue+"ShowDecimal was called on field %s and yielded %v\n"+utils.Reset, f, sv)
+
 	var htmlString string
 	if sv == sc {
 		htmlString = fmt.Sprintf("<td style=\"text-align:center\">%0.2f</td>", sv)
 	} else {
-		htmlString = fmt.Sprintf("<td style=\"text-align:center; color:red\">%0.2f</td>", sc)
+		htmlString = fmt.Sprintf("<td style=\"text-align:center; color:red\">%0.2f</td>", sv)
 	}
 	return template.HTML(htmlString)
 }

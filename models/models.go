@@ -32,6 +32,7 @@ type CurrentPageType struct {
 type Simulation struct {
 	Manager Manager  // Manager for the Stages of this simulation
 	Stages  []*Stage // All Stages generated during one simulation
+	Trace   *Table
 }
 
 // Constructor for a Simulation with empty Stages and nil Manager elements
@@ -40,6 +41,12 @@ type Simulation struct {
 func NewSimulation() *Simulation {
 	stages := make([]*Stage, 0)
 	simulation := Simulation{Stages: stages}
+	trace := Table{
+		ApiUrl: `/trace`,
+		Table:  new([]Trace),
+		Name:   `Trace`,
+	}
+	simulation.Trace = &trace
 	return &simulation
 }
 

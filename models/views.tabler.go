@@ -47,10 +47,5 @@ func NewStage() Stage {
 			Table:  new([]ClassStock),
 			Name:   `ClassStock`,
 		},
-		"trace": {
-			ApiUrl: `/trace`,
-			Table:  new([]Trace),
-			Name:   `Trace`,
-		},
 	}
 }

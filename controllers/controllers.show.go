@@ -58,7 +58,6 @@ func ShowClassStocks(w http.ResponseWriter, r *http.Request) {
 // display all Trace records in the current simulation
 func ShowTrace(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
-	// user.CurrentPage = models.CurrentPageType{Url: "trace.html", Id: 0}
 	user.CurrentPage = models.CurrentPageType{Url: "elodieb.html", Id: 0}
 	utils.TraceInfof(utils.BrightYellow, "Fetching classes for user %s", user.UserName)
 	t := models.Traces(user)
@@ -187,9 +186,4 @@ func AllDisplayData(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TODO send this to a page to be viewed
-}
-
-// under development
-func DisplayStage(*models.Stage) string {
-	return "wtf"
 }

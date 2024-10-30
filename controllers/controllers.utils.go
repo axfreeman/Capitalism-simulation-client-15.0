@@ -37,7 +37,9 @@ func CurrentUser(r *http.Request) *models.User {
 // Fetch the data from the client local store, not from the server
 func AllData(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
+
 	utils.TraceInfof(utils.Green, "Get Data for user %s", user.UserName)
+
 	data, err := json.MarshalIndent(user, " ", " ")
 
 	if err != nil {

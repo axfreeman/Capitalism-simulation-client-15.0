@@ -96,6 +96,13 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Fetch the trace table
+	if err = api.Fetch(user.ApiKey, newSimulation.Trace); err != nil {
+		utils.TraceErrorf("Could not retrieve trace data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
+		ReportError(user, w, "oops")
+		return
+	}
+
 	// Convert the data to add pointers in place of Id field
 	api.ConvertStage(user.GetCurrentStage(), &newSimulation.Manager)
 

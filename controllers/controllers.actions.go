@@ -57,6 +57,15 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	utils.TraceInfof(utils.Green, "Fetched a new set of tables")
 
+	// Fetch the trace table
+	// TODO this could get very big. Can we do an incremental fetch?
+	if err = api.Fetch(user.ApiKey, simulation.Trace); err != nil {
+		utils.TraceErrorf("Could not retrieve trace data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
+		ReportError(user, w, "oops")
+		return
+	}
+	utils.TraceInfof(utils.Green, "Refreshed the trace table")
+
 	// Convert the data to add pointers in place of Id field
 	api.ConvertStage(user.GetCurrentStage(), manager)
 	// Set the state so that the simulation can proceed to the next action.

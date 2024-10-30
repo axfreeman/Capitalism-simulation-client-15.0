@@ -26,3 +26,6 @@
 * check that objects are indirected everywhere instead of passing copies
 * Class stocks: doesn't display
 * Missing column in Class value display
+
+## Cycle analysis
+* https://github.com/KyleBanks/depth

@@ -155,7 +155,7 @@ func WelcomeHandler(w http.ResponseWriter, r *http.Request) {
 // TODO remove. Just a basic test page
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Enter AboutHandler")
-	Tpl.ExecuteTemplate(w, "about.html", "Logged In")
+	Tpl.ExecuteTemplate(w, "about.html", "test")
 }
 
 // Diagnostic function mainly for the developer, to show all the DisplayData

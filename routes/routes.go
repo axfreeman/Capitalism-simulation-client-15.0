@@ -3,6 +3,7 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 	"simulation-client/controllers"
 
@@ -15,7 +16,14 @@ var Router *mux.Router
 
 func AuthRoutes() {
 	// Export router to globally accessible variable
+	var ds http.Handler
 	Router = mux.NewRouter()
+
+	fs := http.FileServer(http.Dir("./static"))
+	ds = http.StripPrefix("/static/", fs)
+	fmt.Printf("DS is %v", ds)
+	Router.Handle("/static/", ds)
+
 	Router.HandleFunc("/auth/login", controllers.LoginHandler)
 	Router.HandleFunc("/auth/loginauth", controllers.LoginAuthHandler)
 	Router.HandleFunc("/auth/logout", controllers.LogoutHandler)

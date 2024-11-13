@@ -3,7 +3,6 @@
 package routes
 
 import (
-	"fmt"
 	"net/http"
 	"simulation-client/controllers"
 
@@ -21,8 +20,9 @@ func AuthRoutes() {
 
 	fs := http.FileServer(http.Dir("./static"))
 	ds = http.StripPrefix("/static/", fs)
-	fmt.Printf("DS is %v", ds)
-	Router.Handle("/static/", ds)
+	Router.PathPrefix("/static/").Handler(ds)
+	// fmt.Printf("DS is %v", ds)
+	// http.Handle("/static/", ds)
 
 	Router.HandleFunc("/auth/login", controllers.LoginHandler)
 	Router.HandleFunc("/auth/loginauth", controllers.LoginAuthHandler)

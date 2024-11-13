@@ -32,3 +32,4 @@
 
 ## Serving static files
 * https://www.codershood.info/2020/02/16/serving-static-files-in-golang-using-gorilla-mux/
+* NOTE: cannot mix static file server managed by http.Handle and by Router (set to mux.NewRouter())

@@ -6,32 +6,13 @@
   <a class="w3-button" id="more"><i class="fas fa-arrow-right"></i></a>
 </div>
 </div>
-<style>
-  .accordion {
-    background-color: #eee;
-    color: #444;
-    cursor: pointer;
-    padding: 18px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    list-style-type:none;
-    outline: none;
-    transition: 0.4s;
-  }
 
-  .active,
-  .accordion:hover {
-    background-color: #ccc;
-  }
+<article class="beefup">
+  <h2 class="beefup__head">Headline</h2>
+  <div class="beefup__body">My fancy collapsible content.</div>
+</article>
 
-  .panel {
-    padding: 0 18px;
-    display: none;
-    background-color: white;
-    overflow: hidden;
-  }
-</style>
+
 <div class="w3-section w3-card-4" style="width:90%; margin:auto">
   <header class="w3-container w3-blue">
     <h3 class="w3-center">{{ .Title}} </h3>
@@ -56,34 +37,8 @@
 </div>
 {{ template "footer.html" .}}
 
-<!-- Accordion script -->
 <script>
-  var acc = document.getElementsByClassName("accordion");
-  var l1 = document.getElementsByClassName("level1");
-  var l2 = document.getElementsByClassName("level2");
-  var l3 = document.getElementsByClassName("level3");
-  var l4 = document.getElementsByClassName("level4");
-  var less = document.getElementById("less");
-  var more = document.getElementById("more");
-  less.addEventListener("click", function () {
-    if (l2.style.display === "block") {
-      l1.style.display = "none"
-    } else {
-      l1.style.display = "block"
-    }
+  $(function() {
+      $('.beefup').beefup();
   });
-
-
-  var i;
-  for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function () {
-      this.classList.toggle("active");
-      var panel = this.nextElementSibling;
-      if (panel.style.display === "block") {
-        panel.style.display = "none";
-      } else {
-        panel.style.display = "block";
-      }
-    });
-  }
-</script>
+</script>  

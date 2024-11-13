@@ -60,6 +60,7 @@ func AuthRoutes() {
 	Router.HandleFunc("/industry/{id}", controllers.Auth(controllers.ShowIndustry))
 	Router.HandleFunc("/class/{id}", controllers.Auth(controllers.ShowClass))
 	Router.HandleFunc("/trace", controllers.Auth(controllers.ShowTrace))
+	Router.HandleFunc("/trace-accordion", controllers.Auth(controllers.ShowTraceAccordion))
 	Router.HandleFunc("/index", controllers.Auth(controllers.ShowIndexPage))
 	Router.HandleFunc("/", controllers.Auth(controllers.ShowIndexPage))
 	Router.HandleFunc(`/download`, controllers.Auth(controllers.Download))

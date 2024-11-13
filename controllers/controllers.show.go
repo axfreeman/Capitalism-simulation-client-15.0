@@ -59,7 +59,17 @@ func ShowClassStocks(w http.ResponseWriter, r *http.Request) {
 func ShowTrace(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
 	user.CurrentPage = models.CurrentPageType{Url: "trace.html", Id: 0}
-	utils.TraceInfof(utils.BrightYellow, "Fetching classes for user %s", user.UserName)
+	utils.TraceInfof(utils.BrightYellow, "Fetching trace for user %s", user.UserName)
+	t := models.Traces(user)
+	utils.UNUSED(t)
+	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, models.TemplateData{Trace: t})
+}
+
+// display all Trace records in the current simulation as an accordion
+func ShowTraceAccordion(w http.ResponseWriter, r *http.Request) {
+	user := CurrentUser(r)
+	user.CurrentPage = models.CurrentPageType{Url: "beefupaccordion.html", Id: 0}
+	utils.TraceInfof(utils.BrightYellow, "Fetching trace as accordion for user %s", user.UserName)
 	t := models.Traces(user)
 	utils.UNUSED(t)
 	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, models.TemplateData{Trace: t})

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accordion</title>
+
+  <script src = "/static/js/jquery.min.js"></script> 
+  <script src = "/static/js/jquery.beefup.min.js"></script> 
+  <link rel="stylesheet" href="/static/css/jquery.beefup.css">
+
+  <style>
+    html {
+      box-sizing: border-box;
+      font-family: -apple-system, Roboto, Helvetica, Arial, sans-serif;
+      color: #222;
+    }
+
+    h2 {
+      margin: 0;
+    }
+
+    /* Fade */
+    .fade .beefup__body {
+      transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    .fade.is-open .beefup__body {
+      transition-delay: 0s;
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Slide */
+    .slide .beefup__body {
+      transition: max-height .3s cubic-bezier(0, 1, 0, 1);
+      max-height: 0;
+      overflow: hidden;
+    }
+
+    .slide.is-open .beefup__body {
+      transition: max-height 1s ease-in-out;
+      max-height: 1000px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <article class="beefup fade">
+    <h2 class="beefup__head">Fade</h2>
+    <div class="beefup__body">
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
+        sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
+        nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
+        aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum
+        felis eu pede mollis pretium.</p>
+      <p>Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo
+        ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat
+        a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies
+        nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget
+        condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit
+        vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut
+        libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed
+        fringilla mauris sit amet nibh.</p>
+    </div>
+  </article>
+
+  <article class="beefup slide">
+    <h2 class="beefup__head">Slide</h2>
+    <div class="beefup__body">
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
+        sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
+        nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
+        aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum
+        felis eu pede mollis pretium.</p>
+      <p>Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo
+        ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat
+        a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies
+        nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget
+        condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit
+        vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut
+        libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed
+        fringilla mauris sit amet nibh.</p>
+    </div>
+  </article>
+
+</body>
+<script>
+  $(function () {
+    $('.beefup').beefup({
+      animation: '',
+      openSpeed: 0,
+      closeSpeed: 0,
+    });
+  });
+</script>
+
+</html>

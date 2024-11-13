@@ -1,44 +1,63 @@
 <!--index.html-->
 {{ template "header.html" .}}
-<div class="w3-top w3-center"></div>
-<div class="w3-bar">
-  <a class="w3-button" id="less"><i class="fas fa-arrow-left"></i> </a>
-  <a class="w3-button" id="more"><i class="fas fa-arrow-right"></i></a>
-</div>
+<div class="w3-top w3-center">
+  <div class="w3-bar">
+    <a class="w3-button" id="less"><i class="fas fa-arrow-left"></i> </a>
+    <a class="w3-button" id="more"><i class="fas fa-arrow-right"></i></a>
+  </div>
 </div>
 
-<article class="beefup">
-  <h2 class="beefup__head">Headline</h2>
-  <div class="beefup__body">My fancy collapsible content.</div>
-</article>
+<div>
+  <article class="beefup">
+    <h2 class="beefup__head">Headline</h2>
+    <div class="beefup__body">My fancy collapsible content.</div>
+  </article>
 
+  <article class="beefup example-opensingle">
+    <h4 class="beefup__head">
+      Item 2
+    </h4>
+
+    <div class="beefup__body">
+      <div class="mockup"></div>
+
+      <article class="beefup example-opensingle">
+        <h4 class="beefup__head">
+          Nested Item 1
+        </h4>
+
+        <div class="beefup__body">
+          <div class="mockup"></div>
+        </div>
+      </article>
+
+      <article class="beefup example-opensingle">
+        <h4 class="beefup__head">
+          Nested Item 2
+        </h4>
+
+        <div class="beefup__body">
+          <div class="mockup mockup-lg"></div>
+        </div>
+      </article>
+    </div>
+  </article>
+</div>
 
 <div class="w3-section w3-card-4" style="width:90%; margin:auto">
   <header class="w3-container w3-blue">
     <h3 class="w3-center">{{ .Title}} </h3>
   </header>
-  <ul class="accordion">
     <!--Loop over the trace record-->
     {{range .Trace }}
-    <li class="level1">Level {{ .Level }}</li>
-    {{ if eq .Level 1}}
-    <li style="color:green">{{ .Message }}</li>
-    {{ else if eq .Level 2}}
-    <li style="color:purple" class="level2">&nbsp{{ .Message }}</li>
-    {{ else if eq .Level 3}}
-    <li style="color:blue" class="level3">&nbsp&nbsp{{ .Message }}</li>
-    {{ else}}
-    <li style="color:lightblue" class="levelhigh">&nbsp&nbsp&nbsp{{ .Message }}</li>
+    <p style="color:green" class="level1">{{ .Message }}</p>
     {{ end }}
-    </tr>
-    {{end}}
-  </ul>
 
 </div>
 {{ template "footer.html" .}}
 
 <script>
-  $(function() {
-      $('.beefup').beefup();
+  $(function () {
+    $('.beefup').beefup();
   });
-</script>  
+</script>

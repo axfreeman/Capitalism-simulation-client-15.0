@@ -14,17 +14,13 @@
   </article>
 
   <article class="beefup example-opensingle">
-    <h4 class="beefup__head">
-      Item 2
-    </h4>
+    <h4 class="beefup__head">Item 2</h4>
 
     <div class="beefup__body">
       <div class="mockup"></div>
 
       <article class="beefup example-opensingle">
-        <h4 class="beefup__head">
-          Nested Item 1
-        </h4>
+        <h4 class="beefup__head">Nested Item 1</h4>
 
         <div class="beefup__body">
           <div class="mockup"></div>
@@ -32,9 +28,7 @@
       </article>
 
       <article class="beefup example-opensingle">
-        <h4 class="beefup__head">
-          Nested Item 2
-        </h4>
+        <h4 class="beefup__head">Nested Item 2</h4>
 
         <div class="beefup__body">
           <div class="mockup mockup-lg"></div>
@@ -48,11 +42,28 @@
   <header class="w3-container w3-blue">
     <h3 class="w3-center">{{ .Title}} </h3>
   </header>
-    <!--Loop over the trace record-->
+  <!--Loop over the trace record-->
+  {{ $CurrentLevel:=1 }}
+  {{ $LastMessage := "Trace"}}
+  <div class="beefup">
     {{range .Trace }}
-    <p style="color:green" class="level1">{{ .Message }}</p>
-    {{ end }}
+      {{ if gt .Level $CurrentLevel }}
+        <h4 class="beefup__head"> {{ $LastMessage }}</h4>
+        {{ $CurrentLevel = .Level}}
+        {{ $LastMessage = .Message }}
+      {{ end }}
 
+      {{ if eq .Level $CurrentLevel }}
+        <h4 class="beefup__body"> {{ $LastMessage }}</h4>
+      {{ end }}
+
+      {{ if lt .Level $CurrentLevel }}
+        <h4 class="beefup__body"> {{ $LastMessage }}</h4>
+        {{ $LastMessage = .Message }}
+      {{ end }}
+
+    {{ end }}
+  </div>
 </div>
 {{ template "footer.html" .}}
 

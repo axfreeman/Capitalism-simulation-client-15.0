@@ -12,27 +12,23 @@
     <h2 class="beefup__head">Headline</h2>
     <div class="beefup__body">My fancy collapsible content.</div>
   </article>
+  <article class="beefup">
+    <h2 class="beefup__head">Another Headline</h2>
+    <div class="beefup__body">More fancy collapsible content.</div>
+  </article>
 
-  <article class="beefup example-opensingle">
+  <article class="beefup">
     <h4 class="beefup__head">Item 2</h4>
 
     <div class="beefup__body">
-      <div class="mockup"></div>
-
-      <article class="beefup example-opensingle">
+      <article class="beefup">
         <h4 class="beefup__head">Nested Item 1</h4>
-
-        <div class="beefup__body">
-          <div class="mockup"></div>
-        </div>
+        <div class="beefup__body">nested body 2</div>
       </article>
 
-      <article class="beefup example-opensingle">
+      <article class="beefup">
         <h4 class="beefup__head">Nested Item 2</h4>
-
-        <div class="beefup__body">
-          <div class="mockup mockup-lg"></div>
-        </div>
+        <div class="beefup__body">nested body 2</div>
       </article>
     </div>
   </article>
@@ -42,28 +38,12 @@
   <header class="w3-container w3-blue">
     <h3 class="w3-center">{{ .Title}} </h3>
   </header>
-  <!--Loop over the trace record-->
-  {{ $CurrentLevel:=1 }}
-  {{ $LastMessage := "Trace"}}
-  <div class="beefup">
+  <article class="beefup">
+    <!--Loop over the trace record-->
     {{range .Trace }}
-      {{ if gt .Level $CurrentLevel }}
-        <h4 class="beefup__head"> {{ $LastMessage }}</h4>
-        {{ $CurrentLevel = .Level}}
-        {{ $LastMessage = .Message }}
-      {{ end }}
-
-      {{ if eq .Level $CurrentLevel }}
-        <h4 class="beefup__body"> {{ $LastMessage }}</h4>
-      {{ end }}
-
-      {{ if lt .Level $CurrentLevel }}
-        <h4 class="beefup__body"> {{ $LastMessage }}</h4>
-        {{ $LastMessage = .Message }}
-      {{ end }}
-
+    {{ . }}
     {{ end }}
-  </div>
+  </article>
 </div>
 {{ template "footer.html" .}}
 

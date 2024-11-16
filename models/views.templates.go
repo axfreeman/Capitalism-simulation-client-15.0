@@ -1,6 +1,7 @@
 package models
 
 import (
+	"html/template"
 	"simulation-client/utils"
 	"simulation-client/views"
 )
@@ -51,7 +52,7 @@ type TemplateData struct {
 	ClassViews         *[]views.Viewer
 	IndustryStockViews *[]views.Viewer
 	ClassStockViews    *[]views.Viewer
-	Trace              *[]Trace
+	Trace              *[]template.HTML // exported directly as safe HTML
 	Count              int
 	Username           string
 	State              string

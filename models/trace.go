@@ -52,7 +52,6 @@ func Traces(u *User) *[]template.HTML {
 //		nextLevel: the level of the element immediately following t
 //	 returns: a safe HTML string representing t
 func (t Trace) ShowTrace(nextLevel int) template.HTML {
-	fmt.Printf("Trace level %d nextLevel %d message %s\n", t.Level, nextLevel, t.Message)
 	var htmlString string
 
 	// Start subitem

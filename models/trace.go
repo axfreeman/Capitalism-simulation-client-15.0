@@ -56,20 +56,22 @@ func Traces(u *User) *[]template.HTML {
 //		t: a single element of the Trace array
 //		nextLevel: the level of the element immediately following t
 //	 returns: a safe HTML string representing t
+//
+// TODO URGENT deal with jumping up more than one level
 func (t Trace) ShowTrace(nextLevel int) template.HTML {
 	var htmlString string
 
 	htmlcontent := `(` + strconv.Itoa(t.Level) + `,` + strconv.Itoa(nextLevel) + `)` + t.Message
 	// Start subitem
 	if nextLevel > t.Level {
-		htmlString = "<h4 class=\"beefup__head\">" + htmlcontent + "<h4>\n" +
+		htmlString = "<h4 class=\"beefup__head\">" + htmlcontent + "</h4>" +
 			"<div class=\"beefup__body\">" +
 			"<article class=\"beefup\">"
 	}
 
 	// Continue subitem
 	if nextLevel == t.Level {
-		htmlString = "<h4>\n" + htmlcontent + "\n</h4>"
+		htmlString = "<h4>\n" + htmlcontent + "</h4>"
 	}
 
 	// Terminate subitem and start a new item at the level above

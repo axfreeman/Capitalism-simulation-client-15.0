@@ -2,7 +2,6 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
 	"html/template"
 )
 
@@ -24,7 +23,6 @@ func Traces(u *User) *[]template.HTML {
 	table := u.GetCurrentSimulation().Trace
 	t := table.Table.(*[]Trace)
 	l := len(*t)
-	fmt.Printf("Array length is %d", l)
 	htmlTable := make([]template.HTML, l)
 
 	for i := range *t {
@@ -69,7 +67,7 @@ func (t Trace) ShowTrace(nextLevel int) template.HTML {
 	// Terminate subitem and start a new item at the level above
 	// This has to be terminated externally with a final </article></div>
 	if nextLevel < t.Level {
-		htmlString = "<h4>\n" + t.Message + "\n<h4>" +
+		htmlString = "<h4>\n" + t.Message + "\n</h4>" +
 			"</article></div></article>" +
 			"<article class=\"beefup\">"
 	}

@@ -1,12 +1,11 @@
 <!--index.html-->
 {{ template "header.html" .}}
-<style>
-  h4{
-    padding:0;
-    margin:0;
-    color:red;
-  }
-</style>
+
+  <!-- Beefup Scripts: see https://github.com/Schascha/BeefUp -->
+  <link rel="stylesheet" href="/static/css/jquery.beefup.css">
+  <script src="/static/js/jquery.min.js"> </script>
+  <script src="/static/js/jquery.beefup.min.js"> </script>
+
 <div class="w3-top w3-center">
   <div class="w3-bar">
     <a class="w3-button" id="less"><i class="fas fa-arrow-left"></i> </a>
@@ -24,7 +23,8 @@
     {{range .Trace }}
     {{ . }}
     {{ end }}
-  </article>
+  
+  </article></div></article>
 </div>
 {{ template "footer.html" .}}
 

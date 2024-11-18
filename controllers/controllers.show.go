@@ -65,16 +65,6 @@ func ShowTrace(w http.ResponseWriter, r *http.Request) {
 	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, models.TemplateData{Trace: t})
 }
 
-// display all Trace records in the current simulation as an accordion
-func ShowTraceAccordion(w http.ResponseWriter, r *http.Request) {
-	user := CurrentUser(r)
-	user.CurrentPage = models.CurrentPageType{Url: "beefupaccordion.html", Id: 0}
-	utils.TraceInfof(utils.BrightYellow, "Fetching trace as accordion for user %s", user.UserName)
-	t := models.Traces(user)
-	utils.UNUSED(t)
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, models.TemplateData{Trace: t})
-}
-
 // Display one specific commodity
 func ShowCommodity(w http.ResponseWriter, r *http.Request) {
 	var err error

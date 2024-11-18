@@ -70,7 +70,7 @@ func (t Trace) ShowTrace(nextLevel int) template.HTML {
 	// This has to be terminated externally with a final </article></div>
 	if nextLevel < t.Level {
 		htmlString = "<h4>\n" + t.Message + "\n<h4>" +
-			"</article></div>" +
+			"</article></div></article>" +
 			"<article class=\"beefup\">"
 	}
 	return template.HTML(htmlString)

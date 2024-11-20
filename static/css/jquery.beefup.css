@@ -1,44 +1,90 @@
-.beefup {
-  margin: 1em 0;
-}
+
+
 .beefup:hover {
   border-color: #ccc;
 }
+
 .beefup:first-child {
   margin-top: 0;
 }
+
 .beefup__head {
   cursor: pointer;
-  position: relative;
   margin: 0;
 }
-button.beefup__head, .beefup__head > button {
+
+button.beefup__head,
+.beefup__head>button {
   cursor: pointer;
   display: block;
   width: 0%;
-  color:green;
-  background:0;  
-  border:0;
+  background: 0;
+  border: 0;
   font: inherit;
   text-align: inherit;
 }
-button.beefup__head[aria-disabled], .beefup__head > button[aria-disabled] {
+
+button.beefup__head[aria-disabled],
+.beefup__head>button[aria-disabled] {
   cursor: default;
   outline: 0;
 }
 
-.beefup__head > button {
-  position: relative;
+.beefup__head>button {
   z-index: 1;
   width: calc(100% + 70px);
 }
-.beefup.is-open > .beefup__head::after {
+
+.level_0 > button {
+  color: green;
+  padding-left: 0px;
+
+}
+
+.level_1 > button {
+  color: blue;
+  padding-left: 20px;
+}
+
+.level_2 > button {
+  color: purple;
+  padding-left: 40px;
+}
+
+.level_3 > button {
+  color: red;
+  padding-left: 80px;
+}
+.level_4 > button {
+  color: black;
+  padding-left: 80px;
+}
+
+ .beefup.is-open>.beefup__head::after {
   transform: translate(0, -50%) rotate(225deg);
   margin-top: 2px;
 }
 
-h4{
-  padding:0;
-  margin:0;
-  color:red;
+h4.level_0 {
+  color:green;
+}
+
+h4.level_1 {
+  color: blue;
+  padding-left: 40px;
+}
+
+h4.level_2  {
+  color: purple;
+  padding-left: 60px;
+}
+
+h4.level_3  {
+  color: red;
+  padding-left: 120px;
+}
+
+h4.level_4  {
+  color: black;
+  padding-left: 140px;
 }

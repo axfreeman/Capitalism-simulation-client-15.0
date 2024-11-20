@@ -1,0 +1,717 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Capitalism</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="description" content="Capitalism Simulation">
+
+
+
+
+
+  <link rel="stylesheet" href="/static/css/w3.css">
+  <link rel="stylesheet" href="/static/css/main.css">
+
+
+
+
+  <link rel="stylesheet" href="/static/css/all.css">
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://kit.fontawesome.com/4626f30439.js" crossorigin="anonymous"></script>
+
+</head>
+
+
+<!-- <link rel="stylesheet" href="/static/css/jquery.beefup.css"> -->
+<script src="/static/js/jquery.min.js"> </script>
+<script src="/static/js/jquery.beefup.min.js"> </script>
+<style>
+
+
+  .beefup:hover {
+    border-color: #ccc;
+  }
+
+  .beefup:first-child {
+    margin-top: 0;
+  }
+
+  .beefup__head {
+    cursor: pointer;
+    margin: 0;
+  }
+
+  button.beefup__head,
+  .beefup__head>button {
+    cursor: pointer;
+    display: block;
+    width: 0%;
+    background: 0;
+    border: 0;
+    font: inherit;
+    text-align: inherit;
+  }
+
+  button.beefup__head[aria-disabled],
+  .beefup__head>button[aria-disabled] {
+    cursor: default;
+    outline: 0;
+  }
+
+  .beefup__head>button {
+    z-index: 1;
+    width: calc(100% + 70px);
+  }
+
+  .level_0 > button {
+    color: green;
+    padding-left: 0px;
+
+  }
+
+  .level_1 > button {
+    color: blue;
+    padding-left: 20px;
+  }
+
+  .level_2 > button {
+    color: purple;
+    padding-left: 40px;
+  }
+
+  .level_3 > button {
+    color: red;
+    padding-left: 80px;
+  }
+  .level_4 > button {
+    color: black;
+    padding-left: 80px;
+  }
+
+   .beefup.is-open>.beefup__head::after {
+    transform: translate(0, -50%) rotate(225deg);
+    margin-top: 2px;
+  }
+
+  h4.level_0 {
+    color:green;
+  }
+
+  h4.level_1 {
+    color: blue;
+    padding-left: 40px;
+  }
+  
+  h4.level_2  {
+    color: purple;
+    padding-left: 60px;
+  }
+  
+  h4.level_3  {
+    color: red;
+    padding-left: 120px;
+  }
+  
+  h4.level_4  {
+    color: black;
+    padding-left: 140px;
+  }
+</style>
+
+<div class="w3-top w3-center">
+  <div class="w3-bar">
+    <a class="w3-button" id="less"><i class="fas fa-arrow-left"></i> </a>
+    Trace
+    <a class="w3-button" id="more"><i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="w3-section w3-card-4" style="width:90%; margin:auto">
+  <header class="w3-container w3-blue">
+    <h3 class="w3-center"> </h3>
+  </header>
+  <article class="beefup">
+
+
+    <h4 class="beefup__head level_0"> (0,1)CLONE SIMULATION FOR USER guest FROM TEMPLATE SR with money prices WITH ID 6
+    </h4>
+    <div class="beefup__body">
+      <article class="beefup">
+
+        <h4 class="beefup__head level_1"> (1,2) Cloning Commodities </h4>
+        <div class="beefup__body">
+          <article class="beefup">
+
+            <h4 class="level_2"> (2,2) Cloning commodity Consumption</h4>
+
+            <h4 class="level_2"> (2,2) Cloning commodity Labour Power</h4>
+
+            <h4 class="level_2"> (2,2) Cloning commodity Means of Production</h4>
+
+            <h4 class="level_2"> (2,2) Cloning commodity Money</h4>
+
+            <h4 class="level_2"> (2,1) Cloning commodity Capital Services </h4>
+          </article>
+        </div>
+      </article>
+      <article class="beefup">
+
+        <h4 class="beefup__head level_1"> (1,2) Cloning Industries </h4>
+        <div class="beefup__body">
+          <article class="beefup">
+
+            <h4 class="level_2"> (2,2) Cloning industry Department I</h4>
+
+            <h4 class="level_2"> (2,1) Cloning industry Department II </h4>
+          </article>
+        </div>
+      </article>
+      <article class="beefup">
+
+        <h4 class="beefup__head level_1"> (1,2) Cloning Classes </h4>
+        <div class="beefup__body">
+          <article class="beefup">
+
+            <h4 class="level_2"> (2,2) Cloning class Capitalists</h4>
+
+            <h4 class="level_2"> (2,1) Cloning class Workers </h4>
+          </article>
+        </div>
+      </article>
+      <article class="beefup">
+
+        <h4 class="beefup__head level_1"> (1,2) Cloning Industry Stocks </h4>
+        <div class="beefup__body">
+          <article class="beefup">
+
+            <h4 class="level_2"> (2,2) Cloning industry stock [Department I.Sales.Means of Production] with id 79,
+              industry id 12 , and commodity Means of Production [id 24]</h4>
+
+            <h4 class="level_2"> (2,2) Cloning industry stock [Department II.Money.Money] with id 80, industry id 13 ,
+              and commodity Money [id 25]</h4>
+
+            <h4 class="level_2"> (2,2) Cloning industry stock [Department I.Production.Labour Power] with id 81,
+              industry id 12 , and commodity Labour Power [id 23]</h4>
+
+            <h4 class="level_2"> (2,2) Cloning industry stock [Department II.Production.Labour Power] with id 82,
+              industry id 13 , and commodity Labour Power [id 23]</h4>
+
+            <h4 class="level_2"> (2,2) Cloning industry stock [Department I.Money.Money] with id 83, industry id 12 ,
+              and commodity Money [id 25]</h4>
+
+            <h4 class="level_2"> (2,2) Cloning industry stock [Department I.Production.Means of Production] with id 84,
+              industry id 12 , and commodity Means of Production [id 24]</h4>
+
+            <h4 class="level_2"> (2,2) Cloning industry stock [Department II.Production.Means of Production] with id 85,
+              industry id 13 , and commodity Means of Production [id 24]</h4>
+
+            <h4 class="level_2"> (2,1) Cloning industry stock [Department II.Sales.Consumption] with id 86, industry id
+              13 , and commodity Consumption [id 22] </h4>
+          </article>
+        </div>
+      </article>
+      <article class="beefup">
+
+        <h4 class="beefup__head level_1"> (1,2) Cloning Class Stocks </h4>
+        <div class="beefup__body">
+          <article class="beefup">
+
+            <h4 class="level_2"> (2,2) Cloning class stock [Capitalists.Consumption.Consumption.(id_77)(sim_6)] with id
+              77, class id 30 , and commodity Consumption [id 22]</h4>
+
+            <h4 class="level_2"> (2,2) Cloning class stock [Capitalists.Money.Money.(id_78)(sim_6)] with id 78, class id
+              30 , and commodity Money [id 25]</h4>
+
+            <h4 class="level_2"> (2,2) Cloning class stock [Workers.Consumption.Consumption.(id_87)(sim_6)] with id 87,
+              class id 31 , and commodity Consumption [id 22]</h4>
+
+            <h4 class="level_2"> (2,2) Cloning class stock [Workers.Money.Money.(id_88)(sim_6)] with id 88, class id 31
+              , and commodity Money [id 25]</h4>
+
+            <h4 class="level_2"> (2,2) Cloning class stock [Workers.Sales.Labour Power.(id_89)(sim_6)] with id 89, class
+              id 31 , and commodity Labour Power [id 23]</h4>
+
+            <h4 class="level_2"> (2,1) Cloning class stock [Capitalists.Sales.Labour Power.(id_90)(sim_6)] with id 90,
+              class id 30 , and commodity Labour Power [id 23] </h4>
+          </article>
+        </div>
+      </article>
+      <article class="beefup">
+
+        <h4 class="beefup__head level_1"> (1,2) Creating a list of sellers for simulation 6 </h4>
+        <div class="beefup__body">
+          <article class="beefup">
+
+            <h4 class="level_2"> (2,2) Adding seller Department I selling [Department I.Means of Production.Sales.6]
+              (Means of Production) for money 91</h4>
+
+            <h4 class="level_2"> (2,2) Adding seller Department II selling [Department II.Consumption.Sales.6]
+              (Consumption) for money 88</h4>
+
+            <h4 class="level_2"> (2,2) Adding seller Workers selling [Workers.Labour Power.Sales.6] (Labour Power)for
+              money 94</h4>
+
+            <h4 class="level_2"> (2,1) Adding seller Capitalists selling [Capitalists.Labour Power.Sales.6] (Labour
+              Power)for money 92 </h4>
+          </article>
+        </div>
+      </article>
+      <article class="beefup">
+
+        <h4 class="beefup__head level_1"> (1,2) Creating a list of buyers for simulation 6 </h4>
+        <div class="beefup__body">
+          <article class="beefup">
+
+            <h4 class="level_2"> (2,2) Adding buyer Department I buying [Department I.Labour Power.Production.6] (Labour
+              Power) using money 91</h4>
+
+            <h4 class="level_2"> (2,2) Adding buyer Department II buying [Department II.Labour Power.Production.6]
+              (Labour Power) using money 88</h4>
+
+            <h4 class="level_2"> (2,2) Adding buyer Department I buying [Department I.Means of Production.Production.6]
+              (Means of Production) using money 91</h4>
+
+            <h4 class="level_2"> (2,2) Adding buyer Department II buying [Department II.Means of
+              Production.Production.6] (Means of Production) using money 88</h4>
+
+            <h4 class="level_2"> (2,2) Adding buyer Capitalists buying [Capitalists.Consumption.Consumption.6]
+              (Consumption) using money 92</h4>
+
+            <h4 class="level_2"> (2,1) Adding buyer Workers buying [Workers.Consumption.Consumption.6] (Consumption)
+              using money 94 </h4>
+          </article>
+        </div>
+      </article>
+      <article class="beefup">
+
+        <h4 class="beefup__head level_1"> (1,2) Calculate the size, value and price of all commodities </h4>
+        <div class="beefup__body">
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Processing the industrial stock called [Department
+              II.Consumption.Sales.6] </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 16000.0 to the size of Consumption bringing it to 16000.0</h4>
+
+                <h4 class="level_3"> (3,3) Adding 16000.0 to the value of Consumption bringing it to 16000.0</h4>
+
+                <h4 class="level_3"> (3,2) Adding 16000.0 to the price of Consumption bringing it to 16000.0 </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Processing the class stock called
+              [Capitalists.Consumption.Consumption.6] </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to the size of Consumption bringing it to 16000.0</h4>
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to the value of Consumption bringing it to 16000.0</h4>
+
+                <h4 class="level_3"> (3,2) Adding 0.0 to the price of Consumption bringing it to 16000.0 </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Processing the class stock called
+              [Workers.Consumption.Consumption.6] </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to the size of Consumption bringing it to 16000.0</h4>
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to the value of Consumption bringing it to 16000.0</h4>
+
+                <h4 class="level_3"> (3,2) Adding 0.0 to the price of Consumption bringing it to 16000.0 </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Processing the industrial stock called [Department I.Labour
+              Power.Production.6] </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to the size of Labour Power bringing it to 0.0</h4>
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to the value of Labour Power bringing it to 0.0</h4>
+
+                <h4 class="level_3"> (3,2) Adding 0.0 to the price of Labour Power bringing it to 0.0 </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Processing the industrial stock called [Department II.Labour
+              Power.Production.6] </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to the size of Labour Power bringing it to 0.0</h4>
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to the value of Labour Power bringing it to 0.0</h4>
+
+                <h4 class="level_3"> (3,2) Adding 0.0 to the price of Labour Power bringing it to 0.0 </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Processing the class stock called [Workers.Labour Power.Sales.6]
+            </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 12000.0 to the size of Labour Power bringing it to 12000.0</h4>
+
+                <h4 class="level_3"> (3,3) Adding 6000.0 to the value of Labour Power bringing it to 6000.0</h4>
+
+                <h4 class="level_3"> (3,2) Adding 6000.0 to the price of Labour Power bringing it to 6000.0 </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Processing the class stock called [Capitalists.Labour Power.Sales.6]
+            </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to the size of Labour Power bringing it to 12000.0</h4>
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to the value of Labour Power bringing it to 6000.0</h4>
+
+                <h4 class="level_3"> (3,2) Adding 0.0 to the price of Labour Power bringing it to 6000.0 </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Processing the industrial stock called [Department I.Means of
+              Production.Sales.6] </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 16000.0 to the size of Means of Production bringing it to 16000.0</h4>
+
+                <h4 class="level_3"> (3,3) Adding 16000.0 to the value of Means of Production bringing it to 16000.0
+                </h4>
+
+                <h4 class="level_3"> (3,2) Adding 16000.0 to the price of Means of Production bringing it to 16000.0
+                </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Processing the industrial stock called [Department I.Means of
+              Production.Production.6] </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to the size of Means of Production bringing it to 16000.0</h4>
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to the value of Means of Production bringing it to 16000.0</h4>
+
+                <h4 class="level_3"> (3,2) Adding 0.0 to the price of Means of Production bringing it to 16000.0 </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Processing the industrial stock called [Department II.Means of
+              Production.Production.6] </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to the size of Means of Production bringing it to 16000.0</h4>
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to the value of Means of Production bringing it to 16000.0</h4>
+
+                <h4 class="level_3"> (3,2) Adding 0.0 to the price of Means of Production bringing it to 16000.0 </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Processing the industrial stock called [Department II.Money.Money.6]
+            </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 16000.0 to the size of Money bringing it to 16000.0</h4>
+
+                <h4 class="level_3"> (3,3) Adding 16000.0 to the value of Money bringing it to 16000.0</h4>
+
+                <h4 class="level_3"> (3,2) Adding 16000.0 to the price of Money bringing it to 16000.0 </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Processing the industrial stock called [Department I.Money.Money.6]
+            </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 16000.0 to the size of Money bringing it to 32000.0</h4>
+
+                <h4 class="level_3"> (3,3) Adding 16000.0 to the value of Money bringing it to 32000.0</h4>
+
+                <h4 class="level_3"> (3,2) Adding 16000.0 to the price of Money bringing it to 32000.0 </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Processing the class stock called [Capitalists.Money.Money.6] </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 3000.0 to the size of Money bringing it to 35000.0</h4>
+
+                <h4 class="level_3"> (3,3) Adding 3000.0 to the value of Money bringing it to 35000.0</h4>
+
+                <h4 class="level_3"> (3,2) Adding 3000.0 to the price of Money bringing it to 35000.0 </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Processing the class stock called [Workers.Money.Money.6] </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 12000.0 to the size of Money bringing it to 47000.0</h4>
+
+                <h4 class="level_3"> (3,3) Adding 12000.0 to the value of Money bringing it to 47000.0</h4>
+
+                <h4 class="level_3"> (3,2) Adding 12000.0 to the price of Money bringing it to 47000.0 </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="level_2"> (2,2) Commodity Consumption has size 16000.0, total value 16000.0 and total price
+              16000.0</h4>
+
+            <h4 class="level_2"> (2,2) Setting its unit value to 1.0 and its unit price to 1.0</h4>
+
+            <h4 class="level_2"> (2,2) Commodity Labour Power has size 12000.0, total value 6000.0 and total price
+              6000.0</h4>
+
+            <h4 class="level_2"> (2,2) Setting its unit value to 0.5 and its unit price to 0.5</h4>
+
+            <h4 class="level_2"> (2,2) Commodity Means of Production has size 16000.0, total value 16000.0 and total
+              price 16000.0</h4>
+
+            <h4 class="level_2"> (2,2) Setting its unit value to 1.0 and its unit price to 1.0</h4>
+
+            <h4 class="level_2"> (2,2) Commodity Money has size 47000.0, total value 47000.0 and total price 47000.0
+            </h4>
+
+            <h4 class="level_2"> (2,2) Setting its unit value to 1.0 and its unit price to 1.0</h4>
+
+            <h4 class="level_2"> (2,1)Finished: NOTE there was a minor API error here. Please tell the developer </h4>
+          </article>
+        </div>
+      </article>
+      <article class="beefup">
+
+        <h4 class="beefup__head level_1"> (1,2) Reset stock values and prices from the unit values and prices of their
+          commodities </h4>
+        <div class="beefup__body">
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Revaluing industry stocks </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Setting value 16000.0 and price 16000.0 for stock of the stock [Department
+                  I.Means of Production.Sales.6]</h4>
+
+                <h4 class="level_3"> (3,3) Setting value 16000.0 and price 16000.0 for stock of the stock [Department
+                  II.Money.Money.6]</h4>
+
+                <h4 class="level_3"> (3,3) Setting value 0.0 and price 0.0 for stock of the stock [Department I.Labour
+                  Power.Production.6]</h4>
+
+                <h4 class="level_3"> (3,3) Setting value 0.0 and price 0.0 for stock of the stock [Department II.Labour
+                  Power.Production.6]</h4>
+
+                <h4 class="level_3"> (3,3) Setting value 16000.0 and price 16000.0 for stock of the stock [Department
+                  I.Money.Money.6]</h4>
+
+                <h4 class="level_3"> (3,3) Setting value 0.0 and price 0.0 for stock of the stock [Department I.Means of
+                  Production.Production.6]</h4>
+
+                <h4 class="level_3"> (3,3) Setting value 0.0 and price 0.0 for stock of the stock [Department II.Means
+                  of Production.Production.6]</h4>
+
+                <h4 class="level_3"> (3,2) Setting value 16000.0 and price 16000.0 for stock of the stock [Department
+                  II.Consumption.Sales.6] </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Revaluing class stocks </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Setting value to 0.0 and price to 0.0 for stock of the stock
+                  [Capitalists.Consumption.Consumption.6] </h4>
+
+                <h4 class="level_3"> (3,3) Setting value to 3000.0 and price to 3000.0 for stock of the stock
+                  [Capitalists.Money.Money.6] </h4>
+
+                <h4 class="level_3"> (3,3) Setting value to 0.0 and price to 0.0 for stock of the stock
+                  [Workers.Consumption.Consumption.6] </h4>
+
+                <h4 class="level_3"> (3,3) Setting value to 12000.0 and price to 12000.0 for stock of the stock
+                  [Workers.Money.Money.6] </h4>
+
+                <h4 class="level_3"> (3,3) Setting value to 6000.0 and price to 6000.0 for stock of the stock
+                  [Workers.Labour Power.Sales.6] </h4>
+
+                <h4 class="level_3"> (3,2) Setting value to 0.0 and price to 0.0 for stock of the stock
+                  [Capitalists.Labour Power.Sales.6] </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="level_2"> (2,2) Finished revaluing stocks</h4>
+
+            <h4 class="level_2"> (2,1)Finished: NOTE there was a minor API error here. Please tell the developer </h4>
+          </article>
+        </div>
+      </article>
+      <article class="beefup">
+
+        <h4 class="beefup__head level_1"> (1,2) Calculate initial capital for simulation 6 </h4>
+        <div class="beefup__body">
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Calculating the initial capital of Department I </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 16000.0 to capital of Department I for Industry stock [Department
+                  I.Means of Production.Sales.6]</h4>
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to capital of Department I for Industry stock [Department I.Labour
+                  Power.Production.6]</h4>
+
+                <h4 class="level_3"> (3,3) Adding 16000.0 to capital of Department I for Industry stock [Department
+                  I.Money.Money.6]</h4>
+
+                <h4 class="level_3"> (3,2) Adding 0.0 to capital of Department I for Industry stock [Department I.Means
+                  of Production.Production.6] </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Calculating the initial capital of Department II </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 16000.0 to capital of Department II for Industry stock [Department
+                  II.Money.Money.6]</h4>
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to capital of Department II for Industry stock [Department
+                  II.Labour Power.Production.6]</h4>
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to capital of Department II for Industry stock [Department
+                  II.Means of Production.Production.6]</h4>
+
+                <h4 class="level_3"> (3,2) Adding 16000.0 to capital of Department II for Industry stock [Department
+                  II.Consumption.Sales.6] </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="level_2"> (2,1) Finished calculating initial capital </h4>
+          </article>
+        </div>
+      </article>
+      <article class="beefup">
+
+        <h4 class="beefup__head level_1"> (1,2) Calculate current capital for simulation 6 </h4>
+        <div class="beefup__body">
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Calculating the current capital of Department I </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 16000.0 to capital of Department I for Industry stock [Department
+                  I.Means of Production.Sales.6]</h4>
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to capital of Department I for Industry stock [Department I.Labour
+                  Power.Production.6]</h4>
+
+                <h4 class="level_3"> (3,3) Adding 16000.0 to capital of Department I for Industry stock [Department
+                  I.Money.Money.6]</h4>
+
+                <h4 class="level_3"> (3,2) Adding 0.0 to capital of Department I for Industry stock [Department I.Means
+                  of Production.Production.6] </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="beefup__head level_2"> (2,3) Calculating the current capital of Department II </h4>
+            <div class="beefup__body">
+              <article class="beefup">
+
+                <h4 class="level_3"> (3,3) Adding 16000.0 to capital of Department II for Industry stock [Department
+                  II.Money.Money.6]</h4>
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to capital of Department II for Industry stock [Department
+                  II.Labour Power.Production.6]</h4>
+
+                <h4 class="level_3"> (3,3) Adding 0.0 to capital of Department II for Industry stock [Department
+                  II.Means of Production.Production.6]</h4>
+
+                <h4 class="level_3"> (3,2) Adding 16000.0 to capital of Department II for Industry stock [Department
+                  II.Consumption.Sales.6] </h4>
+              </article>
+            </div>
+          </article>
+          <article class="beefup">
+
+            <h4 class="level_2"> (2,1) Finished calculating current capital </h4>
+          </article>
+        </div>
+      </article>
+      <article class="beefup">
+
+        <h4 class="level_1"> (1,1) Cloned Template with id 5 into simulation with id 6</h4>
+
+
+      </article>
+    </div>
+  </article>
+</div>
+
+
+
+
+<script>
+  $(function () {
+    $('.beefup').beefup();
+  });
+</script>

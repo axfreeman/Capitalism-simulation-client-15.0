@@ -59,20 +59,23 @@ func (t Trace) ShowTrace(nextLevel int) template.HTML {
 	var htmlContent string
 
 	// I used the next two lines to diagnose Trace errors. Can probably be junked
-	diagnostic := `(` + strconv.Itoa(t.Level) + `,` + strconv.Itoa(nextLevel) + `)`
+	diagnostic := strconv.Itoa(t.Level) + `:`
 	htmlContent = diagnostic + t.Message
 
 	// htmlcontent := t.Message
 
-	subItemString := fmt.Sprintf(
-		`<h4 class="beefup__head level_%d"> %s </h4><div class="beefup__body"><article class="beefup">`,
-		t.Level, htmlContent)
-	continueString := fmt.Sprintf(
-		`<h4 class="level_%d"> %v</h4>`,
-		t.Level, htmlContent)
-	endString := fmt.Sprintf(
-		`<h4 class="level_%d"> %v </h4></article></div></article><article class="beefup">`,
-		t.Level, htmlContent)
+	subItemString := fmt.Sprintf("<article data-accordion><button data-control>%s</button><div data-content>", htmlContent)
+	continueString := fmt.Sprintf("<article> %s </article>", htmlContent)
+	endString := fmt.Sprintf("<article> %s </article></div></article>", htmlContent)
+	// subItemString := fmt.Sprintf(
+	// 	`<h4 class="beefup__head level_%d"> %s </h4><div class="beefup__body"><article class="beefup">`,
+	// 	t.Level, htmlContent)
+	// continueString := fmt.Sprintf(
+	// 	`<h4 class="level_%d"> %v</h4>`,
+	// 	t.Level, htmlContent)
+	// endString := fmt.Sprintf(
+	// 	`<h4 class="level_%d"> %v </h4></article></div></article><article class="beefup">`,
+	// 	t.Level, htmlContent)
 
 	// Start subitem
 	if nextLevel > t.Level {

@@ -1,35 +1,31 @@
-<!--index.html-->
-{{ template "header.html" .}}
+<!DOCTYPE html>
+<html lang="en">
 
-  <!-- Beefup Scripts: see https://github.com/Schascha/BeefUp -->
-  <link rel="stylesheet" href="/static/css/jquery.beefup.css">
-  <script src="/static/js/jquery.min.js"> </script>
-  <script src="/static/js/jquery.beefup.min.js"> </script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/static/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/static/js/jquery.accordion.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/css/jquery.accordion.css">
+  <title>Trace</title>
+</head>
 
-<div class="w3-top w3-center">
-  <div class="w3-bar">
-    <a class="w3-button" id="less"><i class="fas fa-arrow-left"></i> </a>
-    Trace
-    <a class="w3-button" id="more"><i class="fas fa-arrow-right"></i></a>
-  </div>
-</div>
-
-<div class="w3-section w3-card-4" style="width:90%; margin:auto">
-  <header class="w3-container w3-blue">
-    <h3 class="w3-center">{{ .Title}} </h3>
-  </header>
-  <article class="beefup">
+<body>
+  <section data-accordion>
     <!--Loop over the trace record-->
     {{range .Trace }}
     {{ . }}
     {{ end }}
-  
-  </article></div></article>
-</div>
-{{ template "footer.html" .}}
+  </section>
+  </div>
+  </section>
+  </section>
 
-<script>
-  $(function () {
-    $('.beefup').beefup();
+</body>
+
+<script>$(document).ready(function () {
+    $('#demo [data-accordion]').accordion();
   });
 </script>
+
+</html>

@@ -64,9 +64,9 @@ func (t Trace) ShowTrace(nextLevel int) template.HTML {
 
 	// htmlcontent := t.Message
 
-	subItemString := fmt.Sprintf("<article data-accordion><button data-control>%s</button><div data-content>", htmlContent)
-	continueString := fmt.Sprintf("<article> %s </article>", htmlContent)
-	endString := fmt.Sprintf("<article> %s </article></div></article>", htmlContent)
+	subItemString := fmt.Sprintf(`<article data-accordion><button data-control level_%d>%s</button><div data-content>`, t.Level, htmlContent)
+	continueString := fmt.Sprintf(`<article level_%d> %s </article>`, t.Level, htmlContent)
+	endString := fmt.Sprintf(`<article level_%d> %s </article></div></article>`, t.Level, htmlContent)
 	// subItemString := fmt.Sprintf(
 	// 	`<h4 class="beefup__head level_%d"> %s </h4><div class="beefup__body"><article class="beefup">`,
 	// 	t.Level, htmlContent)

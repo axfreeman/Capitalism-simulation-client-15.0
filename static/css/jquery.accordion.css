@@ -1,4 +1,4 @@
-/*
+  /*
  * jQuery Accordion 0.0.1
  * (c) 2014 Victor Fernandez <victor@vctrfrnndz.com>
  * MIT Licensed.
@@ -17,7 +17,7 @@
 
 [data-control],
 [data-content]>* {
-  padding: 10px;
+  padding: 5px;
 }
 
 [data-content] [data-accordion] {
@@ -28,16 +28,18 @@
 [data-accordion] [data-control] {
   position: relative;
   padding-right: 40px;
+  background-color: transparent;
+  border:0;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 [data-accordion]>[data-control]:after {
   content: "";
   position: absolute;
   right: 10px;
-  top: 12px;
+  top: 7px;
   font-size: 25px;
   font-weight: 200;
-  color: #444;
   height: 15px;
   width: 24px;
   background: url('/static/img/down.png') center center no-repeat;
@@ -48,28 +50,40 @@
   -webkit-transform: rotate(-180deg);
   -ms-transform: rotate(-180deg);
   transform: rotate(-180deg);
+  -webkit-appearance: none;
+  appearance:none;
 }
 
 [level_0] {
   color: green;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: medium;
 }
 
 [level_1] {
   color: blue;
   padding-left: 40px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: medium;
 }
 
 [level_2] {
   color: purple;
   padding-left: 60px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: medium;
 }
 
 [level_3] {
   color: red;
   padding-left: 120px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: medium;
 }
 
 [level_4] {
   color: black;
   padding-left: 140px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: medium;
 }

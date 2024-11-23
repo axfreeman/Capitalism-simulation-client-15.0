@@ -1,110 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.accordion.js"></script>
+    <link rel="stylesheet" src="/static/css/jquery.accordion.css">
+    <title>Trace</title>
+<style>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="/static/js/jquery.min.js"></script>
-  <script type="text/javascript" src="/static/js/jquery.accordion.js"></script>
-  <!-- <link rel="stylesheet" href="/static/css/jquery.accordion.css"> -->
-  <title>Trace</title>
-  <style>
-/*
- * jQuery Accordion 0.0.1
- * (c) 2014 Victor Fernandez <victor@vctrfrnndz.com>
- * MIT Licensed.
-/* Requirements */
+</style>
 
-/* [data-accordion] [data-content] {
-    overflow: hidden;
-    max-height: 0;
-} */
-
-/* Basic Theme */
-
-/* [data-accordion] {
-    line-height: 1;
-} */
-
-[data-control],
-[data-content] > * {
-    padding: 10px;
-}
-
-[data-content] [data-accordion] {
-    border: 0;
-    padding: 0;
-}
-
-[data-accordion] [data-control] {
-    position: relative;
-    padding-right: 40px;
-}
-
-[data-accordion] > [data-control]:after {
-    content: "";
-    position: absolute;
-    right: 10px;
-    top: 12px;
-    font-size: 25px;
-    font-weight: 200;
-    color: #444; 
-    height: 15px;
-    width: 24px;
-    background: url('/static/img/down.png') center center no-repeat;
-    background-size: 50%;
-}
-
-[data-control]{
-  background-color:white;
-  border:0;
-}
-
-[data-accordion].open > [data-control]:after {
-    -webkit-transform: rotate(-180deg); 
-    -ms-transform: rotate(-180deg); 
-    transform: rotate(-180deg); 
-}
-
-[level_1]{
-  color:red;
-}
-  </style>
-</head>
-
-<body>
-  <section id="demo" data-accordion-group>
-    <section data-accordion>
-      <button data-control level_1>Accordion 1</button>
-      <div data-content>
-        <article level_1>Item</article>
-        <article level_1>Item</article>
-        <article data-accordion>
-          <button data-control>2nd Level</button>
-          <div data-content>
-            <article>Item</article>
-            <article>Item</article>
-            <article data-accordion>
-              <button data-control>3rd Level</button>
-              <div data-content>
-                <article>Item</article>
-                <article>Item</article>
-                <article>Item</article>
-              </div>
-            </article>
-          </div>
-        </article>
-        <article>Item</article>
-        <article>Item</article>
-        <article>Item</article>
-      </div>
+  </head>
+  <body>
+    <section id="demo" data-accordion-group>
+      <article data-accordion>
+        <button data-control level_0>CLONE SIMULATION FOR USER guest FROM TEMPLATE Simple Reproduction (SR) WITH ID 6</button>
+        <div data-content>
+          <article data-accordion>
+            <button data-control level_1> Cloning Commodities</button>
+            <div data-content>
+              <article level_2> Cloning commodity Consumption </article>
+              <article level_2> Cloning commodity Labour Power </article>
+              <article level_2> Cloning commodity Means of Production </article>
+              <article level_2> Cloning commodity Money </article>
+              <article level_2> Cloning commodity Capital Services </article>
+            </div>
+          </article>
+          <article data-accordion>
+            <button data-control level_1> Cloning Industries</button>
+            <div data-content>
+              <article level_2> Cloning industry Department I </article>
+              <article level_2> Cloning industry Department II </article>
+            </div>
+          </article>
+          <article data-accordion>
+            <button data-control level_1> Cloning Classes</button>
+            <div data-content>
+              <article level_2> Cloning class Capitalists </article>
+              <article level_2> Cloning class Workers </article>
+            </div>
+          </article>
+          <article data-accordion>
+            <button data-control level_1> Cloning Industry Stocks</button>
+            <div data-content>
+              <article level_2> Cloning industry stock [Department II.Production.Means of Production.(id_1)(sim_1)] with id 1, industry id 2 , and commodity Means of Production [id 3] </article>
+              <article level_2> Cloning industry stock [Department II.Production.Labour Power.(id_4)(sim_1)] with id 4, industry id 2 , and commodity Labour Power [id 2] </article>
+              <article level_2> Cloning industry stock [Department I.Sales.Means of Production.(id_5)(sim_1)] with id 5, industry id 1 , and commodity Means of Production [id 3] </article>
+              <article level_2> Cloning industry stock [Department I.Money.Money.(id_6)(sim_1)] with id 6, industry id 1 , and commodity Money [id 4] </article>
+              <article level_2> Cloning industry stock [Department II.Money.Money.(id_7)(sim_1)] with id 7, industry id 2 , and commodity Money [id 4] </article>
+              <article level_2> Cloning industry stock [Department I.Production.Labour Power.(id_8)(sim_1)] with id 8, industry id 1 , and commodity Labour Power [id 2] </article>
+              <article level_2> Cloning industry stock [Department I.Production.Means of Production.(id_9)(sim_1)] with id 9, industry id 1 , and commodity Means of Production [id 3] </article>
+              <article level_2> Cloning industry stock [Department II.Sales.Consumption] with id 10, industry id 2 , and commodity Consumption [id 1] </article>
+            </div>
+          </article>
+          <article data-accordion>
+            <button data-control level_1> Cloning Class Stocks</button>
+            <div data-content>
+              <article level_2> Cloning class stock [Capitalists.Consumption.Consumption.(id_2)(sim_1)] with id 2, class id 20 , and commodity Consumption [id 1] </article>
+              <article level_2> Cloning class stock [Capitalists.Money.Money.(id_3)(sim_1)] with id 3, class id 20 , and commodity Money [id 4] </article>
+              <article level_2> Cloning class stock [Workers.Consumption.Consumption.(id_11)(sim_1)] with id 11, class id 21 , and commodity Consumption [id 1] </article>
+              <article level_2> Cloning class stock [Workers.Money.Money.(id_12)(sim_1)] with id 12, class id 21 , and commodity Money [id 4] </article>
+              <article level_2> Cloning class stock [Workers.Sales.Labour Power.(id_13)(sim_1)] with id 13, class id 21 , and commodity Labour Power [id 2] </article>
+              <article level_2> Cloning class stock [Capitalists.Sales.Capital Services.(id_14)(sim_1)] with id 14, class id 20 , and commodity Capital Services [id 37] </article>
+            </div>
+          </article>
+          <article data-accordion>
+            <button data-control level_1> Creating a list of sellers for simulation 6</button>
+            <div data-content>
+              <article level_2> Adding seller Department I selling [Department I.Means of Production.Sales.6] (Means of Production) for money 90 </article>
+              <article level_2> Adding seller Department II selling [Department II.Consumption.Sales.6] (Consumption) for money 91 </article>
+              <article level_2> Adding seller Workers selling [Workers.Labour Power.Sales.6] (Labour Power)for money 94 </article>
+              <article level_2> Adding seller Capitalists selling [Capitalists.Capital Services.Sales.6] (Capital Services)for money 92 </article>
+            </div>
+          </article>
+          <article data-accordion>
+            <button data-control level_1> Creating a list of buyers for simulation 6</button>
+            <div data-content>
+              <article level_2> Adding buyer Department II buying [Department II.Means of Production.Production.6] (Means of Production) using money 91 </article>
+              <article level_2> Adding buyer Department II buying [Department II.Labour Power.Production.6] (Labour Power) using money 91 </article>
+              <article level_2> Adding buyer Department I buying [Department I.Labour Power.Production.6] (Labour Power) using money 90 </article>
+              <article level_2> Adding buyer Department I buying [Department I.Means of Production.Production.6] (Means of Production) using money 90 </article>
+              <article level_2> Adding buyer Capitalists buying [Capitalists.Consumption.Consumption.6] (Consumption) using money 92 </article>
+              <article level_2> Adding buyer Workers buying [Workers.Consumption.Consumption.6] (Consumption) using money 94 </article>
+            </div>
+          </article>
+          <article data-accordion>
+            <button data-control level_1> Calculate the size, value and price of all commodities</button>
+            <div data-content>
+              <article data-accordion>
+                <button data-control level_2> Processing the industrial stock called [Department II.Consumption.Sales.6]</button>
+                <div data-content>
+                  <article level_3> Adding 3000.0 to the size of Consumption bringing it to 3000.0 </article>
+                  <article level_3> Adding 3000.0 to the value of Consumption bringing it to 3000.0 </article>
+                  <article level_3> Adding 3000.0 to the price of Consumption bringing it to 3000.0 </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Processing the class stock called [Capitalists.Consumption.Consumption.6]</button>
+                <div data-content>
+                  <article level_3> Adding 0.0 to the size of Consumption bringing it to 3000.0 </article>
+                  <article level_3> Adding 0.0 to the value of Consumption bringing it to 3000.0 </article>
+                  <article level_3> Adding 0.0 to the price of Consumption bringing it to 3000.0 </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Processing the class stock called [Workers.Consumption.Consumption.6]</button>
+                <div data-content>
+                  <article level_3> Adding 0.0 to the size of Consumption bringing it to 3000.0 </article>
+                  <article level_3> Adding 0.0 to the value of Consumption bringing it to 3000.0 </article>
+                  <article level_3> Adding 0.0 to the price of Consumption bringing it to 3000.0 </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Processing the industrial stock called [Department II.Labour Power.Production.6]</button>
+                <div data-content>
+                  <article level_3> Adding 0.0 to the size of Labour Power bringing it to 0.0 </article>
+                  <article level_3> Adding 0.0 to the value of Labour Power bringing it to 0.0 </article>
+                  <article level_3> Adding 0.0 to the price of Labour Power bringing it to 0.0 </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Processing the industrial stock called [Department I.Labour Power.Production.6]</button>
+                <div data-content>
+                  <article level_3> Adding 0.0 to the size of Labour Power bringing it to 0.0 </article>
+                  <article level_3> Adding 0.0 to the value of Labour Power bringing it to 0.0 </article>
+                  <article level_3> Adding 0.0 to the price of Labour Power bringing it to 0.0 </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Processing the class stock called [Workers.Labour Power.Sales.6]</button>
+                <div data-content>
+                  <article level_3> Adding 3000.0 to the size of Labour Power bringing it to 3000.0 </article>
+                  <article level_3> Adding 1500.0 to the value of Labour Power bringing it to 1500.0 </article>
+                  <article level_3> Adding 1500.0 to the price of Labour Power bringing it to 1500.0 </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Processing the industrial stock called [Department II.Means of Production.Production.6]</button>
+                <div data-content>
+                  <article level_3> Adding 0.0 to the size of Means of Production bringing it to 0.0 </article>
+                  <article level_3> Adding 0.0 to the value of Means of Production bringing it to 0.0 </article>
+                  <article level_3> Adding 0.0 to the price of Means of Production bringing it to 0.0 </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Processing the industrial stock called [Department I.Means of Production.Sales.6]</button>
+                <div data-content>
+                  <article level_3> Adding 6000.0 to the size of Means of Production bringing it to 6000.0 </article>
+                  <article level_3> Adding 6000.0 to the value of Means of Production bringing it to 6000.0 </article>
+                  <article level_3> Adding 6000.0 to the price of Means of Production bringing it to 6000.0 </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Processing the industrial stock called [Department I.Means of Production.Production.6]</button>
+                <div data-content>
+                  <article level_3> Adding 0.0 to the size of Means of Production bringing it to 6000.0 </article>
+                  <article level_3> Adding 0.0 to the value of Means of Production bringing it to 6000.0 </article>
+                  <article level_3> Adding 0.0 to the price of Means of Production bringing it to 6000.0 </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Processing the industrial stock called [Department I.Money.Money.6]</button>
+                <div data-content>
+                  <article level_3> Adding 8000.0 to the size of Money bringing it to 8000.0 </article>
+                  <article level_3> Adding 8000.0 to the value of Money bringing it to 8000.0 </article>
+                  <article level_3> Adding 8000.0 to the price of Money bringing it to 8000.0 </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Processing the industrial stock called [Department II.Money.Money.6]</button>
+                <div data-content>
+                  <article level_3> Adding 4000.0 to the size of Money bringing it to 12000.0 </article>
+                  <article level_3> Adding 4000.0 to the value of Money bringing it to 12000.0 </article>
+                  <article level_3> Adding 4000.0 to the price of Money bringing it to 12000.0 </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Processing the class stock called [Capitalists.Money.Money.6]</button>
+                <div data-content>
+                  <article level_3> Adding 1500.0 to the size of Money bringing it to 13500.0 </article>
+                  <article level_3> Adding 1500.0 to the value of Money bringing it to 13500.0 </article>
+                  <article level_3> Adding 1500.0 to the price of Money bringing it to 13500.0 </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Processing the class stock called [Workers.Money.Money.6]</button>
+                <div data-content>
+                  <article level_3> Adding 1500.0 to the size of Money bringing it to 15000.0 </article>
+                  <article level_3> Adding 1500.0 to the value of Money bringing it to 15000.0 </article>
+                  <article level_3> Adding 1500.0 to the price of Money bringing it to 15000.0 </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Processing the class stock called [Capitalists.Capital Services.Sales.6]</button>
+                <div data-content>
+                  <article level_3> Adding 0.0 to the size of Capital Services bringing it to 0.0 </article>
+                  <article level_3> Adding 0.0 to the value of Capital Services bringing it to 0.0 </article>
+                  <article level_3> Adding 0.0 to the price of Capital Services bringing it to 0.0 </article>
+                </div>
+              </article>
+              <article level_2> Commodity Consumption has size 3000.0, total value 3000.0 and total price 3000.0 </article>
+              <article level_2> Setting its unit value to 1.0 and its unit price to 1.0 </article>
+              <article level_2> Commodity Labour Power has size 3000.0, total value 1500.0 and total price 1500.0 </article>
+              <article level_2> Setting its unit value to 0.5 and its unit price to 0.5 </article>
+              <article level_2> Commodity Means of Production has size 6000.0, total value 6000.0 and total price 6000.0 </article>
+              <article level_2> Setting its unit value to 1.0 and its unit price to 1.0 </article>
+              <article level_2> Commodity Money has size 15000.0, total value 15000.0 and total price 15000.0 </article>
+              <article level_2> Setting its unit value to 1.0 and its unit price to 1.0 </article>
+              <article level_2> Finished: NOTE there was a minor API error here. Please tell the developer </article>
+            </div>
+          </article>
+          <article data-accordion>
+            <button data-control level_1> Reset stock values and prices from the unit values and prices of their commodities</button>
+            <div data-content>
+              <article data-accordion>
+                <button data-control level_2> Revaluing industry stocks</button>
+                <div data-content>
+                  <article level_3> Setting value 0.0 and price 0.0 for stock of the stock [Department II.Means of Production.Production.6] </article>
+                  <article level_3> Setting value 0.0 and price 0.0 for stock of the stock [Department II.Labour Power.Production.6] </article>
+                  <article level_3> Setting value 6000.0 and price 6000.0 for stock of the stock [Department I.Means of Production.Sales.6] </article>
+                  <article level_3> Setting value 8000.0 and price 8000.0 for stock of the stock [Department I.Money.Money.6] </article>
+                  <article level_3> Setting value 4000.0 and price 4000.0 for stock of the stock [Department II.Money.Money.6] </article>
+                  <article level_3> Setting value 0.0 and price 0.0 for stock of the stock [Department I.Labour Power.Production.6] </article>
+                  <article level_3> Setting value 0.0 and price 0.0 for stock of the stock [Department I.Means of Production.Production.6] </article>
+                  <article level_3> Setting value 3000.0 and price 3000.0 for stock of the stock [Department II.Consumption.Sales.6] </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Revaluing class stocks</button>
+                <div data-content>
+                  <article level_3> Setting value to 0.0 and price to 0.0 for stock of the stock [Capitalists.Consumption.Consumption.6] </article>
+                  <article level_3> Setting value to 1500.0 and price to 1500.0 for stock of the stock [Capitalists.Money.Money.6] </article>
+                  <article level_3> Setting value to 0.0 and price to 0.0 for stock of the stock [Workers.Consumption.Consumption.6] </article>
+                  <article level_3> Setting value to 1500.0 and price to 1500.0 for stock of the stock [Workers.Money.Money.6] </article>
+                  <article level_3> Setting value to 1500.0 and price to 1500.0 for stock of the stock [Workers.Labour Power.Sales.6] </article>
+                  <article level_3> Setting value to 0.0 and price to 0.0 for stock of the stock [Capitalists.Capital Services.Sales.6] </article>
+                </div>
+              </article>
+              <article level_2> Finished revaluing stocks </article>
+              <article level_2> Finished: NOTE there was a minor API error here. Please tell the developer </article>
+            </div>
+          </article>
+          <article data-accordion>
+            <button data-control level_1> Calculate initial capital for simulation 6</button>
+            <div data-content>
+              <article data-accordion>
+                <button data-control level_2> Calculating the initial capital of Department I</button>
+                <div data-content>
+                  <article level_3> Adding 6000.0 to capital of Department I for Industry stock [Department I.Means of Production.Sales.6] </article>
+                  <article level_3> Adding 8000.0 to capital of Department I for Industry stock [Department I.Money.Money.6] </article>
+                  <article level_3> Adding 0.0 to capital of Department I for Industry stock [Department I.Labour Power.Production.6] </article>
+                  <article level_3> Adding 0.0 to capital of Department I for Industry stock [Department I.Means of Production.Production.6] </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Calculating the initial capital of Department II</button>
+                <div data-content>
+                  <article level_3> Adding 0.0 to capital of Department II for Industry stock [Department II.Means of Production.Production.6] </article>
+                  <article level_3> Adding 0.0 to capital of Department II for Industry stock [Department II.Labour Power.Production.6] </article>
+                  <article level_3> Adding 4000.0 to capital of Department II for Industry stock [Department II.Money.Money.6] </article>
+                  <article level_3> Adding 3000.0 to capital of Department II for Industry stock [Department II.Consumption.Sales.6] </article>
+                </div>
+              </article>
+              <article level_2> Finished calculating initial capital </article>
+            </div>
+          </article>
+          <article data-accordion>
+            <button data-control level_1> Calculate current capital for simulation 6</button>
+            <div data-content>
+              <article data-accordion>
+                <button data-control level_2> Calculating the current capital of Department I</button>
+                <div data-content>
+                  <article level_3> Adding 6000.0 to capital of Department I for Industry stock [Department I.Means of Production.Sales.6] </article>
+                  <article level_3> Adding 8000.0 to capital of Department I for Industry stock [Department I.Money.Money.6] </article>
+                  <article level_3> Adding 0.0 to capital of Department I for Industry stock [Department I.Labour Power.Production.6] </article>
+                  <article level_3> Adding 0.0 to capital of Department I for Industry stock [Department I.Means of Production.Production.6] </article>
+                </div>
+              </article>
+              <article data-accordion>
+                <button data-control level_2> Calculating the current capital of Department II</button>
+                <div data-content>
+                  <article level_3> Adding 0.0 to capital of Department II for Industry stock [Department II.Means of Production.Production.6] </article>
+                  <article level_3> Adding 0.0 to capital of Department II for Industry stock [Department II.Labour Power.Production.6] </article>
+                  <article level_3> Adding 4000.0 to capital of Department II for Industry stock [Department II.Money.Money.6] </article>
+                  <article level_3> Adding 3000.0 to capital of Department II for Industry stock [Department II.Consumption.Sales.6] </article>
+                </div>
+              </article>
+              <article level_2> Finished calculating current capital </article>
+            </div>
+          </article>
+          <article level_1> Cloned Template with id 1 into simulation with id 6 </article>
+        </div>
+      </article>
     </section>
-  </section>
-</body>
-<script>
-  $(document).ready(function () {
-    $('#demo [data-accordion]').accordion();
-  });
-</script>
-
+    <script>
+      $(document).ready(function() {
+        $('#demo [data-accordion]').accordion();
+      });
+    </script>
+  </body>
 </html>

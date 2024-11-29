@@ -39,7 +39,7 @@ func UserGetRequest(apiKey string, url string) ([]byte, error) {
 	resp.Header.Add("Content-Type", "application/json")
 	resp.Header.Add("x-api-key", apiKey)
 
-	client := &http.Client{Timeout: time.Second * 5} // Timeout after 5 seconds
+	client := &http.Client{Timeout: time.Second * 60} // Timeout after 60 seconds
 	res, _ := client.Do(resp)
 	if res == nil {
 		utils.TraceInfo(utils.Red, "Server is down or misbehaving")
@@ -78,7 +78,7 @@ func AdminGetRequest(url string, target any) (int, error) {
 	}
 
 	resp.Header.Add("x-api-key", config.Config.AdminKey)
-	client := &http.Client{Timeout: time.Second * 2} // Timeout after 2 seconds
+	client := &http.Client{Timeout: time.Second * 60} // Timeout after 60 seconds
 	res, err := client.Do(resp)
 	if err != nil {
 		utils.TraceInfo(utils.Cyan, fmt.Sprintf("Server returned error:%v", err))

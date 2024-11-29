@@ -16,6 +16,7 @@
           <th>Value</th>
           <th>Price</th>
           <th>Demand</th>
+          <th>Requirement</th>
         </tr>
       </thead>
       <tbody>
@@ -27,7 +28,8 @@
           {{ Show . `Size` }}
           {{ Show . `Value` }}
           {{ Show . `Price` }}
-          {{ Show . `Demand` }}
+          {{ ShowDecimal . `Demand` }}
+          {{ ShowDecimal . `Requirement` }}
         </tr>
 
         {{ end }}

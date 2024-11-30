@@ -26,13 +26,11 @@ func Traces(u *User) *[]template.HTML {
 	table := u.GetCurrentSimulation().Trace
 	t := table.Table.(*[]Trace)
 	l := len(*t)
-	fmt.Println(l, " trace records were retrieved from the server")
 	htmlTable := make([]template.HTML, l)
 
 	for i := range *t {
 		var nextLevel int
 		item := (*t)[i]
-		fmt.Println("Trace is processing", item.Id, item.Message)
 		if i < l-1 {
 			nextItem := (*t)[i+1]
 			nextLevel = nextItem.Level

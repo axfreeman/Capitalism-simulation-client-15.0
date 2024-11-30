@@ -312,6 +312,16 @@ func SetPriceAuthHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Fetch the trace table (because it has been modified by a route other than performing an action)
+	// TODO this could get very big. Can we do an incremental fetch?
+	simulation := user.GetCurrentSimulation()
+	if err = api.Fetch(user.ApiKey, simulation.Trace); err != nil {
+		utils.TraceErrorf("Could not retrieve trace data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
+		ReportError(user, w, "oops")
+		return
+	}
+	utils.TraceInfof(utils.Green, "Refreshed the trace table")
+
 	Tpl.ExecuteTemplate(w,
 		user.CurrentPage.Url,
 		models.CommodityDisplayData(user, "", commodityId))

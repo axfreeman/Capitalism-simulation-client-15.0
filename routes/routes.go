@@ -18,17 +18,18 @@ func AuthRoutes() {
 	var ds http.Handler
 	Router = mux.NewRouter()
 
+	// create static file server for css, js, and image files
 	fs := http.FileServer(http.Dir("./static"))
 	ds = http.StripPrefix("/static/", fs)
 	Router.PathPrefix("/static/").Handler(ds)
-	// fmt.Printf("DS is %v", ds)
-	// http.Handle("/static/", ds)
 
 	Router.HandleFunc("/auth/login", controllers.LoginHandler)
 	Router.HandleFunc("/auth/loginauth", controllers.LoginAuthHandler)
 	Router.HandleFunc("/auth/logout", controllers.LogoutHandler)
 	Router.HandleFunc("/auth/register", controllers.RegisterHandler)
 	Router.HandleFunc("/auth/registerauth", controllers.RegisterAuthHandler)
+
+	// Process user input of new price
 	Router.HandleFunc(`/auth/setprice`, controllers.SetPriceAuthHandler)
 
 	Router.HandleFunc("/about", controllers.Auth(controllers.AboutHandler))
@@ -42,6 +43,8 @@ func AuthRoutes() {
 
 	// actions
 	Router.HandleFunc("/action/{action}", controllers.ActionHandler)
+
+	// Display controls
 	Router.HandleFunc("/user/forward", controllers.Forward)
 	Router.HandleFunc("/user/back", controllers.Back)
 	Router.HandleFunc("/user/create/{id}", controllers.CreateSimulation)

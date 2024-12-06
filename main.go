@@ -33,6 +33,7 @@ func main() {
 	funcMap := template.FuncMap{
 		"Show":                       views.Show,
 		"ShowString":                 views.ShowString,
+		"ShowPlainString":            views.ShowPlainString,
 		"ShowDecimal":                views.ShowDecimal,
 		"Link":                       views.Link,
 		"OriginGraphic":              models.OriginGraphic,

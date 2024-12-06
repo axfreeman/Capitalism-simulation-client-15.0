@@ -70,13 +70,22 @@ func ShowDecimal(v Viewer, f string) template.HTML {
 	return template.HTML(htmlString)
 }
 
-// Provide a string representing the named field
+// Provide a string representing the named field, wrapped as a table element
 //
 //	v: a View object
 //	f: the name of the field to display
 //	Returns: safe HTML string
 func ShowString(v Viewer, f string) template.HTML {
 	return template.HTML(fmt.Sprintf("<td style=\"text-align:center\">%s</td>", v.ViewedField(f)))
+}
+
+// Provide a string representing the named field
+//
+//	v: a View object
+//	f: the name of the field to display
+//	Returns: safe HTML string
+func ShowPlainString(v Viewer, f string) template.HTML {
+	return template.HTML(fmt.Sprintf("%s", v.ViewedField(f)))
 }
 
 // Returns a safe HTML string with a link to the ViewedField object

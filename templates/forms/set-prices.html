@@ -1,21 +1,20 @@
 {{ template "header.html" .}}
 
 <body>
-    <div class="w3-section w3-serif" style="width:fit-content; margin:auto; padding-top: 3em;">
+    <div class="w3-section" style="width:fit-content; margin:auto; padding-top: 3em;">
         <header class=" w3-container w3-blue" style="margin-bottom: 2px">
             <h3 class="w3-center"> Reset Unit Prices </h3>
         </header>
         <form autocomplete="off" class="w3-containerw3-card w3-small" action="/auth/setprices" method="post">
             <h5>
                 {{ range .CommodityViews }}
-                <header class="w3-cyan">
+                <header class="w3-grey">
                     <label>{{ ShowPlainString . `Name` }}</label>
-                    <input autocomplete="off" class="w3-input w3-border w3-white" type="number" step="0.01"
-                        value="{{ $UnitPrice }}" name="{{ Show . `Id` }}">
-                    </p>
+                    <input autocomplete="off" class="w3-input w3-border w3-lightgrey" type="number" step="0.01"
+                        value="{{ ShowDecimal . `UnitPrice` }}" name="{{ Show . `Id` }}">
                     {{ end }}
             </h5>
-            <input style="padding-bottom: 10px;" class="w3-center w3-button w3-cyan" type="submit" value="Submit">
+            <input style="padding-bottom: 10px;" class="w3-center w3-button w3-grey" type="submit" value="Submit">
         </form>
     </div>
 </body>

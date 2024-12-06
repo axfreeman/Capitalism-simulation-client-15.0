@@ -242,7 +242,6 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 	// var req *http.Request
 	// var res *http.Response
 	user := CurrentUser(r)
-	utils.TraceInfof(utils.BrightGreen, "User %s entered SetPricePostHandler", user.UserName)
 
 	// TODO validate the form
 	if r.ParseForm() != nil {
@@ -250,22 +249,33 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	form := r.Form
-	fmt.Println("Here is the form")
-	fmt.Println(form)
+	utils.TraceInfof(utils.Purple, "User %s submitted a price change form containing %v", user.UserName, form)
 
-	// TODO validate numeric data
 	type PriceRequest struct {
 		CommodityId  int     `json:"commodityId"`
 		SimulationId int     `json:"simulationId"`
-		UnitPrice    float32 `json:"unitPrice"`
+		UnitPrice    float64 `json:"unitPrice"`
 	}
 
-	priceRequest := PriceRequest{
-		CommodityId:  0,
-		SimulationId: 6,
-		UnitPrice:    float32(1),
+	for k, v := range form {
+		fmt.Println(k, v)
+		price, e := strconv.ParseFloat(v[0], 64)
+		n, e := strconv.Atoi(k)
+		if e != nil {
+			utils.TraceErrorf("Non-numeric price submitted %v", e)
+			// TODO flag the error
+			return
+		}
+
+		fmt.Printf("Item %v was %v", k, n)
+
+		priceRequest := PriceRequest{
+			CommodityId:  n,
+			SimulationId: user.CurrentSimulationID,
+			UnitPrice:    price,
+		}
+		fmt.Println("Price request ", priceRequest)
 	}
-	utils.UNUSED(priceRequest)
 
 	// body, err := json.Marshal(&priceRequest)
 	// if err != nil {

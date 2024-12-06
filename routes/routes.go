@@ -32,6 +32,7 @@ func AuthRoutes() {
 	// Process user input of new price
 	Router.HandleFunc(`/auth/setprice`, controllers.SetPriceAuthHandler)
 	Router.HandleFunc(`/auth/setprices`, controllers.SetPricesAuthHandler)
+	Router.HandleFunc(`/auth/setpriceshandle`, controllers.SetPricesPostHandler)
 
 	Router.HandleFunc("/about", controllers.Auth(controllers.AboutHandler))
 	Router.HandleFunc("/welcome", controllers.Auth(controllers.WelcomeHandler))

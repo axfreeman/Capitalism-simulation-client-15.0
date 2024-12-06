@@ -31,6 +31,7 @@ func AuthRoutes() {
 
 	// Process user input of new price
 	Router.HandleFunc(`/auth/setprice`, controllers.SetPriceAuthHandler)
+	Router.HandleFunc(`/auth/setprices`, controllers.SetPricesAuthHandler)
 
 	Router.HandleFunc("/about", controllers.Auth(controllers.AboutHandler))
 	Router.HandleFunc("/welcome", controllers.Auth(controllers.WelcomeHandler))
@@ -68,6 +69,11 @@ func AuthRoutes() {
 	Router.HandleFunc(`/download`, controllers.Auth(controllers.Download))
 	Router.HandleFunc(`/all-display-data`, controllers.Auth(controllers.AllDisplayData))
 
+	// TODO purely temporary fix to send reset instruction to API
+	// for developmental use when we have no internet
+	Router.HandleFunc(`/reset`, controllers.Auth(controllers.Reset))
+
+	// Not found page
 	Router.NotFoundHandler = http.HandlerFunc(controllers.NotFound)
 
 }

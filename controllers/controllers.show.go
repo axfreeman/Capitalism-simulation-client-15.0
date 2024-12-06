@@ -6,9 +6,29 @@ package controllers
 import (
 	"fmt"
 	"net/http"
+	"simulation-client/api"
+	"simulation-client/config"
 	"simulation-client/models"
 	"simulation-client/utils"
 )
+
+// TODO temporary fix to reset the API database when we are offline
+func Reset(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered Reset")
+	var err error
+
+	// user := *models.LoggedInUsers["Admin"]
+
+	user := CurrentUser(r)
+
+	status, err := api.AdminGetRequest(config.Config.ApiSource+"/action/reset/", &user)
+	utils.TraceInfo(utils.BrightGreen, fmt.Sprintf("The server responded with status %d and error %v", status, err))
+	if status != http.StatusOK {
+		utils.TraceError("The server doesn't know this user, sorry")
+		Tpl.ExecuteTemplate(w, "login.html", "Check username and password")
+		return
+	}
+}
 
 // display all commodities in the current simulation
 func ShowCommodities(w http.ResponseWriter, r *http.Request) {

@@ -326,3 +326,11 @@ func SetPriceAuthHandler(w http.ResponseWriter, r *http.Request) {
 		user.CurrentPage.Url,
 		models.CommodityDisplayData(user, "", commodityId))
 }
+
+// Display the setprices form
+// TODO UNDER DEVELOPMENT
+func SetPricesAuthHandler(w http.ResponseWriter, r *http.Request) {
+	user := CurrentUser(r)
+	utils.TraceInfof(utils.BrightGreen, "User %s entered SetPricesAuthHandler", user.UserName)
+	Tpl.ExecuteTemplate(w, "set-prices.html", user.CreateTemplateData(""))
+}

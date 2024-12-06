@@ -1,0 +1,19 @@
+<h5 class="w3-green w3-center">Reset Unit Price</h5>
+<form autocomplete="off" class="w3-container w3-small" action="/auth/setprices" method="post">
+    <h5>
+        <label>Unit Price</label>
+        {{ range .Commodities }}
+        <p>
+            Placeholder input for one commodity
+            <input autocomplete="off" class="w3-input" value="{{ .Commodity.UnitPrice }}"
+                pattern=" [-+]?[0-9]*\.?[0-9]+" name="{{ .Commodity.Id }}">
+        </p>
+        {{ end }}
+        <input autocomplete='off' name="SimulationId" type="hidden" value="{{ .Commodity.SimulationId }}">
+    </h5>
+
+    <input style="padding-bottom: 10px;" class="w3-center w3-button w3-white w3-border w3-border-blue w3-round"
+        type="submit" value="Submit">
+
+
+</form>

@@ -68,6 +68,7 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Convert the data to add pointers in place of Id field
 	api.ConvertStage(user.GetCurrentStage(), manager)
+
 	// Set the state so that the simulation can proceed to the next action.
 	user.SetCurrentState(nextStates[action])
 

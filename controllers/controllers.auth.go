@@ -285,15 +285,13 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	body, err := json.Marshal(&PricesRequest)
+	// body, err := json.Marshal(&PricesRequest)
 	if err != nil {
 		log.Printf("Failed to marshal body: %s", err)
 		return
 	}
 
-	s := string(body)
-
-	fmt.Println("Sending to server/n", s)
-	req, rerr := http.NewRequest("POST", config.Config.ApiSource+"/commodity/setprices", bytes.NewBuffer(body))
+	req, rerr := http.NewRequest("POST", config.Config.ApiSource+"/action/setprices", bytes.NewBuffer(body))
 
 	if rerr != nil {
 		utils.TraceErrorf("Error constructing server request: %v", err)
@@ -335,12 +333,12 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 
 // Process the setprice form which the user sees when a single commodity
 // is displayed.
-func SetPriceAuthHandler(w http.ResponseWriter, r *http.Request) {
+func SetPricePostHandler(w http.ResponseWriter, r *http.Request) {
 	var err error
 	var req *http.Request
 	var res *http.Response
 	user := CurrentUser(r)
-	utils.TraceInfof(utils.BrightGreen, "User %s entered SetPriceAuthHandler", user.UserName)
+	utils.TraceInfof(utils.BrightGreen, "User %s entered SetPricePostHandler", user.UserName)
 
 	// TODO validate the form
 	if r.ParseForm() != nil {
@@ -426,7 +424,6 @@ func SetPriceAuthHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Display the setprices form
-// TODO UNDER DEVELOPMENT
 func SetPricesAuthHandler(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
 	utils.TraceInfof(utils.BrightGreen, "User %s entered SetPricesAuthHandler", user.UserName)

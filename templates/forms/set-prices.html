@@ -8,11 +8,12 @@
         <form autocomplete="off" class="w3-containerw3-card w3-small" action="/auth/setpriceshandle" method="post">
             <h5>
                 {{ range .CommodityViews }}
-                <header class="w3-grey">
-                    <label>{{ ShowPlainString . `Name` }}</label>
-                    <input autocomplete="off" class="w3-input w3-border w3-lightgrey" type="number" step="0.01"
-                        value="{{ ShowDecimal . `UnitPrice` }}" name="{{ Show . `Id` }}">
-                    {{ end }}
+                        <header class="w3-grey">
+                            <label>{{ ShowPlainString . `Name` }}</label>
+                            <input autocomplete="off" class="w3-input w3-border w3-lightgrey" type="number" step="0.01"
+                                value="{{ ShowDecimal . `UnitPrice` }}" name="{{ Show . `Id` }}">
+                        </header>
+                {{ end }}
             </h5>
             <input style="padding-bottom: 10px;" class="w3-center w3-button w3-grey" type="submit" value="Submit">
         </form>

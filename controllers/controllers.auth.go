@@ -263,23 +263,19 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 	PricesRequest := make([]*PriceRequest, l)
 	i := 0
 	for k, v := range form {
-		fmt.Println(k, v)
 		price, err = strconv.ParseFloat(v[0], 64)
 		if err != nil {
 			utils.TraceErrorf("Non-numeric price submitted %v", err)
 			// TODO flag the error
 			return
 		}
-		n, _ := strconv.Atoi(k) // this is set as a hidden variable so should always be valid...
-
-		fmt.Printf("Item %v was %v", k, n)
+		n, _ := strconv.Atoi(k) // this is set by the client so should always be valid...
 
 		priceRequest := PriceRequest{
 			CommodityId:  n,
 			SimulationId: user.CurrentSimulationID,
 			UnitPrice:    price,
 		}
-		fmt.Println("Price request ", priceRequest)
 		PricesRequest[i] = &priceRequest
 		i = i + 1
 	}

@@ -42,12 +42,30 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	utils.TraceInfof(utils.Green, "User requested action %s", action)
 
-	// Tell the API server to perform the action
-	if _, err = api.UserGetRequest(user.ApiKey, `/action/`+action); err != nil {
-		ReportError(user, w, "The server could not complete the action")
+	if action == `setpricesform` {
+		// Just display the form
+		// Don't do anything else
+		// The action is processed by setpriceshandle when user submits
+		SetPricesFormDisplay(w, r)
 		return
-	}
+	} else if action == `setpriceshandle` {
+		// Special case, because user can change prices at any point in the simulation
+		// but the price change is nevertheless registered as a stage, so that it
+		// can be inspected and traced
 
+		// TODO some code here to fix the lastvistedpage display
+		// TODO this isn't easy so at this point in development
+		// we just have a scaffold sufficient to test the effects
+		// of a price change
+		SetPricesPostHandler(w, r)
+	} else {
+		// Tell the API server to perform the action
+		if _, err = api.UserGetRequest(user.ApiKey, `/action/`+action); err != nil {
+			ReportError(user, w, "The server could not complete the action")
+			return
+		}
+	}
+	// The action worked. Now retrieve the results from the API and store them locally.
 	// Create a new Stage and Append it to Datasets. Set the TimeStamps,
 	// moving the comparator to immediately preceding stage
 	simulation := user.GetCurrentSimulation()
@@ -81,7 +99,7 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 	// Choose which page to display, depending on what the user was looking at
 	utils.TraceInfof(utils.Green, "The last page this user visited was %v ", user.CurrentPage.Url)
 
-	if useLastVisited(user.CurrentPage.Url) {
+	if useLastVisited(user.CurrentPage.Url) && action != `setprices` {
 		Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 	} else {
 		Tpl.ExecuteTemplate(w, "user-dashboard.html", user.CreateTemplateData(""))

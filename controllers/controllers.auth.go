@@ -8,14 +8,12 @@ import (
 	"fmt"
 	"html/template"
 	"io"
-	"log"
 	"net/http"
 	"simulation-client/api"
 	"simulation-client/config"
 	"simulation-client/db"
 	"simulation-client/models"
 	"simulation-client/utils"
-	"strconv"
 
 	"github.com/gorilla/sessions"
 	"golang.org/x/crypto/bcrypt"
@@ -233,103 +231,4 @@ func Auth(HandlerFunc http.HandlerFunc) http.HandlerFunc {
 		// func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request)
 		HandlerFunc.ServeHTTP(w, r)
 	}
-}
-
-// Process post request to change prices, submitted from form
-// TODO underdevelopment
-func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
-	var err error
-	var req *http.Request
-	var res *http.Response
-	var price float64
-
-	user := CurrentUser(r)
-
-	// TODO validate the form
-	if r.ParseForm() != nil {
-		Tpl.ExecuteTemplate(w, "Commodity.html", user.CreateTemplateData("Incorrect details. Try again"))
-	}
-
-	form := r.Form
-	utils.TraceInfof(utils.Purple, "User %s submitted a price change form containing %v", user.UserName, form)
-
-	type PriceRequest struct {
-		CommodityId  int     `json:"commodityId"`
-		SimulationId int     `json:"simulationId"`
-		UnitPrice    float64 `json:"unitPrice"`
-	}
-
-	l := len(form)
-	PricesRequest := make([]*PriceRequest, l)
-	i := 0
-	for k, v := range form {
-		price, err = strconv.ParseFloat(v[0], 64)
-		if err != nil {
-			utils.TraceErrorf("Non-numeric price submitted %v", err)
-			// TODO flag the error
-			return
-		}
-		n, _ := strconv.Atoi(k) // this is set by the client so should always be valid...
-
-		priceRequest := PriceRequest{
-			CommodityId:  n,
-			SimulationId: user.CurrentSimulationID,
-			UnitPrice:    price,
-		}
-		PricesRequest[i] = &priceRequest
-		i = i + 1
-	}
-
-	body, err := json.Marshal(&PricesRequest)
-	// body, err := json.Marshal(&PricesRequest)
-	if err != nil {
-		log.Printf("Failed to marshal body: %s", err)
-		return
-	}
-
-	req, rerr := http.NewRequest("POST", config.Config.ApiSource+"/action/setprices", bytes.NewBuffer(body))
-
-	if rerr != nil {
-		utils.TraceErrorf("Error constructing server request: %v", err)
-		Tpl.ExecuteTemplate(w, "register.html", MessageData{Message: fmt.Sprintf("Error constructing server request:%v", err), Username: "admin"})
-		return
-	}
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Add("x-api-key", user.ApiKey)
-	client := &http.Client{}
-
-	res, err = client.Do(req)
-	if err != nil {
-		utils.TraceErrorf("Server returned error:%v", err)
-		Tpl.ExecuteTemplate(w, "errors.html", MessageData{Message: fmt.Sprintf("Server returned error:%v", err), Username: "admin"})
-		return
-	}
-	// respBody, _ := io.ReadAll(res.Body)
-
-	defer res.Body.Close()
-
-	// utils.TraceInfof(utils.BrightGreen, "Server returned status %d and said:%s", res.StatusCode, string(respBody))
-	if res.StatusCode != http.StatusOK {
-		utils.TraceInfof(utils.BrightGreen, "The server didn't like this and returned code %d", res.StatusCode)
-		return
-	}
-
-	// Fetch the trace table (because it has been modified by a route other than performing an action)
-	// TODO this could get very big. Can we do an incremental fetch?
-	simulation := user.GetCurrentSimulation()
-	if err = api.Fetch(user.ApiKey, simulation.Trace); err != nil {
-		utils.TraceErrorf("Could not retrieve trace data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
-		ReportError(user, w, "oops")
-		return
-	}
-	utils.TraceInfof(utils.Green, "Refreshed the trace table")
-
-	// TODO display the last-used page
-}
-
-// Display the setprices form
-func SetPricesAuthHandler(w http.ResponseWriter, r *http.Request) {
-	user := CurrentUser(r)
-	utils.TraceInfof(utils.BrightGreen, "User %s entered SetPricesAuthHandler", user.UserName)
-	Tpl.ExecuteTemplate(w, "set-prices.html", user.CreateTemplateData(""))
 }

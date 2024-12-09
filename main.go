@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"simulation-client/api"
 	"simulation-client/config"
-	"simulation-client/controllers"
 	"simulation-client/db"
 	"simulation-client/models"
 	"simulation-client/routes"
@@ -28,7 +27,7 @@ func main() {
 
 	var err error
 
-	// controllers.Tpl, err = template.ParseGlob("./templates/*/*")
+	// utils.Tpl, err = template.ParseGlob("./templates/*/*")
 
 	funcMap := template.FuncMap{
 		"Show":                       views.Show,
@@ -46,7 +45,7 @@ func main() {
 		"StockClassLink":             models.StockClassLink,
 	}
 
-	controllers.Tpl, err = template.New("").Funcs(funcMap).ParseGlob("./templates/*/*")
+	utils.Tpl, err = template.New("").Funcs(funcMap).ParseGlob("./templates/*/*")
 	if err != nil {
 		log.Fatal(err)
 	}

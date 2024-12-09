@@ -1,10 +1,11 @@
-// controllers.display.go
-
 package controllers
+
+// General package-wide variables, types and functions
 
 import (
 	"encoding/json"
 	"errors"
+	"simulation-client/auth"
 	"simulation-client/models"
 	"simulation-client/utils"
 	"strconv"
@@ -16,7 +17,7 @@ import (
 
 // Fetch the current user from the cookie Store
 func CurrentUser(r *http.Request) *models.User {
-	session, _ := Store.Get(r, "session")
+	session, _ := auth.Store.Get(r, "session")
 	content := session.Values["userID"]
 	return models.LoggedInUsers[content.(string)]
 }
@@ -65,7 +66,7 @@ func ReportError(user *models.User, w http.ResponseWriter, message string) {
 	if len(user.CurrentPage.Url) < 1 {
 		user.CurrentPage = models.CurrentPageType{Url: "errors.html", Id: 0}
 	}
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, t)
+	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, t)
 }
 
 // The state which follows each action.

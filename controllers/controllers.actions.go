@@ -18,6 +18,13 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Simplified message type to pass into templates
+// without calculating Views
+type messageData struct {
+	Message  string
+	Username string
+}
+
 // Handles requests for the server to take an action comprising a stage
 // of the circuit (demand,supply, trade, produce, invest), corresponding
 // to a button press. This is specified by the URL parameter 'act'.
@@ -100,9 +107,9 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 	utils.TraceInfof(utils.Green, "The last page this user visited was %v ", user.CurrentPage.Url)
 
 	if useLastVisited(user.CurrentPage.Url) && action != `setprices` {
-		Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
+		utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 	} else {
-		Tpl.ExecuteTemplate(w, "user-dashboard.html", user.CreateTemplateData(""))
+		utils.Tpl.ExecuteTemplate(w, "user-dashboard.html", user.CreateTemplateData(""))
 	}
 }
 
@@ -124,9 +131,9 @@ func Back(w http.ResponseWriter, r *http.Request) {
 
 	// Display appropriate page depending what the user was looking at
 	if useLastVisited(u.CurrentPage.Url) {
-		Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateTemplateData(""))
+		utils.Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateTemplateData(""))
 	} else {
-		Tpl.ExecuteTemplate(w, "index.html", u.CreateTemplateData(""))
+		utils.Tpl.ExecuteTemplate(w, "index.html", u.CreateTemplateData(""))
 	}
 }
 
@@ -146,9 +153,9 @@ func Forward(w http.ResponseWriter, r *http.Request) {
 
 	utils.TraceInfof(utils.Green, "Viewing %d with comparator %d", m.ViewedTimeStamp, m.ComparatorTimeStamp)
 	if useLastVisited(u.CurrentPage.Url) {
-		Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateTemplateData(""))
+		utils.Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateTemplateData(""))
 	} else {
-		Tpl.ExecuteTemplate(w, "index.html", u.CreateTemplateData(""))
+		utils.Tpl.ExecuteTemplate(w, "index.html", u.CreateTemplateData(""))
 	}
 }
 
@@ -166,9 +173,9 @@ func SetDisplayDimension(w http.ResponseWriter, r *http.Request, displayDimensio
 	m.DisplayDimension = displayDimension
 
 	if useLastVisited(u.CurrentPage.Url) {
-		Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateTemplateData(""))
+		utils.Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateTemplateData(""))
 	} else {
-		Tpl.ExecuteTemplate(w, "index.html", u.CreateTemplateData(""))
+		utils.Tpl.ExecuteTemplate(w, "index.html", u.CreateTemplateData(""))
 	}
 }
 
@@ -190,20 +197,20 @@ func DisplayPrice(w http.ResponseWriter, r *http.Request) {
 // TODO not working yet
 func SwitchSimulation(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData("Sorry, Switching Simulations is not ready yet"))
+	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData("Sorry, Switching Simulations is not ready yet"))
 }
 
 // TODO not working yet
 func DeleteSimulation(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData("Sorry, Deleting a Simulation is not ready yet"))
+	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData("Sorry, Deleting a Simulation is not ready yet"))
 
 }
 
 // TODO not working yet
 func RestartSimulation(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData("Sorry, Restarting a Simulation is not ready yet"))
+	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData("Sorry, Restarting a Simulation is not ready yet"))
 }
 
 // Quick and Dirty download method
@@ -252,7 +259,7 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 
 	// TODO validate the form
 	if r.ParseForm() != nil {
-		Tpl.ExecuteTemplate(w, "Commodity.html", user.CreateTemplateData("Incorrect details. Try again"))
+		utils.Tpl.ExecuteTemplate(w, "Commodity.html", user.CreateTemplateData("Incorrect details. Try again"))
 	}
 
 	form := r.Form
@@ -296,7 +303,7 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 
 	if rerr != nil {
 		utils.TraceErrorf("Error constructing server request: %v", err)
-		Tpl.ExecuteTemplate(w, "register.html", MessageData{Message: fmt.Sprintf("Error constructing server request:%v", err), Username: "admin"})
+		utils.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: fmt.Sprintf("Error constructing server request:%v", err), Username: "admin"})
 		return
 	}
 	req.Header.Set("Content-Type", "application/json")
@@ -306,7 +313,7 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 	res, err = client.Do(req)
 	if err != nil {
 		utils.TraceErrorf("Server returned error:%v", err)
-		Tpl.ExecuteTemplate(w, "errors.html", MessageData{Message: fmt.Sprintf("Server returned error:%v", err), Username: "admin"})
+		utils.Tpl.ExecuteTemplate(w, "errors.html", messageData{Message: fmt.Sprintf("Server returned error:%v", err), Username: "admin"})
 		return
 	}
 	// respBody, _ := io.ReadAll(res.Body)
@@ -336,5 +343,5 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 func SetPricesFormDisplay(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
 	utils.TraceInfof(utils.BrightGreen, "User %s entered SetPricesAuthHandler", user.UserName)
-	Tpl.ExecuteTemplate(w, "set-prices.html", user.CreateTemplateData(""))
+	utils.Tpl.ExecuteTemplate(w, "set-prices.html", user.CreateTemplateData(""))
 }

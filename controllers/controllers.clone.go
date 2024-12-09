@@ -121,5 +121,5 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	user.GetCurrentSimulation().Manager.ComparatorTimeStamp = 0
 
 	user.CurrentPage = models.CurrentPageType{Url: "index.html", Id: 0}
-	Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
+	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 }

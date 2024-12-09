@@ -4,6 +4,7 @@ package routes
 
 import (
 	"net/http"
+	"simulation-client/auth"
 	"simulation-client/controllers"
 
 	"github.com/gorilla/mux"
@@ -23,20 +24,20 @@ func AuthRoutes() {
 	ds = http.StripPrefix("/static/", fs)
 	Router.PathPrefix("/static/").Handler(ds)
 
-	Router.HandleFunc("/auth/login", controllers.LoginFormDisplay)
-	Router.HandleFunc("/auth/loginauth", controllers.LoginAuthHandler)
-	Router.HandleFunc("/auth/logout", controllers.LogoutHandler)
-	Router.HandleFunc("/auth/register", controllers.RegisterHandler)
-	Router.HandleFunc("/auth/registerauth", controllers.RegisterAuthHandler)
+	Router.HandleFunc("/auth/login", auth.LoginFormDisplay)
+	Router.HandleFunc("/auth/loginauth", auth.LoginAuthHandler)
+	Router.HandleFunc("/auth/logout", auth.LogoutHandler)
+	Router.HandleFunc("/auth/register", auth.RegisterHandler)
+	Router.HandleFunc("/auth/registerauth", auth.RegisterAuthHandler)
 
-	Router.HandleFunc("/about", controllers.Auth(controllers.AboutHandler))
-	Router.HandleFunc("/welcome", controllers.Auth(controllers.WelcomeHandler))
+	Router.HandleFunc("/about", auth.Auth(controllers.AboutHandler))
+	Router.HandleFunc("/welcome", auth.Auth(controllers.WelcomeHandler))
 	Router.HandleFunc("/user/data", controllers.AllData)
 	Router.HandleFunc("/user/table-data", controllers.DisplayData)
-	Router.HandleFunc("/user/dashboard", controllers.Auth(controllers.UserDashboard))
-	Router.HandleFunc(`/user/delete/{id}`, controllers.Auth(controllers.DeleteSimulation))
-	Router.HandleFunc(`/user/switch/{id}`, controllers.Auth(controllers.SwitchSimulation))
-	Router.HandleFunc(`/user/restart/{id}`, controllers.Auth(controllers.RestartSimulation))
+	Router.HandleFunc("/user/dashboard", auth.Auth(controllers.UserDashboard))
+	Router.HandleFunc(`/user/delete/{id}`, auth.Auth(controllers.DeleteSimulation))
+	Router.HandleFunc(`/user/switch/{id}`, auth.Auth(controllers.SwitchSimulation))
+	Router.HandleFunc(`/user/restart/{id}`, auth.Auth(controllers.RestartSimulation))
 
 	// actions
 	Router.HandleFunc("/action/{action}", controllers.ActionHandler)
@@ -50,24 +51,24 @@ func AuthRoutes() {
 	Router.HandleFunc("/user/display-price", controllers.DisplayPrice)
 
 	// Table displays
-	Router.HandleFunc("/commodities", controllers.Auth(controllers.ShowCommodities))
-	Router.HandleFunc("/industries", controllers.Auth(controllers.ShowIndustries))
-	Router.HandleFunc("/classes", controllers.Auth(controllers.ShowClasses))
-	Router.HandleFunc("/industry_stocks", controllers.Auth(controllers.ShowIndustryStocks))
-	Router.HandleFunc("/industry_stock/{id}", controllers.Auth(controllers.ShowIndustryStock))
-	Router.HandleFunc("/class_stocks", controllers.Auth(controllers.ShowClassStocks))
-	Router.HandleFunc("/commodity/{id}", controllers.Auth(controllers.ShowCommodity))
-	Router.HandleFunc("/industry/{id}", controllers.Auth(controllers.ShowIndustry))
-	Router.HandleFunc("/class/{id}", controllers.Auth(controllers.ShowClass))
-	Router.HandleFunc("/trace", controllers.Auth(controllers.ShowTrace))
-	Router.HandleFunc("/index", controllers.Auth(controllers.ShowIndexPage))
-	Router.HandleFunc("/", controllers.Auth(controllers.ShowIndexPage))
-	Router.HandleFunc(`/download`, controllers.Auth(controllers.Download))
-	Router.HandleFunc(`/all-display-data`, controllers.Auth(controllers.AllDisplayData))
+	Router.HandleFunc("/commodities", auth.Auth(controllers.ShowCommodities))
+	Router.HandleFunc("/industries", auth.Auth(controllers.ShowIndustries))
+	Router.HandleFunc("/classes", auth.Auth(controllers.ShowClasses))
+	Router.HandleFunc("/industry_stocks", auth.Auth(controllers.ShowIndustryStocks))
+	Router.HandleFunc("/industry_stock/{id}", auth.Auth(controllers.ShowIndustryStock))
+	Router.HandleFunc("/class_stocks", auth.Auth(controllers.ShowClassStocks))
+	Router.HandleFunc("/commodity/{id}", auth.Auth(controllers.ShowCommodity))
+	Router.HandleFunc("/industry/{id}", auth.Auth(controllers.ShowIndustry))
+	Router.HandleFunc("/class/{id}", auth.Auth(controllers.ShowClass))
+	Router.HandleFunc("/trace", auth.Auth(controllers.ShowTrace))
+	Router.HandleFunc("/index", auth.Auth(controllers.ShowIndexPage))
+	Router.HandleFunc("/", auth.Auth(controllers.ShowIndexPage))
+	Router.HandleFunc(`/download`, auth.Auth(controllers.Download))
+	Router.HandleFunc(`/all-display-data`, auth.Auth(controllers.AllDisplayData))
 
 	// TODO purely temporary fix to send reset instruction to API
 	// for developmental use when we have no internet
-	Router.HandleFunc(`/reset`, controllers.Auth(controllers.Reset))
+	Router.HandleFunc(`/reset`, auth.Auth(controllers.Reset))
 
 	// Not found page
 	Router.NotFoundHandler = http.HandlerFunc(controllers.NotFound)

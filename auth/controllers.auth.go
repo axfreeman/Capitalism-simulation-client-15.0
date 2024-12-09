@@ -1,6 +1,6 @@
 // PATH: go-auth/controllers/auth.go
 
-package controllers
+package auth
 
 import (
 	"bytes"

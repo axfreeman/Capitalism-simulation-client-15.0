@@ -23,7 +23,7 @@ func AuthRoutes() {
 	ds = http.StripPrefix("/static/", fs)
 	Router.PathPrefix("/static/").Handler(ds)
 
-	Router.HandleFunc("/auth/login", controllers.LoginHandler)
+	Router.HandleFunc("/auth/login", controllers.LoginFormDisplay)
 	Router.HandleFunc("/auth/loginauth", controllers.LoginAuthHandler)
 	Router.HandleFunc("/auth/logout", controllers.LogoutHandler)
 	Router.HandleFunc("/auth/register", controllers.RegisterHandler)

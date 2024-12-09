@@ -14,18 +14,6 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// Simplified message type to pass into templates
-// without calculating Views
-type MessageData struct {
-	Message  string
-	Username string
-}
-
-type ServerUserDetails struct {
-	Username string `json:"username"`
-	ApiKey   string `json:"apikey"`
-}
-
 // Fetch the current user from the cookie Store
 func CurrentUser(r *http.Request) *models.User {
 	session, _ := Store.Get(r, "session")

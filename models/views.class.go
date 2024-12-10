@@ -101,10 +101,10 @@ func (c *ClassView) Compared() any {
 //	id: the id of the social class to display
 //
 //	returns: classData which references this class, and embeds an OutputData
-func (u User) ClassDisplayData(message string, id int) ClassData {
+func ClassDisplayData(u *User, message string, id int) ClassData {
 	return ClassData{
 		u.CreateTemplateData(message),
-		*ViewedObject[Class](u, `classes`, id),
+		*ViewedObject[Class](*u, `classes`, id),
 	}
 }
 

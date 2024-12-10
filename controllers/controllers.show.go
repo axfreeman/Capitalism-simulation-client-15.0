@@ -112,7 +112,7 @@ func ShowIndustry(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPageType{Url: "industry.html", Id: id}
 
 	logging.TraceInfof(logging.BrightYellow, "Fetching industry %d for user %s", id, user.UserName)
-	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.IndustryDisplayData("", id))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, models.IndustryDisplayData(user, "", id))
 }
 
 // Display one specific class
@@ -126,7 +126,7 @@ func ShowClass(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPageType{Url: "class.html", Id: id}
 
 	logging.TraceInfof(logging.BrightYellow, "Fetching class %d for user %s", id, user.UserName)
-	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.ClassDisplayData("", id))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, models.ClassDisplayData(user, "", id))
 }
 
 // Display one specific industry stock
@@ -142,7 +142,7 @@ func ShowIndustryStock(w http.ResponseWriter, r *http.Request) {
 	logging.TraceInfof(logging.BrightYellow, "Fetching industry_stock %d for user %s", id, user.UserName)
 	views.Tpl.ExecuteTemplate(w,
 		user.CurrentPage.Url,
-		user.IndustryStockDisplayData("", id))
+		models.IndustryStockDisplayData(user, "", id))
 }
 
 // Displays a snapshot of the economy

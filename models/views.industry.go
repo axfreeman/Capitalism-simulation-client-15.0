@@ -162,10 +162,10 @@ type IndustryData struct {
 //	id: the id of the industry item to display
 //
 //	returns: industryData which references this industry, and embeds an OutputData
-func (u User) IndustryDisplayData(message string, id int) IndustryData {
+func IndustryDisplayData(u *User, message string, id int) IndustryData {
 	return IndustryData{
 		u.CreateTemplateData(message),
-		*ViewedObject[Industry](u, `industries`, id),
+		*ViewedObject[Industry](*u, `industries`, id),
 	}
 }
 
@@ -198,10 +198,10 @@ type IndustryStockData struct {
 //	id: the id of the industry item to display
 //
 //	returns: industryStockData which references this industryStock, and embeds a TemplateData
-func (u User) IndustryStockDisplayData(message string, id int) IndustryStockData {
+func IndustryStockDisplayData(u *User, message string, id int) IndustryStockData {
 	return IndustryStockData{
 		u.CreateTemplateData(message),
-		*ViewedObject[IndustryStock](u, `industry_stocks`, id),
+		*ViewedObject[IndustryStock](*u, `industry_stocks`, id),
 	}
 }
 

@@ -13,7 +13,6 @@ import (
 	"simulation-client/api"
 	"simulation-client/config"
 	"simulation-client/logging"
-	"simulation-client/utils"
 	"simulation-client/views"
 	"strconv"
 
@@ -218,9 +217,8 @@ func RestartSimulation(w http.ResponseWriter, r *http.Request) {
 // Quick and Dirty download method
 // TODO rewrite
 func Download(w http.ResponseWriter, r *http.Request) {
-	user := CurrentUser(r)
-	newStage := api.FetchStage(user)
-	utils.UNUSED(newStage)
+	// user := CurrentUser(r)
+	// newStage := api.FetchStage(user)
 	// type listItem struct {
 	// 	filename string
 	// 	object   any

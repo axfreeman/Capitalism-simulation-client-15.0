@@ -13,7 +13,7 @@ import (
 	"simulation-client/db"
 	"simulation-client/logging"
 	"simulation-client/models"
-	"simulation-client/utils"
+	"simulation-client/views"
 
 	"github.com/gorilla/sessions"
 	"golang.org/x/crypto/bcrypt"
@@ -37,7 +37,7 @@ type messageData struct {
 // registerHandler serves form for registering new users
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	logging.TraceInfo(logging.BrightGreen, "Enter RegisterHandler")
-	utils.Tpl.ExecuteTemplate(w, "register.html", nil)
+	views.Tpl.ExecuteTemplate(w, "register.html", nil)
 }
 
 // Services a post request to create a new registered user from user data in a form,
@@ -56,13 +56,13 @@ func RegisterAuthHandler(w http.ResponseWriter, r *http.Request) {
 
 	// validate the form
 	if r.ParseForm() != nil {
-		utils.Tpl.ExecuteTemplate(w, "register.html", "Form incorrectly filled out. Try again")
+		views.Tpl.ExecuteTemplate(w, "register.html", "Form incorrectly filled out. Try again")
 	}
 
 	// validate user name
 	username := r.FormValue("username")
 	if len(username) < 2 {
-		utils.Tpl.ExecuteTemplate(w, "register.html", "Username is too short")
+		views.Tpl.ExecuteTemplate(w, "register.html", "Username is too short")
 		return
 	}
 
@@ -71,7 +71,7 @@ func RegisterAuthHandler(w http.ResponseWriter, r *http.Request) {
 	// check if username already exists in the local database
 	if _, err = db.DataBase.FindRegisteredUser(username); err == nil {
 		logging.TraceInfo(logging.BrightGreen, "User already exists")
-		utils.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: "User already exists", Username: "admin"})
+		views.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: "User already exists", Username: "admin"})
 		return
 	}
 	logging.TraceInfo(logging.BrightGreen, "User Name is new")
@@ -81,7 +81,7 @@ func RegisterAuthHandler(w http.ResponseWriter, r *http.Request) {
 
 	if hash, err = bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost); err != nil {
 		logging.TraceError(fmt.Sprint("bcrypt err:", err))
-		utils.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: fmt.Sprintf("Encryption problem. Please report this to the developer\n%v", err), Username: "admin"})
+		views.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: fmt.Sprintf("Encryption problem. Please report this to the developer\n%v", err), Username: "admin"})
 		return
 	}
 	logging.TraceInfo(logging.BrightGreen, "Pasword is valid")
@@ -99,7 +99,7 @@ func RegisterAuthHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		logging.TraceErrorf("Error constructing server request: %v", err)
-		utils.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: fmt.Sprintf("Error constructing server request:%v", err), Username: "admin"})
+		views.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: fmt.Sprintf("Error constructing server request:%v", err), Username: "admin"})
 		return
 	}
 	req.Header.Set("Content-Type", "application/json")
@@ -109,7 +109,7 @@ func RegisterAuthHandler(w http.ResponseWriter, r *http.Request) {
 	res, err = client.Do(req)
 	if err != nil {
 		logging.TraceErrorf("Server returned error:%v", err)
-		utils.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: fmt.Sprintf("Server returned error:%v", err), Username: "admin"})
+		views.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: fmt.Sprintf("Server returned error:%v", err), Username: "admin"})
 		return
 	}
 	respBody, _ := io.ReadAll(res.Body)
@@ -125,7 +125,7 @@ func RegisterAuthHandler(w http.ResponseWriter, r *http.Request) {
 	if res.StatusCode != http.StatusCreated {
 		errorReport := fmt.Sprintf("The server could not create the new record and returned status code %d", res.StatusCode)
 		logging.TraceError(errorReport)
-		utils.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: fmt.Sprintf("Could not create the new record: status code:%d", res.StatusCode), Username: "admin"})
+		views.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: fmt.Sprintf("Could not create the new record: status code:%d", res.StatusCode), Username: "admin"})
 		return
 	}
 
@@ -144,13 +144,13 @@ func RegisterAuthHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Save the user to the database
 	db.DataBase.CreateRegisteredUser((registeredUser))
-	utils.Tpl.ExecuteTemplate(w, "login.html", nil)
+	views.Tpl.ExecuteTemplate(w, "login.html", nil)
 }
 
 // loginHandler serves a form for users to login with
 func LoginFormDisplay(w http.ResponseWriter, r *http.Request) {
 	logging.TraceInfo(logging.BrightGreen, "Enter LoginHandler")
-	utils.Tpl.ExecuteTemplate(w, "login.html", "Login")
+	views.Tpl.ExecuteTemplate(w, "login.html", "Login")
 	logging.TraceInfo(logging.BrightGreen, "Exit LoginHandler")
 }
 
@@ -167,13 +167,13 @@ func LoginAuthHandler(w http.ResponseWriter, r *http.Request) {
 	logging.TraceInfo(logging.BrightGreen, fmt.Sprintf("Request to log in from User %s with password %s", username, password))
 	if registeredUser, err = db.DataBase.FindRegisteredUser(username); err != nil {
 		logging.TraceError(fmt.Sprintf("User %s is not registered", username))
-		utils.Tpl.ExecuteTemplate(w, "login.html", "Check the username and the password")
+		views.Tpl.ExecuteTemplate(w, "login.html", "Check the username and the password")
 		return
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(registeredUser.Password), []byte(password))
 	if err != nil {
 		logging.TraceError("Incorrect password")
-		utils.Tpl.ExecuteTemplate(w, "login.html", nil)
+		views.Tpl.ExecuteTemplate(w, "login.html", nil)
 		return
 	}
 
@@ -183,7 +183,7 @@ func LoginAuthHandler(w http.ResponseWriter, r *http.Request) {
 	logging.TraceInfo(logging.BrightGreen, fmt.Sprintf("The server responded with status %d and error %v", status, err))
 	if status != http.StatusOK {
 		logging.TraceError("The server doesn't know this user, sorry")
-		utils.Tpl.ExecuteTemplate(w, "login.html", "Check username and password")
+		views.Tpl.ExecuteTemplate(w, "login.html", "Check username and password")
 		return
 	}
 	// Override local registeredUser store with the apikey supplied by the server.
@@ -208,7 +208,7 @@ func LoginAuthHandler(w http.ResponseWriter, r *http.Request) {
 
 	// display the welcome screen
 	user.CurrentPage = models.CurrentPageType{Url: "welcome.html", Id: 0}
-	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, messageData{Message: "", Username: user.UserName})
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, messageData{Message: "", Username: user.UserName})
 }
 
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {
@@ -216,7 +216,7 @@ func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	session, _ := Store.Get(r, "session")
 	delete(session.Values, "userID")
 	session.Save(r, w)
-	utils.Tpl.ExecuteTemplate(w, "login.html", "Logged Out")
+	views.Tpl.ExecuteTemplate(w, "login.html", "Logged Out")
 }
 
 // Auth adds authentication code to handler before returning handler

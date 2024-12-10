@@ -10,7 +10,7 @@ import (
 	"simulation-client/config"
 	"simulation-client/logging"
 	"simulation-client/models"
-	"simulation-client/utils"
+	"simulation-client/views"
 )
 
 // TODO temporary fix to reset the API database when we are offline
@@ -26,7 +26,7 @@ func Reset(w http.ResponseWriter, r *http.Request) {
 	logging.TraceInfo(logging.BrightGreen, fmt.Sprintf("The server responded with status %d and error %v", status, err))
 	if status != http.StatusOK {
 		logging.TraceError("The server doesn't know this user, sorry")
-		utils.Tpl.ExecuteTemplate(w, "login.html", "Check username and password")
+		views.Tpl.ExecuteTemplate(w, "login.html", "Check username and password")
 		return
 	}
 }
@@ -37,7 +37,7 @@ func ShowCommodities(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPageType{Url: "commodities.html", Id: 0}
 
 	logging.TraceInfof(logging.BrightYellow, "Fetching commodities for user %s", user.UserName)
-	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 }
 
 // display all industries in the current simulation
@@ -46,7 +46,7 @@ func ShowIndustries(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPageType{Url: "industries.html", Id: 0}
 
 	logging.TraceInfof(logging.BrightYellow, "Fetching industries for user %s", user.UserName)
-	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 }
 
 // display all classes in the current simulation
@@ -55,7 +55,7 @@ func ShowClasses(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPageType{Url: "classes.html", Id: 0}
 
 	logging.TraceInfo(logging.BrightYellow, fmt.Sprintf("Fetching classes for user %s", user.UserName))
-	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 }
 
 // display all industry stocks in the current simulation
@@ -64,7 +64,7 @@ func ShowIndustryStocks(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPageType{Url: "industry_stocks.html", Id: 0}
 
 	logging.TraceInfof(logging.BrightYellow, "Fetching industry stocks for user %s", user.UserName)
-	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 }
 
 // display all the class stocks in the current simulation
@@ -73,7 +73,7 @@ func ShowClassStocks(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPageType{Url: "class_stocks.html", Id: 0}
 
 	logging.TraceInfof(logging.BrightYellow, "Fetching class stocks for user %s", user.UserName)
-	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 }
 
 // display all Trace records in the current simulation
@@ -82,7 +82,7 @@ func ShowTrace(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPageType{Url: "trace.html", Id: 0}
 	logging.TraceInfof(logging.BrightYellow, "Fetching trace for user %s", user.UserName)
 	t := models.Traces(user)
-	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, models.TemplateData{Trace: t})
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, models.TemplateData{Trace: t})
 }
 
 // Display one specific commodity
@@ -96,7 +96,7 @@ func ShowCommodity(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPageType{Url: "commodity.html", Id: id}
 
 	logging.TraceInfof(logging.BrightYellow, "Fetching commodity %d for user %s", id, user.UserName)
-	utils.Tpl.ExecuteTemplate(w,
+	views.Tpl.ExecuteTemplate(w,
 		user.CurrentPage.Url,
 		models.CommodityDisplayData(user, "", id))
 }
@@ -112,7 +112,7 @@ func ShowIndustry(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPageType{Url: "industry.html", Id: id}
 
 	logging.TraceInfof(logging.BrightYellow, "Fetching industry %d for user %s", id, user.UserName)
-	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.IndustryDisplayData("", id))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.IndustryDisplayData("", id))
 }
 
 // Display one specific class
@@ -126,7 +126,7 @@ func ShowClass(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPageType{Url: "class.html", Id: id}
 
 	logging.TraceInfof(logging.BrightYellow, "Fetching class %d for user %s", id, user.UserName)
-	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.ClassDisplayData("", id))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.ClassDisplayData("", id))
 }
 
 // Display one specific industry stock
@@ -140,7 +140,7 @@ func ShowIndustryStock(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPageType{Url: "industry_stock.html", Id: id}
 
 	logging.TraceInfof(logging.BrightYellow, "Fetching industry_stock %d for user %s", id, user.UserName)
-	utils.Tpl.ExecuteTemplate(w,
+	views.Tpl.ExecuteTemplate(w,
 		user.CurrentPage.Url,
 		user.IndustryStockDisplayData("", id))
 }
@@ -151,31 +151,31 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request) {
 	user.CurrentPage = models.CurrentPageType{Url: "index.html", Id: 0}
 
 	logging.TraceInfo(logging.BrightYellow, fmt.Sprintf("Showing Index Page for user %s", user.UserName))
-	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 }
 
 func UserDashboard(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
 	user.CurrentPage = models.CurrentPageType{Url: "user-dashboard.html", Id: 0}
 
-	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 }
 
 func NotFound(w http.ResponseWriter, r *http.Request) {
-	utils.Tpl.ExecuteTemplate(w, "404.html", "")
+	views.Tpl.ExecuteTemplate(w, "404.html", "")
 }
 
 // check session for logged in done with middleware Auth()
 func WelcomeHandler(w http.ResponseWriter, r *http.Request) {
 	logging.TraceInfo(logging.BrightGreen, "Enter WelcomeHandler")
 	user := CurrentUser(r)
-	utils.Tpl.ExecuteTemplate(w, "welcome.html", user.CreateTemplateData(""))
+	views.Tpl.ExecuteTemplate(w, "welcome.html", user.CreateTemplateData(""))
 }
 
 // TODO remove. Just a basic test page
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Enter AboutHandler")
-	utils.Tpl.ExecuteTemplate(w, "about.html", "test")
+	views.Tpl.ExecuteTemplate(w, "about.html", "test")
 }
 
 // Diagnostic function mainly for the developer, to show all the DisplayData
@@ -183,7 +183,7 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 func AllDisplayData(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Enter ShowDisplayData")
 	user := CurrentUser(r)
-	// utils.Tpl.ExecuteTemplate(w, "displayData.html", user.CreateTemplateData(""))
+	// views.Tpl.ExecuteTemplate(w, "displayData.html", user.CreateTemplateData(""))
 
 	templateData := user.CreateTemplateData("")
 	logging.TraceLogf(logging.White, "Template data is %v\n", templateData)

@@ -8,7 +8,7 @@ import (
 	"simulation-client/auth"
 	"simulation-client/logging"
 	"simulation-client/models"
-	"simulation-client/utils"
+	"simulation-client/views"
 	"strconv"
 
 	"net/http"
@@ -67,7 +67,7 @@ func ReportError(user *models.User, w http.ResponseWriter, message string) {
 	if len(user.CurrentPage.Url) < 1 {
 		user.CurrentPage = models.CurrentPageType{Url: "errors.html", Id: 0}
 	}
-	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, t)
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, t)
 }
 
 // The state which follows each action.

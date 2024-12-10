@@ -10,7 +10,6 @@ import (
 	"simulation-client/logging"
 	"simulation-client/models"
 	"simulation-client/routes"
-	"simulation-client/utils"
 	"simulation-client/views"
 )
 
@@ -46,7 +45,7 @@ func main() {
 		"StockClassLink":             models.StockClassLink,
 	}
 
-	utils.Tpl, err = template.New("").Funcs(funcMap).ParseGlob("./templates/*/*")
+	views.Tpl, err = template.New("").Funcs(funcMap).ParseGlob("./templates/*/*")
 	if err != nil {
 		log.Fatal(err)
 	}

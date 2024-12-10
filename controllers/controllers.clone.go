@@ -7,7 +7,7 @@ import (
 	"simulation-client/api"
 	"simulation-client/logging"
 	"simulation-client/models"
-	"simulation-client/utils"
+	"simulation-client/views"
 	"strconv"
 
 	"github.com/gorilla/mux"
@@ -122,5 +122,5 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	user.GetCurrentSimulation().Manager.ComparatorTimeStamp = 0
 
 	user.CurrentPage = models.CurrentPageType{Url: "index.html", Id: 0}
-	utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
 }

@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+var Tpl *template.Template
+
 // TODO Show should display decimals when required
 
 // Interface for all view types. Wrapped by the view struct to provide

@@ -1,4 +1,4 @@
-package model
+package models
 
 //TODO replace object finders with generics and maybe they don't belong in this file anyhow
 

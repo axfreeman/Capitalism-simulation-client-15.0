@@ -5,7 +5,7 @@
 // (2) they define how this front end communicates with the user
 // that is, the purpose is to intermediate between the simulation itself and the display of its results
 
-package model
+package models
 
 import (
 	"encoding/json"

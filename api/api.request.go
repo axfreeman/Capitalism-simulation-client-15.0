@@ -9,8 +9,8 @@ import (
 	"log"
 	"simulation-client/config"
 	"simulation-client/db"
+	"simulation-client/logging"
 	"simulation-client/models"
-	"simulation-client/utils"
 
 	"errors"
 	"fmt"
@@ -29,10 +29,10 @@ import (
 //	Returns:byte array with server response, error if anything went wrong
 func UserGetRequest(apiKey string, url string) ([]byte, error) {
 	// uncomment for more verbose diagnostics
-	// utils.TraceInfof(utils.Cyan, "UserGetRequest was called with apiKey %s and path %s", apiKey, url)
+	// logging.TraceInfof(logging.Cyan, "UserGetRequest was called with apiKey %s and path %s", apiKey, url)
 	resp, err := http.NewRequest("GET", config.Config.ApiSource+url, bytes.NewBuffer([]byte(`{"origin":"Simulation-client"}`)))
 	if err != nil {
-		utils.TraceInfof(utils.Red, "Malformed client request:%v", err)
+		logging.TraceInfof(logging.Red, "Malformed client request:%v", err)
 		return nil, err
 	}
 
@@ -42,7 +42,7 @@ func UserGetRequest(apiKey string, url string) ([]byte, error) {
 	client := &http.Client{Timeout: time.Second * 60} // Timeout after 60 seconds
 	res, _ := client.Do(resp)
 	if res == nil {
-		utils.TraceInfo(utils.Red, "Server is down or misbehaving")
+		logging.TraceInfo(logging.Red, "Server is down or misbehaving")
 		return nil, errors.New("server did not respond to ServerRequest")
 	}
 
@@ -50,12 +50,12 @@ func UserGetRequest(apiKey string, url string) ([]byte, error) {
 	b, _ := io.ReadAll(res.Body)
 
 	if res.StatusCode != 200 {
-		utils.TraceInfo(utils.Red, fmt.Sprintf("Server rejected the request with status %s", res.Status))
-		utils.TraceInfo(utils.Red, fmt.Sprintf("It said %s", string(b)))
+		logging.TraceInfo(logging.Red, fmt.Sprintf("Server rejected the request with status %s", res.Status))
+		logging.TraceInfo(logging.Red, fmt.Sprintf("It said %s", string(b)))
 		return nil, errors.New(string(b))
 	}
 	// uncomment for more verbose diagnostics
-	// utils.TraceInfo(utils.Cyan, fmt.Sprintf("UserGetRequest succeeded"))
+	// logging.TraceInfo(logging.Cyan, fmt.Sprintf("UserGetRequest succeeded"))
 	return b, nil
 }
 
@@ -70,10 +70,10 @@ func UserGetRequest(apiKey string, url string) ([]byte, error) {
 func AdminGetRequest(url string, target any) (int, error) {
 	var err error
 	var resp *http.Request
-	utils.TraceInfo(utils.Cyan, fmt.Sprintf("Admin request with url %s", url))
+	logging.TraceInfo(logging.Cyan, fmt.Sprintf("Admin request with url %s", url))
 	resp, err = http.NewRequest("GET", url, nil)
 	if err != nil {
-		utils.TraceInfo(utils.Cyan, fmt.Sprintf("Error constructing server request:%v", err))
+		logging.TraceInfo(logging.Cyan, fmt.Sprintf("Error constructing server request:%v", err))
 		return http.StatusInternalServerError, err //500
 	}
 
@@ -81,16 +81,16 @@ func AdminGetRequest(url string, target any) (int, error) {
 	client := &http.Client{Timeout: time.Second * 60} // Timeout after 60 seconds
 	res, err := client.Do(resp)
 	if err != nil {
-		utils.TraceInfo(utils.Cyan, fmt.Sprintf("Server returned error:%v", err))
+		logging.TraceInfo(logging.Cyan, fmt.Sprintf("Server returned error:%v", err))
 		return http.StatusInternalServerError, err //500
 	}
 	if res == nil {
-		utils.TraceInfo(utils.Cyan, "Server response was empty")
+		logging.TraceInfo(logging.Cyan, "Server response was empty")
 		return http.StatusNonAuthoritativeInfo, errors.New("server send an empty response") //203
 	}
 
 	if res.StatusCode != 200 {
-		utils.TraceInfo(utils.Cyan, fmt.Sprintf("server responded with status code %d", res.StatusCode))
+		logging.TraceInfo(logging.Cyan, fmt.Sprintf("server responded with status code %d", res.StatusCode))
 		return res.StatusCode, nil
 	}
 
@@ -100,11 +100,11 @@ func AdminGetRequest(url string, target any) (int, error) {
 	jsonErr := json.Unmarshal(body, target)
 	if jsonErr != nil {
 		errorReport := fmt.Sprintf("could not unmarshal server response because of this error: %v", jsonErr)
-		utils.TraceInfo(utils.Cyan, errorReport)
-		utils.TraceInfo(utils.Cyan, fmt.Sprintf("The text from the server was %s", string(body)))
+		logging.TraceInfo(logging.Cyan, errorReport)
+		logging.TraceInfo(logging.Cyan, fmt.Sprintf("The text from the server was %s", string(body)))
 		return 422, errors.New(errorReport)
 	}
-	utils.TraceInfo(utils.Cyan, fmt.Sprintf("Request for data from endpoint %s accepted", url))
+	logging.TraceInfo(logging.Cyan, fmt.Sprintf("Request for data from endpoint %s accepted", url))
 	return http.StatusOK, nil
 }
 
@@ -126,29 +126,29 @@ func AdminPostRequest(url string, body []byte) (int, error) {
 	req.Header.Add("x-api-key", config.Config.AdminKey)
 
 	if err != nil {
-		utils.TraceInfof(utils.Cyan, "Error constructing server request: %v", err)
+		logging.TraceInfof(logging.Cyan, "Error constructing server request: %v", err)
 		return http.StatusBadRequest, err
 	}
 	client := &http.Client{}
 
 	res, err = client.Do(req)
 	if err != nil {
-		utils.TraceInfo(utils.Cyan, fmt.Sprintf("Server returned error:%v", err))
+		logging.TraceInfo(logging.Cyan, fmt.Sprintf("Server returned error:%v", err))
 		return res.StatusCode, err
 	}
 	respBody, _ := io.ReadAll(res.Body)
 	defer res.Body.Close()
-	utils.TraceInfof(utils.Cyan, "Server returned status %d and said:%s", res.StatusCode, string(respBody))
+	logging.TraceInfof(logging.Cyan, "Server returned status %d and said:%s", res.StatusCode, string(respBody))
 
 	// registered already on the server? No worries.
 	if res.StatusCode == http.StatusConflict {
-		utils.TraceInfo(utils.Cyan, "This user is already registered on the server. No new action taken")
+		logging.TraceInfo(logging.Cyan, "This user is already registered on the server. No new action taken")
 		return res.StatusCode, err
 	}
 
 	if res.StatusCode != http.StatusCreated {
 		errorReport := fmt.Sprintf("The server could not create the new record and returned status code %d", res.StatusCode)
-		utils.TraceError(errorReport)
+		logging.TraceError(errorReport)
 		return res.StatusCode, errors.New(errorReport)
 	}
 
@@ -170,7 +170,7 @@ func UserPostRequest(user models.User, url string, body []byte) (int, error) {
 
 	req, err = http.NewRequest("POST", url, bytes.NewBuffer(body))
 	if err != nil {
-		utils.TraceInfof(utils.Cyan, "Error constructing server request: %v", err)
+		logging.TraceInfof(logging.Cyan, "Error constructing server request: %v", err)
 		return http.StatusBadRequest, err
 	}
 	req.Header.Set("Content-Type", "application/json")
@@ -179,16 +179,16 @@ func UserPostRequest(user models.User, url string, body []byte) (int, error) {
 	client := &http.Client{}
 	res, err = client.Do(req)
 	if err != nil {
-		utils.TraceInfo(utils.Cyan, fmt.Sprintf("Server returned error:%v", err))
+		logging.TraceInfo(logging.Cyan, fmt.Sprintf("Server returned error:%v", err))
 		return res.StatusCode, err
 	}
 	respBody, _ := io.ReadAll(res.Body)
 	defer res.Body.Close()
-	utils.TraceInfof(utils.Cyan, "Server returned status %d and said:%s", res.StatusCode, string(respBody))
+	logging.TraceInfof(logging.Cyan, "Server returned status %d and said:%s", res.StatusCode, string(respBody))
 
 	if res.StatusCode != http.StatusCreated {
 		errorReport := fmt.Sprintf("The server could not create the new record and returned status code %d", res.StatusCode)
-		utils.TraceError(errorReport)
+		logging.TraceError(errorReport)
 		return res.StatusCode, errors.New(errorReport)
 	}
 
@@ -201,17 +201,17 @@ func FetchRemoteTemplates() error {
 	status, err := AdminGetRequest(config.Config.ApiSource+`/templates/templates`, &models.TemplateList)
 	if err != nil {
 		errorReport := fmt.Sprintf("Could not retrieve template information from server. Status %d, error message folows:\n%v", status, err)
-		utils.TraceError(errorReport)
+		logging.TraceError(errorReport)
 		return errors.New(errorReport)
 	}
-	utils.TraceInfo(utils.Cyan, "Templates retrieved from server")
+	logging.TraceInfo(logging.Cyan, "Templates retrieved from server")
 	return nil
 }
 
 // Populate the RegisteredUser database with data fetched from the remote server
 func LoadRegisteredUsers() error {
 	var RegisteredUserList []models.RegisteredUser // Temporary storage for initializing
-	utils.TraceInfo(utils.Purple, "Loading remote users")
+	logging.TraceInfo(logging.Purple, "Loading remote users")
 	_, err := AdminGetRequest(config.Config.ApiSource+`/admin/users`, &RegisteredUserList)
 	if err != nil {
 		log.Fatal("server failed to return user data. Cannot continue")
@@ -221,13 +221,13 @@ func LoadRegisteredUsers() error {
 		item.Password = `insecure` // TODO store hashed passwords on the server
 		hash, err := bcrypt.GenerateFromPassword([]byte(item.Password), bcrypt.DefaultCost)
 		if err != nil {
-			utils.TraceError(fmt.Sprint("bcrypt err:", err))
+			logging.TraceError(fmt.Sprint("bcrypt err:", err))
 			return err
 		}
 		item.Password = string(hash)
 		db.DataBase.CreateRegisteredUser(&item)
 	}
 
-	utils.TraceInfo(utils.Purple, "Registered Users Loaded")
+	logging.TraceInfo(logging.Purple, "Registered Users Loaded")
 	return nil
 }

@@ -7,6 +7,7 @@ import (
 	"simulation-client/api"
 	"simulation-client/config"
 	"simulation-client/db"
+	"simulation-client/logging"
 	"simulation-client/models"
 	"simulation-client/routes"
 	"simulation-client/utils"
@@ -15,11 +16,11 @@ import (
 
 func main() {
 
-	utils.LogInit()
+	logging.LogInit()
 
 	config.Init()
 
-	utils.TraceInfo(utils.Yellow, "The Rosy Dawn of Capitalism has begun")
+	logging.TraceInfo(logging.Yellow, "The Rosy Dawn of Capitalism has begun")
 
 	db.DataBase = db.NewImDB()
 
@@ -27,7 +28,7 @@ func main() {
 
 	var err error
 
-	// utils.Tpl, err = template.ParseGlob("./templates/*/*")
+	// logging.Tpl, err = template.ParseGlob("./templates/*/*")
 
 	funcMap := template.FuncMap{
 		"Show":                       views.Show,

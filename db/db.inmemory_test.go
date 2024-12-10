@@ -1,15 +1,15 @@
 package db
 
 import (
+	"simulation-client/logging"
 	"simulation-client/models"
-	"simulation-client/utils"
 	"testing"
 )
 
 func TestDB(t *testing.T) {
 	var err error
 	var TestUser *models.RegisteredUser
-	utils.LogInit()
+	logging.LogInit()
 	db := NewImDB()
 	db.CreateRegisteredUser(models.NewRegisteredUser("TestUser", "", ""))
 	if TestUser, err = db.FindRegisteredUser("TestUser"); err != nil {

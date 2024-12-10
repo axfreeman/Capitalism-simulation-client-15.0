@@ -110,18 +110,18 @@ type IndustryStockView struct {
 // Implements views.Viewer interface ViewedField method
 // ** DIAGNOSTICS SEE https://stackoverflow.com/questions/17262238/how-to-cast-reflect-value-to-its-type Last answer ***
 func (i *IndustryStockView) ViewedField(f string) string {
-	// utils.TraceInfof(utils.Yellow, "  Entered ViewedField for IndustryStockView with f=%s", f)
+	// logging.TraceInfof(utils.Yellow, "  Entered ViewedField for IndustryStockView with f=%s", f)
 	s := reflect.Indirect(reflect.ValueOf(i.viewedRecord)).FieldByName(f)
 	// Diagnostics - probably not needed now...
 	// if f == `Size` {
-	// 	utils.TraceInfof(utils.Yellow, "Displaying an IndustryStockView with f=%s", f)
+	// 	logging.TraceInfof(utils.Yellow, "Displaying an IndustryStockView with f=%s", f)
 	// 	r := reflect.ValueOf(i.viewedRecord)
 	// 	in := reflect.Indirect(r)
 	// 	record := in.Interface().(IndustryStock)
 	// 	st := record.Write()
 	// 	fmt.Println("***The result is ", s)
 	// 	fmt.Printf("***The result formatted is %v\n", s)
-	// 	utils.TraceInfof(utils.Yellow, "Stock is:\n%v", st)
+	// 	logging.TraceInfof(utils.Yellow, "Stock is:\n%v", st)
 	// 	sf := fmt.Sprint(s)
 	// 	fmt.Println("***The result sprinted is", sf)
 	// }
@@ -215,7 +215,7 @@ func (u User) IndustryStockDisplayData(message string, id int) IndustryStockData
 func IndustryCommodityLink(v IndustryView) template.HTML {
 	o := v.viewedRecord
 	output := template.HTML(fmt.Sprintf(`<td><a href="/commodity/%d">%s</a></td>`, o.Commodity.Id, o.Output))
-	// utils.TraceInfof(utils.Purple, "Industry Commodity Link says commodity Id is %s", string(output))
+	// logging.TraceInfof(utils.Purple, "Industry Commodity Link says commodity Id is %s", string(output))
 	return output
 }
 

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"simulation-client/api"
+	"simulation-client/logging"
 	"simulation-client/models"
 	"simulation-client/utils"
 	"strconv"
@@ -32,7 +33,7 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	var manager *models.Manager
 
 	user := CurrentUser(r)
-	utils.TraceInfof(utils.Green, "Clone Simulation was called by user %s", user.UserName)
+	logging.TraceInfof(logging.Green, "Clone Simulation was called by user %s", user.UserName)
 
 	// Fetch the id that the user requested
 	if s, ok = mux.Vars(r)["id"]; !ok {
@@ -41,7 +42,7 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	}
 
 	requestedSimulation, _ := strconv.Atoi(s)
-	utils.TraceInfof(utils.Green, "Request to clone simulation %d", requestedSimulation)
+	logging.TraceInfof(logging.Green, "Request to clone simulation %d", requestedSimulation)
 
 	// Ask server to create clone and supply simulation id. Do not load tables yet
 	if body, err = api.UserGetRequest(user.ApiKey, `/clone/`+s); err != nil {
@@ -56,16 +57,16 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.TraceInfo(utils.Green, ("Server responded to clone request:"))
-	utils.TraceInfo(utils.Green, ` `+string(body))
+	logging.TraceInfo(logging.Green, ("Server responded to clone request:"))
+	logging.TraceInfo(logging.Green, ` `+string(body))
 
 	// Set the current simulation
-	utils.TraceInfof(utils.Green, "Setting current simulation to %d", result.Simulation_id)
+	logging.TraceInfof(logging.Green, "Setting current simulation to %d", result.Simulation_id)
 	user.CurrentSimulationID = result.Simulation_id
 
 	// Fetch the manager of this object
 	if manager, err = api.FetchManager(user, result.Simulation_id); err != nil {
-		utils.TraceErrorf("Could not retrieve the manager object with apikey %s", user.ApiKey)
+		logging.TraceErrorf("Could not retrieve the manager object with apikey %s", user.ApiKey)
 		ReportError(user, w, "oops")
 		return
 	}
@@ -91,14 +92,14 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 
 	// Fetch the data from the first Stage
 	if err = api.FetchStage(user); err != nil {
-		utils.TraceErrorf("Could not retrieve the data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
+		logging.TraceErrorf("Could not retrieve the data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
 		ReportError(user, w, "oops")
 		return
 	}
 
 	// Fetch the trace table
 	if err = api.Fetch(user.ApiKey, newSimulation.Trace); err != nil {
-		utils.TraceErrorf("Could not retrieve trace data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
+		logging.TraceErrorf("Could not retrieve trace data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
 		ReportError(user, w, "oops")
 		return
 	}
@@ -107,7 +108,7 @@ func CreateSimulation(w http.ResponseWriter, r *http.Request) {
 	api.ConvertStage(user.GetCurrentStage(), &newSimulation.Manager)
 
 	simstring, _ := json.MarshalIndent(user.GetCurrentSimulation(), " ", " ")
-	utils.TraceLogf(utils.BrightYellow, "FetchTables retrieved the simulation %s", string(simstring))
+	logging.TraceLogf(logging.BrightYellow, "FetchTables retrieved the simulation %s", string(simstring))
 
 	// Initialise all timeStamps so we are viewing the first Stage.
 	// As the user moves through the circuit, timestamp will move forwards.

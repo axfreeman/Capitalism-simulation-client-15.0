@@ -1,4 +1,4 @@
-package utils
+package logging
 
 import (
 	"errors"
@@ -6,6 +6,24 @@ import (
 	"log"
 	"os"
 )
+
+const Reset = "\033[0m"
+const Red = "\033[31m"
+const Green = "\033[32m"
+const Yellow = "\033[33m"
+const Blue = "\033[34m"
+const Purple = "\033[35m"
+const Cyan = "\033[36m"
+const Gray = "\033[37m"
+const White = "\033[97m"
+const BrightBlack = "\u001b[30;1m"
+const BrightRed = "\u001b[31;1m"
+const BrightGreen = "\u001b[32;1m"
+const BrightYellow = "\u001b[33;1m"
+const BrightBlue = "\u001b[34;1m"
+const BrightMagenta = "\u001b[35;1m"
+const BrightCyan = "\u001b[36;1m"
+const BrightWhite = "\u001b[37;1m"
 
 var Mylog log.Logger
 

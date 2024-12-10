@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 	"simulation-client/config"
+	"simulation-client/logging"
 	"simulation-client/models"
-	"simulation-client/utils"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -62,7 +62,7 @@ func NewSQLDB() SQLDbStruct {
 		log.Fatalf("Could not create an SQlite table because:%v. Cannot continue", err)
 	}
 
-	utils.TraceInfo(utils.BrightMagenta, "Local Database Created")
+	logging.TraceInfo(logging.BrightMagenta, "Local Database Created")
 	return SQLDbStruct{sdb}
 }
 
@@ -74,15 +74,15 @@ func (s SQLDbStruct) CreateRegisteredUser(u *models.RegisteredUser) error {
 	insertSQL := "INSERT INTO users (username,password,apikey) VALUES(?,?,?)"
 	statement, err := s.db.Prepare(insertSQL)
 	if err != nil {
-		utils.TraceErrorf("Failed to add user because %v: ", err)
+		logging.TraceErrorf("Failed to add user because %v: ", err)
 		return err
 	}
 	_, err = statement.Exec(u.UserName, u.Password, u.ApiKey)
 
 	if err != nil {
-		utils.TraceErrorf("The treatment worked but the statement died %v", err)
+		logging.TraceErrorf("The treatment worked but the statement died %v", err)
 	}
-	utils.TraceInfof(utils.BrightMagenta, "User %s has been added to the local Database", u.UserName)
+	logging.TraceInfof(logging.BrightMagenta, "User %s has been added to the local Database", u.UserName)
 	return nil
 }
 
@@ -97,7 +97,7 @@ func (s SQLDbStruct) FindRegisteredUser(name string) (*models.RegisteredUser, er
 		return nil, errors.New("user does not exist")
 	}
 
-	utils.TraceInfof(utils.BrightMagenta, "Found user %s", entry.username)
+	logging.TraceInfof(logging.BrightMagenta, "Found user %s", entry.username)
 	return models.NewRegisteredUser(entry.username, entry.password, entry.apikey), nil
 }
 
@@ -126,6 +126,6 @@ func (s SQLDbStruct) UpdateRegisteredUser(u *models.RegisteredUser) (*models.Reg
 	if err = row.Scan(&entry.username, &entry.password, &entry.apikey); err == sql.ErrNoRows {
 		return nil, errors.New("user does not exist")
 	}
-	utils.TraceInfof(utils.BrightMagenta, "Updated user %s", entry.username)
+	logging.TraceInfof(logging.BrightMagenta, "Updated user %s", entry.username)
 	return models.NewRegisteredUser(entry.username, entry.password, entry.password), nil
 }

@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"simulation-client/auth"
+	"simulation-client/logging"
 	"simulation-client/models"
 	"simulation-client/utils"
 	"strconv"
@@ -27,15 +28,15 @@ func CurrentUser(r *http.Request) *models.User {
 func AllData(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
 
-	utils.TraceInfof(utils.Green, "Get Data for user %s", user.UserName)
+	logging.TraceInfof(logging.Green, "Get Data for user %s", user.UserName)
 
 	data, err := json.MarshalIndent(user, " ", " ")
 
 	if err != nil {
-		utils.TraceErrorf("Error %v retrieving base data", err)
+		logging.TraceErrorf("Error %v retrieving base data", err)
 	}
 
-	utils.TraceInfof(utils.Blue, "User %s asked to view base data", user.UserName)
+	logging.TraceInfof(logging.Blue, "User %s asked to view base data", user.UserName)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(data)
 }
@@ -44,7 +45,7 @@ func AllData(w http.ResponseWriter, r *http.Request) {
 // Fetch the data from the client local store, not from the server
 func DisplayData(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
-	utils.TraceInfof(utils.Green, "Get Table Data for user %s", user.UserName)
+	logging.TraceInfof(logging.Green, "Get Table Data for user %s", user.UserName)
 	output := user.CreateTemplateData("This user's display data")
 	templateData, _ := json.MarshalIndent(output, " ", " ")
 	w.Header().Set("Content-Type", "application/json")
@@ -60,7 +61,7 @@ func DisplayData(w http.ResponseWriter, r *http.Request) {
 //	message: the error message
 func ReportError(user *models.User, w http.ResponseWriter, message string) {
 	t := user.CreateTemplateData(message)
-	utils.TraceError(t.Message)
+	logging.TraceError(t.Message)
 
 	// use standard error page if no Current Page is set
 	if len(user.CurrentPage.Url) < 1 {

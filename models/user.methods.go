@@ -2,14 +2,14 @@ package models
 
 import (
 	"log"
-	"simulation-client/utils"
+	"simulation-client/logging"
 )
 
 // Retrieve the current simulation
 func (u *User) GetCurrentSimulation() *Simulation {
 	s, ok := u.Simulations[u.CurrentSimulationID]
 	if !ok {
-		utils.TraceErrorf("could not retrieve the simulation with id %d", u.CurrentSimulationID)
+		logging.TraceErrorf("could not retrieve the simulation with id %d", u.CurrentSimulationID)
 		log.Fatalf("could not retrieve the simulation with id %d", u.CurrentSimulationID) //TODO very temporary
 	}
 	return s
@@ -80,10 +80,10 @@ func (u User) ComparatorState() string {
 func (u User) SetCurrentState(new_state string) {
 	s := u.GetCurrentSimulation()
 	m := &s.Manager
-	utils.TraceInfof(utils.Green, "Set the state of simulation %d to %s at timestamp %d", u.CurrentSimulationID, new_state, m.TimeStamp)
+	logging.TraceInfof(logging.Green, "Set the state of simulation %d to %s at timestamp %d", u.CurrentSimulationID, new_state, m.TimeStamp)
 	m.State = new_state
 	m.States[m.TimeStamp] = new_state
-	utils.TraceInfof(utils.Green, "Setting new state %s. States map now has %d elements", new_state, len(m.States))
+	logging.TraceInfof(logging.Green, "Setting new state %s. States map now has %d elements", new_state, len(m.States))
 }
 
 // Retrieve the display dimension of the current simulation (size, value or price)

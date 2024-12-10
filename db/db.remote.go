@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"simulation-client/logging"
 	"simulation-client/models"
-	"simulation-client/utils"
 )
 
 // Database using the remote server API
@@ -33,10 +33,10 @@ func NewRemoteDB() RemoteDbStruct {
 //	u: the address of a User
 func (s RemoteDbStruct) CreateUser(u *models.User) (err error) {
 	name := u.UserName
-	utils.TraceInfo(utils.BrightMagenta, fmt.Sprintf("User %s has been added to the local Database", name))
+	logging.TraceInfo(logging.BrightMagenta, fmt.Sprintf("User %s has been added to the local Database", name))
 	// Check for exists already
 	if _, ok := s.store[name]; ok {
-		return utils.TraceError(fmt.Sprintf("user %s already exists", u.UserName))
+		return logging.TraceError(fmt.Sprintf("user %s already exists", u.UserName))
 	}
 	s.store[name] = u
 	return nil

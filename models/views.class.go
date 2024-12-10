@@ -153,7 +153,7 @@ func ClassStockViews(v *[]ClassStock, c *[]ClassStock) *[]views.Viewer {
 func ClassCommodityLink(v ClassView) template.HTML {
 	o := v.viewedRecord
 	output := template.HTML(fmt.Sprintf(`<td><a href="/commodity/%d">%s</a></td>`, o.Commodity.Id, o.Output))
-	// utils.TraceInfof(utils.Purple, "Industry Commodity Link says commodity Id is %s", string(output))
+	// logging.TraceInfof(utils.Purple, "Industry Commodity Link says commodity Id is %s", string(output))
 	return output
 }
 

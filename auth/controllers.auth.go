@@ -11,6 +11,7 @@ import (
 	"simulation-client/api"
 	"simulation-client/config"
 	"simulation-client/db"
+	"simulation-client/logging"
 	"simulation-client/models"
 	"simulation-client/utils"
 
@@ -35,7 +36,7 @@ type messageData struct {
 
 // registerHandler serves form for registering new users
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
-	utils.TraceInfo(utils.BrightGreen, "Enter RegisterHandler")
+	logging.TraceInfo(logging.BrightGreen, "Enter RegisterHandler")
 	utils.Tpl.ExecuteTemplate(w, "register.html", nil)
 }
 
@@ -51,7 +52,7 @@ func RegisterAuthHandler(w http.ResponseWriter, r *http.Request) {
 	var res *http.Response
 	var ServerData ServerUserDetails
 
-	utils.TraceInfo(utils.BrightGreen, "Enter RegisterAuthHandler")
+	logging.TraceInfo(logging.BrightGreen, "Enter RegisterAuthHandler")
 
 	// validate the form
 	if r.ParseForm() != nil {
@@ -65,30 +66,30 @@ func RegisterAuthHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.TraceInfo(utils.BrightGreen, "User Name is valid")
+	logging.TraceInfo(logging.BrightGreen, "User Name is valid")
 
 	// check if username already exists in the local database
 	if _, err = db.DataBase.FindRegisteredUser(username); err == nil {
-		utils.TraceInfo(utils.BrightGreen, "User already exists")
+		logging.TraceInfo(logging.BrightGreen, "User already exists")
 		utils.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: "User already exists", Username: "admin"})
 		return
 	}
-	utils.TraceInfo(utils.BrightGreen, "User Name is new")
+	logging.TraceInfo(logging.BrightGreen, "User Name is new")
 
 	// create hash from password
 	password := r.FormValue("password")
 
 	if hash, err = bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost); err != nil {
-		utils.TraceError(fmt.Sprint("bcrypt err:", err))
+		logging.TraceError(fmt.Sprint("bcrypt err:", err))
 		utils.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: fmt.Sprintf("Encryption problem. Please report this to the developer\n%v", err), Username: "admin"})
 		return
 	}
-	utils.TraceInfo(utils.BrightGreen, "Pasword is valid")
+	logging.TraceInfo(logging.BrightGreen, "Pasword is valid")
 
 	// Create a local Registered user
 	registeredUser := models.NewRegisteredUser(username, string(hash), "")
 	registeredUserServerRequest := models.RegisteredUserServerRequest{UserName: username}
-	utils.TraceInfo(utils.BrightGreen, "Prototype new registered user created")
+	logging.TraceInfo(logging.BrightGreen, "Prototype new registered user created")
 
 	// send the skeleton details to the server to construct a fullblown user
 	// unless one already exists, in which case retrieve the details
@@ -97,7 +98,7 @@ func RegisterAuthHandler(w http.ResponseWriter, r *http.Request) {
 	req, err = http.NewRequest("POST", config.Config.ApiSource+"/admin/register", bytes.NewBuffer(body))
 
 	if err != nil {
-		utils.TraceErrorf("Error constructing server request: %v", err)
+		logging.TraceErrorf("Error constructing server request: %v", err)
 		utils.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: fmt.Sprintf("Error constructing server request:%v", err), Username: "admin"})
 		return
 	}
@@ -107,23 +108,23 @@ func RegisterAuthHandler(w http.ResponseWriter, r *http.Request) {
 
 	res, err = client.Do(req)
 	if err != nil {
-		utils.TraceErrorf("Server returned error:%v", err)
+		logging.TraceErrorf("Server returned error:%v", err)
 		utils.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: fmt.Sprintf("Server returned error:%v", err), Username: "admin"})
 		return
 	}
 	respBody, _ := io.ReadAll(res.Body)
 	defer res.Body.Close()
-	utils.TraceInfof(utils.BrightGreen, "Server returned status %d and said:%s", res.StatusCode, string(respBody))
+	logging.TraceInfof(logging.BrightGreen, "Server returned status %d and said:%s", res.StatusCode, string(respBody))
 
 	// registered already on the server? No worries.
 	if res.StatusCode == http.StatusConflict {
-		utils.TraceInfo(utils.BrightGreen, "This user is already registered on the server. No new action taken")
+		logging.TraceInfo(logging.BrightGreen, "This user is already registered on the server. No new action taken")
 		return
 	}
 
 	if res.StatusCode != http.StatusCreated {
 		errorReport := fmt.Sprintf("The server could not create the new record and returned status code %d", res.StatusCode)
-		utils.TraceError(errorReport)
+		logging.TraceError(errorReport)
 		utils.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: fmt.Sprintf("Could not create the new record: status code:%d", res.StatusCode), Username: "admin"})
 		return
 	}
@@ -131,9 +132,9 @@ func RegisterAuthHandler(w http.ResponseWriter, r *http.Request) {
 	// WAS status, err := api.AdminPostRequest(config.Config.ApiSource+"/admin/register", body) DEPRECATED
 
 	if res.StatusCode == http.StatusConflict {
-		utils.TraceInfof(utils.BrightGreen, "User %s is already registered on the server. No worries", username)
+		logging.TraceInfof(logging.BrightGreen, "User %s is already registered on the server. No worries", username)
 	} else {
-		utils.TraceInfof(utils.BrightGreen, "Server is registering the user")
+		logging.TraceInfof(logging.BrightGreen, "Server is registering the user")
 	}
 
 	//retrieve the apikey that the server generated
@@ -148,9 +149,9 @@ func RegisterAuthHandler(w http.ResponseWriter, r *http.Request) {
 
 // loginHandler serves a form for users to login with
 func LoginFormDisplay(w http.ResponseWriter, r *http.Request) {
-	utils.TraceInfo(utils.BrightGreen, "Enter LoginHandler")
+	logging.TraceInfo(logging.BrightGreen, "Enter LoginHandler")
 	utils.Tpl.ExecuteTemplate(w, "login.html", "Login")
-	utils.TraceInfo(utils.BrightGreen, "Exit LoginHandler")
+	logging.TraceInfo(logging.BrightGreen, "Exit LoginHandler")
 }
 
 // loginAuthHandler authenticates user login
@@ -158,20 +159,20 @@ func LoginAuthHandler(w http.ResponseWriter, r *http.Request) {
 	var registeredUser *models.RegisteredUser
 	var err error
 
-	utils.TraceInfo(utils.BrightGreen, "Enter LoginAuthHandler")
+	logging.TraceInfo(logging.BrightGreen, "Enter LoginAuthHandler")
 
 	r.ParseForm()
 	username := r.FormValue("username")
 	password := r.FormValue("password")
-	utils.TraceInfo(utils.BrightGreen, fmt.Sprintf("Request to log in from User %s with password %s", username, password))
+	logging.TraceInfo(logging.BrightGreen, fmt.Sprintf("Request to log in from User %s with password %s", username, password))
 	if registeredUser, err = db.DataBase.FindRegisteredUser(username); err != nil {
-		utils.TraceError(fmt.Sprintf("User %s is not registered", username))
+		logging.TraceError(fmt.Sprintf("User %s is not registered", username))
 		utils.Tpl.ExecuteTemplate(w, "login.html", "Check the username and the password")
 		return
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(registeredUser.Password), []byte(password))
 	if err != nil {
-		utils.TraceError("Incorrect password")
+		logging.TraceError("Incorrect password")
 		utils.Tpl.ExecuteTemplate(w, "login.html", nil)
 		return
 	}
@@ -179,9 +180,9 @@ func LoginAuthHandler(w http.ResponseWriter, r *http.Request) {
 	// Send the Registered User's name to the server and retrieve a fullblown user.
 	user := models.NewUser(username)
 	status, err := api.AdminGetRequest(config.Config.ApiSource+"/admin/user/"+username, &user)
-	utils.TraceInfo(utils.BrightGreen, fmt.Sprintf("The server responded with status %d and error %v", status, err))
+	logging.TraceInfo(logging.BrightGreen, fmt.Sprintf("The server responded with status %d and error %v", status, err))
 	if status != http.StatusOK {
-		utils.TraceError("The server doesn't know this user, sorry")
+		logging.TraceError("The server doesn't know this user, sorry")
 		utils.Tpl.ExecuteTemplate(w, "login.html", "Check username and password")
 		return
 	}
@@ -193,7 +194,7 @@ func LoginAuthHandler(w http.ResponseWriter, r *http.Request) {
 	session, _ := Store.Get(r, "session") // session struct has field make(map[interface{}]interface{})
 	session.Values["userID"] = username
 	session.Save(r, w) // save before writing to response/return from handler
-	utils.TraceInfof(utils.BrightGreen, "User %s has successfully logged in with apikey %s", registeredUser.UserName, registeredUser.ApiKey)
+	logging.TraceInfof(logging.BrightGreen, "User %s has successfully logged in with apikey %s", registeredUser.UserName, registeredUser.ApiKey)
 
 	// Add the fullblown user to the client list of logged-in users
 	models.LoggedInUsers[username] = user
@@ -203,7 +204,7 @@ func LoginAuthHandler(w http.ResponseWriter, r *http.Request) {
 	api.FetchRemoteTemplates()
 
 	//Grab this user's data from the server TODO degrade gracefully if this doesn't work
-	utils.TraceInfof(utils.BrightGreen, "the user's current simulation is %d", user.CurrentSimulationID)
+	logging.TraceInfof(logging.BrightGreen, "the user's current simulation is %d", user.CurrentSimulationID)
 
 	// display the welcome screen
 	user.CurrentPage = models.CurrentPageType{Url: "welcome.html", Id: 0}
@@ -211,7 +212,7 @@ func LoginAuthHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {
-	utils.TraceInfo(utils.BrightGreen, "Entered LogoutHandler")
+	logging.TraceInfo(logging.BrightGreen, "Entered LogoutHandler")
 	session, _ := Store.Get(r, "session")
 	delete(session.Values, "userID")
 	session.Save(r, w)
@@ -228,7 +229,7 @@ func Auth(HandlerFunc http.HandlerFunc) http.HandlerFunc {
 			http.Redirect(w, r, "auth/login", http.StatusFound)
 			return
 		}
-		utils.TraceInfof(utils.BrightGreen, "Auth was called and retrieved %s", content)
+		logging.TraceInfof(logging.BrightGreen, "Auth was called and retrieved %s", content)
 
 		// Check that the cookie refers to a logged in user
 		_, ok = models.LoggedInUsers[content.(string)]

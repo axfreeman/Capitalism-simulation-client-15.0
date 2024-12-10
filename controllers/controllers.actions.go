@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"simulation-client/api"
 	"simulation-client/config"
+	"simulation-client/logging"
 	"simulation-client/utils"
 	"strconv"
 
@@ -40,14 +41,14 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 	var ok bool
 
 	user := CurrentUser(r)
-	utils.TraceInfof(utils.Green, "Processing action for user %s", user.UserName)
+	logging.TraceInfof(logging.Green, "Processing action for user %s", user.UserName)
 
 	// Find the requested action
 	if action, ok = mux.Vars(r)["action"]; !ok {
 		ReportError(user, w, "Poorly specified action in the URL")
 		return
 	}
-	utils.TraceInfof(utils.Green, "User requested action %s", action)
+	logging.TraceInfof(logging.Green, "User requested action %s", action)
 
 	if action == `setpricesform` {
 		// Just display the form
@@ -86,16 +87,16 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 		ReportError(user, w, "The server completed the action but did not send back any data.")
 		return
 	}
-	utils.TraceInfof(utils.Green, "Fetched a new set of tables")
+	logging.TraceInfof(logging.Green, "Fetched a new set of tables")
 
 	// Fetch the trace table
 	// TODO this could get very big. Can we do an incremental fetch?
 	if err = api.Fetch(user.ApiKey, simulation.Trace); err != nil {
-		utils.TraceErrorf("Could not retrieve trace data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
+		logging.TraceErrorf("Could not retrieve trace data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
 		ReportError(user, w, "oops")
 		return
 	}
-	utils.TraceInfof(utils.Green, "Refreshed the trace table")
+	logging.TraceInfof(logging.Green, "Refreshed the trace table")
 
 	// Convert the data to add pointers in place of Id field
 	api.ConvertStage(user.GetCurrentStage(), manager)
@@ -104,7 +105,7 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 	user.SetCurrentState(nextStates[action])
 
 	// Choose which page to display, depending on what the user was looking at
-	utils.TraceInfof(utils.Green, "The last page this user visited was %v ", user.CurrentPage.Url)
+	logging.TraceInfof(logging.Green, "The last page this user visited was %v ", user.CurrentPage.Url)
 
 	if useLastVisited(user.CurrentPage.Url) && action != `setprices` {
 		utils.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
@@ -118,7 +119,7 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 // Later we can develop more sophisticated logic
 // If Comparator is at the start, do nothing
 func Back(w http.ResponseWriter, r *http.Request) {
-	utils.TraceInfo(utils.Green, "Back was requested")
+	logging.TraceInfo(logging.Green, "Back was requested")
 	u := CurrentUser(r)
 	m := &CurrentUser(r).GetCurrentSimulation().Manager
 
@@ -127,7 +128,7 @@ func Back(w http.ResponseWriter, r *http.Request) {
 		m.ComparatorTimeStamp--
 		m.ViewedTimeStamp--
 	}
-	utils.TraceInfof(utils.Green, "Viewing timeStamp %d with comparator %d", m.ViewedTimeStamp, m.ComparatorTimeStamp)
+	logging.TraceInfof(logging.Green, "Viewing timeStamp %d with comparator %d", m.ViewedTimeStamp, m.ComparatorTimeStamp)
 
 	// Display appropriate page depending what the user was looking at
 	if useLastVisited(u.CurrentPage.Url) {
@@ -142,7 +143,7 @@ func Back(w http.ResponseWriter, r *http.Request) {
 // Later we can develop more sophisticated logic
 // If Viewed is at the current stage, do nothing
 func Forward(w http.ResponseWriter, r *http.Request) {
-	utils.TraceInfo(utils.Green, "Forward was requested")
+	logging.TraceInfo(logging.Green, "Forward was requested")
 	u := CurrentUser(r)
 	m := &CurrentUser(r).GetCurrentSimulation().Manager
 
@@ -151,7 +152,7 @@ func Forward(w http.ResponseWriter, r *http.Request) {
 		m.ComparatorTimeStamp++
 	}
 
-	utils.TraceInfof(utils.Green, "Viewing %d with comparator %d", m.ViewedTimeStamp, m.ComparatorTimeStamp)
+	logging.TraceInfof(logging.Green, "Viewing %d with comparator %d", m.ViewedTimeStamp, m.ComparatorTimeStamp)
 	if useLastVisited(u.CurrentPage.Url) {
 		utils.Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateTemplateData(""))
 	} else {
@@ -165,11 +166,11 @@ func Forward(w http.ResponseWriter, r *http.Request) {
 //
 //	DisplayDimension: the dimension to set - either `Size`, `Value`, or `Price`.
 func SetDisplayDimension(w http.ResponseWriter, r *http.Request, displayDimension string) {
-	utils.TraceInfof(utils.Green, "Set Display Dimension to %s was requested", displayDimension)
+	logging.TraceInfof(logging.Green, "Set Display Dimension to %s was requested", displayDimension)
 	u := CurrentUser(r)
 	m := &CurrentUser(r).GetCurrentSimulation().Manager
 
-	utils.TraceInfof(utils.Green, "Display dimension will be changed from %s to %s", m.DisplayDimension, displayDimension)
+	logging.TraceInfof(logging.Green, "Display dimension will be changed from %s to %s", m.DisplayDimension, displayDimension)
 	m.DisplayDimension = displayDimension
 
 	if useLastVisited(u.CurrentPage.Url) {
@@ -235,13 +236,13 @@ func Download(w http.ResponseWriter, r *http.Request) {
 	// 	out, _ := json.MarshalIndent(outputList[i].object, "", "")
 	// 	f, err = os.Create(`./dump/` + outputList[i].filename)
 	// 	if err != nil {
-	// 		utils.TraceErrorf("Error %v creating download file %v", err, outputList[i].filename)
+	// 		logging.TraceErrorf("Error %v creating download file %v", err, outputList[i].filename)
 	// 		return
 	// 	}
 	// 	defer f.Close()
 	// 	_, err = f.Write(out)
 	// 	if err != nil {
-	// 		utils.TraceErrorf("Error %v downloading to file %s", err, outputList[i].filename)
+	// 		logging.TraceErrorf("Error %v downloading to file %s", err, outputList[i].filename)
 	// 		return
 	// 	}
 	// }
@@ -263,7 +264,7 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	form := r.Form
-	utils.TraceInfof(utils.Purple, "User %s submitted a price change form containing %v", user.UserName, form)
+	logging.TraceInfof(logging.Purple, "User %s submitted a price change form containing %v", user.UserName, form)
 
 	type PriceRequest struct {
 		CommodityId  int     `json:"commodityId"`
@@ -277,7 +278,7 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 	for k, v := range form {
 		price, err = strconv.ParseFloat(v[0], 64)
 		if err != nil {
-			utils.TraceErrorf("Non-numeric price submitted %v", err)
+			logging.TraceErrorf("Non-numeric price submitted %v", err)
 			// TODO flag the error
 			return
 		}
@@ -302,7 +303,7 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 	req, rerr := http.NewRequest("POST", config.Config.ApiSource+"/action/setprices", bytes.NewBuffer(body))
 
 	if rerr != nil {
-		utils.TraceErrorf("Error constructing server request: %v", err)
+		logging.TraceErrorf("Error constructing server request: %v", err)
 		utils.Tpl.ExecuteTemplate(w, "register.html", messageData{Message: fmt.Sprintf("Error constructing server request:%v", err), Username: "admin"})
 		return
 	}
@@ -312,7 +313,7 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 
 	res, err = client.Do(req)
 	if err != nil {
-		utils.TraceErrorf("Server returned error:%v", err)
+		logging.TraceErrorf("Server returned error:%v", err)
 		utils.Tpl.ExecuteTemplate(w, "errors.html", messageData{Message: fmt.Sprintf("Server returned error:%v", err), Username: "admin"})
 		return
 	}
@@ -320,9 +321,9 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 
 	defer res.Body.Close()
 
-	// utils.TraceInfof(utils.BrightGreen, "Server returned status %d and said:%s", res.StatusCode, string(respBody))
+	// logging.TraceInfof(logging.BrightGreen, "Server returned status %d and said:%s", res.StatusCode, string(respBody))
 	if res.StatusCode != http.StatusOK {
-		utils.TraceInfof(utils.BrightGreen, "The server didn't like this and returned code %d", res.StatusCode)
+		logging.TraceInfof(logging.BrightGreen, "The server didn't like this and returned code %d", res.StatusCode)
 		return
 	}
 
@@ -330,11 +331,11 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO this could get very big. Can we do an incremental fetch?
 	simulation := user.GetCurrentSimulation()
 	if err = api.Fetch(user.ApiKey, simulation.Trace); err != nil {
-		utils.TraceErrorf("Could not retrieve trace data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
+		logging.TraceErrorf("Could not retrieve trace data for simulation with id %d using apikey %s", user.CurrentSimulationID, user.ApiKey)
 		ReportError(user, w, "oops")
 		return
 	}
-	utils.TraceInfof(utils.Green, "Refreshed the trace table")
+	logging.TraceInfof(logging.Green, "Refreshed the trace table")
 
 	// TODO display the last-used page
 }
@@ -342,6 +343,6 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 // Display the setprices form
 func SetPricesFormDisplay(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
-	utils.TraceInfof(utils.BrightGreen, "User %s entered SetPricesAuthHandler", user.UserName)
+	logging.TraceInfof(logging.BrightGreen, "User %s entered SetPricesAuthHandler", user.UserName)
 	utils.Tpl.ExecuteTemplate(w, "set-prices.html", user.CreateTemplateData(""))
 }

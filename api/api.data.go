@@ -7,8 +7,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"simulation-client/logging"
 	"simulation-client/models"
-	"simulation-client/utils"
 )
 
 // Retrieves the data for a single table from the server.
@@ -20,25 +20,25 @@ import (
 //	Return: nil if it worked
 //	Return: error string if there was an error
 func Fetch(apiKey string, d *models.Table) error {
-	utils.TraceInfo(utils.BrightCyan, fmt.Sprintf("Fetching a table from server with api key %s and path %s", apiKey, d.ApiUrl))
+	logging.TraceInfo(logging.BrightCyan, fmt.Sprintf("Fetching a table from server with api key %s and path %s", apiKey, d.ApiUrl))
 
 	response, err := UserGetRequest(apiKey, d.ApiUrl)
 	if err != nil {
 		errorReport := fmt.Sprintf("ServerRequest produced the error %v", err)
-		utils.TraceInfo(utils.Red, errorReport)
+		logging.TraceInfo(logging.Red, errorReport)
 		return errors.New(errorReport)
 	}
 
 	if len(string(response)) == 0 {
-		utils.TraceInfo(utils.BrightCyan, "INFORMATION: a server response to a fetch request was empty")
+		logging.TraceInfo(logging.BrightCyan, "INFORMATION: a server response to a fetch request was empty")
 		return nil // no response is not an error, but don't process the result
 	}
 
 	// Populate the table
 	jsonErr := json.Unmarshal(response, &d.Table)
 	if jsonErr != nil {
-		utils.TraceInfof(utils.Red, "Server response could not be unmarshalled because: %v", jsonErr)
-		utils.TraceInfof(utils.Red, "The server response was %s\n", response)
+		logging.TraceInfof(logging.Red, "Server response could not be unmarshalled because: %v", jsonErr)
+		logging.TraceInfof(logging.Red, "The server response was %s\n", response)
 		return errors.New("server response could not be unmarshalled")
 	}
 	return nil
@@ -48,7 +48,7 @@ func Fetch(apiKey string, d *models.Table) error {
 //
 //	newStage: a Stage, which has been populated by FetchStage
 func ConvertStage(stage *models.Stage, manager *models.Manager) {
-	utils.TraceInfof(utils.Green, "Converting a stage with timeStamp %d", manager.TimeStamp)
+	logging.TraceInfof(logging.Green, "Converting a stage with timeStamp %d", manager.TimeStamp)
 	// fmt.Printf("Entering ConvertStage with stage\n %v\n", stage)
 	industries := *(*stage)[`industries`].Table.(*[]models.Industry)
 	industryStocks := *(*stage)[`industry_stocks`].Table.(*[]models.IndustryStock)
@@ -105,7 +105,7 @@ func ConvertStage(stage *models.Stage, manager *models.Manager) {
 				case `Sales`:
 					classes[c].Sales = &(classStocks[s])
 				default:
-					utils.TraceErrorf("Industry stock of unknown type %s and id %d detected", industryStocks[s].UsageType, industryStocks[s].Id)
+					logging.TraceErrorf("Industry stock of unknown type %s and id %d detected", industryStocks[s].UsageType, industryStocks[s].Id)
 				}
 			}
 		}
@@ -162,7 +162,7 @@ func ConvertStage(stage *models.Stage, manager *models.Manager) {
 func FetchStage(user *models.User) error {
 	var err error
 	simulationID := user.CurrentSimulationID
-	utils.TraceInfof(utils.BrightCyan, "User %s is creating a new simulation with Id %d", user.UserName, simulationID)
+	logging.TraceInfof(logging.BrightCyan, "User %s is creating a new simulation with Id %d", user.UserName, simulationID)
 
 	// Create a receiver for the data
 	newStage := models.NewStage()
@@ -171,7 +171,7 @@ func FetchStage(user *models.User) error {
 	for key, value := range newStage {
 		err = Fetch(user.ApiKey, &value)
 		if err != nil {
-			utils.TraceErrorf("Could not retrieve server data with key %s because of error %s", key, err.Error())
+			logging.TraceErrorf("Could not retrieve server data with key %s because of error %s", key, err.Error())
 			return err
 		}
 	}
@@ -183,7 +183,7 @@ func FetchStage(user *models.User) error {
 	simulation.Stages = append(simulation.Stages, &newStage)
 
 	b, _ := json.MarshalIndent(simulation, " ", " ")
-	utils.TraceLogf(utils.BrightCyan, "Simulation was %s", string(b))
+	logging.TraceLogf(logging.BrightCyan, "Simulation was %s", string(b))
 
 	return nil
 }
@@ -206,7 +206,7 @@ func FetchManager(user *models.User, id int) (*models.Manager, error) {
 		Table:  new([]models.Manager),
 		Name:   "Simulations",
 	}
-	utils.TraceInfof(utils.BrightCyan, "Fetching a manager with id %d", id)
+	logging.TraceInfof(logging.BrightCyan, "Fetching a manager with id %d", id)
 
 	// Get all the Managers for this user from the API
 	err := Fetch(user.ApiKey, &tableContainer)

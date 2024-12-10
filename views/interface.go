@@ -34,8 +34,8 @@ func Show(v Viewer, f string) template.HTML {
 	vc, _ := strconv.ParseFloat(v.ComparedField(f), 32)
 	// Diagnostics - turn on if problems with display ...
 	// if f == "Size" {
-	// 	firstPart := utils.TraceInfoPart(utils.Yellow, " Viewed %v, Id %s, TimeStamp %s", vv, v.ViewedField(`Id`), v.ViewedField(`TimeStamp`))
-	// 	utils.TraceInfof(utils.BrightYellow, "Show %s: %s ", f, firstPart)
+	// 	firstPart := logging.TraceInfoPart(utils.Yellow, " Viewed %v, Id %s, TimeStamp %s", vv, v.ViewedField(`Id`), v.ViewedField(`TimeStamp`))
+	// 	logging.TraceInfof(utils.BrightYellow, "Show %s: %s ", f, firstPart)
 	// }
 	// ...End of Diagnostics
 

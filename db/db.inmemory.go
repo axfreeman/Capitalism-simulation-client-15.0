@@ -7,8 +7,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"simulation-client/logging"
 	"simulation-client/models"
-	"simulation-client/utils"
 )
 
 // Barebones in memory database
@@ -37,10 +37,10 @@ func NewImDB() imdbStruct {
 func (s imdbStruct) CreateRegisteredUser(u *models.RegisteredUser) (err error) {
 	// Check for exists already
 	if _, ok := s.store[u.UserName]; ok {
-		return utils.TraceError(fmt.Sprintf("user %s already exists", u.UserName))
+		return logging.TraceError(fmt.Sprintf("user %s already exists", u.UserName))
 	}
 	s.store[u.UserName] = u
-	utils.TraceInfo(utils.BrightMagenta, fmt.Sprintf("User %s has been added to the local Database", u.UserName))
+	logging.TraceInfo(logging.BrightMagenta, fmt.Sprintf("User %s has been added to the local Database", u.UserName))
 	return nil
 }
 

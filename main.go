@@ -8,7 +8,6 @@ import (
 	"simulation-client/config"
 	"simulation-client/db"
 	"simulation-client/logging"
-	"simulation-client/models"
 	"simulation-client/routes"
 	"simulation-client/views"
 )
@@ -35,14 +34,14 @@ func main() {
 		"ShowPlainString":            views.ShowPlainString,
 		"ShowDecimal":                views.ShowDecimal,
 		"Link":                       views.Link,
-		"OriginGraphic":              models.OriginGraphic,
-		"UsageGraphic":               models.UsageGraphic,
-		"IndustryCommodityLink":      models.IndustryCommodityLink,
-		"ClassCommodityLink":         models.ClassCommodityLink,
-		"StockIndustryLink":          models.StockIndustryLink,
-		"IndustryStockCommodityLink": models.IndustryStockCommodityLink,
-		"ClassStockCommodityLink":    models.ClassStockCommodityLink,
-		"StockClassLink":             models.StockClassLink,
+		"OriginGraphic":              views.OriginGraphic,
+		"UsageGraphic":               views.UsageGraphic,
+		"IndustryCommodityLink":      views.IndustryCommodityLink,
+		"ClassCommodityLink":         views.ClassCommodityLink,
+		"StockIndustryLink":          views.StockIndustryLink,
+		"IndustryStockCommodityLink": views.IndustryStockCommodityLink,
+		"ClassStockCommodityLink":    views.ClassStockCommodityLink,
+		"StockClassLink":             views.StockClassLink,
 	}
 
 	views.Tpl, err = template.New("").Funcs(funcMap).ParseGlob("./templates/*/*")

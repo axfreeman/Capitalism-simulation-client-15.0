@@ -260,6 +260,11 @@ func (i *ClassStock) Write() string {
 // or editing existing ones.
 var TemplateList []Manager
 
+type Object interface {
+	Commodity | Industry | Class | IndustryStock | ClassStock | Manager | Trace
+	GetId() int
+}
+
 // A default Industry_stock returned if any condition is not met (that is, if the predicated stock does not exist)
 // Used to signal to the user that there has been a programme error
 var NotFoundIndustryStock = IndustryStock{

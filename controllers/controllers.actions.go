@@ -108,9 +108,9 @@ func ActionHandler(w http.ResponseWriter, r *http.Request) {
 	logging.TraceInfof(logging.Green, "The last page this user visited was %v ", user.CurrentPage.Url)
 
 	if useLastVisited(user.CurrentPage.Url) && action != `setprices` {
-		views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData(""))
+		views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, views.CreateTemplateData(user, ""))
 	} else {
-		views.Tpl.ExecuteTemplate(w, "user-dashboard.html", user.CreateTemplateData(""))
+		views.Tpl.ExecuteTemplate(w, "user-dashboard.html", views.CreateTemplateData(user, ""))
 	}
 }
 
@@ -132,9 +132,9 @@ func Back(w http.ResponseWriter, r *http.Request) {
 
 	// Display appropriate page depending what the user was looking at
 	if useLastVisited(u.CurrentPage.Url) {
-		views.Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateTemplateData(""))
+		views.Tpl.ExecuteTemplate(w, u.CurrentPage.Url, views.CreateTemplateData(u, ""))
 	} else {
-		views.Tpl.ExecuteTemplate(w, "index.html", u.CreateTemplateData(""))
+		views.Tpl.ExecuteTemplate(w, "index.html", views.CreateTemplateData(u, ""))
 	}
 }
 
@@ -154,9 +154,9 @@ func Forward(w http.ResponseWriter, r *http.Request) {
 
 	logging.TraceInfof(logging.Green, "Viewing %d with comparator %d", m.ViewedTimeStamp, m.ComparatorTimeStamp)
 	if useLastVisited(u.CurrentPage.Url) {
-		views.Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateTemplateData(""))
+		views.Tpl.ExecuteTemplate(w, u.CurrentPage.Url, views.CreateTemplateData(u, ""))
 	} else {
-		views.Tpl.ExecuteTemplate(w, "index.html", u.CreateTemplateData(""))
+		views.Tpl.ExecuteTemplate(w, "index.html", views.CreateTemplateData(u, ""))
 	}
 }
 
@@ -174,9 +174,9 @@ func SetDisplayDimension(w http.ResponseWriter, r *http.Request, displayDimensio
 	m.DisplayDimension = displayDimension
 
 	if useLastVisited(u.CurrentPage.Url) {
-		views.Tpl.ExecuteTemplate(w, u.CurrentPage.Url, u.CreateTemplateData(""))
+		views.Tpl.ExecuteTemplate(w, u.CurrentPage.Url, views.CreateTemplateData(u, ""))
 	} else {
-		views.Tpl.ExecuteTemplate(w, "index.html", u.CreateTemplateData(""))
+		views.Tpl.ExecuteTemplate(w, "index.html", views.CreateTemplateData(u, ""))
 	}
 }
 
@@ -198,20 +198,20 @@ func DisplayPrice(w http.ResponseWriter, r *http.Request) {
 // TODO not working yet
 func SwitchSimulation(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
-	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData("Sorry, Switching Simulations is not ready yet"))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, views.CreateTemplateData(user, "Sorry, Switching Simulations is not ready yet"))
 }
 
 // TODO not working yet
 func DeleteSimulation(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
-	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData("Sorry, Deleting a Simulation is not ready yet"))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, views.CreateTemplateData(user, "Sorry, Deleting a Simulation is not ready yet"))
 
 }
 
 // TODO not working yet
 func RestartSimulation(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
-	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, user.CreateTemplateData("Sorry, Restarting a Simulation is not ready yet"))
+	views.Tpl.ExecuteTemplate(w, user.CurrentPage.Url, views.CreateTemplateData(user, "Sorry, Restarting a Simulation is not ready yet"))
 }
 
 // Quick and Dirty download method
@@ -259,7 +259,7 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 
 	// TODO validate the form
 	if r.ParseForm() != nil {
-		views.Tpl.ExecuteTemplate(w, "Commodity.html", user.CreateTemplateData("Incorrect details. Try again"))
+		views.Tpl.ExecuteTemplate(w, "Commodity.html", views.CreateTemplateData(user, "Incorrect details. Try again"))
 	}
 
 	form := r.Form
@@ -343,5 +343,5 @@ func SetPricesPostHandler(w http.ResponseWriter, r *http.Request) {
 func SetPricesFormDisplay(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
 	logging.TraceInfof(logging.BrightGreen, "User %s entered SetPricesAuthHandler", user.UserName)
-	views.Tpl.ExecuteTemplate(w, "set-prices.html", user.CreateTemplateData(""))
+	views.Tpl.ExecuteTemplate(w, "set-prices.html", views.CreateTemplateData(user, ""))
 }

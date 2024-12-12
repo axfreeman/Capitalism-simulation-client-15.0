@@ -46,7 +46,7 @@ func AllData(w http.ResponseWriter, r *http.Request) {
 func DisplayData(w http.ResponseWriter, r *http.Request) {
 	user := CurrentUser(r)
 	logging.TraceInfof(logging.Green, "Get Table Data for user %s", user.UserName)
-	output := user.CreateTemplateData("This user's display data")
+	output := views.CreateTemplateData(user, "This user's display data")
 	templateData, _ := json.MarshalIndent(output, " ", " ")
 	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(templateData))
@@ -60,7 +60,7 @@ func DisplayData(w http.ResponseWriter, r *http.Request) {
 //	w: the ResponseWriter to which the message should be sent
 //	message: the error message
 func ReportError(user *models.User, w http.ResponseWriter, message string) {
-	t := user.CreateTemplateData(message)
+	t := views.CreateTemplateData(user, message)
 	logging.TraceError(t.Message)
 
 	// use standard error page if no Current Page is set

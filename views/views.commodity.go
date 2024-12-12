@@ -1,16 +1,16 @@
-package models
+package views
 
 import (
 	"fmt"
 	"html/template"
 	"reflect"
-	"simulation-client/views"
+	"simulation-client/models"
 )
 
 // implements View for the Commodity Object
 type CommodityView struct {
-	viewedRecord   *Commodity
-	comparedRecord *Commodity
+	viewedRecord   *models.Commodity
+	comparedRecord *models.Commodity
 }
 
 // Provides the value of the field f in the viewedRecord of a CommodityView
@@ -36,7 +36,7 @@ func (c *CommodityView) ComparedField(f string) string {
 //	v: the currently viewed commodity
 //	c: the same commodity at an earlier point in the simulation
 //	returns: a View object to supply to templates
-func CreateCommodityView(v *Commodity, c *Commodity) views.Viewer {
+func CreateCommodityView(v *models.Commodity, c *models.Commodity) Viewer {
 	return &CommodityView{
 		viewedRecord:   v,
 		comparedRecord: c,
@@ -56,7 +56,7 @@ func (c *CommodityView) Compared() any {
 // Embedded data for a single commodity, to pass into templates
 type CommodityData struct {
 	TemplateData
-	Commodity Commodity
+	Commodity models.Commodity
 }
 
 // Create a CommodityData to display a single commodity in the
@@ -68,10 +68,9 @@ type CommodityData struct {
 //	id: the id of the commodity to display
 //
 //	returns: CommodityData which references this commodity, and embeds an OutputData
-func CommodityDisplayData(u *User, message string, id int) CommodityData {
+func CommodityDisplayData(u *models.User, message string, id int) CommodityData {
 	return CommodityData{
-		u.CreateTemplateData(message),
-		*ViewedObject[Commodity](*u, `commodities`, id),
+		CreateTemplateData(u, message), *ViewedObject[models.Commodity](*u, `commodities`, id),
 	}
 }
 
@@ -80,10 +79,10 @@ func CommodityDisplayData(u *User, message string, id int) CommodityData {
 //	v: a slice of all commodities in the simulation at the current stage
 //	c: a slice of the same commodities at an earlier point in the simulation
 //	returns: a pointer to a slice of View objects to supply to templates
-func CommodityViews(v *[]Commodity, c *[]Commodity) *[]views.Viewer {
-	var view = make([]views.Viewer, len(*v))
-	var vc *Commodity
-	var cc *Commodity
+func CommodityViews(v *[]models.Commodity, c *[]models.Commodity) *[]Viewer {
+	var view = make([]Viewer, len(*v))
+	var vc *models.Commodity
+	var cc *models.Commodity
 	for i := range *v {
 		vc = &(*v)[i]
 		cc = &(*c)[i]
@@ -97,7 +96,7 @@ func CommodityViews(v *[]Commodity, c *[]Commodity) *[]views.Viewer {
 //
 //	v: a CommodityView
 //	template.HTML: safe string with a graphic representing the origin
-func OriginGraphic(v views.Viewer) template.HTML {
+func OriginGraphic(v Viewer) template.HTML {
 	var htmlString template.HTML
 	switch v.ViewedField(`Origin`) {
 	case `INDUSTRIAL`:
@@ -120,7 +119,7 @@ func OriginGraphic(v views.Viewer) template.HTML {
 //
 //	v: a CommodityView
 //	template.HTML: safe string with a graphic representing the usage
-func UsageGraphic(v views.Viewer) template.HTML {
+func UsageGraphic(v Viewer) template.HTML {
 	var htmlString template.HTML
 	switch v.ViewedField(`Usage`) {
 	case `PRODUCTIVE`:

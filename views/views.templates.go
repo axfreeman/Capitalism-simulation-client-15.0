@@ -1,25 +1,20 @@
-package models
+package views
 
 import (
 	"html/template"
 	"simulation-client/logging"
-	"simulation-client/views"
+	"simulation-client/models"
 )
 
-type Object interface {
-	Commodity | Industry | Class | IndustryStock | ClassStock | Manager | Trace
-	GetId() int
-}
-
-func ViewedObjects[T Object](u User, objectType string) *[]T {
+func ViewedObjects[T models.Object](u models.User, objectType string) *[]T {
 	return (*u.GetViewedStage())[objectType].Table.(*[]T)
 }
 
-func ComparedObjects[T Object](u User, objectType string) *[]T {
+func ComparedObjects[T models.Object](u models.User, objectType string) *[]T {
 	return (*u.GetComparatorStage())[objectType].Table.(*[]T)
 }
 
-func ViewedObject[T Object](u User, objectType string, id int) *T {
+func ViewedObject[T models.Object](u models.User, objectType string, id int) *T {
 	// fmt.Println("ViewedObject was asked to display an object of type ", objectType)
 	objectList := (*u.GetViewedStage())[objectType].Table.(*[]T)
 	for i := 0; i < len(*objectList); i++ {
@@ -31,7 +26,7 @@ func ViewedObject[T Object](u User, objectType string, id int) *T {
 	return nil
 }
 
-func ComparedObject[T Object](u User, objectType string, id int) *T {
+func ComparedObject[T models.Object](u models.User, objectType string, id int) *T {
 	objectList := (*u.GetComparatorStage())[objectType].Table.(*[]T)
 	for i := 0; i < len(*objectList); i++ {
 		o := (*objectList)[i]
@@ -45,13 +40,13 @@ func ComparedObject[T Object](u User, objectType string, id int) *T {
 // Commonly-used Views to pass into templates
 type TemplateData struct {
 	Title              string
-	Simulations        *[]Manager
-	Templates          *[]Manager
-	CommodityViews     *[]views.Viewer
-	IndustryViews      *[]views.Viewer
-	ClassViews         *[]views.Viewer
-	IndustryStockViews *[]views.Viewer
-	ClassStockViews    *[]views.Viewer
+	Simulations        *[]models.Manager
+	Templates          *[]models.Manager
+	CommodityViews     *[]Viewer
+	IndustryViews      *[]Viewer
+	ClassViews         *[]Viewer
+	IndustryStockViews *[]Viewer
+	ClassStockViews    *[]Viewer
 	Trace              *[]template.HTML // exported directly as safe HTML
 	Count              int
 	Username           string
@@ -69,14 +64,14 @@ type TemplateData struct {
 //		returns:
 //	     if the user has no simulations, just the template list
 //	     otherwise, the output data the users current simulation
-func (u *User) CreateTemplateData(message string) TemplateData {
+func CreateTemplateData(u *models.User, message string) TemplateData {
 	logging.TraceInfof(logging.BrightYellow, "TemplateData is retrieving data for user %s with simulationID %d", u.UserName, u.CurrentSimulationID)
 	if u.CurrentSimulationID == 0 {
 		logging.TraceInfo(logging.BrightYellow, "User has no simulations")
 		return TemplateData{
 			Title:              "No simulations",
 			Simulations:        nil,
-			Templates:          &TemplateList,
+			Templates:          &models.TemplateList,
 			Count:              0,
 			Username:           u.UserName,
 			State:              "UNKNOWN",
@@ -99,21 +94,21 @@ func (u *User) CreateTemplateData(message string) TemplateData {
 	// manager := u.GetCurrentSimulation().Manager
 	// fmt.Println("***Manager is ", manager.Write())
 
-	cv := ViewedObjects[Commodity](*u, `commodities`)
-	cc := ComparedObjects[Commodity](*u, `commodities`)
-	iv := ViewedObjects[Industry](*u, `industries`)
-	ic := ComparedObjects[Industry](*u, `industries`)
-	clv := ViewedObjects[Class](*u, `classes`)
-	clc := ComparedObjects[Class](*u, `classes`)
-	isv := ViewedObjects[IndustryStock](*u, `industry_stocks`)
-	isc := ComparedObjects[IndustryStock](*u, `industry_stocks`)
-	csv := ViewedObjects[ClassStock](*u, `class stocks`)
-	csc := ComparedObjects[ClassStock](*u, `class stocks`)
+	cv := ViewedObjects[models.Commodity](*u, `commodities`)
+	cc := ComparedObjects[models.Commodity](*u, `commodities`)
+	iv := ViewedObjects[models.Industry](*u, `industries`)
+	ic := ComparedObjects[models.Industry](*u, `industries`)
+	clv := ViewedObjects[models.Class](*u, `classes`)
+	clc := ComparedObjects[models.Class](*u, `classes`)
+	isv := ViewedObjects[models.IndustryStock](*u, `industry_stocks`)
+	isc := ComparedObjects[models.IndustryStock](*u, `industry_stocks`)
+	csv := ViewedObjects[models.ClassStock](*u, `class stocks`)
+	csc := ComparedObjects[models.ClassStock](*u, `class stocks`)
 
 	// Create the DisplayData object
 	templateData := TemplateData{
 		Title:              "Hello",
-		Templates:          &TemplateList,
+		Templates:          &models.TemplateList,
 		Username:           u.UserName,
 		State:              u.CurrentState(),
 		DisplayDimension:   u.DisplayDimension(),

@@ -180,6 +180,24 @@ func SetDisplayDimension(w http.ResponseWriter, r *http.Request, displayDimensio
 	}
 }
 
+// TODO temporary fix to reset the API database when we are offline
+func Reset(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered Reset")
+	var err error
+
+	// user := *models.LoggedInUsers["Admin"]
+
+	user := CurrentUser(r)
+
+	status, err := api.AdminGetRequest(config.Config.ApiSource+"/action/reset/", &user)
+	logging.TraceInfo(logging.BrightGreen, fmt.Sprintf("The server responded with status %d and error %v", status, err))
+	if status != http.StatusOK {
+		logging.TraceError("The server doesn't know this user, sorry")
+		views.Tpl.ExecuteTemplate(w, "login.html", "Check username and password")
+		return
+	}
+}
+
 // Set the DisplayDimension of this simulation so that use values are displayed
 func DisplaySize(w http.ResponseWriter, r *http.Request) {
 	SetDisplayDimension(w, r, `Size`)

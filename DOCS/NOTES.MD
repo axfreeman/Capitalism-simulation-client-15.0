@@ -2,7 +2,7 @@
 
 ## Design
 * hashed passwords should be recorded in the server: see `LoadRegisteredUsers`
-* FetchRemoteTemplates creates a global template list. When users are allowed to create templates, this will have side effects
+* FetchRemoteTemplates creates a global template list. When users can create templates, this will have side effects
 * Handle programme errors more systematically
 * Proper security on 'Super Secret' key for the cookie store
 * (in the API) generate secure apikeys
@@ -10,12 +10,7 @@
 ## Custom jsonMarshal
 * https://deepsource.com/blog/custom-marshalers-in-go
 
-## Worth trying as regards accordions
-* https://codyhouse.co/templates
-* https://codepen.io/Elodieb/pen/OJyLxXm
-
 ## Display Improvements
-* Individual tables (eg Industries, stocks ) should switch between size, value, and price
 * More detail for individual classes and industries, showing the demand they generate, etc
 
 ## Simulation as such
@@ -27,15 +22,16 @@
 * Class stocks: doesn't display
 * Missing column in Class value display
 
-## Cycle analysis
+## Cycle analysis (largely fixed now)
 * https://github.com/KyleBanks/depth
 
-## Serving static files
+## Serving static files (fixed now)
 * https://www.codershood.info/2020/02/16/serving-static-files-in-golang-using-gorilla-mux/
 * NOTE: cannot mix static file server managed by http.Handle and by Router (set to mux.NewRouter())
 
-## Accordions
-## option 1:
-* https://github.com/Schascha/BeefUp?tab=readme-ov-file
-## option 2:
+## Accordions (fixed now)
 * https://www.jqueryscript.net/accordion/Responsive-Multi-Level-Accordion-Menu-Plugin.html
+### Other options
+* https://codyhouse.co/templates
+* https://codepen.io/Elodieb/pen/OJyLxXm
+* https://github.com/Schascha/BeefUp?tab=readme-ov-file

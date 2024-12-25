@@ -18,11 +18,9 @@ type Trace struct {
 	SafeHtml      template.HTML
 }
 
-// Wrapper for the TraceList. We don't need to distinguish between
-// viewed and compared fields for the trace table so we
-// have a separate template loader method.
+// Wrapper for the TraceList. No need to distinguish between viewed and compared
+// fields for the trace table, so we have a separate template loader method.
 func Traces(u *User) *[]template.HTML {
-
 	table := u.GetCurrentSimulation().Trace
 	t := table.Table.(*[]Trace)
 	l := len(*t)

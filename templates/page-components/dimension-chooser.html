@@ -2,28 +2,28 @@
     <div class="w3-xlarge w3-margin-right w3-margin-left">
 
         {{ if eq .DisplayDimension "Size"}}
-        <i style="font-weight: bolder; color:black" class="fa fa-layer-group"></i>
+            <img src="/static/img/gauge-blue.png" alt="use value" style="width:24px;height:24px;color: blue;" />
         {{ end }}
 
         {{ if eq .DisplayDimension "Value"}}
-        <i style="font-weight: bolder; color:red" class="fa fa-clock"></i>
+        <img src="/static/img/clock-red.png" alt="value" style="width:24px;height:24px;color: red;" />
         {{ end }}
 
         {{ if eq .DisplayDimension "Price"}}
-        <i style="font-weight: bolder; color:goldenrod" class="fa fa-dollar"></i>
+        <img src="/static/img/cash-yellow.png" alt="value" style="width:24px;height:24px;color: rgb(255, 174, 0);" />
         {{ end }}
 
 
     </div>
     <div class="w3-dropdown-content w3-bar-block w3-card-4">
         <a class=" w3-button  w3-bar-item" href="/user/display-size">
-            <i style="font-weight: bolder; color:black" class="fa fa-layer-group"></i>
+            <img src="/static/img/gauge-blue.png" alt="dashboards" style="width:24px;height:24px;color: blue;" />
         </a>
         <a class=" w3-button  w3-bar-item" href="/user/display-value">
-            <i style="font-weight: bolder; color:red" class="fa fa-clock"></i>
+            <img src="/static/img/clock-red.png" alt="value" style="width:24px;height:24px;color: red;" />
         </a>
         <a class=" w3-button  w3-bar-item" href="/user/display-price">
-            <i style="font-weight: bolder; color:goldenrod" class="fa fa-dollar"></i>
+            <img src="/static/img/cash-yellow.png" alt="value" style="width:24px;height:24px;color: rgb(255, 174, 0);" />
         </a>
     </div>
 </div>

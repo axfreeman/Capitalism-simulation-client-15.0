@@ -35,3 +35,7 @@
 * https://codyhouse.co/templates
 * https://codepen.io/Elodieb/pen/OJyLxXm
 * https://github.com/Schascha/BeefUp?tab=readme-ov-file
+
+## Images
+  * https://pictogrammers.com/ free and fantastic. I tried to donate but there is no option to do that...
+* 

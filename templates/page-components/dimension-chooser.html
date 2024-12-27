@@ -2,28 +2,28 @@
     <div class="w3-xlarge w3-margin-right w3-margin-left">
 
         {{ if eq .DisplayDimension "Size"}}
-            <img src="/static/img/gauge-blue.png" alt="use value" style="width:24px;height:24px;color: blue;" />
+            <img src="/static/img/gauge-blue.png" alt="use value" style="width:24px;height:24px;" />
         {{ end }}
 
         {{ if eq .DisplayDimension "Value"}}
-        <img src="/static/img/clock-red.png" alt="value" style="width:24px;height:24px;color: red;" />
+        <img src="/static/img/clock-red.png" alt="value" style="width:24px;height:24px;" />
         {{ end }}
 
         {{ if eq .DisplayDimension "Price"}}
-        <img src="/static/img/cash-yellow.png" alt="value" style="width:24px;height:24px;color: rgb(255, 174, 0);" />
+        <img src="/static/img/cash-yellow.png" alt="value" style="width:24px;height:24px;" />
         {{ end }}
 
 
     </div>
     <div class="w3-dropdown-content w3-bar-block w3-card-4">
         <a class=" w3-button  w3-bar-item" href="/user/display-size">
-            <img src="/static/img/gauge-blue.png" alt="dashboards" style="width:24px;height:24px;color: blue;" />
+            <img src="/static/img/gauge-blue.png" alt="dashboards" style="width:24px;height:24px" />
         </a>
         <a class=" w3-button  w3-bar-item" href="/user/display-value">
-            <img src="/static/img/clock-red.png" alt="value" style="width:24px;height:24px;color: red;" />
+            <img src="/static/img/clock-red.png" alt="value" style="width:24px;height:24px;" />
         </a>
         <a class=" w3-button  w3-bar-item" href="/user/display-price">
-            <img src="/static/img/cash-yellow.png" alt="value" style="width:24px;height:24px;color: rgb(255, 174, 0);" />
+            <img src="/static/img/cash-yellow.png" alt="value" style="width:24px;height:24px;" />
         </a>
     </div>
 </div>

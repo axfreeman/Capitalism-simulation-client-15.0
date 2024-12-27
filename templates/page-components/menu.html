@@ -3,22 +3,29 @@
   <div class="w3-bar">
     <div class="w3-bar-item">
 
-     <!-- workaround. the bars icon was showing up grey because w3-bar styles the first child item grey. So we 
+      <!-- workaround. the bars icon was showing up grey because w3-bar styles the first child item grey. So we 
      put in an empty first item. Doesn't quite work because the bars hover style is now white but good enough -->
 
     </div>
     {{ template "dropdown-display.html" . }}
     {{ template "dropdown-tables.html" . }}
     {{ template "dropdown-actions.html" . }}
-    <a class=" w3-button" href="/action/setpricesform">
+    <a class="w3-button w3-tooltip" href="/action/setpricesform">
+      <span class="w3-text">Set Unit Prices</span>
       <img src="/static/img/currency-usd-off.png" alt="value" style="width:24px;height:24px;" />
     </a>
     <a class=" w3-button" href="/reset">X!</a>
     {{ template "arrows-and-states.html" . }}
     {{ template "dimension-chooser.html" . }}
 
-    <a class=" w3-button w3-xlarge" href="https://axfreeman.github.io/just-the-docs-template/"><i class="fa fa-question"></i> </a>
-    <a class=" w3-button w3-xlarge" href="/download"><i class="fa fa-download"></i> </a>
-    <a class=" w3-button w3-xlarge" href="/auth/logout"><i class="fa fa-sign-out"></i> </a>
+    <a class=" w3-button w3-xlarge" href="https://axfreeman.github.io/just-the-docs-template/">
+      <img src="/static/img/help-circle-outline.png" alt="value" style="width:24px;height:24px;" />
+    </a>
+    <a class=" w3-button w3-xlarge" href="/download">
+      <img src="/static/img/download-box.png" alt="value" style="width:24px;height:24px;" />
+    </a>
+    <a class=" w3-button w3-xlarge" href="/auth/logout">
+      <img src="/static/img/logout.png" alt="value" style="width:24px;height:24px;" />
+    </a>
   </div>
 </div>

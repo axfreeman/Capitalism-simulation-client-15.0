@@ -53,7 +53,7 @@ func ConvertStage(stage *models.Stage, manager *models.Manager) {
 	industries := *(*stage)[`industries`].Table.(*[]models.Industry)
 	industryStocks := *(*stage)[`industry_stocks`].Table.(*[]models.IndustryStock)
 	classes := *(*stage)[`classes`].Table.(*[]models.Class)
-	classStocks := *(*stage)[`class stocks`].Table.(*[]models.ClassStock)
+	classStocks := *(*stage)[`class_stocks`].Table.(*[]models.ClassStock)
 	commodities := *(*stage)[`commodities`].Table.(*[]models.Commodity)
 
 	// set the Commodity, Sales Stock, Money stock, Industrial stocks (=Constant capital) and Social stock (=Variable Capital) of every industry

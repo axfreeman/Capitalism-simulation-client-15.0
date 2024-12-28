@@ -102,8 +102,8 @@ func CreateTemplateData(u *models.User, message string) TemplateData {
 	clc := ComparedObjects[models.Class](*u, `classes`)
 	isv := ViewedObjects[models.IndustryStock](*u, `industry_stocks`)
 	isc := ComparedObjects[models.IndustryStock](*u, `industry_stocks`)
-	csv := ViewedObjects[models.ClassStock](*u, `class stocks`)
-	csc := ComparedObjects[models.ClassStock](*u, `class stocks`)
+	csv := ViewedObjects[models.ClassStock](*u, `class_stocks`)
+	csc := ComparedObjects[models.ClassStock](*u, `class_stocks`)
 
 	// Create the DisplayData object
 	templateData := TemplateData{

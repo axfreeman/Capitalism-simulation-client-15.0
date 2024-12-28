@@ -248,7 +248,7 @@ func Download(w http.ResponseWriter, r *http.Request) {
 	// outputList[1] = listItem{`industries.json`, (*newStage)[`industries`]}
 	// outputList[2] = listItem{`classes.json`, (*newStage)[`classes`]}
 	// outputList[3] = listItem{`industry-stocks.json`, (*newStage)[`industry_stocks`]}
-	// outputList[4] = listItem{`class-stocks.json`, (*newStage)[`class stocks`]}
+	// outputList[4] = listItem{`class-stocks.json`, (*newStage)[`class_stocks`]}
 	// for i := range outputList {
 	// 	out, _ := json.MarshalIndent(outputList[i].object, "", "")
 	// 	f, err = os.Create(`./dump/` + outputList[i].filename)

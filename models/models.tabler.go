@@ -42,7 +42,7 @@ func NewStage() Stage {
 			Table:  new([]IndustryStock),
 			Name:   `IndustryStock`,
 		},
-		"class stocks": {
+		"class_stocks": {
 			ApiUrl: `/stocks/class`,
 			Table:  new([]ClassStock),
 			Name:   `ClassStock`,

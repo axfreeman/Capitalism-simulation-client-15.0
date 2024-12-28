@@ -145,6 +145,27 @@ func ClassStockViews(v *[]models.ClassStock, c *[]models.ClassStock) *[]Viewer {
 	return &newViews
 }
 
+// Embedded data for a single ClassStock, to pass into templates
+type ClassStockData struct {
+	TemplateData
+	ClassStock models.ClassStock
+}
+
+// Create a ClassStockData to display a single classStock in the
+// class-stock.html template. This is added dynamically to the DisplayData
+// template when the class-stock view is requested
+//
+//	u: the user
+//	message: any message
+//	id: the id of the class item to display
+//
+//	returns: industryStockData which references this industryStock, and embeds a TemplateData
+func ClassStockDisplayData(u *models.User, message string, id int) ClassStockData {
+	return ClassStockData{
+		CreateTemplateData(u, message), *ViewedObject[models.ClassStock](*u, `class_stocks`, id),
+	}
+}
+
 // Returns a safe HTML string with a link to the Commodity of a class
 // Should be a method of IndustryView but haven't yet figured out how to fix this
 //
@@ -165,5 +186,5 @@ func ClassCommodityLink(v ClassView) template.HTML {
 func StockClassLink(v ClassStockView) template.HTML {
 	o := v.viewedRecord
 	className := o.ClassName
-	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%d">%s</a>`, `class`, o.ClassId, className))
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%d">%s</a></td>`, `class`, o.ClassId, className))
 }

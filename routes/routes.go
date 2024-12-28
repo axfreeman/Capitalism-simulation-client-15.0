@@ -57,6 +57,8 @@ func AuthRoutes() {
 	Router.HandleFunc("/industry_stocks", auth.Auth(controllers.ShowIndustryStocks))
 	Router.HandleFunc("/industry_stock/{id}", auth.Auth(controllers.ShowIndustryStock))
 	Router.HandleFunc("/class_stocks", auth.Auth(controllers.ShowClassStocks))
+	Router.HandleFunc("/class_stock/{id}", auth.Auth(controllers.ShowClassStock))
+	Router.HandleFunc("/industry_stock/{id}", auth.Auth(controllers.ShowIndustryStock))
 	Router.HandleFunc("/commodity/{id}", auth.Auth(controllers.ShowCommodity))
 	Router.HandleFunc("/industry/{id}", auth.Auth(controllers.ShowIndustry))
 	Router.HandleFunc("/class/{id}", auth.Auth(controllers.ShowClass))

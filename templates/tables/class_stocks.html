@@ -9,6 +9,7 @@
     <table>
       <thead>
         <tr>
+          <th>Link</th>
           <th>Usage Type</th>
           <th>Class</th>
           <th>Commodity</th>
@@ -22,8 +23,9 @@
       <tbody>
         {{ range .ClassStockViews }}
         <tr>
+          {{ Link . `class_stock` `Id` }}
           {{ ShowString . `UsageType` }}
-          {{ StockClassLink . `Name` }}
+          {{ StockClassLink . }}
           {{ ClassStockCommodityLink .}}
           {{ Show . `Size` }}
           {{ Show . `Value` }}

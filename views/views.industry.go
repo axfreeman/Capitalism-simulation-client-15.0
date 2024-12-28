@@ -236,7 +236,7 @@ func IndustryStockCommodityLink(v IndustryStockView) template.HTML {
 func StockIndustryLink(v IndustryStockView) template.HTML {
 	o := v.viewedRecord
 	industryName := o.IndustryName
-	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%d">%s</a>`, `industry`, o.IndustryId, industryName))
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%d">%s</a></td>`, `industry`, o.IndustryId, industryName))
 }
 
 // Returns a safe HTML string with a link to industry stock's commodity
@@ -247,5 +247,5 @@ func StockIndustryLink(v IndustryStockView) template.HTML {
 func ClassStockCommodityLink(v ClassStockView) template.HTML {
 	o := v.viewedRecord
 	commodityName := o.CommodityName
-	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s">%s</a>`, `commodity`, v.ViewedField(`CommodityId`), commodityName))
+	return template.HTML(fmt.Sprintf(`<td style="text-align:left"><a href="/%s/%s">%s</a></td>`, `commodity`, v.ViewedField(`CommodityId`), commodityName))
 }

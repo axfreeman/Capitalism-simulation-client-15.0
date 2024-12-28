@@ -37,5 +37,5 @@
 * https://github.com/Schascha/BeefUp?tab=readme-ov-file
 
 ## Images
-  * https://pictogrammers.com/ free and fantastic. I tried to donate but there is no option to do that...
-* 
+* https://pictogrammers.com/ free and fantastic. I tried to donate but there is no option to do that...
+* <a href="https://www.flaticon.com/free-icons/people" title="people icons">People icons created by kornkun - Flaticon</a>

@@ -100,15 +100,15 @@ func OriginGraphic(v Viewer) template.HTML {
 	var htmlString template.HTML
 	switch v.ViewedField(`Origin`) {
 	case `INDUSTRIAL`:
-		htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:blue" class="fa fa-industry"></i></td>`
+		htmlString = `<td style="text-align:center"><img src="/static/img/factory.png" alt="value" style="width:24px;height:24px;"/></td>`
 	case `SOCIAL`:
 		if v.ViewedField(`Usage`) == `Useless` {
-			htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:rgba(128, 0, 128, 0.696)" class="fas fa-user-tie"></i></td>`
+			htmlString = `<td style="text-align:center"><img src="/static/img/account-tie.png" alt="value" style="width:24px;height:24px;"/></td>`
 		} else {
-			htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:red" class="fa fa-user-friends"></i></td>`
+			htmlString = `<td style="text-align:center"><img src="/static/img/civil-rights-red.png" alt="value" style="width:24px;height:24px;"/></td>`
 		}
 	case `MONEY`:
-		htmlString = `<td style="text-align:center"><i style="font-weight: 900; color:goldenrod" class="fa fa-dollar"></i></td>`
+		htmlString = `<td style="text-align:center"><img src="/static/img/cash-yellow.png" alt="value" style="width:24px;height:24px;"/></td>`
 	default:
 		htmlString = `<td style="text-align:center">Unknown Origin</td>`
 	}
@@ -123,13 +123,14 @@ func UsageGraphic(v Viewer) template.HTML {
 	var htmlString template.HTML
 	switch v.ViewedField(`Usage`) {
 	case `PRODUCTIVE`:
-		htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:blue" class="fas fa-hammer"></i></td>`
+		htmlString = `<td style="text-align:center"><img src="/static/img/hammer-wrench.png" alt="value" style="width:24px;height:24px;"/></td>`
 	case `CONSUMPTION`:
-		htmlString = `<td style="text-align:center"><i style="font-weight: bolder; color:green" class="fa fa-cutlery"></i></td>`
+		htmlString = `<td style="text-align:center"><img src="/static/img/silverware-fork-knife.png" alt="value" style="width:24px;height:24px;" />
+</td>`
 	case `MONEY`:
-		htmlString = `<td style="text-align:center"><i class="fa fa-dollar" style="font-weight: 900; color:goldenrod"></i></td>`
+		htmlString = `<td style="text-align:center"><img src="/static/img/cash-yellow.png" alt="value" style="width:24px;height:24px;"/></td>`
 	case `Useless`:
-		htmlString = `<td style="text-align:center"><i class="fas fa-skull-crossbones" style="font-weight: bolder; color:black"></i></td>`
+		htmlString = `<td style="text-align:center"><img src="/static/img/skull-crossbones.png" alt="value" style="width:24px;height:24px;"/></td>`
 	default:
 		htmlString = `<td style="text-align:center">Unknown Usage</td>`
 	}

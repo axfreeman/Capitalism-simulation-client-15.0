@@ -80,6 +80,7 @@ type Manager struct {
 	LabourSupplyDemand   string         `json:"labour_supply_response"`
 	PriceResponseType    string         `json:"price_response_type"`
 	MeltResponseType     string         `json:"melt_response_type"`
+	SetPriceMode         string         `json:"setPriceMode"`
 	CurrencySymbol       string         `json:"currency_symbol"`
 	QuantitySymbol       string         `json:"quantity_symbol"`
 	Melt                 float32        `json:"melt"`

@@ -51,6 +51,7 @@ type TemplateData struct {
 	Count              int
 	Username           string
 	State              string
+	SetPriceMode       string
 	ViewedState        string
 	ComparatorState    string
 	DisplayDimension   string
@@ -75,6 +76,7 @@ func CreateTemplateData(u *models.User, message string) TemplateData {
 			Count:              0,
 			Username:           u.UserName,
 			State:              "UNKNOWN",
+			SetPriceMode:       "Auto",
 			DisplayDimension:   "Size",
 			ViewedState:        "UNKNOWN",
 			ComparatorState:    "UNKNOWN",
@@ -111,6 +113,7 @@ func CreateTemplateData(u *models.User, message string) TemplateData {
 		Templates:          &models.TemplateList,
 		Username:           u.UserName,
 		State:              u.CurrentState(),
+		SetPriceMode:       u.SetPriceMode(),
 		DisplayDimension:   u.DisplayDimension(),
 		ViewedState:        u.ViewedState(),
 		ComparatorState:    u.ComparatorState(),

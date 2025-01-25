@@ -48,6 +48,16 @@ func (u User) CurrentState() string {
 	return manager.State
 }
 
+// Retrieve the SetPriceMode of the current simulation
+//
+//		returns:
+//	   if successful, one of "Locked", "User", "Auto" (how prices are set)
+//	   if unsuccessful "UNKNOWN"
+func (u User) SetPriceMode() string {
+	manager := &u.GetCurrentSimulation().Manager
+	return manager.SetPriceMode
+}
+
 // Retrieve the viewed state of the current simulation
 //
 //		returns:

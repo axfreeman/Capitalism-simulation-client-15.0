@@ -28,6 +28,11 @@
         {{ else }}
         <a class=" w3-button w3-disabled w3-bar-item ">Consume</a>
         {{ end }}
+        {{ if eq .State "SETPRICE"}}
+        <a class=" w3-button  w3-bar-item" href="/action/setPrice">{{ .SetPriceMode}}</a>
+        {{ else }}
+        <a class=" w3-button w3-disabled w3-bar-item ">Set Prices {{ .SetPriceMode}}</a>
+        {{ end }}
         {{ if eq .State "INVEST"}}
         <a class=" w3-button  w3-bar-item" href="/action/invest">Invest</a>
         {{ else }}

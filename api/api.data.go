@@ -141,6 +141,23 @@ func ConvertStage(stage *models.Stage, manager *models.Manager) {
 		}
 
 	}
+
+	// set the output name of the industries (for convenience)
+	for ind := range industries {
+		// Pick up the name of the output commodity from the sales stock
+		// TODO in future API development, if joint production is added, there may be more than one sales commodity.
+		industries[ind].Output = industries[ind].Sales.CommodityName
+	}
+
+	// set the output name of the social classes (for convenience)
+	for c := range classes {
+		// Pick up the name of the output commodity from the sales stock
+		// TODO in future API development, there may be more than one sales commodity
+		// (eg a mix of complex and simple labour)
+		// (eg a class that supplies more than one factor, fanciful though this is)
+		classes[c].Output = classes[c].Sales.CommodityName
+	}
+
 }
 
 // Fetch the tables representing one Stage in a simulation from the api server.
